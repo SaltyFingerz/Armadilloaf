@@ -16,8 +16,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
     float m_mouseX, m_mouseY;
     float m_rotationMouseY, m_rotationMouseX;
-    float m_mouseSensitivity = 2.0f;
-    float m_mouseSpeedY = 10.0f;
+    float m_mouseSensitivity = 1.5f;
+    float m_mouseSpeedY = 20.0f;
     float m_currentScroll;
 
     Vector3 m_launchingDirection;
@@ -25,7 +25,8 @@ public class PlayerLaunchScript : MonoBehaviour
     int m_launchingStage = 0;
     float m_launchingPower;
 
-    const int m_cameraMaxPriority = 9;
+    const int m_cameraMaxPriority = 8;
+    public int m_maxPower;
 
     public void Start()
     {
@@ -81,6 +82,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Reset()
     {
+
+        M_arrow.SetActive(true);
         m_launchingStage = 0;
         M_holdDownCamera.Priority = 0;
         M_freeRotationCamera.Priority = m_cameraMaxPriority;
@@ -88,7 +91,7 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void LaunchingStart()
     {
-        Destroy(M_arrow);
+        M_arrow.SetActive(false);
         m_launchingDirection.y = -m_launchingDirection.y;
         m_rigidbody.AddForce(m_launchingDirection * m_launchingPower * 100.0f);
         m_launchingStage++;
@@ -97,7 +100,7 @@ public class PlayerLaunchScript : MonoBehaviour
     private void HandlePowerInput()
     {
         //override player rotation
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0))
         {
             Vector3 l_axis = Vector3.Cross(m_direction, Vector3.up);
             if (l_axis == Vector3.zero) l_axis = Vector3.right;
@@ -112,9 +115,9 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             m_launchingPower = 0;
         }
-        else if(m_launchingPower > 100)
+        else if(m_launchingPower > m_maxPower)
         {
-            m_launchingPower = 100;
+            m_launchingPower = m_maxPower;
         }
         Debug.Log(m_launchingPower);
     }
