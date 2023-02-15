@@ -1,6 +1,5 @@
 using Cinemachine;
 using Newtonsoft.Json.Bson;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UIElements;
@@ -80,15 +79,22 @@ public class PlayerLaunchScript : MonoBehaviour
 
     }
 
-    public void LaunchingStart()
+    public void Reset()
+    {
+        m_launchingStage = 0;
+        M_holdDownCamera.Priority = 0;
+        M_freeRotationCamera.Priority = m_cameraMaxPriority;
+        m_cameraMode = CameraMode.freeRotation;
+    }
+    private void LaunchingStart()
     {
         Destroy(M_arrow);
         m_launchingDirection.y = -m_launchingDirection.y;
-        m_rigidbody.AddForce(m_launchingDirection * m_launchingPower * 1000.0f);
+        m_rigidbody.AddForce(m_launchingDirection * m_launchingPower * 100.0f);
         m_launchingStage++;
 
     }
-    public void HandlePowerInput()
+    private void HandlePowerInput()
     {
         //override player rotation
         if (Input.GetKeyUp(KeyCode.Space))

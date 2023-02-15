@@ -56,6 +56,7 @@ public class PlayerManagerScript : MonoBehaviour
         m_state= ArmadilloState.walk;
 
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
         M_walkingPlayer.SetActive(true);
         M_launchingPlayer.SetActive(false);
     }
