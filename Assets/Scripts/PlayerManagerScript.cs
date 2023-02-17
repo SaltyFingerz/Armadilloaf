@@ -31,7 +31,7 @@ public class PlayerManagerScript : MonoBehaviour
     void Update()
     {
         // state changing
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.Q) && !m_isFreeFlying)
         {
             StateCheck();
         }
@@ -46,6 +46,16 @@ public class PlayerManagerScript : MonoBehaviour
             {
                 StartFlying();
             }
+        }
+        // prototype restart, to do: have this be automatic upon failure
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            M_launchingPlayer.SetActive(false);
+            M_walkingPlayer.SetActive(false);
+            M_launchingPlayer.transform.position = new Vector3(0.0f, 2.0f, 0.0f);
+            M_walkingPlayer.transform.position = new Vector3(0.0f, 2.0f, 0.0f);
+            StartWalking();
+            Debug.Log(M_walkingPlayer.transform.position);
         }
     }
 

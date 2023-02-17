@@ -11,7 +11,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public CinemachineFreeLook M_holdDownCamera;
     public CinemachineFreeLook M_freeRotationCamera;
-    enum CameraMode { holdDown, freeRotation};
+    enum CameraMode { holdDown, freeRotation };
     CameraMode m_cameraMode;
 
     float m_mouseX, m_mouseY;
@@ -44,7 +44,7 @@ public class PlayerLaunchScript : MonoBehaviour
         // switch camera mode
         if (Input.GetKeyUp(KeyCode.V))
         {
-            switch(m_cameraMode)
+            switch (m_cameraMode)
             {
                 case CameraMode.holdDown:
                     M_holdDownCamera.Priority = 0;
@@ -100,7 +100,7 @@ public class PlayerLaunchScript : MonoBehaviour
     private void HandlePowerInput()
     {
         //override player rotation
-        if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
         {
             Vector3 l_axis = Vector3.Cross(m_direction, Vector3.up);
             if (l_axis == Vector3.zero) l_axis = Vector3.right;
@@ -124,8 +124,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private void HandleDirectionInput()
     {
-        // stop when space is pressed
-        if (Input.GetKeyUp(KeyCode.Space))
+        // stop when space or LMB is pressed
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
         {
             m_launchingDirection = m_direction;
             m_launchingStage++;
@@ -150,44 +150,48 @@ public class PlayerLaunchScript : MonoBehaviour
         // When the camera rotates without RMB press, the direction is calculated from position of the player and the camera.
         // Otherwise, calculate the direction from mouse input.
         // Direction will be used in launching.
-        if (Input.GetMouseButton(1))
+        
+        if(Input.GetMouseButtonUp(1))
         {
-            return;
-        }
-        else if(Input.GetMouseButtonUp(1))
-        {
-            //get the new mouse position to add smooth direction change when RMB is released
+            // Get the new mouse position to add smooth direction change when RMB is released
             m_mouseX = Input.mousePosition.x;
             m_mouseY = Input.mousePosition.y;
         }
+        else if (Input.GetMouseButton(1))
+        {
+            return;
+        }
 
-        // Mouse RB is dragged, calculate camera rotation
+        // Mouse RB is dragged, calculate camera rotation from the mouse position difference between frames
         m_rotationMouseX = -(Input.mousePosition.x - m_mouseX) * Time.deltaTime * m_mouseSensitivity;
         m_rotationMouseY = -(Input.mousePosition.y - m_mouseY) * Time.deltaTime * m_mouseSensitivity * m_mouseSpeedY;
 
-        //get the new mouse position
+        // Get the new mouse position for the new frame
         m_mouseX = Input.mousePosition.x;
         m_mouseY = Input.mousePosition.y;
 
-        // calculate rotation
+        // Rotation using 2D vector rotation by angle formula
         Vector3 l_result;
         l_result.x = m_direction.x * Mathf.Cos(m_rotationMouseX) - m_direction.z * Mathf.Sin(m_rotationMouseX);
         l_result.y = m_direction.y;
         l_result.z = m_direction.x * Mathf.Sin(m_rotationMouseX) + m_direction.z * Mathf.Cos(m_rotationMouseX);
 
-        //change camera position and look at position
+        // Calculate the arrow look at position to use in hold camera,
+        // or Y value for the free rotation camera
         Vector3 l_axis = Vector3.Cross(l_result, Vector3.up);
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
-        m_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * l_result;
+        Vector3 direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * l_result;
 
+        // final direction
         if (m_cameraMode == CameraMode.freeRotation)
         {
             Vector3 l_distance = this.transform.position - M_freeRotationCamera.transform.position;
             l_distance.Normalize();
-            m_direction = new Vector3(l_distance.x, m_direction.y, l_distance.z);
+            m_direction = new Vector3(l_distance.x, direction.y, l_distance.z);
 
             return;
         }
+        m_direction = direction;
 
     }
 }
