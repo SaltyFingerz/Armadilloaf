@@ -50,12 +50,13 @@ public class PlayerManagerScript : MonoBehaviour
         // prototype restart, to do: have this be automatic upon failure
         if (Input.GetKeyUp(KeyCode.R))
         {
+            Debug.Log("Reset");
+            M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
             M_launchingPlayer.SetActive(false);
             M_walkingPlayer.SetActive(false);
             M_launchingPlayer.transform.position = new Vector3(0.0f, 2.0f, 0.0f);
             M_walkingPlayer.transform.position = new Vector3(0.0f, 2.0f, 0.0f);
             StartWalking();
-            Debug.Log(M_walkingPlayer.transform.position);
         }
     }
 

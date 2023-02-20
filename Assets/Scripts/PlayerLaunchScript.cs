@@ -26,14 +26,12 @@ public class PlayerLaunchScript : MonoBehaviour
     float m_launchingPower;
 
     const int m_cameraMaxPriority = 8;
-    public int m_maxPower;
+    public int M_maxPower;
+    public float M_minimumDirectionY;
 
     public void Start()
     {
         m_rigidbody = GetComponent<Rigidbody>();
-        m_direction = new Vector3(0.0f, 0.0f, 1.0f);
-        transform.LookAt(m_rigidbody.position + new Vector3(m_direction.x, 0.0f, m_direction.z));
-
         M_holdDownCamera.Priority = 0;
         M_freeRotationCamera.Priority = m_cameraMaxPriority;
         m_cameraMode = CameraMode.freeRotation;
@@ -75,16 +73,32 @@ public class PlayerLaunchScript : MonoBehaviour
             case 2:
                 LaunchingStart();
                 break;
-
         }
 
     }
 
-    public void Reset()
+    public void FixedUpdate()
     {
-
+        // Manage launching stage
+        switch (m_launchingStage)
+        {
+            case 0:
+                DirectionInput();
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
+    }
+        public void Reset()
+    {
         M_arrow.SetActive(true);
+        m_rigidbody.velocity = Vector3.zero;
+        m_rigidbody.angularVelocity = Vector3.zero;
+        
         m_launchingStage = 0;
+        m_launchingPower = 0;
         M_holdDownCamera.Priority = 0;
         M_freeRotationCamera.Priority = m_cameraMaxPriority;
         m_cameraMode = CameraMode.freeRotation;
@@ -115,9 +129,9 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             m_launchingPower = 0;
         }
-        else if(m_launchingPower > m_maxPower)
+        else if(m_launchingPower > M_maxPower)
         {
-            m_launchingPower = m_maxPower;
+            m_launchingPower = M_maxPower;
         }
         Debug.Log(m_launchingPower);
     }
@@ -131,33 +145,22 @@ public class PlayerLaunchScript : MonoBehaviour
             m_launchingStage++;
             m_currentScroll = Input.mouseScrollDelta.y;
         }
-
-        MouseInput();
-
-        // clamp Y value so direction change is easier
-        if(m_direction.y < 0)
+        if (Input.GetMouseButtonUp(1))
         {
-            m_direction.y = 0;
+            // Get the new mouse position to add smooth direction change when RMB is released
+            m_mouseX = Input.mousePosition.x;
+            m_mouseY = Input.mousePosition.y;
         }
-        //rotate the player after getting the updated direction
-        this.transform.LookAt(m_rigidbody.position + new Vector3(m_direction.x, m_direction.y, m_direction.z));
-
     }
     
-    private void MouseInput()
+    private void DirectionInput()
     {
         // Mosue input is disabled when holding RMB.
         // When the camera rotates without RMB press, the direction is calculated from position of the player and the camera.
         // Otherwise, calculate the direction from mouse input.
         // Direction will be used in launching.
         
-        if(Input.GetMouseButtonUp(1))
-        {
-            // Get the new mouse position to add smooth direction change when RMB is released
-            m_mouseX = Input.mousePosition.x;
-            m_mouseY = Input.mousePosition.y;
-        }
-        else if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1))
         {
             return;
         }
@@ -180,19 +183,26 @@ public class PlayerLaunchScript : MonoBehaviour
         // or Y value for the free rotation camera
         Vector3 l_axis = Vector3.Cross(l_result, Vector3.up);
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
-        Vector3 direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * l_result;
+        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * l_result;
 
         // final direction
+       
+        m_direction = l_direction;
         if (m_cameraMode == CameraMode.freeRotation)
         {
             Vector3 l_distance = this.transform.position - M_freeRotationCamera.transform.position;
             l_distance.Normalize();
-            m_direction = new Vector3(l_distance.x, direction.y, l_distance.z);
-
-            return;
+            m_direction = new Vector3(l_distance.x, l_direction.y, l_distance.z);
         }
-        m_direction = direction;
 
+        if (m_direction.y < M_minimumDirectionY)
+        {
+            m_direction.y = M_minimumDirectionY;
+        }
+        // clamp Y value so direction change is easier
+        //rotate the player after getting the updated direction
+        Quaternion l_rotation = Quaternion.LookRotation((m_rigidbody.position + m_direction));
+        m_rigidbody.MoveRotation(l_rotation);
     }
 }
     
