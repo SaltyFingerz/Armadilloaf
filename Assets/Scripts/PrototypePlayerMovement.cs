@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
@@ -16,8 +17,8 @@ public class PrototypePlayerMovement : MonoBehaviour
     private float gravityValue = -9.81f;
     private bool isHittingWall = false;
 
-    float m_mouseSensitivity = 100.0f;
-    float m_mouseX, m_rotationMouseX;
+    float m_mouseSensitivity = 1000.0f;
+    float m_rotationMouseX;
 
     private void Start()
     {
@@ -39,6 +40,11 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (M_playerManagerScript.M_isFreeFlying)
+        {
+            return;
+        }
+
         HandleInput();
 
         groundedPlayer = controller.isGrounded;
@@ -79,11 +85,8 @@ public class PrototypePlayerMovement : MonoBehaviour
     private void HandleInput()
     {
         // Mouse RB is dragged, calculate player rotation from the mouse position difference between frames
-        m_rotationMouseX = -(Input.mousePosition.x - m_mouseX) * Time.deltaTime * m_mouseSensitivity;
-        this.transform.rotation *= Quaternion.Euler(new Vector3(0.0f, m_rotationMouseX, 0.0f));
-
-        // Get the new mouse position for the new frame
-        m_mouseX = Input.mousePosition.x;
+        m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.deltaTime * m_mouseSensitivity;
+        controller.transform.Rotate(Vector3.up, m_rotationMouseX);
 
         Vector3 l_movementDirection = Vector3.zero;
 
