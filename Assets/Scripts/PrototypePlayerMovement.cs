@@ -6,6 +6,7 @@ using UnityEngine;
 public class PrototypePlayerMovement : MonoBehaviour
 {
     public CinemachineVirtualCamera M_walkCamera;
+    public PlayerManagerScript M_playerManagerScript;
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
@@ -17,16 +18,11 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     float m_mouseSensitivity = 100.0f;
     float m_mouseX, m_rotationMouseX;
-    Vector3 m_rotation;
-
-    enum SizeState { small = 0, normal = 1, big = 2};
-    float[] m_sizes = { 0.5f, 1.0f, 2.0f };
-    int m_sizeState = (int)SizeState.normal;
 
     private void Start()
     {
+        M_playerManagerScript = FindObjectOfType<PlayerManagerScript>();
         controller = gameObject.GetComponent<CharacterController>();
-        m_rotation = Vector3.zero;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -54,17 +50,17 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (isHittingWall)
         {
-            switch (m_sizeState)
+            switch (M_playerManagerScript.M_sizeState)
             {
-                case (int)SizeState.big:
+                case (int)PlayerManagerScript.SizeState.big:
                     playerVelocity = new Vector3(playerVelocity.x, slowSlide, playerVelocity.z);
                     break;
 
-                case (int)SizeState.normal:
+                case (int)PlayerManagerScript.SizeState.normal:
                     playerVelocity = new Vector3(playerVelocity.x, 0.0f, playerVelocity.z);
                     break;
 
-                case (int)SizeState.small:
+                case (int)PlayerManagerScript.SizeState.small:
                     playerVelocity = new Vector3(playerVelocity.x, 0.0f, playerVelocity.z);
                     break;
 
@@ -84,7 +80,6 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         // Mouse RB is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationMouseX = -(Input.mousePosition.x - m_mouseX) * Time.deltaTime * m_mouseSensitivity;
-        Debug.Log(m_rotationMouseX);
         this.transform.rotation *= Quaternion.Euler(new Vector3(0.0f, m_rotationMouseX, 0.0f));
 
         // Get the new mouse position for the new frame
@@ -96,18 +91,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
         l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
         controller.Move(l_movementDirection * Time.deltaTime * playerSpeed);
-
-
-        // grow
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Grow();
-        }
-        // shrink
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Shrink();
-        }
+        
 
         // Changes the height position of the player..
         if (Input.GetButtonDown("Jump"))
@@ -116,19 +100,8 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
     }
 
-    public void Grow()
+    public void SetSize(float a_size)
     {
-        m_sizeState = (m_sizeState + 1) % 3;
-        transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
-    }
-
-    public void Shrink()
-    {
-        m_sizeState--;
-        if (m_sizeState < 0)
-        {
-            m_sizeState = 0;
-        }
-        transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
+        transform.localScale = new Vector3(a_size, a_size, a_size);
     }
 }

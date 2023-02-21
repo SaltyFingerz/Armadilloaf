@@ -2,8 +2,9 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerManagerScript;
 
-public class PlayerManagerScript : MonoBehaviour
+public partial class PlayerManagerScript : MonoBehaviour
 {
     enum ArmadilloState { walk, launching};
     ArmadilloState m_state = ArmadilloState.walk;
@@ -16,6 +17,9 @@ public class PlayerManagerScript : MonoBehaviour
     const int m_launchingCameraMaxPriority = 8;
     const int m_walkingCameraMaxPriority = 9;
     const int m_freeMovementCameraMaxPriority = 10;
+    public enum SizeState { small = 0, normal = 1, big = 2 };
+    public float[] M_sizes = { 0.5f, 1.0f, 2.0f };
+    public int M_sizeState = (int)SizeState.normal;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +30,17 @@ public class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // grow
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Grow();
+        }
+        // shrink
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Shrink();
+        }
+
         // state changing
         if (Input.GetKeyUp(KeyCode.Q) && !m_isFreeFlying)
         {
@@ -84,6 +99,7 @@ public class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
         M_walkingPlayer.SetActive(true);
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
     }
@@ -97,7 +113,9 @@ public class PlayerManagerScript : MonoBehaviour
 
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
         m_state = ArmadilloState.launching;
+        
         M_launchingPlayer.SetActive(true);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
         M_walkingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
     }
@@ -115,5 +133,23 @@ public class PlayerManagerScript : MonoBehaviour
         M_freeFlyingPlayer.SetActive(true);
 
         m_isFreeFlying = true;
+    }
+
+    public void Grow()
+    {
+        M_sizeState = (M_sizeState + 1) % 3;
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
+    }
+
+    public void Shrink()
+    {
+        M_sizeState--;
+        if (M_sizeState < 0)
+        {
+            M_sizeState = 0;
+        }
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
     }
 }

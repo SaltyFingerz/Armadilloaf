@@ -28,6 +28,7 @@ public class PlayerLaunchScript : MonoBehaviour
     const int m_cameraMaxPriority = 8;
     public int M_maxPower;
     public float M_minimumDirectionY;
+    
 
     public void Start()
     {
@@ -39,6 +40,12 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Update()
     {
+        // shrink
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            //Shrink();
+        }
+
         // switch camera mode
         if (Input.GetKeyUp(KeyCode.V))
         {
@@ -205,6 +212,10 @@ public class PlayerLaunchScript : MonoBehaviour
         //rotate the player after getting the updated direction
         Quaternion l_rotation = Quaternion.LookRotation(m_rigidbody.position + m_direction);
         m_rigidbody.MoveRotation(l_rotation);
+    }
+    public void SetSize(float a_size)
+    {
+        transform.localScale = new Vector3(a_size, a_size, a_size);
     }
 }
     

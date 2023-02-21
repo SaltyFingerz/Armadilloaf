@@ -5,13 +5,13 @@ using UnityEngine;
 public class PowerUp_SizeChanger : MonoBehaviour
 {
     public enum Effect { SizeUp, SizeDown };
-    public Effect myEffect;
-    public PrototypePlayerMovement playerMovement;
+    public Effect M_myEffect;
+    public PlayerManagerScript M_playerManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerMovement = FindObjectOfType<PrototypePlayerMovement>();
+        M_playerManager = FindObjectOfType<PlayerManagerScript>();
     }
 
     // Update is called once per frame
@@ -20,27 +20,21 @@ public class PowerUp_SizeChanger : MonoBehaviour
 
     }
 
-    void SizePlayerUp()
-    {
-
-        Destroy(this);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "WalkingPlayer" || other.gameObject.name == "ArmadilloBallPlayer")
         {
-            switch(myEffect)
+            switch(M_myEffect)
             {
                 case Effect.SizeUp:
                     {
-                        playerMovement.Grow();
+                        M_playerManager.Grow();
                         Destroy(this.gameObject);
                         return;
                     }
                 case Effect.SizeDown:
                     {
-                        playerMovement.Shrink();
+                        M_playerManager.Shrink();
                         Destroy(this.gameObject);
                         return;
                     }
