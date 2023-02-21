@@ -17,6 +17,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     float m_mouseSensitivity = 100.0f;
     float m_mouseX, m_rotationMouseX;
+    Vector3 m_rotation;
 
     enum SizeState { small = 0, normal = 1, big = 2};
     float[] m_sizes = { 0.5f, 1.0f, 2.0f };
@@ -24,7 +25,8 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        controller = gameObject.AddComponent<CharacterController>();
+        controller = gameObject.GetComponent<CharacterController>();
+        m_rotation = Vector3.zero;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -49,23 +51,6 @@ public class PrototypePlayerMovement : MonoBehaviour
             playerVelocity.y = 0f;
         }
 
-
-        // Changes the height position of the player..
-        if (Input.GetButtonDown("Jump"))
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-
-        // grow
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            Grow();
-        }
-        // shrink
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Shrink();
-        }
 
         if (isHittingWall)
         {
@@ -97,11 +82,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     private void HandleInput()
     {
-        Vector3 l_eyeDirection = this.transform.position - M_walkCamera.transform.position;
-        l_eyeDirection.y = 0;
-        l_eyeDirection.Normalize();
-
-        // Mouse RB is dragged, calculate camera rotation from the mouse position difference between frames
+        // Mouse RB is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationMouseX = -(Input.mousePosition.x - m_mouseX) * Time.deltaTime * m_mouseSensitivity;
         Debug.Log(m_rotationMouseX);
         this.transform.rotation *= Quaternion.Euler(new Vector3(0.0f, m_rotationMouseX, 0.0f));
@@ -111,17 +92,27 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         Vector3 l_movementDirection = Vector3.zero;
 
-        if (Mathf.Abs(Input.GetAxis("Vertical")) >= 0.01)
-        {
-            l_movementDirection.z += Input.GetAxis("Vertical");
-        }
+        // movement with AWSD keys
+        l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
+        l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
         controller.Move(l_movementDirection * Time.deltaTime * playerSpeed);
-        l_movementDirection.y = 0;
 
 
-        if (l_movementDirection != Vector3.zero)
+        // grow
+        if (Input.GetKeyDown(KeyCode.T))
         {
-            gameObject.transform.forward = l_movementDirection;
+            Grow();
+        }
+        // shrink
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Shrink();
+        }
+
+        // Changes the height position of the player..
+        if (Input.GetButtonDown("Jump"))
+        {
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
         }
     }
 
