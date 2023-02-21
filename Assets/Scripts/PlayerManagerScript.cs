@@ -9,13 +9,8 @@ public class PlayerManagerScript : MonoBehaviour
     ArmadilloState m_state = ArmadilloState.walk;
     bool m_isFreeFlying = false;
 
-    public GameObject M_launchingPlayer;
-    public GameObject M_walkingPlayer;
-    public GameObject M_freeFlyingPlayer;
-
-    public CinemachineFreeLook M_launchingBaseCamera;
-    public CinemachineVirtualCamera M_walkingBaseCamera;
-    public CinemachineFreeLook M_freeMovementCamera;
+    public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
+    public CinemachineFreeLook M_launchingBaseCamera, M_walkingBaseCamera, M_freeMovementCamera;
 
     const int m_launchingCameraMaxPriority = 8;
     const int m_walkingCameraMaxPriority = 9;
@@ -67,7 +62,6 @@ public class PlayerManagerScript : MonoBehaviour
             case ArmadilloState.walk:
                 StartLaunching();
                 break;
-
             case ArmadilloState.launching:
                 StartWalking();
                 break;
