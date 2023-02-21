@@ -8,7 +8,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 {
     enum ArmadilloState { walk, launching};
     ArmadilloState m_state = ArmadilloState.walk;
-    bool m_isFreeFlying = false;
+    public bool M_isFreeFlying = false;
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
     public CinemachineFreeLook M_launchingBaseCamera, M_freeMovementCamera;
@@ -24,6 +24,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         StartWalking();
     }
 
@@ -42,15 +43,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
 
         // state changing
-        if (Input.GetKeyUp(KeyCode.Q) && !m_isFreeFlying)
+        if (Input.GetKeyUp(KeyCode.Q) && !M_isFreeFlying)
         {
             StateCheck();
         }
         if(Input.GetKeyDown(KeyCode.C))
         {
-            if (m_isFreeFlying)
+            if (M_isFreeFlying)
             {
-                m_isFreeFlying = false;
+                M_isFreeFlying = false;
                 StateCheck();
             }
             else
@@ -127,17 +128,18 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingBaseCamera.Priority = 0;
         M_launchingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = m_freeMovementCameraMaxPriority;
-
-        M_walkingPlayer.SetActive(false);
-        M_launchingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(true);
 
-        m_isFreeFlying = true;
+        M_isFreeFlying = true;
     }
 
     public void Grow()
     {
-        M_sizeState = (M_sizeState + 1) % 3;
+        M_sizeState++;
+        if (M_sizeState > 2)
+        {
+            M_sizeState = 2;
+        }
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
     }

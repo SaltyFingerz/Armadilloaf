@@ -11,13 +11,13 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public CinemachineFreeLook M_holdDownCamera;
     public CinemachineFreeLook M_freeRotationCamera;
+    public PlayerManagerScript M_playerManagerScript;
     enum CameraMode { holdDown, freeRotation };
     CameraMode m_cameraMode;
 
-    float m_mouseX, m_mouseY;
     float m_rotationMouseY, m_rotationMouseX;
-    float m_mouseSensitivity = 1.5f;
-    float m_mouseSpeedY = 20.0f;
+    float m_mouseSensitivity = 100f;
+    float m_mouseSpeedY = 20f;
     float m_currentScroll;
 
     Vector3 m_launchingDirection;
@@ -32,6 +32,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Start()
     {
+        M_playerManagerScript = FindObjectOfType<PlayerManagerScript>();
         m_rigidbody = GetComponent<Rigidbody>();
         M_holdDownCamera.Priority = 0;
         M_freeRotationCamera.Priority = m_cameraMaxPriority;
@@ -40,6 +41,10 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Update()
     {
+        if (M_playerManagerScript.M_isFreeFlying)
+        {
+            return;
+        }
         // shrink
         if (Input.GetKeyDown(KeyCode.I))
         {
@@ -72,6 +77,7 @@ public class PlayerLaunchScript : MonoBehaviour
         switch (m_launchingStage)
         {
             case 0:
+                DirectionInput();
                 HandleDirectionInput();
                 break;
             case 1:
@@ -82,21 +88,6 @@ public class PlayerLaunchScript : MonoBehaviour
                 break;
         }
 
-    }
-
-    public void FixedUpdate()
-    {
-        // Manage launching stage
-        switch (m_launchingStage)
-        {
-            case 0:
-                DirectionInput();
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-        }
     }
         public void Reset()
     {
@@ -152,12 +143,6 @@ public class PlayerLaunchScript : MonoBehaviour
             m_launchingStage++;
             m_currentScroll = Input.mouseScrollDelta.y;
         }
-        if (Input.GetMouseButtonUp(1))
-        {
-            // Get the new mouse position to add smooth direction change when RMB is released
-            m_mouseX = Input.mousePosition.x;
-            m_mouseY = Input.mousePosition.y;
-        }
     }
     
     private void DirectionInput()
@@ -169,18 +154,12 @@ public class PlayerLaunchScript : MonoBehaviour
         
         if (Input.GetMouseButton(1))
         {
-            m_mouseX = Input.mousePosition.x;
-            m_mouseY = Input.mousePosition.y;
             return;
         }
 
         // Mouse RB is dragged, calculate camera rotation from the mouse position difference between frames
-        m_rotationMouseX = -(Input.mousePosition.x - m_mouseX) * Time.deltaTime * m_mouseSensitivity;
-        m_rotationMouseY = -(Input.mousePosition.y - m_mouseY) * Time.deltaTime * m_mouseSensitivity * m_mouseSpeedY;
-
-        // Get the new mouse position for the new frame
-        m_mouseX = Input.mousePosition.x;
-        m_mouseY = Input.mousePosition.y;
+        m_rotationMouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * m_mouseSensitivity;
+        m_rotationMouseY = -Input.GetAxisRaw("Mouse Y") * Time.deltaTime * m_mouseSensitivity * m_mouseSpeedY;
 
         // Rotation using 2D vector rotation by angle formula
         Vector3 l_result;
