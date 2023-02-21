@@ -1,11 +1,13 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class FreeMovementScript : MonoBehaviour
 {
-    Vector3 m_direction = Vector3.zero;
-    float m_velocity = 3.0f;
+    public CinemachineFreeLook M_freeLook;
+    public float m_playerSpeed;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,38 +18,23 @@ public class FreeMovementScript : MonoBehaviour
     void Update()
     {
         // todo: movement based on camera direction
-        m_direction = Vector3.zero;
+        Vector3 l_movementDirection;
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            m_direction += Vector3.forward;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            m_direction += Vector3.back;
+        // movement with AWSD keys
+        l_movementDirection = Input.GetAxis("Vertical") * M_freeLook.transform.forward;
+        l_movementDirection += Input.GetAxis("Horizontal") * M_freeLook.transform.right;
 
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            m_direction += Vector3.right;
-
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            m_direction += Vector3.left;
-
-        }
         if (Input.GetKey(KeyCode.Q))
         {
-            m_direction += Vector3.up;
+            l_movementDirection += Vector3.up;
 
         }
         if (Input.GetKey(KeyCode.E))
         {
-            m_direction += Vector3.down;
+            l_movementDirection += Vector3.down;
 
         }
 
-        this.transform.position += m_direction * Time.deltaTime * m_velocity;
+        this.transform.position += l_movementDirection * m_playerSpeed * Time.deltaTime;
     }
 }

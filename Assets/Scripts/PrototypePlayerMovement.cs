@@ -1,11 +1,12 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
+    public CinemachineVirtualCamera M_walkCamera;
     private CharacterController controller;
-    private Rigidbody myrigidBody;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     private float playerSpeed = 2.0f;
@@ -14,14 +15,18 @@ public class PrototypePlayerMovement : MonoBehaviour
     private float gravityValue = -9.81f;
     private bool isHittingWall = false;
 
+    float m_mouseSensitivity = 100.0f;
+    float m_mouseX, m_rotationMouseX;
+    Vector3 m_rotation;
+
     enum SizeState { small = 0, normal = 1, big = 2};
     float[] m_sizes = { 0.5f, 1.0f, 2.0f };
     int m_sizeState = (int)SizeState.normal;
 
     private void Start()
     {
-        controller = gameObject.AddComponent<CharacterController>();
-        myrigidBody = gameObject.GetComponent<Rigidbody>(); 
+        controller = gameObject.GetComponent<CharacterController>();
+        m_rotation = Vector3.zero;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -38,43 +43,14 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
+        HandleInput();
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
 
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(move * Time.deltaTime * playerSpeed);
-
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
-
-
-        // Changes the height position of the player..
-        if (Input.GetButtonDown("Jump"))
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        }
-
-        // grow
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            m_sizeState = (m_sizeState + 1) % 3;
-            transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
-        }
-        // shrink
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            m_sizeState--;
-            if(m_sizeState < 0)
-            {
-                m_sizeState = 0;
-            }
-            transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
-        }
 
         if (isHittingWall)
         {
@@ -102,5 +78,57 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
         controller.Move(playerVelocity * Time.deltaTime);
         isHittingWall = false;  
+    }
+
+    private void HandleInput()
+    {
+        // Mouse RB is dragged, calculate player rotation from the mouse position difference between frames
+        m_rotationMouseX = -(Input.mousePosition.x - m_mouseX) * Time.deltaTime * m_mouseSensitivity;
+        Debug.Log(m_rotationMouseX);
+        this.transform.rotation *= Quaternion.Euler(new Vector3(0.0f, m_rotationMouseX, 0.0f));
+
+        // Get the new mouse position for the new frame
+        m_mouseX = Input.mousePosition.x;
+
+        Vector3 l_movementDirection = Vector3.zero;
+
+        // movement with AWSD keys
+        l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
+        l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
+        controller.Move(l_movementDirection * Time.deltaTime * playerSpeed);
+
+
+        // grow
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            Grow();
+        }
+        // shrink
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Shrink();
+        }
+
+        // Changes the height position of the player..
+        if (Input.GetButtonDown("Jump"))
+        {
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        }
+    }
+
+    public void Grow()
+    {
+        m_sizeState = (m_sizeState + 1) % 3;
+        transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
+    }
+
+    public void Shrink()
+    {
+        m_sizeState--;
+        if (m_sizeState < 0)
+        {
+            m_sizeState = 0;
+        }
+        transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
     }
 }

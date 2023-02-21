@@ -162,6 +162,8 @@ public class PlayerLaunchScript : MonoBehaviour
         
         if (Input.GetMouseButton(1))
         {
+            m_mouseX = Input.mousePosition.x;
+            m_mouseY = Input.mousePosition.y;
             return;
         }
 
@@ -201,7 +203,7 @@ public class PlayerLaunchScript : MonoBehaviour
         }
         // clamp Y value so direction change is easier
         //rotate the player after getting the updated direction
-        Quaternion l_rotation = Quaternion.LookRotation((m_rigidbody.position + m_direction));
+        Quaternion l_rotation = Quaternion.LookRotation(m_rigidbody.position + m_direction);
         m_rigidbody.MoveRotation(l_rotation);
     }
 }
