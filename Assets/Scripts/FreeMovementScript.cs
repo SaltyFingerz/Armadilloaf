@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.UIElements;
 
 public class FreeMovementScript : MonoBehaviour
 {
@@ -17,12 +18,16 @@ public class FreeMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // todo: movement based on camera direction
-        Vector3 l_movementDirection;
+        // calculate movement directions for forward and side movement
+        Vector3 l_direction = this.transform.position - M_freeLook.transform.position;
+        l_direction.y = 0;
+        l_direction.Normalize();
+        Vector3 l_rightDirection = Quaternion.AngleAxis(90, Vector3.up) * l_direction;
 
         // movement with AWSD keys
-        l_movementDirection = Input.GetAxis("Vertical") * M_freeLook.transform.forward;
-        l_movementDirection += Input.GetAxis("Horizontal") * M_freeLook.transform.right;
+        Vector3 l_movementDirection;
+        l_movementDirection = Input.GetAxis("Vertical") * l_direction;
+        l_movementDirection += Input.GetAxis("Horizontal") * l_rightDirection;
 
         if (Input.GetKey(KeyCode.Q))
         {
