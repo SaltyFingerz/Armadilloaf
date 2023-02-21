@@ -1,11 +1,12 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
+    public CinemachineFreeLook M_walkCamera;
     private CharacterController controller;
-    private Rigidbody myrigidBody;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     private float playerSpeed = 2.0f;
@@ -21,7 +22,6 @@ public class PrototypePlayerMovement : MonoBehaviour
     private void Start()
     {
         controller = gameObject.AddComponent<CharacterController>();
-        myrigidBody = gameObject.GetComponent<Rigidbody>(); 
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -38,18 +38,32 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
+        Vector3 l_eyeDirection = this.transform.position - M_walkCamera.transform.position;
+        this.transform.rotation = Quaternion.LookRotation(this.transform.position + l_eyeDirection);
+        l_eyeDirection.y = 0;
+        l_eyeDirection.Normalize();
+
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
 
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        controller.Move(move * Time.deltaTime * playerSpeed);
-
-        if (move != Vector3.zero)
+        Vector3 l_movementDirection = Vector3.zero;
+        
+        if(Mathf.Abs(Input.GetAxis("Vertical")) >= 0.01)
         {
-            gameObject.transform.forward = move;
+            l_movementDirection += Input.GetAxis("Vertical") * l_eyeDirection;
+            Debug.Log(l_movementDirection);
+        }
+        controller.Move(l_movementDirection * Time.deltaTime * playerSpeed);
+        l_movementDirection.y = 0;
+
+
+        if (l_movementDirection != Vector3.zero)
+        {
+            gameObject.transform.forward = l_movementDirection;
         }
 
 
