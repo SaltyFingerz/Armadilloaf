@@ -10,7 +10,8 @@ public class PlayerManagerScript : MonoBehaviour
     bool m_isFreeFlying = false;
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
-    public CinemachineFreeLook M_launchingBaseCamera, M_walkingBaseCamera, M_freeMovementCamera;
+    public CinemachineFreeLook M_launchingBaseCamera, M_freeMovementCamera;
+    public CinemachineVirtualCamera M_walkingBaseCamera;
 
     const int m_launchingCameraMaxPriority = 8;
     const int m_walkingCameraMaxPriority = 9;

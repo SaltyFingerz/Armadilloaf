@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
-    public CinemachineFreeLook M_walkCamera;
+    public CinemachineVirtualCamera M_walkCamera;
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
@@ -14,6 +14,9 @@ public class PrototypePlayerMovement : MonoBehaviour
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
     private bool isHittingWall = false;
+
+    float m_mouseSensitivity = 100.0f;
+    float m_mouseX, m_rotationMouseX;
 
     enum SizeState { small = 0, normal = 1, big = 2};
     float[] m_sizes = { 0.5f, 1.0f, 2.0f };
@@ -38,32 +41,12 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Vector3 l_eyeDirection = this.transform.position - M_walkCamera.transform.position;
-        this.transform.rotation = Quaternion.LookRotation(this.transform.position + l_eyeDirection);
-        l_eyeDirection.y = 0;
-        l_eyeDirection.Normalize();
-
+        HandleInput();
 
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
-        }
-
-        Vector3 l_movementDirection = Vector3.zero;
-        
-        if(Mathf.Abs(Input.GetAxis("Vertical")) >= 0.01)
-        {
-            l_movementDirection += Input.GetAxis("Vertical") * l_eyeDirection;
-            Debug.Log(l_movementDirection);
-        }
-        controller.Move(l_movementDirection * Time.deltaTime * playerSpeed);
-        l_movementDirection.y = 0;
-
-
-        if (l_movementDirection != Vector3.zero)
-        {
-            gameObject.transform.forward = l_movementDirection;
         }
 
 
@@ -76,18 +59,12 @@ public class PrototypePlayerMovement : MonoBehaviour
         // grow
         if (Input.GetKeyDown(KeyCode.T))
         {
-            m_sizeState = (m_sizeState + 1) % 3;
-            transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
+            Grow();
         }
         // shrink
         if (Input.GetKeyDown(KeyCode.I))
         {
-            m_sizeState--;
-            if(m_sizeState < 0)
-            {
-                m_sizeState = 0;
-            }
-            transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
+            Shrink();
         }
 
         if (isHittingWall)
@@ -116,5 +93,51 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
         controller.Move(playerVelocity * Time.deltaTime);
         isHittingWall = false;  
+    }
+
+    private void HandleInput()
+    {
+        Vector3 l_eyeDirection = this.transform.position - M_walkCamera.transform.position;
+        l_eyeDirection.y = 0;
+        l_eyeDirection.Normalize();
+
+        // Mouse RB is dragged, calculate camera rotation from the mouse position difference between frames
+        m_rotationMouseX = -(Input.mousePosition.x - m_mouseX) * Time.deltaTime * m_mouseSensitivity;
+        Debug.Log(m_rotationMouseX);
+        this.transform.rotation *= Quaternion.Euler(new Vector3(0.0f, m_rotationMouseX, 0.0f));
+
+        // Get the new mouse position for the new frame
+        m_mouseX = Input.mousePosition.x;
+
+        Vector3 l_movementDirection = Vector3.zero;
+
+        if (Mathf.Abs(Input.GetAxis("Vertical")) >= 0.01)
+        {
+            l_movementDirection.z += Input.GetAxis("Vertical");
+        }
+        controller.Move(l_movementDirection * Time.deltaTime * playerSpeed);
+        l_movementDirection.y = 0;
+
+
+        if (l_movementDirection != Vector3.zero)
+        {
+            gameObject.transform.forward = l_movementDirection;
+        }
+    }
+
+    public void Grow()
+    {
+        m_sizeState = (m_sizeState + 1) % 3;
+        transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
+    }
+
+    public void Shrink()
+    {
+        m_sizeState--;
+        if (m_sizeState < 0)
+        {
+            m_sizeState = 0;
+        }
+        transform.localScale = new Vector3(m_sizes[m_sizeState], m_sizes[m_sizeState], m_sizes[m_sizeState]);
     }
 }

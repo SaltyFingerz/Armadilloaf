@@ -162,6 +162,8 @@ public class PlayerLaunchScript : MonoBehaviour
         
         if (Input.GetMouseButton(1))
         {
+            m_mouseX = Input.mousePosition.x;
+            m_mouseY = Input.mousePosition.y;
             return;
         }
 
