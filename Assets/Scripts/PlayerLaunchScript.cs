@@ -45,11 +45,6 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             return;
         }
-        // shrink
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            //Shrink();
-        }
 
         // switch camera mode
         if (Input.GetKeyUp(KeyCode.V))
@@ -92,6 +87,7 @@ public class PlayerLaunchScript : MonoBehaviour
         public void Reset()
     {
         M_arrow.SetActive(true);
+        M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
         m_rigidbody.velocity = Vector3.zero;
         m_rigidbody.angularVelocity = Vector3.zero;
         
@@ -131,6 +127,8 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             m_launchingPower = M_maxPower;
         }
+        M_arrow.transform.localScale = new Vector3(5, 5, 5f + 1f * m_launchingPower);
+        //M_arrow.transform.position
         Debug.Log(m_launchingPower);
     }
 
