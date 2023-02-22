@@ -22,16 +22,27 @@ public partial class PlayerManagerScript : MonoBehaviour
     public float[] M_sizes = { 0.5f, 1.0f, 2.0f };
     public int M_sizeState = (int)SizeState.normal;
 
+    public PauseManagerScript M_UIManager;
+    bool m_justUnpaused;
+
     // Start is called before the first frame update
     void Start()
     {
+        m_justUnpaused = false;
+        M_UIManager = FindObjectOfType<PauseManagerScript>();
         Cursor.lockState = CursorLockMode.Locked;
         StartWalking();
+        M_UIManager.Resume();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (m_justUnpaused)
+        {
+            m_justUnpaused = false;
+            return;
+        }
         // grow
         if (Input.GetKeyDown(KeyCode.T))
         {
@@ -63,7 +74,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         // prototype restart, to do: have this be automatic upon failure
         if (Input.GetKeyUp(KeyCode.R))
         {
-            SceneManager.LoadScene("UIFailScreen");
+            SceneManager.LoadScene("FailScreen");
             /*
             M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
             M_launchingPlayer.SetActive(false);
@@ -74,8 +85,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
         if(Input.GetKeyUp(KeyCode.Escape))
         {
-
+            Time.timeScale = 0;
+            M_UIManager.Pasued();
         }
+    }
+
+    public void Resume()
+    {
+        m_justUnpaused = true;
+        Time.timeScale = 1;
     }
 
     void StateCheck()

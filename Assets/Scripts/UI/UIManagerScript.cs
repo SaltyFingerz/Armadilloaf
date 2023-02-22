@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIManager : MonoBehaviour
+public class UIManagerScript : MonoBehaviour
 {
-    Canvas M_canvas;
 
     // Start is called before the first frame update
     void Start()
     {
-        M_canvas.enabled = false;
         Cursor.lockState = CursorLockMode.None;
     }
 
