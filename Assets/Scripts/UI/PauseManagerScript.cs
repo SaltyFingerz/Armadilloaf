@@ -5,11 +5,10 @@ using UnityEngine;
 public class PauseManagerScript : UIManagerScript
 {
     public Canvas M_canvas;
-    public PlayerManagerScript M_playerManager;
+    public GameObject M_playerManager;
     // Start is called before the first frame update
     void Start()
     {
-        M_playerManager = FindObjectOfType<PlayerManagerScript>();
     }
 
     // Update is called once per frame
@@ -28,9 +27,10 @@ public class PauseManagerScript : UIManagerScript
 
     public void Resume()
     {
+        Debug.Log("P");
         M_canvas.enabled = false;
         Cursor.lockState = CursorLockMode.Locked;
-        M_playerManager.Resume();
+        M_playerManager.GetComponent<PlayerManagerScript>().Resume();
     }
 
     public void Pasued()

@@ -86,12 +86,14 @@ public partial class PlayerManagerScript : MonoBehaviour
         if(Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
             Time.timeScale = 0;
+            M_UIManager.enabled = true;
             M_UIManager.Pasued();
         }
     }
 
     public void Resume()
     {
+        M_UIManager.enabled = false;
         m_justUnpaused = true;
         Time.timeScale = 1;
     }
