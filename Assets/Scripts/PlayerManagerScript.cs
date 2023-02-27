@@ -31,7 +31,19 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_justUnpaused = false;
         M_UIManager = FindObjectOfType<PauseManagerScript>();
         Cursor.lockState = CursorLockMode.Locked;
-        StartWalking();
+
+        // change camera
+        M_launchingBaseCamera.Priority = 0;
+        M_freeMovementCamera.Priority = 0;
+        M_walkingBaseCamera.Priority = m_walkingCameraMaxPriority;
+
+        m_state = ArmadilloState.walk;
+
+        M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
+        M_walkingPlayer.SetActive(true);
+        M_launchingPlayer.SetActive(false);
+        M_freeFlyingPlayer.SetActive(false);
+
         M_UIManager.Resume();
     }
 

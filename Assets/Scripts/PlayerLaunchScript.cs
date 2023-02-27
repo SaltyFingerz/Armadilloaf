@@ -85,13 +85,13 @@ public class PlayerLaunchScript : MonoBehaviour
         }
 
     }
-        public void Reset()
+    public void Reset()
     {
         M_arrow.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
         m_rigidbody.velocity = Vector3.zero;
         m_rigidbody.angularVelocity = Vector3.zero;
-        
+
         m_launchingStage = 0;
         m_launchingPower = 0;
         M_holdDownCamera.Priority = 0;
