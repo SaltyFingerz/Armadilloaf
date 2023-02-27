@@ -19,7 +19,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     const int m_walkingCameraMaxPriority = 9;
     const int m_freeMovementCameraMaxPriority = 10;
     public enum SizeState { small = 0, normal = 1, big = 2 };
-    public float[] M_sizes = { 0.5f, 1.0f, 2.0f };
+    public float[] M_sizes = { 0.25f, 0.5f, 1.0f };
     public int M_sizeState = (int)SizeState.normal;
 
     public PauseManagerScript M_UIManager;

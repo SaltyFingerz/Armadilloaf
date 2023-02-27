@@ -8,14 +8,15 @@ public class PrototypePlayerMovement : MonoBehaviour
 {
     public CinemachineVirtualCamera M_walkCamera;
     public PlayerManagerScript M_playerManagerScript;
-    private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
-    private float playerSpeed = 2.0f;
-    public float slowSlide = -0.05f;
-    private float jumpHeight = 1.0f;
-    private float gravityValue = -9.81f;
-    private bool isHittingWall = false;
+    private CharacterController m_controller;
+    public Vector3 playerVelocity;
+    private bool m_groundedPlayer;
+    [SerializeField] private float m_playerSpeed = 2.0f;
+    [SerializeField] public float m_slowSlide = -0.05f;
+    [SerializeField] private float m_jumpHeight = 1.0f;
+    private float m_gravityValue = -9.81f;
+    private bool m_isHittingWall = false;
+    private float m_pushForce = 2.0f;
 
     float m_mouseSensitivity = 1000.0f;
     float m_rotationMouseX;
@@ -23,43 +24,53 @@ public class PrototypePlayerMovement : MonoBehaviour
     private void Start()
     {
         M_playerManagerScript = FindObjectOfType<PlayerManagerScript>();
-        controller = gameObject.GetComponent<CharacterController>();
+        m_controller = gameObject.GetComponent<CharacterController>();
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.gameObject.name == "Wall")
         {
-            isHittingWall = true;
+            m_isHittingWall = true;
         }
         else
         {
-            isHittingWall = false;  
+            m_isHittingWall = false;  
+        }
+
+        Rigidbody m_rb = hit.collider.attachedRigidbody;
+        if (m_rb != null && !m_rb.isKinematic)
+        {
+            m_rb.velocity = hit.moveDirection * m_pushForce;
         }
     }
 
     void Update()
     {
+        m_groundedPlayer = m_controller.isGrounded;
+
+
+        HandleInput();
+
         if (M_playerManagerScript.M_isFreeFlying)
         {
             return;
         }
 
-        HandleInput();
 
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        if (m_groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
 
 
-        if (isHittingWall)
+
+        if (m_isHittingWall)
         {
             switch (M_playerManagerScript.M_sizeState)
             {
                 case (int)PlayerManagerScript.SizeState.big:
-                    playerVelocity = new Vector3(playerVelocity.x, slowSlide, playerVelocity.z);
+                    playerVelocity = new Vector3(playerVelocity.x, m_slowSlide, playerVelocity.z);
                     break;
 
                 case (int)PlayerManagerScript.SizeState.normal:
@@ -76,30 +87,32 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
         else
         { 
-        playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y += gravityValue * Time.deltaTime, playerVelocity.z);
+        playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y += m_gravityValue * Time.deltaTime, playerVelocity.z);
         }
-        controller.Move(playerVelocity * Time.deltaTime);
-        isHittingWall = false;  
+        m_controller.Move(playerVelocity * Time.deltaTime);
+        m_isHittingWall = false;  
     }
 
     private void HandleInput()
     {
         // Mouse RB is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.deltaTime * m_mouseSensitivity;
-        controller.transform.Rotate(Vector3.up, m_rotationMouseX);
+        m_controller.transform.Rotate(Vector3.up, m_rotationMouseX);
 
         Vector3 l_movementDirection = Vector3.zero;
 
         // movement with AWSD keys
         l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
         l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
-        controller.Move(l_movementDirection * Time.deltaTime * playerSpeed);
-        
+        m_controller.Move(l_movementDirection * Time.deltaTime * m_playerSpeed);
 
         // Changes the height position of the player..
         if (Input.GetButtonDown("Jump"))
         {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            if (m_groundedPlayer)
+            { 
+            playerVelocity.y += Mathf.Sqrt(m_jumpHeight * -3.0f * m_gravityValue);
+            }
         }
     }
 

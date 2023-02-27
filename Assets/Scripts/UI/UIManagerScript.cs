@@ -24,4 +24,9 @@ public class UIManagerScript : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void KitchenScene()
+    {
+        SceneManager.LoadScene("KitchenAndLivingRoom");
+    }
 }
