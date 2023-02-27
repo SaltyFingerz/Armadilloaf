@@ -100,8 +100,8 @@ public class PlayerLaunchScript : MonoBehaviour
     private void LaunchingStart()
     {
         M_arrow.SetActive(false);
-        m_launchingDirection.y = -m_launchingDirection.y;
-        m_rigidbody.AddForce(m_launchingDirection * m_launchingPower * 100.0f);
+        m_launchingPower *= 3.0f;
+        m_rigidbody.velocity = new Vector3(m_launchingDirection.x * m_launchingPower, m_launchingDirection.y * m_launchingPower, m_launchingDirection.z * m_launchingPower);
         m_launchingStage++;
 
     }
@@ -118,16 +118,16 @@ public class PlayerLaunchScript : MonoBehaviour
         }
         m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
 
-        // clamp the power of the lauch between 0 aand 100
-        if(m_launchingPower < 0)
+        // clamp the power of the lauch between 0 and the limit
+        if(m_launchingPower < 1)
         {
-            m_launchingPower = 0;
+            m_launchingPower = 1;
         }
         else if(m_launchingPower > M_maxPower)
         {
             m_launchingPower = M_maxPower;
         }
-        M_arrow.transform.localScale = new Vector3(5, 5, 5f + 1f * m_launchingPower);
+        M_arrow.transform.localScale = new Vector3(5, 5, 1f * m_launchingPower);
         //M_arrow.transform.position
         Debug.Log(m_launchingPower);
     }
