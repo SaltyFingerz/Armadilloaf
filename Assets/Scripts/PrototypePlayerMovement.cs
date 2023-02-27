@@ -9,7 +9,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public CinemachineVirtualCamera M_walkCamera;
     public PlayerManagerScript M_playerManagerScript;
     private CharacterController m_controller;
-    private Vector3 playerVelocity;
+    public Vector3 playerVelocity;
     private bool m_groundedPlayer;
     [SerializeField] private float m_playerSpeed = 2.0f;
     [SerializeField] public float m_slowSlide = -0.05f;
