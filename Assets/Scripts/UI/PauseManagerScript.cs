@@ -20,7 +20,7 @@ public class PauseManagerScript : UIManagerScript
             return;
         }
 
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
             Resume();
         }
@@ -35,6 +35,7 @@ public class PauseManagerScript : UIManagerScript
 
     public void Pasued()
     {
+        Debug.Log("P");
         M_canvas.enabled = true;
         Cursor.lockState = CursorLockMode.None;
     }

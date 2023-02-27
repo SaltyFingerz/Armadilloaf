@@ -72,7 +72,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             }
         }
         // prototype restart, to do: have this be automatic upon failure
-        if (Input.GetKeyUp(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("FailScreen");
             /*
@@ -83,7 +83,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_walkingPlayer.transform.position = new Vector3(0.0f, 2.0f, 0.0f);
             StartWalking();*/
         }
-        if(Input.GetKeyUp(KeyCode.Escape))
+        if(Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
             Time.timeScale = 0;
             M_UIManager.Pasued();
