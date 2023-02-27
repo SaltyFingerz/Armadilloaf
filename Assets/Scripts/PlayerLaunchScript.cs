@@ -172,26 +172,24 @@ public class PlayerLaunchScript : MonoBehaviour
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
         Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * l_result;
 
-        // final direction
-       
-        m_direction = l_direction;
         if (m_cameraMode == CameraMode.freeRotation)
         {
             Vector3 l_distance = this.transform.position - M_freeRotationCamera.transform.position;
             l_distance.Normalize();
-            Debug.Log(l_distance);
-            m_direction = new Vector3(l_distance.x, l_direction.y, l_distance.z);
+            l_direction = new Vector3(l_distance.x, l_direction.y, l_distance.z);
         }
 
-        if (m_direction.y < M_minimumDirectionY)
+        if (l_direction.y < M_minimumDirectionY)
         {
-            m_direction.y = M_minimumDirectionY;
+            l_direction.y = M_minimumDirectionY;
         }
         // clamp Y value so direction change is easier
         //rotate the player after getting the updated direction
-        Quaternion l_rotation = Quaternion.LookRotation(m_direction);
-        //Debug.Log(l_rotation.eulerAngles.ToString());
+        Quaternion l_rotation = Quaternion.LookRotation(l_direction * Time.deltaTime);
         m_rigidbody.MoveRotation(l_rotation);
+
+        // final direction
+        m_direction = l_direction;
     }
     public void SetSize(float a_size)
     {
