@@ -66,6 +66,7 @@ public class PlayerLaunchScript : MonoBehaviour
                 default:
                     break;
             }
+            Debug.Log(m_cameraMode);
         }
 
         // Manage launching stage
@@ -178,6 +179,7 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             Vector3 l_distance = this.transform.position - M_freeRotationCamera.transform.position;
             l_distance.Normalize();
+            Debug.Log(l_distance);
             m_direction = new Vector3(l_distance.x, l_direction.y, l_distance.z);
         }
 
@@ -187,7 +189,8 @@ public class PlayerLaunchScript : MonoBehaviour
         }
         // clamp Y value so direction change is easier
         //rotate the player after getting the updated direction
-        Quaternion l_rotation = Quaternion.LookRotation(m_rigidbody.position + m_direction);
+        Quaternion l_rotation = Quaternion.LookRotation(m_direction);
+        //Debug.Log(l_rotation.eulerAngles.ToString());
         m_rigidbody.MoveRotation(l_rotation);
     }
     public void SetSize(float a_size)
