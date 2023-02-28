@@ -22,6 +22,12 @@ public class UIManagerScript : MonoBehaviour
     }
     public void Exit()
     {
+        Debug.Log("Game exit");
         Application.Quit();
+    }
+
+    public void KitchenScene()
+    {
+        SceneManager.LoadScene("KitchenAndLivingRoom");
     }
 }

@@ -19,7 +19,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     const int m_walkingCameraMaxPriority = 9;
     const int m_freeMovementCameraMaxPriority = 10;
     public enum SizeState { small = 0, normal = 1, big = 2 };
-    public float[] M_sizes = { 0.5f, 1.0f, 2.0f };
+    public float[] M_sizes = { 0.25f, 0.5f, 1.0f };
     public int M_sizeState = (int)SizeState.normal;
 
     public PauseManagerScript M_UIManager;
@@ -31,7 +31,21 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_justUnpaused = false;
         M_UIManager = FindObjectOfType<PauseManagerScript>();
         Cursor.lockState = CursorLockMode.Locked;
-        StartWalking();
+
+        // change camera
+        M_launchingBaseCamera.Priority = 0;
+        M_freeMovementCamera.Priority = 0;
+        M_walkingBaseCamera.Priority = m_walkingCameraMaxPriority;
+
+        m_state = ArmadilloState.walk;
+
+        M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
+        M_walkingPlayer.SetActive(true);
+        M_launchingPlayer.SetActive(false);
+        M_freeFlyingPlayer.SetActive(false);
+        M_sizeState = (int)SizeState.normal;
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
         M_UIManager.Resume();
     }
 
@@ -64,7 +78,18 @@ public partial class PlayerManagerScript : MonoBehaviour
             if (M_isFreeFlying)
             {
                 M_isFreeFlying = false;
-                StateCheck();
+                switch (m_state)
+                {
+                    case ArmadilloState.walk:
+                        StartWalking();
+                        break;
+                    case ArmadilloState.launching:
+                        StartLaunching();
+                        break;
+
+                    default:
+                        break;
+                }
             }
             else
             {
@@ -72,7 +97,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             }
         }
         // prototype restart, to do: have this be automatic upon failure
-        if (Input.GetKeyUp(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("FailScreen");
             /*
@@ -83,15 +108,17 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_walkingPlayer.transform.position = new Vector3(0.0f, 2.0f, 0.0f);
             StartWalking();*/
         }
-        if(Input.GetKeyUp(KeyCode.Escape))
+        if(Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
             Time.timeScale = 0;
+            M_UIManager.enabled = true;
             M_UIManager.Pasued();
         }
     }
 
     public void Resume()
     {
+        M_UIManager.enabled = false;
         m_justUnpaused = true;
         Time.timeScale = 1;
     }

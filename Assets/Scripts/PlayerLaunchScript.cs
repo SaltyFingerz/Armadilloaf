@@ -66,6 +66,7 @@ public class PlayerLaunchScript : MonoBehaviour
                 default:
                     break;
             }
+            Debug.Log(m_cameraMode);
         }
 
         // Manage launching stage
@@ -84,13 +85,13 @@ public class PlayerLaunchScript : MonoBehaviour
         }
 
     }
-        public void Reset()
+    public void Reset()
     {
         M_arrow.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
         m_rigidbody.velocity = Vector3.zero;
         m_rigidbody.angularVelocity = Vector3.zero;
-        
+
         m_launchingStage = 0;
         m_launchingPower = 0;
         M_holdDownCamera.Priority = 0;
@@ -100,8 +101,8 @@ public class PlayerLaunchScript : MonoBehaviour
     private void LaunchingStart()
     {
         M_arrow.SetActive(false);
-        m_launchingDirection.y = -m_launchingDirection.y;
-        m_rigidbody.AddForce(m_launchingDirection * m_launchingPower * 100.0f);
+        m_launchingPower *= 3.0f;
+        m_rigidbody.velocity = new Vector3(m_launchingDirection.x * m_launchingPower, m_launchingDirection.y * m_launchingPower, m_launchingDirection.z * m_launchingPower);
         m_launchingStage++;
 
     }
@@ -118,16 +119,16 @@ public class PlayerLaunchScript : MonoBehaviour
         }
         m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
 
-        // clamp the power of the lauch between 0 aand 100
-        if(m_launchingPower < 0)
+        // clamp the power of the lauch between 0 and the limit
+        if(m_launchingPower < 1)
         {
-            m_launchingPower = 0;
+            m_launchingPower = 1;
         }
         else if(m_launchingPower > M_maxPower)
         {
             m_launchingPower = M_maxPower;
         }
-        M_arrow.transform.localScale = new Vector3(5, 5, 5f + 1f * m_launchingPower);
+        M_arrow.transform.localScale = new Vector3(5, 5, 1f * m_launchingPower);
         //M_arrow.transform.position
         Debug.Log(m_launchingPower);
     }
@@ -145,6 +146,11 @@ public class PlayerLaunchScript : MonoBehaviour
     
     private void DirectionInput()
     {
+        if(Time.timeScale < 0.1f)
+        {
+            return;
+        }
+
         // Mosue input is disabled when holding RMB.
         // When the camera rotates without RMB press, the direction is calculated from position of the player and the camera.
         // Otherwise, calculate the direction from mouse input.
@@ -171,24 +177,24 @@ public class PlayerLaunchScript : MonoBehaviour
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
         Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * l_result;
 
-        // final direction
-       
-        m_direction = l_direction;
         if (m_cameraMode == CameraMode.freeRotation)
         {
             Vector3 l_distance = this.transform.position - M_freeRotationCamera.transform.position;
             l_distance.Normalize();
-            m_direction = new Vector3(l_distance.x, l_direction.y, l_distance.z);
+            l_direction = new Vector3(l_distance.x, l_direction.y, l_distance.z);
         }
 
-        if (m_direction.y < M_minimumDirectionY)
+        if (l_direction.y < M_minimumDirectionY)
         {
-            m_direction.y = M_minimumDirectionY;
+            l_direction.y = M_minimumDirectionY;
         }
         // clamp Y value so direction change is easier
         //rotate the player after getting the updated direction
-        Quaternion l_rotation = Quaternion.LookRotation(m_rigidbody.position + m_direction);
+        Quaternion l_rotation = Quaternion.LookRotation(l_direction * Time.deltaTime);
         m_rigidbody.MoveRotation(l_rotation);
+
+        // final direction
+        m_direction = l_direction;
     }
     public void SetSize(float a_size)
     {
