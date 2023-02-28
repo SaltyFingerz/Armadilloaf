@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   M_walkCamera: {fileID: 9176634874759807893}
-  M_playerManagerScript: {fileID: 0}
+  M_playerManager: {fileID: 4933560404183489198}
   playerVelocity: {x: 0, y: 0, z: 0}
   m_playerSpeed: 2
   m_slowSlide: -0.05
@@ -779,7 +779,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4729093614753106762}
-  m_LocalRotation: {x: 0.094726644, y: -0.37504542, z: 0.1281242, w: 0.9132098}
+  m_LocalRotation: {x: 0.094726674, y: -0.3750454, z: 0.1281242, w: 0.9132098}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -984,7 +984,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4933560402913157517}
-  m_LocalRotation: {x: 0.34042525, y: 0.0000000228801, z: -0.000000008283737, w: 0.9402716}
+  m_LocalRotation: {x: 0.34042525, y: -0.00000002288009, z: 0.000000008283735, w: 0.9402716}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2912,7 +2912,7 @@ MonoBehaviour:
   M_arrowMaximum: {fileID: 137653544524136855}
   M_holdDownCamera: {fileID: 8431252128895270645}
   M_freeRotationCamera: {fileID: 1985742519206668539}
-  M_playerManagerScript: {fileID: 0}
+  M_playerManager: {fileID: 4933560404183489198}
   M_maxPower: 20
   M_minimumDirectionY: -0.2
 --- !u!54 &8854288522490146428

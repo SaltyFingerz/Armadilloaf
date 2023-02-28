@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PrototypePlayerMovement : MonoBehaviour
 {
     public CinemachineVirtualCamera M_walkCamera;
-    public PlayerManagerScript M_playerManagerScript;
+    public GameObject M_playerManager;
     private CharacterController m_controller;
     public Vector3 playerVelocity;
     private bool m_groundedPlayer;
@@ -23,7 +23,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        M_playerManagerScript = FindObjectOfType<PlayerManagerScript>();
         m_controller = gameObject.GetComponent<CharacterController>();
     }
 
@@ -52,7 +51,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         HandleInput();
 
-        if (M_playerManagerScript.M_isFreeFlying)
+        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
         {
             return;
         }
@@ -67,7 +66,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (m_isHittingWall)
         {
-            switch (M_playerManagerScript.M_sizeState)
+            switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
             {
                 case (int)PlayerManagerScript.SizeState.big:
                     playerVelocity = new Vector3(playerVelocity.x, m_slowSlide, playerVelocity.z);
@@ -128,7 +127,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public void SetSize(float a_size)
     {
         transform.localScale = new Vector3(a_size, a_size, a_size);
-        switch (M_playerManagerScript.M_sizeState)
+        switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
             case (int)PlayerManagerScript.SizeState.big:
                 m_pushForce = 4.0f;

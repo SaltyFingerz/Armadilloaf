@@ -1,5 +1,6 @@
 using Cinemachine;
 using Newtonsoft.Json.Bson;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UIElements;
@@ -12,7 +13,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public CinemachineFreeLook M_holdDownCamera;
     public CinemachineFreeLook M_freeRotationCamera;
-    public PlayerManagerScript M_playerManagerScript;
+    public GameObject M_playerManager;
     enum CameraMode { holdDown, freeRotation };
     CameraMode m_cameraMode;
 
@@ -31,24 +32,22 @@ public class PlayerLaunchScript : MonoBehaviour
     public float M_minimumDirectionY;
     const float m_powerSizeStep = 1.0f;
     const float m_baseLength = 10.0f;
+    public float M_rollingDirectionChange;
     
 
     public void Start()
     {
-        M_playerManagerScript = FindObjectOfType<PlayerManagerScript>();
         m_rigidbody = GetComponent<Rigidbody>();
         M_holdDownCamera.Priority = 0;
         M_freeRotationCamera.Priority = m_cameraMaxPriority;
         m_cameraMode = CameraMode.freeRotation;
-        M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, (m_baseLength + m_powerSizeStep * M_maxPower) / transform.lossyScale.z);
-        Debug.Log(transform.lossyScale.z);
-        Debug.Log((m_baseLength + m_powerSizeStep * M_maxPower) / transform.lossyScale.z);
+        M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, m_baseLength + m_powerSizeStep * M_maxPower);
     }
 
     // Handle rigidbody physics
     public void FixedUpdate()
     {
-        if (M_playerManagerScript.M_isFreeFlying)
+        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
         {
             return;
         }
@@ -58,11 +57,10 @@ public class PlayerLaunchScript : MonoBehaviour
             case 0:
                 DirectionInput();
                 break;
+
             case 1:
-                LaunchingStart();
                 break;
-            case 2:
-                break;
+
             default:
                 break;
         }
@@ -71,7 +69,7 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle key inputs
     public void Update()
     {
-        if (M_playerManagerScript.M_isFreeFlying)
+        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
         {
             return;
         }
@@ -105,8 +103,28 @@ public class PlayerLaunchScript : MonoBehaviour
                 HandleLaunchInput();
                 break;
             case 1:
+                RollingDirectionInput();
+                break;
+            default:
                 break;
         }
+
+    }
+
+    void RollingDirectionInput()
+    {
+        Vector3 l_direction = m_rigidbody.velocity.normalized;
+        // change direction
+        if (Input.GetKey(KeyCode.A))
+        {
+            l_direction.x += M_rollingDirectionChange * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            l_direction.x -= M_rollingDirectionChange * Time.deltaTime;
+        }
+        l_direction.Normalize();
+        m_rigidbody.velocity = l_direction * m_rigidbody.velocity.magnitude;
 
     }
 
@@ -121,6 +139,7 @@ public class PlayerLaunchScript : MonoBehaviour
             //m_direction = Quaternion.AngleAxis(-m_rotationMouseY * 5.0f, l_axis) * m_direction;
             m_launchingDirection.Normalize();
             m_launchingStage++;
+            LaunchingStart();
         }
         m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
 
@@ -138,7 +157,9 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Reset()
     {
+        m_rigidbody.freezeRotation = false;
         M_arrow.SetActive(true);
+        M_arrowMaximum.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
         m_rigidbody.useGravity = false;
 
@@ -152,11 +173,12 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void LaunchingStart()
     {
+        m_rigidbody.freezeRotation = true;
         M_arrow.SetActive(false);
+        M_arrowMaximum.SetActive(false);
         m_rigidbody.useGravity = true;
         m_launchingPower *= 3.0f;
         m_rigidbody.velocity = new Vector3(m_launchingDirection.x * m_launchingPower, m_launchingDirection.y * m_launchingPower, m_launchingDirection.z * m_launchingPower);
-        m_launchingStage++;
     }
     
     private void DirectionInput()

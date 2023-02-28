@@ -139,7 +139,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
     }
 
-    void StartWalking()
+    public void StartWalking()
     {
         // change camera
         M_launchingBaseCamera.Priority = 0;
@@ -156,7 +156,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_freeFlyingPlayer.SetActive(false);
     }
 
-    void StartLaunching()
+    public void StartLaunching()
     {
         // change camera
         M_walkingBaseCamera.Priority = 0;
