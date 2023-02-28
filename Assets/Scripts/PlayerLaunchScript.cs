@@ -73,6 +73,7 @@ public class PlayerLaunchScript : MonoBehaviour
         switch (m_launchingStage)
         {
             case 0:
+                m_rigidbody.velocity = new Vector3(0.0f, m_rigidbody.velocity.y - 8.91f * Time.deltaTime, 0.0f);
                 DirectionInput();
                 HandleDirectionInput();
                 break;
@@ -89,8 +90,7 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         M_arrow.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
-        m_rigidbody.velocity = Vector3.zero;
-        m_rigidbody.angularVelocity = Vector3.zero;
+        m_rigidbody.useGravity = false;
 
         m_launchingStage = 0;
         m_launchingPower = 0;
@@ -101,6 +101,7 @@ public class PlayerLaunchScript : MonoBehaviour
     private void LaunchingStart()
     {
         M_arrow.SetActive(false);
+        m_rigidbody.useGravity = true;
         m_launchingPower *= 3.0f;
         m_rigidbody.velocity = new Vector3(m_launchingDirection.x * m_launchingPower, m_launchingDirection.y * m_launchingPower, m_launchingDirection.z * m_launchingPower);
         m_launchingStage++;
@@ -129,8 +130,6 @@ public class PlayerLaunchScript : MonoBehaviour
             m_launchingPower = M_maxPower;
         }
         M_arrow.transform.localScale = new Vector3(5, 5, 1f * m_launchingPower);
-        //M_arrow.transform.position
-        Debug.Log(m_launchingPower);
     }
 
     private void HandleDirectionInput()
