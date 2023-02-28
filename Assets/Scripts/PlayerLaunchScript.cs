@@ -8,6 +8,7 @@ public class PlayerLaunchScript : MonoBehaviour
 {
     private Rigidbody m_rigidbody;
     public GameObject M_arrow;
+    public GameObject M_arrowMaximum;
 
     public CinemachineFreeLook M_holdDownCamera;
     public CinemachineFreeLook M_freeRotationCamera;
@@ -28,6 +29,8 @@ public class PlayerLaunchScript : MonoBehaviour
     const int m_cameraMaxPriority = 8;
     public int M_maxPower;
     public float M_minimumDirectionY;
+    const float m_powerSizeStep = 1.0f;
+    const float m_baseLength = 10.0f;
     
 
     public void Start()
@@ -37,8 +40,35 @@ public class PlayerLaunchScript : MonoBehaviour
         M_holdDownCamera.Priority = 0;
         M_freeRotationCamera.Priority = m_cameraMaxPriority;
         m_cameraMode = CameraMode.freeRotation;
+        M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, (m_baseLength + m_powerSizeStep * M_maxPower) / transform.lossyScale.z);
+        Debug.Log(transform.lossyScale.z);
+        Debug.Log((m_baseLength + m_powerSizeStep * M_maxPower) / transform.lossyScale.z);
     }
 
+    // Handle rigidbody physics
+    public void FixedUpdate()
+    {
+        if (M_playerManagerScript.M_isFreeFlying)
+        {
+            return;
+        }
+        // Manage launching stage
+        switch (m_launchingStage)
+        {
+            case 0:
+                DirectionInput();
+                break;
+            case 1:
+                LaunchingStart();
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Handle key inputs
     public void Update()
     {
         if (M_playerManagerScript.M_isFreeFlying)
@@ -66,26 +96,46 @@ public class PlayerLaunchScript : MonoBehaviour
                 default:
                     break;
             }
-            Debug.Log(m_cameraMode);
         }
 
         // Manage launching stage
         switch (m_launchingStage)
         {
             case 0:
-                m_rigidbody.velocity = new Vector3(0.0f, m_rigidbody.velocity.y - 8.91f * Time.deltaTime, 0.0f);
-                DirectionInput();
-                HandleDirectionInput();
+                HandleLaunchInput();
                 break;
             case 1:
-                HandlePowerInput();
-                break;
-            case 2:
-                LaunchingStart();
                 break;
         }
 
     }
+
+    void HandleLaunchInput()
+    {
+        //override player rotation
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
+        {
+            Vector3 l_axis = Vector3.Cross(m_direction, Vector3.up);
+            if (l_axis == Vector3.zero) l_axis = Vector3.right;
+            m_launchingDirection = m_direction;
+            //m_direction = Quaternion.AngleAxis(-m_rotationMouseY * 5.0f, l_axis) * m_direction;
+            m_launchingDirection.Normalize();
+            m_launchingStage++;
+        }
+        m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
+
+        // clamp the power of the lauch between 0 and the limit
+        if (m_launchingPower < 1)
+        {
+            m_launchingPower = 1;
+        }
+        else if (m_launchingPower > M_maxPower)
+        {
+            m_launchingPower = M_maxPower;
+        }
+        M_arrow.transform.localScale = new Vector3(5, 5, m_baseLength + m_powerSizeStep * m_launchingPower);
+    }
+
     public void Reset()
     {
         M_arrow.SetActive(true);
@@ -97,6 +147,8 @@ public class PlayerLaunchScript : MonoBehaviour
         M_holdDownCamera.Priority = 0;
         M_freeRotationCamera.Priority = m_cameraMaxPriority;
         m_cameraMode = CameraMode.freeRotation;
+
+        m_currentScroll = Input.mouseScrollDelta.y;
     }
     private void LaunchingStart()
     {
@@ -105,42 +157,6 @@ public class PlayerLaunchScript : MonoBehaviour
         m_launchingPower *= 3.0f;
         m_rigidbody.velocity = new Vector3(m_launchingDirection.x * m_launchingPower, m_launchingDirection.y * m_launchingPower, m_launchingDirection.z * m_launchingPower);
         m_launchingStage++;
-
-    }
-    private void HandlePowerInput()
-    {
-        //override player rotation
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
-        {
-            Vector3 l_axis = Vector3.Cross(m_direction, Vector3.up);
-            if (l_axis == Vector3.zero) l_axis = Vector3.right;
-            m_direction = Quaternion.AngleAxis(-m_rotationMouseY * 5.0f, l_axis) * m_direction;
-            m_launchingDirection.Normalize();
-            m_launchingStage++;
-        }
-        m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
-
-        // clamp the power of the lauch between 0 and the limit
-        if(m_launchingPower < 1)
-        {
-            m_launchingPower = 1;
-        }
-        else if(m_launchingPower > M_maxPower)
-        {
-            m_launchingPower = M_maxPower;
-        }
-        M_arrow.transform.localScale = new Vector3(5, 5, 1f * m_launchingPower);
-    }
-
-    private void HandleDirectionInput()
-    {
-        // stop when space or LMB is pressed
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
-        {
-            m_launchingDirection = m_direction;
-            m_launchingStage++;
-            m_currentScroll = Input.mouseScrollDelta.y;
-        }
     }
     
     private void DirectionInput()
