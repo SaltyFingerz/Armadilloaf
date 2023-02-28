@@ -97,7 +97,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         // Mouse RB is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.deltaTime * m_mouseSensitivity;
-        m_controller.transform.Rotate(Vector3.up, m_rotationMouseX);
+        m_controller.transform.Rotate(Vector3.up, -m_rotationMouseX);
 
         Vector3 l_movementDirection = Vector3.zero;
 
