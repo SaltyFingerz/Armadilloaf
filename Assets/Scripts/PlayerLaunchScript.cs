@@ -146,6 +146,11 @@ public class PlayerLaunchScript : MonoBehaviour
     
     private void DirectionInput()
     {
+        if(Time.timeScale < 0.1f)
+        {
+            return;
+        }
+
         // Mosue input is disabled when holding RMB.
         // When the camera rotates without RMB press, the direction is calculated from position of the player and the camera.
         // Otherwise, calculate the direction from mouse input.

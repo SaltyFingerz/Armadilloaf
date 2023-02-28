@@ -101,6 +101,15 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         Vector3 l_movementDirection = Vector3.zero;
 
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            m_playerSpeed = 8.0f;
+        }
+        else
+        {
+            m_playerSpeed = 2.0f;
+        }
+
         // movement with AWSD keys
         l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
         l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
@@ -119,5 +128,23 @@ public class PrototypePlayerMovement : MonoBehaviour
     public void SetSize(float a_size)
     {
         transform.localScale = new Vector3(a_size, a_size, a_size);
+        switch (M_playerManagerScript.M_sizeState)
+        {
+            case (int)PlayerManagerScript.SizeState.big:
+                m_pushForce = 4.0f;
+                break;
+
+            case (int)PlayerManagerScript.SizeState.normal:
+                m_pushForce = 0.0f;
+                break;
+
+            case (int)PlayerManagerScript.SizeState.small:
+                m_pushForce = 0.0f;
+                break;
+
+            default:
+                Debug.Log("Error! Did you forget to set a size state?");
+                break;
+        }
     }
 }

@@ -78,7 +78,18 @@ public partial class PlayerManagerScript : MonoBehaviour
             if (M_isFreeFlying)
             {
                 M_isFreeFlying = false;
-                StateCheck();
+                switch (m_state)
+                {
+                    case ArmadilloState.walk:
+                        StartWalking();
+                        break;
+                    case ArmadilloState.launching:
+                        StartLaunching();
+                        break;
+
+                    default:
+                        break;
+                }
             }
             else
             {
