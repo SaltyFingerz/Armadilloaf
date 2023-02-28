@@ -43,7 +43,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.SetActive(true);
         M_launchingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
-
+        M_sizeState = (int)SizeState.normal;
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
         M_UIManager.Resume();
     }
 
