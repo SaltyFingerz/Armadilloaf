@@ -328,7 +328,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2915,6 +2915,7 @@ MonoBehaviour:
   M_playerManager: {fileID: 4933560404183489198}
   M_maxPower: 20
   M_minimumDirectionY: -0.2
+  M_rollingDirectionChange: 0
 --- !u!54 &8854288522490146428
 Rigidbody:
   m_ObjectHideFlags: 0
