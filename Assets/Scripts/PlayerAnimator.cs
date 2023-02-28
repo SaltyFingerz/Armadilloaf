@@ -17,29 +17,112 @@ public class PlayerAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.S))
-        {
-            playerAnimator.SetBool("backwards", true);
-            playerAnimator.SetBool("left", false);
-            playerAnimator.SetBool("right", false);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            playerAnimator.SetBool("right", true);
-            playerAnimator.SetBool("left", false);
-            playerAnimator.SetBool("backwards", false);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            playerAnimator.SetBool("left", true);
-            playerAnimator.SetBool("right", false);
-            playerAnimator.SetBool("backwards", false);
-        }
-        else
-        {
-            playerAnimator.SetBool("left", false);
-            playerAnimator.SetBool("right", false);
-            playerAnimator.SetBool("backwards", false);
-        }
+        HandleInput();
     }
+    public void HandleInput()
+    {
+            if (Input.GetKey(KeyCode.S))
+            {
+                if (Input.GetKey(KeyCode.A))
+                {
+                    playerAnimator.SetBool("backwards", true);
+                    playerAnimator.SetBool("left", true);
+                    playerAnimator.SetBool("right", false);
+                    playerAnimator.SetBool("forwards", false);
+                }
+                else if (Input.GetKey(KeyCode.D))
+                {
+                    playerAnimator.SetBool("backwards", true);
+                    playerAnimator.SetBool("left", false);
+                    playerAnimator.SetBool("right", true);
+                    playerAnimator.SetBool("forwards", false);
+                }
+                else
+                {
+                    playerAnimator.SetBool("backwards", true);
+                    playerAnimator.SetBool("left", false);
+                    playerAnimator.SetBool("right", false);
+                    playerAnimator.SetBool("forwards", false);
+                }
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                if (Input.GetKey(KeyCode.S))
+                {
+                    playerAnimator.SetBool("backwards", true);
+                    playerAnimator.SetBool("left", false);
+                    playerAnimator.SetBool("right", true);
+                    playerAnimator.SetBool("forwards", false);
+                }
+                else if (Input.GetKey(KeyCode.W))
+                {
+                    playerAnimator.SetBool("right", true);
+                    playerAnimator.SetBool("left", false);
+                    playerAnimator.SetBool("backwards", false);
+                    playerAnimator.SetBool("forwards", true);
+                }
+                else
+                {
+                    playerAnimator.SetBool("right", true);
+                    playerAnimator.SetBool("left", false);
+                    playerAnimator.SetBool("backwards", false);
+                    playerAnimator.SetBool("forwards", false);
+                }
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                if (Input.GetKey(KeyCode.S))
+                {
+                    playerAnimator.SetBool("backwards", true);
+                    playerAnimator.SetBool("left", true);
+                    playerAnimator.SetBool("right", false);
+                    playerAnimator.SetBool("forwards", false);
+                }
+                else if (Input.GetKey(KeyCode.W))
+                {
+                    playerAnimator.SetBool("left", true);
+                    playerAnimator.SetBool("right", false);
+                    playerAnimator.SetBool("backwards", false);
+                    playerAnimator.SetBool("forwards", true);
+                }
+                else
+                {
+                    playerAnimator.SetBool("left", true);
+                    playerAnimator.SetBool("right", false);
+                    playerAnimator.SetBool("backwards", false);
+                    playerAnimator.SetBool("forwards", false);
+                }
+            }
+            else if (Input.GetKey(KeyCode.W))
+            {
+                if (Input.GetKey(KeyCode.A))
+                {
+                    playerAnimator.SetBool("left", true);
+                    playerAnimator.SetBool("right", false);
+                    playerAnimator.SetBool("backwards", false);
+                    playerAnimator.SetBool("forwards", true);
+                }
+                else if (Input.GetKey(KeyCode.D))
+                {
+                    playerAnimator.SetBool("right", true);
+                    playerAnimator.SetBool("left", false);
+                    playerAnimator.SetBool("backwards", false);
+                    playerAnimator.SetBool("forwards", true);
+                }
+                else
+                {
+                    playerAnimator.SetBool("left", false);
+                    playerAnimator.SetBool("right", false);
+                    playerAnimator.SetBool("backwards", false);
+                    playerAnimator.SetBool("forwards", true);
+                }
+            }
+            else
+            {
+                playerAnimator.SetBool("left", false);
+                playerAnimator.SetBool("right", false);
+                playerAnimator.SetBool("backwards", false);
+                playerAnimator.SetBool("forwards", true);
+            }
+        }
 }
