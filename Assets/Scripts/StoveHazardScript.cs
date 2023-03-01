@@ -2,43 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoveHazard : MonoBehaviour
+public class StoveHazardScript : MonoBehaviour
 {
-    public ParticleSystem Fire;
-    public float waitTime;
-    bool OnOff;
-    bool canStart = false;
-    public float startTime;
+    public ParticleSystem M_Fire;
+    public float M_waitTime;
+    bool m_OnOff;
+    bool m_canStart = false;
+    public float M_startTime;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Delay(startTime));
+        StartCoroutine(Delay(M_startTime));
     }
 
     // Update is called once per frame
     void Update()
     {
-       while(!OnOff && canStart) 
-            StartCoroutine(OnOffStove(waitTime));
+       while(!m_OnOff && m_canStart) 
+            StartCoroutine(OnOffStove(M_waitTime));
     }
 
     IEnumerator OnOffStove(float waitTime)
-    { OnOff = true;
+    { m_OnOff = true;
         
         yield return new WaitForSeconds(waitTime);
         GetComponent<SphereCollider>().enabled = true;
-        Fire.Play();
+        M_Fire.Play();
         yield return new WaitForSeconds(waitTime);
         GetComponent<SphereCollider>().enabled = false;
-        Fire.Stop();
+        M_Fire.Stop();
         print("op");
-        OnOff = false;
+        m_OnOff = false;
     }
 
     IEnumerator Delay(float startTime)
     {
         yield return new WaitForSeconds(startTime);
-        canStart = true;
+        m_canStart = true;
 
     }
 }

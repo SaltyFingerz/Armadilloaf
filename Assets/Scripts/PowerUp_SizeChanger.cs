@@ -7,11 +7,15 @@ public class PowerUp_SizeChanger : MonoBehaviour
     public enum Effect { SizeUp, SizeDown };
     public Effect M_myEffect;
     public PlayerManagerScript M_playerManager;
-
+    public PrototypePlayerMovement M_prototypePlayerMovement;
+    public enum Property { None, Jelly, Honey };
+    public Property M_myProperty = Property.None;
+   
     // Start is called before the first frame update
     void Start()
     {
         M_playerManager = FindObjectOfType<PlayerManagerScript>();
+       
     }
 
     // Update is called once per frame
@@ -29,12 +33,25 @@ public class PowerUp_SizeChanger : MonoBehaviour
                 case Effect.SizeUp:
                     {
                         M_playerManager.Grow();
+
+                        if (M_myProperty == Property.Jelly)
+                            M_playerManager.Jellify();
+                        else if (M_myProperty == Property.Honey)
+                        {
+                            M_playerManager.Honify();
+                        }
+                        else if (M_myProperty == Property.None)
+                        {
+                            
+                        }
+
                         Destroy(this.gameObject);
                         return;
                     }
                 case Effect.SizeDown:
                     {
                         M_playerManager.Shrink();
+
                         Destroy(this.gameObject);
                         return;
                     }
@@ -44,6 +61,9 @@ public class PowerUp_SizeChanger : MonoBehaviour
                         return;
                     }
             }
+
         }
     }
+
+ 
 }

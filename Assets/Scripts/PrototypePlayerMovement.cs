@@ -20,7 +20,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     float m_mouseSensitivity = 1000.0f;
     float m_rotationMouseX;
-
     private void Start()
     {
         m_controller = gameObject.GetComponent<CharacterController>();

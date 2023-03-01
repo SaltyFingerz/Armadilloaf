@@ -209,4 +209,22 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
     }
+
+    //acquire property of bounciness with Jelly pick-up, called in PowerUp_SizeChanger (script)
+    public void Jellify()
+    {
+        {M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.9f;
+            M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
+            M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
+        }
+    }
+    //acquire property of stickiness with Jelly pick-up, called in PowerUp_SizeChanger (script)
+    public void Honify()
+    {
+        {
+            M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
+            M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 50f;
+            M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 50f;
+        }
+    }
 }
