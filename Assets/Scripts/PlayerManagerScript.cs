@@ -161,6 +161,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingBaseCamera.Priority = m_launchingCameraMaxPriority;
 
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
+        M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CharacterController>().velocity;
         m_state = ArmadilloState.launching;
         
         M_launchingPlayer.SetActive(true);
