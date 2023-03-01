@@ -6,16 +6,17 @@ using UnityEngine.AI;
 public class EnemyPatrolMovement : MonoBehaviour
 {
     public Transform M_goal;
+    NavMeshAgent m_agent;
     // Start is called before the first frame update
     void Start()
     {
-        NavMeshAgent l_agent = GetComponent<NavMeshAgent>();
-        l_agent.destination = M_goal.position;
+        m_agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+        m_agent.destination = M_goal.position;
     }
 }
