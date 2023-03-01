@@ -21,7 +21,6 @@ public class EnemyPatrolMovement : MonoBehaviour
     {
         if (m_agent.remainingDistance < 0.2f)
         {
-            Debug.Log(m_agent.remainingDistance);
             m_goalIndex++;
             if(m_goalIndex >= M_goals.Count)
             {

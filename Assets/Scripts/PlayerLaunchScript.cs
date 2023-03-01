@@ -3,6 +3,7 @@ using Newtonsoft.Json.Bson;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class PlayerLaunchScript : MonoBehaviour
@@ -255,6 +256,10 @@ public class PlayerLaunchScript : MonoBehaviour
         if (a_collider.gameObject.tag == "Floor")
         {
             m_isOnFloor = true;
+        }
+        else if (a_collider.gameObject.CompareTag("Enemy"))
+        {
+            SceneManager.LoadScene("FailScreen");
         }
     }
     private void OnCollisionExit(Collision a_collider)

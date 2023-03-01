@@ -188,6 +188,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1841031478}
     - target: {fileID: 2920815221399688382, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
+      propertyPath: M_goals.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2920815221399688382, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
       propertyPath: M_goal.Array.data[0]
       value: 
       objectReference: {fileID: 1044328989}
@@ -203,13 +207,29 @@ PrefabInstance:
       propertyPath: M_goals.Array.data[1]
       value: 
       objectReference: {fileID: 1841031477}
+    - target: {fileID: 2920815221399688382, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
+      propertyPath: M_goals.Array.data[2]
+      value: 
+      objectReference: {fileID: 1091907362}
+    - target: {fileID: 2920815221399688382, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
+      propertyPath: M_goals.Array.data[3]
+      value: 
+      objectReference: {fileID: 92711575}
     - target: {fileID: 5876887550045287372, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5876887550045287372, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8167541550792336500, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8167541550792336500, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
+      propertyPath: m_TagString
+      value: Finish
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -233,6 +253,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7514991316261419789, guid: 8c2dea9a05264d148841cba10259e43a, type: 3}
+--- !u!1 &92711575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 92711576}
+  m_Layer: 0
+  m_Name: Goal003
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &92711576
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92711575}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 61.2, y: 33.3, z: 5.13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1169988186}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &112005025
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,7 +1402,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044328988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.7, y: 30.6, z: 2.13}
+  m_LocalPosition: {x: 48.18, y: 30.6, z: -16.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1396,6 +1447,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &1091907362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1091907363}
+  m_Layer: 0
+  m_Name: Goal002
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1091907363
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1091907362}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 43.4, y: 36.944, z: 5.13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1169988186}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1139828291 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e0e5ff46065623041bd525dfdc9e8fbd, type: 3}
@@ -1519,6 +1601,8 @@ Transform:
   m_Children:
   - {fileID: 1044328989}
   - {fileID: 1841031478}
+  - {fileID: 1091907363}
+  - {fileID: 92711576}
   m_Father: {fileID: 1145963466}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

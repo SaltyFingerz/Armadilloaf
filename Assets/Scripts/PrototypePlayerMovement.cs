@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
@@ -25,21 +26,25 @@ public class PrototypePlayerMovement : MonoBehaviour
         m_controller = gameObject.GetComponent<CharacterController>();
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    private void OnControllerColliderHit(ControllerColliderHit a_hit)
     {
-        if (hit.gameObject.CompareTag("Wall"))
+        if (a_hit.gameObject.CompareTag("Wall"))
         {
             m_isHittingWall = true;
+        }
+        else if (a_hit.gameObject.CompareTag("Enemy"))
+        {
+            SceneManager.LoadScene("FailScreen");
         }
         else
         {
             m_isHittingWall = false;  
         }
 
-        Rigidbody m_rb = hit.collider.attachedRigidbody;
+        Rigidbody m_rb = a_hit.collider.attachedRigidbody;
         if (m_rb != null && !m_rb.isKinematic)
         {
-            m_rb.velocity = hit.moveDirection * m_pushForce;
+            m_rb.velocity = a_hit.moveDirection * m_pushForce;
         }
     }
 
@@ -70,11 +75,11 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             switch (M_playerManager.GetComponent<PlayerManagerScript>().M_abilityState)
             {
-                case (int)PlayerManagerScript.AbilityState.honey:
+                case PlayerManagerScript.AbilityState.honey:
                     playerVelocity = new Vector3(playerVelocity.x, m_slowSlide, playerVelocity.z);
                     break;
 
-                case (int)PlayerManagerScript.AbilityState.normal:
+                case PlayerManagerScript.AbilityState.normal:
                     playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y += m_gravityValue * Time.deltaTime, playerVelocity.z);
                     break;
 
