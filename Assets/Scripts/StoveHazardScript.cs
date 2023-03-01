@@ -31,7 +31,6 @@ public class StoveHazardScript : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         GetComponent<SphereCollider>().enabled = false;
         M_Fire.Stop();
-        print("op");
         m_OnOff = false;
     }
 
