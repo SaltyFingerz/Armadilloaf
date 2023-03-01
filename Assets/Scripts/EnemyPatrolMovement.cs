@@ -13,19 +13,21 @@ public class EnemyPatrolMovement : MonoBehaviour
     {
         m_goalIndex = 0;
         m_agent = GetComponent<NavMeshAgent>();
+        m_agent.destination = M_goals[0].transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(m_agent.pathStatus != NavMeshPathStatus.PathComplete || m_agent.remainingDistance < 0.2f)
+        if (m_agent.remainingDistance < 0.2f)
         {
+            Debug.Log(m_agent.remainingDistance);
             m_goalIndex++;
             if(m_goalIndex >= M_goals.Count)
             {
                 m_goalIndex = 0;
             }
+            m_agent.destination = M_goals[m_goalIndex].transform.position;
         }
-        m_agent.destination = M_goals[m_goalIndex].transform.position;
     }
 }
