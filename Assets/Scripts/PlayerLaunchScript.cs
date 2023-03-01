@@ -133,10 +133,7 @@ public class PlayerLaunchScript : MonoBehaviour
         //override player rotation
         if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
         {
-            Vector3 l_axis = Vector3.Cross(m_direction, Vector3.up);
-            if (l_axis == Vector3.zero) l_axis = Vector3.right;
             m_launchingDirection = m_direction;
-            //m_direction = Quaternion.AngleAxis(-m_rotationMouseY * 5.0f, l_axis) * m_direction;
             m_launchingDirection.Normalize();
             m_launchingStage++;
             LaunchingStart();
@@ -157,11 +154,13 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Reset()
     {
+        m_rigidbody.velocity = Vector3.zero;
+        m_rigidbody.angularVelocity= Vector3.zero;
         m_rigidbody.freezeRotation = false;
+        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
-        m_rigidbody.useGravity = false;
 
         m_launchingStage = 0;
         m_launchingPower = 0;
@@ -173,10 +172,10 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void LaunchingStart()
     {
+        m_rigidbody.constraints = RigidbodyConstraints.None;
         m_rigidbody.freezeRotation = true;
         M_arrow.SetActive(false);
         M_arrowMaximum.SetActive(false);
-        m_rigidbody.useGravity = true;
         m_launchingPower *= 3.0f;
         m_rigidbody.velocity = new Vector3(m_launchingDirection.x * m_launchingPower, m_launchingDirection.y * m_launchingPower, m_launchingDirection.z * m_launchingPower);
     }
