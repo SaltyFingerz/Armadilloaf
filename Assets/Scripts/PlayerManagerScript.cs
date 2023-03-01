@@ -22,6 +22,9 @@ public partial class PlayerManagerScript : MonoBehaviour
     public float[] M_sizes = { 0.25f, 0.5f, 1.0f };
     public int M_sizeState = (int)SizeState.normal;
 
+    public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
+    public int M_abilityState = (int)AbilityState.normal;
+
     public PauseManagerScript M_UIManager;
     bool m_justUnpaused;
 
@@ -209,6 +212,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
+        ResetAbilities();
     }
 
     //acquire property of bounciness with Jelly pick-up, called in PowerUp_SizeChanger (script)
@@ -217,6 +221,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         {M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.9f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
+
+            M_abilityState = 1;
         }
     }
     //acquire property of stickiness with Jelly pick-up, called in PowerUp_SizeChanger (script)
@@ -226,6 +232,19 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 50f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 50f;
+            
+
+            M_abilityState = 2;
         }
+    }
+
+    public void ResetAbilities()
+    {
+        M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
+        M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
+        M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
+        
+
+        M_abilityState = 0;
     }
 }
