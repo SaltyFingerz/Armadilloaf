@@ -13,7 +13,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     private bool m_groundedPlayer;
     [SerializeField] private float m_playerSpeed = 2.0f;
     [SerializeField] public float m_slowSlide = 1;
-    [SerializeField] private float m_jumpHeight = 1.0f;
+    [SerializeField] public float m_jumpHeight = 1.0f;
     private float m_gravityValue = -9.81f;
     private bool m_isHittingWall = false;
     private float m_pushForce = 2.0f;

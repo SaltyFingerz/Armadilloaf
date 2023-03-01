@@ -26,6 +26,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public int M_abilityState = (int)AbilityState.normal;
 
     public PauseManagerScript M_UIManager;
+    public PrototypePlayerMovement M_PlayerMovement;
     bool m_justUnpaused;
 
     // Start is called before the first frame update
@@ -160,6 +161,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingBaseCamera.Priority = m_launchingCameraMaxPriority;
 
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
+        M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CharacterController>().velocity;
         m_state = ArmadilloState.launching;
         
         M_launchingPlayer.SetActive(true);
@@ -221,6 +223,9 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
+            M_PlayerMovement.m_jumpHeight = 2;
+            
+
             M_abilityState = 1;
         }
     }
@@ -231,7 +236,10 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 50f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 50f;
-            
+
+            M_walkingPlayer.GetComponent<CharacterController>().material.bounciness = 0f;
+
+            M_PlayerMovement.m_jumpHeight = 1;
 
             M_abilityState = 2;
         }
@@ -242,8 +250,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
         M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
         M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
-        
 
+        M_PlayerMovement.m_jumpHeight = 1;
         M_abilityState = 0;
     }
 }

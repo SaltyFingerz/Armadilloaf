@@ -12,7 +12,7 @@ public class UIManagerScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    public void StartScene()
+    public void GolfScene()
     {
         SceneManager.LoadScene("Launching");
     }
