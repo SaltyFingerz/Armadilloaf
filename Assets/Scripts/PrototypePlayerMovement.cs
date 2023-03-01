@@ -20,7 +20,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     float m_mouseSensitivity = 1000.0f;
     float m_rotationMouseX;
-
     private void Start()
     {
         m_controller = gameObject.GetComponent<CharacterController>();
@@ -46,9 +45,12 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
+        {
+            return;
+        }
+
         m_groundedPlayer = m_controller.isGrounded;
-
-
         HandleInput();
 
         if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
