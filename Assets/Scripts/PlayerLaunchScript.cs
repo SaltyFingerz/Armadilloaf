@@ -26,14 +26,16 @@ public class PlayerLaunchScript : MonoBehaviour
     Vector3 m_direction;
     int m_launchingStage = 0;
     float m_launchingPower;
+    bool m_isOnFloor = false;
 
     const int m_cameraMaxPriority = 8;
     public int M_maxPower;
     public float M_minimumDirectionY;
     const float m_powerSizeStep = 1.0f;
     const float m_baseLength = 10.0f;
-    public float M_rollingDirectionChange;
-    
+    public float M_angleChangeRadians;
+    public float M_floorAngleChangeRadians;
+
 
     public void Start()
     {
@@ -114,14 +116,25 @@ public class PlayerLaunchScript : MonoBehaviour
     void RollingDirectionInput()
     {
         Vector3 l_direction = m_rigidbody.velocity.normalized;
+        Vector3 l_rotatedDirection = l_direction;
+        float l_angle = M_angleChangeRadians;
+
+        if (m_isOnFloor)
+        {
+            l_angle = M_floorAngleChangeRadians;
+        }
         // change direction
         if (Input.GetKey(KeyCode.A))
         {
-            l_direction.x += M_rollingDirectionChange * Time.deltaTime;
+            l_rotatedDirection.x = l_direction.x * Mathf.Cos(l_angle * Time.deltaTime) - l_direction.z * Mathf.Sin(l_angle * Time.deltaTime);
+            l_rotatedDirection.z = l_direction.x * Mathf.Sin(l_angle * Time.deltaTime) + l_direction.z * Mathf.Cos(l_angle * Time.deltaTime);
+            l_direction = l_rotatedDirection;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            l_direction.x -= M_rollingDirectionChange * Time.deltaTime;
+            l_rotatedDirection.x = l_direction.x * Mathf.Cos(-l_angle * Time.deltaTime) - l_direction.z * Mathf.Sin(-l_angle * Time.deltaTime);
+            l_rotatedDirection.z = l_direction.x * Mathf.Sin(-l_angle * Time.deltaTime) + l_direction.z * Mathf.Cos(-l_angle * Time.deltaTime);
+            l_direction = l_rotatedDirection;
         }
         l_direction.Normalize();
         m_rigidbody.velocity = l_direction * m_rigidbody.velocity.magnitude;
@@ -155,7 +168,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public void Reset()
     {
         m_rigidbody.velocity = Vector3.zero;
-        m_rigidbody.angularVelocity= Vector3.zero;
+        m_rigidbody.angularVelocity = Vector3.zero;
         m_rigidbody.freezeRotation = false;
         m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         M_arrow.SetActive(true);
@@ -179,10 +192,10 @@ public class PlayerLaunchScript : MonoBehaviour
         m_launchingPower *= 3.0f;
         m_rigidbody.velocity = new Vector3(m_launchingDirection.x * m_launchingPower, m_launchingDirection.y * m_launchingPower, m_launchingDirection.z * m_launchingPower);
     }
-    
+
     private void DirectionInput()
     {
-        if(Time.timeScale < 0.1f)
+        if (Time.timeScale < 0.1f)
         {
             return;
         }
@@ -191,7 +204,7 @@ public class PlayerLaunchScript : MonoBehaviour
         // When the camera rotates without RMB press, the direction is calculated from position of the player and the camera.
         // Otherwise, calculate the direction from mouse input.
         // Direction will be used in launching.
-        
+
         if (Input.GetMouseButton(1))
         {
             return;
@@ -235,6 +248,21 @@ public class PlayerLaunchScript : MonoBehaviour
     public void SetSize(float a_size)
     {
         transform.localScale = new Vector3(a_size, a_size, a_size);
+    }
+
+    void OnCollisionStay(Collision a_collider)
+    {
+        if (a_collider.gameObject.tag == "Floor")
+        {
+            m_isOnFloor = true;
+        }
+    }
+    private void OnCollisionExit(Collision a_collider)
+    {
+        if (a_collider.gameObject.tag == "Floor")
+        {
+            m_isOnFloor = false;
+        }
     }
 }
     
