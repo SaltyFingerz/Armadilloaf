@@ -779,7 +779,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4729093614753106762}
-  m_LocalRotation: {x: 0.09472664, y: -0.37504536, z: 0.12812419, w: 0.91320974}
+  m_LocalRotation: {x: 0.094726644, y: -0.37504542, z: 0.1281242, w: 0.9132098}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -984,7 +984,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4933560402913157517}
-  m_LocalRotation: {x: 0.34042525, y: -0.00000002288009, z: 0.000000008283735, w: 0.9402716}
+  m_LocalRotation: {x: 0.34042525, y: 0.0000000228801, z: -0.000000008283737, w: 0.9402716}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1848,7 +1848,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8431252127082790889}
-  m_LocalRotation: {x: 0.2231551, y: -0.71007335, z: 0.25708205, w: 0.61636555}
+  m_LocalRotation: {x: 0.2231551, y: -0.71007335, z: 0.25708202, w: 0.6163656}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2357,8 +2357,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8431252128549774819}
-  m_LocalRotation: {x: -0.00000000764591, y: 0.98058075, z: -0.19611597, w: -0.000000038229583}
-  m_LocalPosition: {x: -8.142409, y: 7.238306, z: 8.159039}
+  m_LocalRotation: {x: 0.19486311, y: -0.11065894, z: 0.022131762, w: 0.9743168}
+  m_LocalPosition: {x: 4.4230385, y: 23.008305, z: 0.2887404}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2915,7 +2915,8 @@ MonoBehaviour:
   M_playerManager: {fileID: 4933560404183489198}
   M_maxPower: 20
   M_minimumDirectionY: -0.2
-  M_angleChangeRadians: 0.5
+  M_angleChangeRadians: 0.1
+  M_floorAngleChangeRadians: 0.5
 --- !u!54 &8854288522490146428
 Rigidbody:
   m_ObjectHideFlags: 0
