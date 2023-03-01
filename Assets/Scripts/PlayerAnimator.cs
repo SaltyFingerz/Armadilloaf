@@ -6,6 +6,7 @@ public class PlayerAnimator : MonoBehaviour
 {
     public PrototypePlayerMovement playerMovement;
     public Animator playerAnimator;
+    public GameObject M_playerManager;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,10 @@ public class PlayerAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
+        {
+            return;
+        }
         HandleInput();
     }
     public void HandleInput()
