@@ -12,7 +12,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public Vector3 playerVelocity;
     private bool m_groundedPlayer;
     [SerializeField] private float m_playerSpeed = 2.0f;
-    [SerializeField] public float m_slowSlide = -0.05f;
+    [SerializeField] public float m_slowSlide = 1;
     [SerializeField] private float m_jumpHeight = 1.0f;
     private float m_gravityValue = -9.81f;
     private bool m_isHittingWall = false;
@@ -27,7 +27,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.name == "Wall")
+        if (hit.gameObject.CompareTag("Wall"))
         {
             m_isHittingWall = true;
         }
@@ -68,18 +68,14 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (m_isHittingWall)
         {
-            switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
+            switch (M_playerManager.GetComponent<PlayerManagerScript>().M_abilityState)
             {
-                case (int)PlayerManagerScript.SizeState.big:
+                case (int)PlayerManagerScript.AbilityState.honey:
                     playerVelocity = new Vector3(playerVelocity.x, m_slowSlide, playerVelocity.z);
                     break;
 
-                case (int)PlayerManagerScript.SizeState.normal:
-                    playerVelocity = new Vector3(playerVelocity.x, 0.0f, playerVelocity.z);
-                    break;
-
-                case (int)PlayerManagerScript.SizeState.small:
-                    playerVelocity = new Vector3(playerVelocity.x, 0.0f, playerVelocity.z);
+                case (int)PlayerManagerScript.AbilityState.normal:
+                    playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y += m_gravityValue * Time.deltaTime, playerVelocity.z);
                     break;
 
                 default:
