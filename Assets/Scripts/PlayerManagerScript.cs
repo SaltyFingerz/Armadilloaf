@@ -100,13 +100,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("FailScreen");
-            /*
-            M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
-            M_launchingPlayer.SetActive(false);
-            M_walkingPlayer.SetActive(false);
-            M_launchingPlayer.transform.position = new Vector3(0.0f, 2.0f, 0.0f);
-            M_walkingPlayer.transform.position = new Vector3(0.0f, 2.0f, 0.0f);
-            StartWalking();*/
         }
         if(Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
@@ -180,8 +173,19 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = m_freeMovementCameraMaxPriority;
         M_freeFlyingPlayer.SetActive(true);
-
         M_isFreeFlying = true;
+        switch (m_state)
+        {
+            case ArmadilloState.walk:
+                M_freeFlyingPlayer.transform.position = M_walkingPlayer.transform.position;
+                break;
+            case ArmadilloState.launching:
+                M_freeFlyingPlayer.transform.position = M_launchingPlayer.transform.position;
+                break;
+
+            default:
+                break;
+        }
     }
 
     public void Grow()
