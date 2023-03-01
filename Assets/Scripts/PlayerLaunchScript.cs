@@ -32,7 +32,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public float M_minimumDirectionY;
     const float m_powerSizeStep = 1.0f;
     const float m_baseLength = 10.0f;
-    public float M_rollingDirectionChange;
+    public float M_angleChangeRadians;
     
 
     public void Start()
@@ -114,14 +114,21 @@ public class PlayerLaunchScript : MonoBehaviour
     void RollingDirectionInput()
     {
         Vector3 l_direction = m_rigidbody.velocity.normalized;
+        Vector3 l_rotatedDirection = l_direction;
+        float l_angle = M_angleChangeRadians;
+
         // change direction
         if (Input.GetKey(KeyCode.A))
         {
-            l_direction.x += M_rollingDirectionChange * Time.deltaTime;
+            l_rotatedDirection.x = l_direction.x * Mathf.Cos(l_angle * Time.deltaTime) - l_direction.z * Mathf.Sin(l_angle * Time.deltaTime);
+            l_rotatedDirection.z = l_direction.x * Mathf.Sin(l_angle * Time.deltaTime) + l_direction.z * Mathf.Cos(l_angle * Time.deltaTime);
+            l_direction = l_rotatedDirection;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            l_direction.x -= M_rollingDirectionChange * Time.deltaTime;
+            l_rotatedDirection.x = l_direction.x * Mathf.Cos(-l_angle * Time.deltaTime) - l_direction.z * Mathf.Sin(-l_angle * Time.deltaTime);
+            l_rotatedDirection.z = l_direction.x * Mathf.Sin(-l_angle * Time.deltaTime) + l_direction.z * Mathf.Cos(-l_angle * Time.deltaTime);
+            l_direction = l_rotatedDirection;
         }
         l_direction.Normalize();
         m_rigidbody.velocity = l_direction * m_rigidbody.velocity.magnitude;
