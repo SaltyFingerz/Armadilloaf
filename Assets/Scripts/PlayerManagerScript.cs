@@ -7,8 +7,6 @@ using static PlayerManagerScript;
 
 public partial class PlayerManagerScript : MonoBehaviour
 {
-    enum ArmadilloState { walk, launching};
-    ArmadilloState m_state = ArmadilloState.walk;
     public bool M_isFreeFlying = false;
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
@@ -18,12 +16,15 @@ public partial class PlayerManagerScript : MonoBehaviour
     const int m_launchingCameraMaxPriority = 8;
     const int m_walkingCameraMaxPriority = 9;
     const int m_freeMovementCameraMaxPriority = 10;
-    public enum SizeState { small = 0, normal = 1, big = 2 };
-    public float[] M_sizes = { 0.25f, 0.5f, 1.0f };
-    public int M_sizeState = (int)SizeState.normal;
 
+    // State enums
+    public enum ArmadilloState { walk, launching };
+    public ArmadilloState m_state = ArmadilloState.walk;        // Keeps track of the movement state
+    public enum SizeState { small = 0, normal = 1, big = 2 };
+    public float[] M_sizes = { 0.25f, 0.5f, 1.0f };             // Array of sizes, M_sizeState should be the index
+    public int M_sizeState = (int)SizeState.normal;             // Keeps Track of size, int type to use as M_sizes index
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
-    public int M_abilityState = (int)AbilityState.normal;
+    public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -219,14 +220,13 @@ public partial class PlayerManagerScript : MonoBehaviour
     //acquire property of bounciness with Jelly pick-up, called in PowerUp_SizeChanger (script)
     public void Jellify()
     {
-        {M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.9f;
+        {
+            M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.9f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
             M_PlayerMovement.m_jumpHeight = 2;
-            
-
-            M_abilityState = 1;
+            M_abilityState = AbilityState.jelly;
         }
     }
     //acquire property of stickiness with Jelly pick-up, called in PowerUp_SizeChanger (script)
@@ -240,8 +240,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_walkingPlayer.GetComponent<CharacterController>().material.bounciness = 0f;
 
             M_PlayerMovement.m_jumpHeight = 1;
-
-            M_abilityState = 2;
+            M_abilityState = AbilityState.honey;
         }
     }
 
