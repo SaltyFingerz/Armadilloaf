@@ -5,18 +5,27 @@ using UnityEngine.AI;
 
 public class EnemyPatrolMovement : MonoBehaviour
 {
-    public Transform M_goal;
+    public List<GameObject> M_goals;
     NavMeshAgent m_agent;
+    int m_goalIndex;
     // Start is called before the first frame update
     void Start()
     {
+        m_goalIndex = 0;
         m_agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        m_agent.destination = M_goal.position;
+        if(m_agent.pathStatus != NavMeshPathStatus.PathComplete || m_agent.remainingDistance < 0.2f)
+        {
+            m_goalIndex++;
+            if(m_goalIndex >= M_goals.Count)
+            {
+                m_goalIndex = 0;
+            }
+        }
+        m_agent.destination = M_goals[m_goalIndex].transform.position;
     }
 }
