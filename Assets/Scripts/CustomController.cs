@@ -27,7 +27,7 @@ public class CustomController : MonoBehaviour
        MovePlayerRelativeToCamera();
 
         RaycastHit hit;
-        if(Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.3f, M_whatIsGround))
+        if(Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.3f))
         {
             isGrounded = true;
         }
