@@ -9,10 +9,10 @@ public class PrototypePlayerMovement : MonoBehaviour
 {
     public CinemachineVirtualCamera M_walkCamera;
     public GameObject M_playerManager;
-    private CharacterController m_controller;
+    private CustomController m_controller;
     public Vector3 playerVelocity;
     private bool m_groundedPlayer;
-    [SerializeField] private float m_playerSpeed = 2.0f;
+    [SerializeField] public float m_playerSpeed = 2.0f;
     [SerializeField] public float m_slowSlide = 1;
     [SerializeField] public float m_jumpHeight = 1.0f;
     private float m_gravityValue = -9.81f;
@@ -23,7 +23,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     float m_rotationMouseX;
     private void Start()
     {
-        m_controller = gameObject.GetComponent<CharacterController>();
+        m_controller = gameObject.GetComponent<CustomController>();
     }
 
     private void OnControllerColliderHit(ControllerColliderHit a_hit)
@@ -91,7 +91,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         { 
         playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y += m_gravityValue * Time.deltaTime, playerVelocity.z);
         }
-        m_controller.Move(playerVelocity * Time.deltaTime);
+       // m_controller.Move(playerVelocity * Time.deltaTime);
         m_isHittingWall = false;  
     }
 
@@ -115,16 +115,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         // movement with AWSD keys
         l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
         l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
-        m_controller.Move(l_movementDirection * Time.deltaTime * m_playerSpeed);
-
-        // Changes the height position of the player..
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (m_groundedPlayer)
-            { 
-            playerVelocity.y += Mathf.Sqrt(m_jumpHeight * -3.0f * m_gravityValue);
-            }
-        }
+    
     }
 
     public void SetSize(float a_size)

@@ -23,6 +23,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public enum SizeState { small = 0, normal = 1, big = 2 };
     public float[] M_sizes = { 0.25f, 0.5f, 1.0f };             // Array of sizes, M_sizeState should be the index
     public int M_sizeState = (int)SizeState.normal;             // Keeps Track of size, int type to use as M_sizes index
+    public float M_jellyBounciness = 0.8f;
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
 
@@ -130,6 +131,7 @@ public partial class PlayerManagerScript : MonoBehaviour
                 break;
             case ArmadilloState.launching:
                 StartWalking();
+
                 break;
 
             default:
@@ -145,7 +147,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingBaseCamera.Priority = m_walkingCameraMaxPriority;
 
         m_state = ArmadilloState.walk;
-
+        
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
         M_walkingPlayer.SetActive(true);
@@ -162,7 +164,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingBaseCamera.Priority = m_launchingCameraMaxPriority;
 
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
-        M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CharacterController>().velocity;
+        M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CustomController>().rb.velocity;
         m_state = ArmadilloState.launching;
         
         M_launchingPlayer.SetActive(true);
@@ -221,9 +223,11 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void Jellify()
     {
         {
-            M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.9f;
+            M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
+
+            M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
 
             M_PlayerMovement.m_jumpHeight = 2;
             M_abilityState = AbilityState.jelly;
@@ -237,7 +241,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 50f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 50f;
 
-            M_walkingPlayer.GetComponent<CharacterController>().material.bounciness = 0f;
+            M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
 
             M_PlayerMovement.m_jumpHeight = 1;
             M_abilityState = AbilityState.honey;
