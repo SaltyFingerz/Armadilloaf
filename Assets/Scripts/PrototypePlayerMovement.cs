@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
-    public CinemachineVirtualCamera M_walkCamera;
+    public Camera M_walkCamera;
     public GameObject M_playerManager;
     public CustomController m_controller;
     public Vector3 playerVelocity;

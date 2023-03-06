@@ -8,7 +8,7 @@ public class CustomController : MonoBehaviour
     public Rigidbody rb;
     public bool isGrounded;
     private PrototypePlayerMovement m_playerMovement;
-    public CinemachineVirtualCamera M_walkCamera;
+    public Camera M_walkCamera;
     public GameObject M_playerManager;
 
     private Vector2 m_moveInput;
@@ -67,8 +67,8 @@ public class CustomController : MonoBehaviour
         float m_playerHorizontalInput = Input.GetAxis("Horizontal");
 
         //get camera normalized directional vectors
-        Vector3 forward = Camera.main.transform.forward;
-        Vector3 right = Camera.main.transform.right;
+        Vector3 forward = M_walkCamera.transform.forward;
+        Vector3 right = M_walkCamera.transform.right;
        
         forward.y = 0;
         right.y = 0;

@@ -11,10 +11,10 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
     public CinemachineFreeLook M_launchingBaseCamera;
-    public CinemachineVirtualCamera M_walkingBaseCamera, M_freeMovementCamera;
+    public CinemachineVirtualCamera M_freeMovementCamera;
+    public Camera M_walkingCamera, M_additionalCamera;
 
     const int m_launchingCameraMaxPriority = 8;
-    const int m_walkingCameraMaxPriority = 9;
     const int m_freeMovementCameraMaxPriority = 10;
 
     // State enums
@@ -38,13 +38,13 @@ public partial class PlayerManagerScript : MonoBehaviour
     void Start()
     {
         m_justUnpaused = false;
+        M_additionalCamera.enabled = false;
         M_UIManager = FindObjectOfType<PauseManagerScript>();
         Cursor.lockState = CursorLockMode.Locked;
 
         // change camera
         M_launchingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = 0;
-        M_walkingBaseCamera.Priority = m_walkingCameraMaxPriority;
 
         m_state = ArmadilloState.walk;
 
@@ -158,7 +158,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         // change camera
         M_launchingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = 0;
-        M_walkingBaseCamera.Priority = m_walkingCameraMaxPriority;
+        M_additionalCamera.enabled = false;
+        M_walkingCamera.enabled = true;
 
         m_state = ArmadilloState.walk;
         
@@ -178,9 +179,10 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void StartLaunching()
     {
         // change camera
-        M_walkingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = 0;
         M_launchingBaseCamera.Priority = m_launchingCameraMaxPriority;
+        M_walkingCamera.enabled = false;
+        M_additionalCamera.enabled = true;
 
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
         M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CustomController>().rb.velocity;
@@ -196,7 +198,6 @@ public partial class PlayerManagerScript : MonoBehaviour
     {
 
         // change camera
-        M_walkingBaseCamera.Priority = 0;
         M_launchingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = m_freeMovementCameraMaxPriority;
         M_freeFlyingPlayer.SetActive(true);
