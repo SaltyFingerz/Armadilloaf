@@ -282,12 +282,5 @@ public class PlayerLaunchScript : MonoBehaviour
             SceneManager.LoadScene("FailScreen");
         }
     }
-    private void OnCollisionExit(Collision a_collider)
-    {
-        if (a_collider.gameObject.tag == "Floor")
-        {
-            m_isOnFloor = false;
-        }
-    }
 }
     
