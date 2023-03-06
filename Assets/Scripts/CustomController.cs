@@ -9,6 +9,7 @@ public class CustomController : MonoBehaviour
     public bool isGrounded;
     private PrototypePlayerMovement m_playerMovement;
     public CinemachineVirtualCamera M_walkCamera;
+    public GameObject M_playerManager;
 
     private Vector2 m_moveInput;
 
@@ -25,6 +26,12 @@ public class CustomController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Player won't move when free camera is turned on
+        if(M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
+        {
+            return;
+        }
+
         MovePlayerRelativeToCamera();
        // MovePlayerIndependentFromCamera();
         RaycastHit hit;
