@@ -149,8 +149,13 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_state = ArmadilloState.walk;
         
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
         M_walkingPlayer.SetActive(true);
+
+        //retaining velocity after launch
+        M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity;
+        M_walkingPlayer.GetComponent<CustomController>().PlayerLaunched();
+
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);

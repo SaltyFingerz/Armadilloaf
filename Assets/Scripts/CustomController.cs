@@ -14,6 +14,7 @@ public class CustomController : MonoBehaviour
 
     public LayerMask M_whatIsGround;
     public Transform M_groundPoint;
+    private bool m_justLaunched = false;
     
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class CustomController : MonoBehaviour
         if(Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.3f))
         {
             isGrounded = true;
+            m_justLaunched = false;
         }
         else
         {
@@ -44,6 +46,10 @@ public class CustomController : MonoBehaviour
 
     void MovePlayerRelativeToCamera()
     {
+        if(m_justLaunched)
+        {
+            return;
+        }
         //get player input
         float m_playerVerticalInput = Input.GetAxis("Vertical");
         float m_playerHorizontalInput = Input.GetAxis("Horizontal");
@@ -64,10 +70,7 @@ public class CustomController : MonoBehaviour
 
         //Create and apply camera relative movement
         Vector3 cameraRelativeMovement = forwardRelativeVerticalInput + rightRelativeHorizontalInput;
-        //this.transform.Translate(cameraRelativeMovement, Space.World);
-        // rb.velocity.Set(cameraRelativeMovement.x, rb.velocity.y, cameraRelativeMovement.z);
         rb.velocity = new Vector3(cameraRelativeMovement.x, rb.velocity.y, cameraRelativeMovement.z);
-        
     }
 
     void MovePlayerIndependentFromCamera()
@@ -79,7 +82,10 @@ public class CustomController : MonoBehaviour
         rb.velocity = new Vector3(m_moveInput.x * m_playerMovement.m_playerSpeed, rb.velocity.y, m_moveInput.y * m_playerMovement.m_playerSpeed);
     }
 
-   
+    public void PlayerLaunched()
+    {
+        m_justLaunched = true;
+    }
 
  
 }
