@@ -8,9 +8,9 @@ public class CustomController : MonoBehaviour
     public Rigidbody rb;
     public bool isGrounded;
     private PrototypePlayerMovement m_playerMovement;
-    public CinemachineVirtualCamera M_walkCamera;
+    public Camera M_walkCamera;
     public GameObject M_playerManager;
-
+    private float m_gravityValue = -9.81f;
     private Vector2 m_moveInput;
 
     public LayerMask M_whatIsGround;
@@ -67,8 +67,8 @@ public class CustomController : MonoBehaviour
         float m_playerHorizontalInput = Input.GetAxis("Horizontal");
 
         //get camera normalized directional vectors
-        Vector3 forward = Camera.main.transform.forward;
-        Vector3 right = Camera.main.transform.right;
+        Vector3 forward = M_walkCamera.transform.forward;
+        Vector3 right = M_walkCamera.transform.right;
        
         forward.y = 0;
         right.y = 0;
@@ -83,6 +83,7 @@ public class CustomController : MonoBehaviour
         //Create and apply camera relative movement
         Vector3 cameraRelativeMovement = forwardRelativeVerticalInput + rightRelativeHorizontalInput;
         rb.velocity = new Vector3(cameraRelativeMovement.x, rb.velocity.y, cameraRelativeMovement.z);
+        
     }
 
     void MovePlayerIndependentFromCamera()
@@ -91,7 +92,7 @@ public class CustomController : MonoBehaviour
         m_moveInput.y = Input.GetAxis("Vertical");
         m_moveInput.Normalize();
 
-        rb.velocity = new Vector3(m_moveInput.x * m_playerMovement.m_playerSpeed, rb.velocity.y, m_moveInput.y * m_playerMovement.m_playerSpeed);
+        rb.velocity = new Vector3(m_moveInput.x * m_playerMovement.m_playerSpeed, rb.velocity.y + m_gravityValue * Time.deltaTime, m_moveInput.y * m_playerMovement.m_playerSpeed);
     }
 
     public void PlayerLaunched()
