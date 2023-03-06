@@ -19,8 +19,8 @@ public class PlayerLaunchScript : MonoBehaviour
     CameraMode m_cameraMode;
 
     float m_rotationMouseY, m_rotationMouseX;
-    float m_mouseSensitivity = 100f;
-    float m_mouseSpeedY = 20f;
+    [SerializeField] float m_mouseSensitivity = 100f;
+    [SerializeField] float m_mouseSpeedY = 20f;
     float m_currentScroll;
 
     Vector3 m_launchingDirection;
@@ -32,11 +32,11 @@ public class PlayerLaunchScript : MonoBehaviour
     const int m_cameraMaxPriority = 8;
     public int M_maxPower;
     public float M_minimumDirectionY;
-    const float m_powerSizeStep = 1.0f;
-    const float m_baseLength = 10.0f;
     public float M_angleChangeRadians;
     public float M_floorAngleChangeRadians;
 
+    [SerializeField] float m_powerSizeStep = 1.0f;
+    [SerializeField] float m_baseLength = 10.0f;
 
     public void Start()
     {
@@ -55,7 +55,7 @@ public class PlayerLaunchScript : MonoBehaviour
             return;
         }
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.3f))
+        if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.3f) && m_rigidbody.velocity.magnitude < 0.1f)
         {
             m_isOnFloor = true;
         }
