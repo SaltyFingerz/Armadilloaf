@@ -16,6 +16,8 @@ public class CustomController : MonoBehaviour
     public LayerMask M_whatIsGround;
     public Transform M_groundPoint;
     private bool m_justLaunched = false;
+
+    [SerializeField] private float m_minimumSpeed = 0.2f;
     
     // Start is called before the first frame update
     void Start()
@@ -38,7 +40,7 @@ public class CustomController : MonoBehaviour
         if(Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.3f))
         {
             isGrounded = true;
-            if(rb.velocity.magnitude < 0.1f)
+            if(rb.velocity.magnitude < m_minimumSpeed)
             {
                 m_justLaunched = false;
             }
