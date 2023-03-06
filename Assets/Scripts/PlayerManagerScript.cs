@@ -27,6 +27,9 @@ public partial class PlayerManagerScript : MonoBehaviour
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
 
+
+    public Vector3 currentCheckpoint = new Vector3(-9.3f, 1.9f, 2.1f);
+
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
     bool m_justUnpaused;
@@ -112,6 +115,17 @@ public partial class PlayerManagerScript : MonoBehaviour
             Time.timeScale = 0;
             M_UIManager.enabled = true;
             M_UIManager.Paused();
+        }
+    }
+
+    public void Respawn()
+    {
+        if (M_walkingPlayer)
+        {
+            CustomController m_controller = M_walkingPlayer.GetComponent<CustomController>();
+            m_controller.rb.isKinematic = true;
+            M_walkingPlayer.transform.position = currentCheckpoint;
+            m_controller.rb.isKinematic = false;
         }
     }
 

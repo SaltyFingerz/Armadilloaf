@@ -9,7 +9,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 {
     public CinemachineVirtualCamera M_walkCamera;
     public GameObject M_playerManager;
-    private CustomController m_controller;
+    public CustomController m_controller;
     public Vector3 playerVelocity;
     private bool m_groundedPlayer;
     [SerializeField] public float m_playerSpeed = 2.0f;
@@ -117,6 +117,12 @@ public class PrototypePlayerMovement : MonoBehaviour
         else
         {
             m_playerSpeed = 2.0f;
+        }
+
+        if (Input.GetKey(KeyCode.G))
+        {
+            PlayerManagerScript m_playerScript = M_playerManager.GetComponent<PlayerManagerScript>();
+            m_playerScript.Respawn();
         }
 
         // movement with AWSD keys
