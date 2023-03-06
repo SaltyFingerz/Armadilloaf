@@ -26,6 +26,13 @@ public class PrototypePlayerMovement : MonoBehaviour
         m_controller = gameObject.GetComponent<CustomController>();
     }
 
+    private void OnTriggerEnter(Collider a_hit)
+    {
+        if (a_hit.gameObject.CompareTag("Enemy"))
+        {
+            SceneManager.LoadScene("FailScreen");
+        }
+    }
     private void OnControllerColliderHit(ControllerColliderHit a_hit)
     {
         if (a_hit.gameObject.CompareTag("Wall"))

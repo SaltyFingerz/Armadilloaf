@@ -251,6 +251,14 @@ public class PlayerLaunchScript : MonoBehaviour
         transform.localScale = new Vector3(a_size, a_size, a_size);
     }
 
+    private void OnTriggerEnter(Collider a_hit)
+    {
+        if (a_hit.gameObject.CompareTag("Enemy"))
+        {
+            SceneManager.LoadScene("FailScreen");
+        }
+    }
+  
     void OnCollisionStay(Collision a_collider)
     {
         if (a_collider.gameObject.tag == "Floor")
