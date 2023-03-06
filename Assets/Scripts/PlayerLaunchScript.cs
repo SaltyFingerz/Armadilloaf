@@ -54,6 +54,16 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             return;
         }
+        RaycastHit hit;
+        if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.3f))
+        {
+            m_isOnFloor = true;
+        }
+        else
+        {
+            m_isOnFloor = false;
+        }
+
         // Manage launching stage
         switch (m_launchingStage)
         {
@@ -144,14 +154,18 @@ public class PlayerLaunchScript : MonoBehaviour
 
     void HandleLaunchInput()
     {
+        if (!m_isOnFloor)
+        {
+            return;
+        }
         //override player rotation
         if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
-        {
-            m_launchingDirection = m_direction;
-            m_launchingDirection.Normalize();
-            m_launchingStage++;
+        {       
             LaunchingStart();
+            return;
         }
+
+        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
 
         // clamp the power of the lauch between 0 and the limit
@@ -171,7 +185,6 @@ public class PlayerLaunchScript : MonoBehaviour
         m_rigidbody.velocity = Vector3.zero;
         m_rigidbody.angularVelocity = Vector3.zero;
         m_rigidbody.freezeRotation = false;
-        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
@@ -186,6 +199,9 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void LaunchingStart()
     {
+        m_launchingDirection = m_direction;
+        m_launchingDirection.Normalize();
+        m_launchingStage++;
         m_rigidbody.constraints = RigidbodyConstraints.None;
         m_rigidbody.freezeRotation = true;
         M_arrow.SetActive(false);
@@ -261,11 +277,7 @@ public class PlayerLaunchScript : MonoBehaviour
   
     void OnCollisionStay(Collision a_collider)
     {
-        if (a_collider.gameObject.tag == "Floor")
-        {
-            m_isOnFloor = true;
-        }
-        else if (a_collider.gameObject.CompareTag("Enemy"))
+        if (a_collider.gameObject.CompareTag("Enemy"))
         {
             SceneManager.LoadScene("FailScreen");
         }
