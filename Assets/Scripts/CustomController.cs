@@ -33,12 +33,15 @@ public class CustomController : MonoBehaviour
         }
 
         MovePlayerRelativeToCamera();
-       // MovePlayerIndependentFromCamera();
+
         RaycastHit hit;
         if(Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.3f))
         {
             isGrounded = true;
-            m_justLaunched = false;
+            if(rb.velocity.magnitude < 0.1f)
+            {
+                m_justLaunched = false;
+            }
         }
         else
         {

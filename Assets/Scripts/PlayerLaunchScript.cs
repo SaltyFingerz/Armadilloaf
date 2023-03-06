@@ -37,6 +37,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     [SerializeField] float m_powerSizeStep = 1.0f;
     [SerializeField] float m_baseLength = 10.0f;
+    [SerializeField] private float m_minimumSpeed = 0.2f;
 
     public void Start()
     {
@@ -55,7 +56,7 @@ public class PlayerLaunchScript : MonoBehaviour
             return;
         }
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.3f) && m_rigidbody.velocity.magnitude < 0.1f)
+        if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.3f) && m_rigidbody.velocity.magnitude < m_minimumSpeed)
         {
             m_isOnFloor = true;
         }
