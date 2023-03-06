@@ -19,8 +19,6 @@ public class PrototypePlayerMovement : MonoBehaviour
     private bool m_isHittingWall = false;
     private float m_pushForce = 2.0f;
 
-    float m_mouseSensitivity = 1000.0f;
-    float m_rotationMouseX;
     private void Start()
     {
         m_controller = gameObject.GetComponent<CustomController>();
@@ -104,12 +102,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     private void HandleInput()
     {
-        // Mouse RB is dragged, calculate player rotation from the mouse position difference between frames
-        m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.deltaTime * m_mouseSensitivity;
-        m_controller.transform.Rotate(Vector3.up, -m_rotationMouseX);
-
-        Vector3 l_movementDirection = Vector3.zero;
-
         if (Input.GetKey(KeyCode.LeftShift))
         {
             m_playerSpeed = 8.0f;
@@ -117,12 +109,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         else
         {
             m_playerSpeed = 2.0f;
-        }
-
-        // movement with AWSD keys
-        l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
-        l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
-    
+        }    
     }
 
     public void SetSize(float a_size)

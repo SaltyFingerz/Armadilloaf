@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerLaunchScript : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public CinemachineFreeLook M_holdDownCamera;
     public CinemachineFreeLook M_freeRotationCamera;
     public GameObject M_playerManager;
+    public Transform M_groundPoint;
     enum CameraMode { holdDown, freeRotation };
     CameraMode m_cameraMode;
 
@@ -36,6 +38,8 @@ public class PlayerLaunchScript : MonoBehaviour
     const float m_baseLength = 10.0f;
     public float M_angleChangeRadians;
     public float M_floorAngleChangeRadians;
+
+    public LayerMask M_whatIsGround;
 
 
     public void Start()
@@ -144,14 +148,21 @@ public class PlayerLaunchScript : MonoBehaviour
 
     void HandleLaunchInput()
     {
-        //override player rotation
+        // Don't allow launching if the player is not on the ground
+        if (!m_isOnFloor)
+        {
+            return;
+        }
+
+        // Launch when input detected
         if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
         {
-            m_launchingDirection = m_direction;
-            m_launchingDirection.Normalize();
-            m_launchingStage++;
             LaunchingStart();
+            return;
         }
+
+        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
         m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
 
         // clamp the power of the lauch between 0 and the limit
@@ -171,7 +182,6 @@ public class PlayerLaunchScript : MonoBehaviour
         m_rigidbody.velocity = Vector3.zero;
         m_rigidbody.angularVelocity = Vector3.zero;
         m_rigidbody.freezeRotation = false;
-        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
@@ -186,6 +196,10 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void LaunchingStart()
     {
+        m_launchingDirection = m_direction;
+        m_launchingDirection.Normalize();
+        m_launchingStage++;
+
         m_rigidbody.constraints = RigidbodyConstraints.None;
         m_rigidbody.freezeRotation = true;
         M_arrow.SetActive(false);
@@ -261,7 +275,8 @@ public class PlayerLaunchScript : MonoBehaviour
   
     void OnCollisionStay(Collision a_collider)
     {
-        if (a_collider.gameObject.tag == "Floor")
+        // check if the collision is with the layer of ground
+        if (M_whatIsGround == (M_whatIsGround | (1 << a_collider.gameObject.layer)))
         {
             m_isOnFloor = true;
         }
@@ -272,7 +287,8 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void OnCollisionExit(Collision a_collider)
     {
-        if (a_collider.gameObject.tag == "Floor")
+        // check if the collision is with the layer of ground
+        if (M_whatIsGround == (M_whatIsGround | (1 << a_collider.gameObject.layer)))
         {
             m_isOnFloor = false;
         }
