@@ -59,7 +59,7 @@ public class CustomController : MonoBehaviour
 
         //create direction-relative-input vectors
         Vector3 forwardRelativeVerticalInput = m_playerVerticalInput * forward * m_playerMovement.m_playerSpeed * Time.deltaTime * 200;
-        Vector3 rightRelativeHorizontalInput = m_playerHorizontalInput * right * m_playerMovement.m_playerSpeed * Time.deltaTime ;
+        Vector3 rightRelativeHorizontalInput = m_playerHorizontalInput * right * m_playerMovement.m_playerSpeed * Time.deltaTime * 200;
 
 
         //Create and apply camera relative movement
