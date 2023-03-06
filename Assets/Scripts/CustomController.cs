@@ -24,8 +24,8 @@ public class CustomController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       MovePlayerRelativeToCamera();
-
+        MovePlayerRelativeToCamera();
+       // MovePlayerIndependentFromCamera();
         RaycastHit hit;
         if(Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.3f))
         {
@@ -40,9 +40,6 @@ public class CustomController : MonoBehaviour
         {
             rb.velocity += new Vector3(0f, m_playerMovement.m_jumpHeight, 0f);
         }
-    
-
-
     }
 
     void MovePlayerRelativeToCamera()
@@ -54,19 +51,32 @@ public class CustomController : MonoBehaviour
         //get camera normalized directional vectors
         Vector3 forward = Camera.main.transform.forward;
         Vector3 right = Camera.main.transform.right;
+       
         forward.y = 0;
         right.y = 0;
         forward = forward.normalized;
         right = right.normalized;
 
         //create direction-relative-input vectors
-        Vector3 forwardRelativeVerticalInput = m_playerVerticalInput * forward * m_playerMovement.m_playerSpeed *Time.deltaTime;
-        Vector3 rightRelativeHorizontalInput = m_playerHorizontalInput * right * m_playerMovement.m_playerSpeed * Time.deltaTime;
+        Vector3 forwardRelativeVerticalInput = m_playerVerticalInput * forward * m_playerMovement.m_playerSpeed * Time.deltaTime * 200;
+        Vector3 rightRelativeHorizontalInput = m_playerHorizontalInput * right * m_playerMovement.m_playerSpeed * Time.deltaTime ;
 
-        //Create and apply camrea relative movement
+
+        //Create and apply camera relative movement
         Vector3 cameraRelativeMovement = forwardRelativeVerticalInput + rightRelativeHorizontalInput;
-        this.transform.Translate(cameraRelativeMovement, Space.World);
+        //this.transform.Translate(cameraRelativeMovement, Space.World);
+        // rb.velocity.Set(cameraRelativeMovement.x, rb.velocity.y, cameraRelativeMovement.z);
+        rb.velocity = new Vector3(cameraRelativeMovement.x, rb.velocity.y, cameraRelativeMovement.z);
+        
+    }
 
+    void MovePlayerIndependentFromCamera()
+    {
+        m_moveInput.x = Input.GetAxis("Horizontal");
+        m_moveInput.y = Input.GetAxis("Vertical");
+        m_moveInput.Normalize();
+
+        rb.velocity = new Vector3(m_moveInput.x * m_playerMovement.m_playerSpeed, rb.velocity.y, m_moveInput.y * m_playerMovement.m_playerSpeed);
     }
 
    
