@@ -111,7 +111,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             Time.timeScale = 0;
             M_UIManager.enabled = true;
-            M_UIManager.Pasued();
+            M_UIManager.Paused();
         }
     }
 
