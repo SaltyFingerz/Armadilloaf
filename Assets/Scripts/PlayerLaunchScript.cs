@@ -17,6 +17,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public CinemachineFreeLook M_freeRotationCamera;
     public GameObject M_playerManager;
     public UnityEngine.UI.Image M_fillImage;
+    public Canvas M_canvas;
     enum CameraMode { holdDown, freeRotation };
     CameraMode m_cameraMode;
 
@@ -65,7 +66,7 @@ public class PlayerLaunchScript : MonoBehaviour
             m_isOnFloor = true;
             if(m_launchingStage != 0)
             {
-                Reset();
+                M_playerManager.GetComponent<PlayerManagerScript>().StartWalking();
             }
         }
         else
@@ -199,6 +200,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         m_launchingStage = 0;
         m_launchingPower = 0;
+        M_canvas.enabled = true;
         M_holdDownCamera.Priority = 0;
         M_freeRotationCamera.Priority = m_cameraMaxPriority;
         m_cameraMode = CameraMode.freeRotation;
@@ -207,6 +209,7 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void LaunchingStart()
     {
+        M_canvas.enabled = false;
         m_launchingDirection = m_direction;
         m_launchingDirection.Normalize();
         m_launchingStage++;
