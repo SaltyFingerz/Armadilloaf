@@ -87,6 +87,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             if (M_isFreeFlying)
             {
                 M_isFreeFlying = false;
+
                 switch (m_state)
                 {
                     case ArmadilloState.walk:
@@ -196,6 +197,9 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     void StartFlying()
     {
+
+        M_additionalCamera.enabled = true;
+        M_walkingCamera.enabled = false;
 
         // change camera
         M_launchingBaseCamera.Priority = 0;
