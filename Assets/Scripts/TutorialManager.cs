@@ -9,6 +9,9 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_launchPrompt;
     public GameObject M_launchAimPrompt;
     public GameObject M_walkPrompt;
+    public GameObject M_freeCamPrompt;
+
+    public GameObject M_goalArrow;
 
     bool m_Wpressed;
     bool m_Apressed;
@@ -72,5 +75,7 @@ public class TutorialManager : MonoBehaviour
         {
             M_walkPrompt.SetActive(false);
         }
+
+
     }
 }
