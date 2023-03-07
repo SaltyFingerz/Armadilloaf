@@ -3,6 +3,7 @@ using Newtonsoft.Json.Bson;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class PlayerLaunchScript : MonoBehaviour
@@ -18,8 +19,8 @@ public class PlayerLaunchScript : MonoBehaviour
     CameraMode m_cameraMode;
 
     float m_rotationMouseY, m_rotationMouseX;
-    float m_mouseSensitivity = 100f;
-    float m_mouseSpeedY = 20f;
+    [SerializeField] float m_mouseSensitivity = 100f;
+    [SerializeField] float m_mouseSpeedY = 20f;
     float m_currentScroll;
 
     Vector3 m_launchingDirection;
@@ -31,11 +32,12 @@ public class PlayerLaunchScript : MonoBehaviour
     const int m_cameraMaxPriority = 8;
     public int M_maxPower;
     public float M_minimumDirectionY;
-    const float m_powerSizeStep = 1.0f;
-    const float m_baseLength = 10.0f;
     public float M_angleChangeRadians;
     public float M_floorAngleChangeRadians;
 
+    [SerializeField] float m_powerSizeStep = 1.0f;
+    [SerializeField] float m_baseLength = 10.0f;
+    [SerializeField] private float m_minimumSpeed = 0.2f;
 
     public void Start()
     {
@@ -53,6 +55,21 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             return;
         }
+        
+        RaycastHit hit;
+        if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.7f) && m_rigidbody.velocity.magnitude < m_minimumSpeed)
+        {
+            m_isOnFloor = true;
+            if(m_launchingStage != 0)
+            {
+                Reset();
+            }
+        }
+        else
+        {
+            m_isOnFloor = false;
+        }
+
         // Manage launching stage
         switch (m_launchingStage)
         {
@@ -143,14 +160,18 @@ public class PlayerLaunchScript : MonoBehaviour
 
     void HandleLaunchInput()
     {
+        /*if (!m_isOnFloor)
+        {
+            return;
+        }*/
         //override player rotation
         if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
-        {
-            m_launchingDirection = m_direction;
-            m_launchingDirection.Normalize();
-            m_launchingStage++;
+        {       
             LaunchingStart();
+            return;
         }
+
+        //m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
 
         // clamp the power of the lauch between 0 and the limit
@@ -167,10 +188,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Reset()
     {
-        m_rigidbody.velocity = Vector3.zero;
-        m_rigidbody.angularVelocity = Vector3.zero;
         m_rigidbody.freezeRotation = false;
-        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
@@ -185,6 +203,9 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void LaunchingStart()
     {
+        m_launchingDirection = m_direction;
+        m_launchingDirection.Normalize();
+        m_launchingStage++;
         m_rigidbody.constraints = RigidbodyConstraints.None;
         m_rigidbody.freezeRotation = true;
         M_arrow.SetActive(false);
@@ -250,18 +271,19 @@ public class PlayerLaunchScript : MonoBehaviour
         transform.localScale = new Vector3(a_size, a_size, a_size);
     }
 
-    void OnCollisionStay(Collision a_collider)
+    private void OnTriggerEnter(Collider a_hit)
     {
-        if (a_collider.gameObject.tag == "Floor")
+        if (a_hit.gameObject.CompareTag("Enemy"))
         {
-            m_isOnFloor = true;
+            SceneManager.LoadScene("FailScreen");
         }
     }
-    private void OnCollisionExit(Collision a_collider)
+  
+    void OnCollisionStay(Collision a_collider)
     {
-        if (a_collider.gameObject.tag == "Floor")
+        if (a_collider.gameObject.CompareTag("Enemy"))
         {
-            m_isOnFloor = false;
+            SceneManager.LoadScene("FailScreen");
         }
     }
 }

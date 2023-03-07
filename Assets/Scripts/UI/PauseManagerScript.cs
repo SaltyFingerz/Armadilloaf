@@ -33,7 +33,7 @@ public class PauseManagerScript : UIManagerScript
         M_playerManager.GetComponent<PlayerManagerScript>().Resume();
     }
 
-    public void Pasued()
+    public void Paused()
     {
         M_canvas.enabled = true;
         Cursor.lockState = CursorLockMode.None;

@@ -7,23 +7,28 @@ using static PlayerManagerScript;
 
 public partial class PlayerManagerScript : MonoBehaviour
 {
-    enum ArmadilloState { walk, launching};
-    ArmadilloState m_state = ArmadilloState.walk;
     public bool M_isFreeFlying = false;
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
     public CinemachineFreeLook M_launchingBaseCamera;
-    public CinemachineVirtualCamera M_walkingBaseCamera, M_freeMovementCamera;
+    public CinemachineVirtualCamera M_freeMovementCamera;
+    public Camera M_walkingCamera, M_additionalCamera;
 
     const int m_launchingCameraMaxPriority = 8;
-    const int m_walkingCameraMaxPriority = 9;
     const int m_freeMovementCameraMaxPriority = 10;
-    public enum SizeState { small = 0, normal = 1, big = 2 };
-    public float[] M_sizes = { 0.25f, 0.5f, 1.0f };
-    public int M_sizeState = (int)SizeState.normal;
 
+    // State enums
+    public enum ArmadilloState { walk, launching };
+    public ArmadilloState m_state = ArmadilloState.walk;        // Keeps track of the movement state
+    public enum SizeState { small = 0, normal = 1, big = 2 };
+    public float[] M_sizes = { 0.25f, 0.5f, 1.0f };             // Array of sizes, M_sizeState should be the index
+    public int M_sizeState = (int)SizeState.normal;             // Keeps Track of size, int type to use as M_sizes index
+    public float M_jellyBounciness = 0.8f;
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
-    public int M_abilityState = (int)AbilityState.normal;
+    public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
+
+
+    public Vector3 currentCheckpoint;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -33,13 +38,13 @@ public partial class PlayerManagerScript : MonoBehaviour
     void Start()
     {
         m_justUnpaused = false;
+        M_additionalCamera.enabled = false;
         M_UIManager = FindObjectOfType<PauseManagerScript>();
         Cursor.lockState = CursorLockMode.Locked;
 
         // change camera
         M_launchingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = 0;
-        M_walkingBaseCamera.Priority = m_walkingCameraMaxPriority;
 
         m_state = ArmadilloState.walk;
 
@@ -50,6 +55,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_sizeState = (int)SizeState.normal;
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
+        currentCheckpoint = M_walkingPlayer.transform.position;
         M_UIManager.Resume();
     }
 
@@ -82,6 +88,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             if (M_isFreeFlying)
             {
                 M_isFreeFlying = false;
+
                 switch (m_state)
                 {
                     case ArmadilloState.walk:
@@ -109,7 +116,18 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             Time.timeScale = 0;
             M_UIManager.enabled = true;
-            M_UIManager.Pasued();
+            M_UIManager.Paused();
+        }
+    }
+
+    public void Respawn()
+    {
+        if (M_walkingPlayer)
+        {
+            CustomController m_controller = M_walkingPlayer.GetComponent<CustomController>();
+            m_controller.rb.isKinematic = true;
+            M_walkingPlayer.transform.position = currentCheckpoint;
+            m_controller.rb.isKinematic = false;
         }
     }
 
@@ -129,6 +147,7 @@ public partial class PlayerManagerScript : MonoBehaviour
                 break;
             case ArmadilloState.launching:
                 StartWalking();
+
                 break;
 
             default:
@@ -141,13 +160,21 @@ public partial class PlayerManagerScript : MonoBehaviour
         // change camera
         M_launchingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = 0;
-        M_walkingBaseCamera.Priority = m_walkingCameraMaxPriority;
+        M_additionalCamera.enabled = false;
+        M_walkingCamera.enabled = true;
 
         m_state = ArmadilloState.walk;
-
+        
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
+        M_walkingPlayer.transform.rotation.eulerAngles.Set(0.0f, M_launchingPlayer.transform.rotation.eulerAngles.y, 0.0f);
+        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = true;
+        M_walkingPlayer.GetComponent<SphereCollider>().enabled = true;
+
+        //retaining velocity after launch
+        M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity;
+        M_walkingPlayer.GetComponent<CustomController>().PlayerLaunched();
+
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
-        M_walkingPlayer.SetActive(true);
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
@@ -156,25 +183,30 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void StartLaunching()
     {
         // change camera
-        M_walkingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = 0;
         M_launchingBaseCamera.Priority = m_launchingCameraMaxPriority;
+        M_walkingCamera.enabled = false;
+        M_additionalCamera.enabled = true;
 
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
-        M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CharacterController>().velocity;
+        M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CustomController>().rb.velocity;
         m_state = ArmadilloState.launching;
         
         M_launchingPlayer.SetActive(true);
+        M_launchingPlayer.transform.rotation = M_walkingPlayer.transform.rotation;
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
-        M_walkingPlayer.SetActive(false);
+        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
+        M_walkingPlayer.GetComponent<SphereCollider>().enabled = false;
         M_freeFlyingPlayer.SetActive(false);
     }
 
     void StartFlying()
     {
 
+        M_additionalCamera.enabled = true;
+        M_walkingCamera.enabled = false;
+
         // change camera
-        M_walkingBaseCamera.Priority = 0;
         M_launchingBaseCamera.Priority = 0;
         M_freeMovementCamera.Priority = m_freeMovementCameraMaxPriority;
         M_freeFlyingPlayer.SetActive(true);
@@ -219,14 +251,15 @@ public partial class PlayerManagerScript : MonoBehaviour
     //acquire property of bounciness with Jelly pick-up, called in PowerUp_SizeChanger (script)
     public void Jellify()
     {
-        {M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.9f;
+        {
+            M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
-            M_PlayerMovement.m_jumpHeight = 2;
-            
+            M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
 
-            M_abilityState = 1;
+            M_PlayerMovement.m_jumpHeight = 2;
+            M_abilityState = AbilityState.jelly;
         }
     }
     //acquire property of stickiness with Jelly pick-up, called in PowerUp_SizeChanger (script)
@@ -237,11 +270,10 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 50f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 50f;
 
-            M_walkingPlayer.GetComponent<CharacterController>().material.bounciness = 0f;
+            M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
 
             M_PlayerMovement.m_jumpHeight = 1;
-
-            M_abilityState = 2;
+            M_abilityState = AbilityState.honey;
         }
     }
 
