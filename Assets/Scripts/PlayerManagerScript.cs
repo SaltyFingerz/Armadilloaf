@@ -13,7 +13,6 @@ public partial class PlayerManagerScript : MonoBehaviour
     public CinemachineFreeLook M_launchingBaseCamera;
     public CinemachineVirtualCamera M_freeMovementCamera;
     public Camera M_walkingCamera, M_additionalCamera;
-    public PlayerAnimator M_PlayerAnimator;
 
     const int m_launchingCameraMaxPriority = 8;
     const int m_freeMovementCameraMaxPriority = 10;
@@ -57,7 +56,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
         M_UIManager.Resume();
-        M_PlayerAnimator = FindObjectOfType<PlayerAnimator>();
     }
 
     // Update is called once per frame
@@ -167,8 +165,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_state = ArmadilloState.walk;
         
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
-        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = true;
-        M_walkingPlayer.GetComponent<SphereCollider>().enabled = true;
+        M_walkingPlayer.transform.rotation.eulerAngles.Set(0.0f, M_launchingPlayer.transform.rotation.eulerAngles.y, 0.0f);
+        M_walkingPlayer.SetActive(true);
 
         //retaining velocity after launch
         M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity;
@@ -194,8 +192,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         
         M_launchingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
-        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
-        M_walkingPlayer.GetComponent<SphereCollider>().enabled = false;
+        M_walkingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StoveHazardScript : MonoBehaviour
 {
-    public ParticleSystem M_Fire;
+    public List <ParticleSystem> M_Fire;
     public float M_waitTime;
     bool m_OnOff;
     bool m_canStart = false;
@@ -27,10 +27,18 @@ public class StoveHazardScript : MonoBehaviour
         
         yield return new WaitForSeconds(waitTime);
         GetComponent<SphereCollider>().enabled = true;
-        M_Fire.Play();
+
+        for (int i = 0; i<M_Fire.Count; i++)
+        {
+            M_Fire[i].Play();
+        }
+
         yield return new WaitForSeconds(waitTime);
         GetComponent<SphereCollider>().enabled = false;
-        M_Fire.Stop();
+        for (int i = 0; i < M_Fire.Count; i++)
+        {
+            M_Fire[i].Stop();
+        }
         m_OnOff = false;
     }
 
