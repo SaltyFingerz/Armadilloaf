@@ -56,7 +56,7 @@ public class PlayerLaunchScript : MonoBehaviour
             return;
         }
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.3f) && m_rigidbody.velocity.magnitude < m_minimumSpeed)
+        if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.7f) && m_rigidbody.velocity.magnitude < m_minimumSpeed)
         {
             m_isOnFloor = true;
         }
