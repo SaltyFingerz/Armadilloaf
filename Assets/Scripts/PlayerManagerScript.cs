@@ -165,6 +165,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_state = ArmadilloState.walk;
         
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
+        M_walkingPlayer.transform.rotation.eulerAngles.Set(0.0f, M_launchingPlayer.transform.rotation.eulerAngles.y, 0.0f);
         M_walkingPlayer.SetActive(true);
 
         //retaining velocity after launch
