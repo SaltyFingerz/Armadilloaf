@@ -2,6 +2,7 @@ using Cinemachine;
 using Newtonsoft.Json.Bson;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -15,6 +16,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public CinemachineFreeLook M_holdDownCamera;
     public CinemachineFreeLook M_freeRotationCamera;
     public GameObject M_playerManager;
+    public UnityEngine.UI.Image M_fillImage;
     enum CameraMode { holdDown, freeRotation };
     CameraMode m_cameraMode;
 
@@ -41,6 +43,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Start()
     {
+        M_fillImage.fillAmount = 0.0f;
         m_rigidbody = GetComponent<Rigidbody>();
         M_holdDownCamera.Priority = 0;
         M_freeRotationCamera.Priority = m_cameraMaxPriority;
@@ -173,6 +176,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         //m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
+        M_fillImage.fillAmount = m_launchingPower / M_maxPower;
 
         // clamp the power of the lauch between 0 and the limit
         if (m_launchingPower < 1)
