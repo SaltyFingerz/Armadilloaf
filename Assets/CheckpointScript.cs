@@ -25,7 +25,7 @@ public class CheckpointScript : MonoBehaviour
     {
         if (m_player.currentCheckpoint != transform.position)
         { 
-        m_player.currentCheckpoint = transform.position;
+        m_player.currentCheckpoint = new Vector3 (transform.position.x, transform.position.y + 2.0f, transform.position.z);   
         StartCoroutine(m_messageScreen.CheckpointTextOnScreen());
         Debug.Log("Checkpoint set at following coords: " + transform.position);
         }

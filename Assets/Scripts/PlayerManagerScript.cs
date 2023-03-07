@@ -28,7 +28,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
 
 
-    public Vector3 currentCheckpoint = new Vector3(-9.3f, 1.9f, 2.1f);
+    public Vector3 currentCheckpoint;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -55,6 +55,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_sizeState = (int)SizeState.normal;
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
+        currentCheckpoint = M_walkingPlayer.transform.position;
         M_UIManager.Resume();
     }
 
