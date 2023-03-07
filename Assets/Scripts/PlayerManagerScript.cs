@@ -192,6 +192,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_state = ArmadilloState.launching;
         
         M_launchingPlayer.SetActive(true);
+        M_launchingPlayer.transform.rotation = M_walkingPlayer.transform.rotation;
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
         M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
         M_walkingPlayer.GetComponent<SphereCollider>().enabled = false;
