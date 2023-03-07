@@ -55,10 +55,15 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             return;
         }
+        
         RaycastHit hit;
         if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.7f) && m_rigidbody.velocity.magnitude < m_minimumSpeed)
         {
             m_isOnFloor = true;
+            if(m_launchingStage != 0)
+            {
+                Reset();
+            }
         }
         else
         {
@@ -155,10 +160,10 @@ public class PlayerLaunchScript : MonoBehaviour
 
     void HandleLaunchInput()
     {
-        if (!m_isOnFloor)
+        /*if (!m_isOnFloor)
         {
             return;
-        }
+        }*/
         //override player rotation
         if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
         {       
@@ -166,7 +171,7 @@ public class PlayerLaunchScript : MonoBehaviour
             return;
         }
 
-        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        //m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
 
         // clamp the power of the lauch between 0 and the limit
