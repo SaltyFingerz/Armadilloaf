@@ -12,7 +12,7 @@ public class PlayerAnimator : MonoBehaviour
     void Start()
     {
         playerMovement = GetComponent<PrototypePlayerMovement>();
-        playerAnimator = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
