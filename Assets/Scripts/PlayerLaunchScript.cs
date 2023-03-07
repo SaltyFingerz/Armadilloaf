@@ -188,8 +188,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Reset()
     {
-        m_rigidbody.velocity = Vector3.zero;
-        m_rigidbody.angularVelocity = Vector3.zero;
         m_rigidbody.freezeRotation = false;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
