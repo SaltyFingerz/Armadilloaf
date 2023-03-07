@@ -10,8 +10,10 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_launchAimPrompt;
     public GameObject M_walkPrompt;
     public GameObject M_freeCamPrompt;
-
     public GameObject M_goalArrow;
+
+    public GameObject M_BallPlayer;
+    public GameObject M_FreeMovePlayer;
 
     bool m_Wpressed;
     bool m_Apressed;
@@ -21,7 +23,7 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -71,9 +73,21 @@ public class TutorialManager : MonoBehaviour
             M_walkPrompt.SetActive(true);
         }
 
-        if(Input.GetKeyDown(KeyCode.Q) && M_walkPrompt.activeSelf)
+        if((Input.GetKeyDown(KeyCode.Q) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
         {
             M_walkPrompt.SetActive(false);
+            M_freeCamPrompt.SetActive(true);
+        }
+
+       if(Input.GetKeyDown(KeyCode.C) && M_freeCamPrompt.activeSelf)
+        {
+            if(M_FreeMovePlayer.activeSelf)
+            M_goalArrow.SetActive(true);
+            M_freeCamPrompt.SetActive(false);
+        }
+       if(!M_FreeMovePlayer.activeSelf)
+        {
+            M_goalArrow.SetActive(false);
         }
 
 
