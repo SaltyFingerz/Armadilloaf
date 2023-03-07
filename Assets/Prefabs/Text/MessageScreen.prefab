@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 2970079715412982661}
   - component: {fileID: 2970079715412982658}
   - component: {fileID: 2970079715412982659}
+  - component: {fileID: 4260232379681231793}
   m_Layer: 5
   m_Name: MessageScreen
   m_TagString: Untagged
@@ -237,3 +238,16 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4260232379681231793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2970079715412982656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16d591a6dd0ee614dace2cef64d67808, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_checkpointText: {fileID: 2970079714319619923}

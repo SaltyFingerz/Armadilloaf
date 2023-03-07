@@ -28,7 +28,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
 
 
-    public Vector3 currentCheckpoint = new Vector3(-9.3f, 1.9f, 2.1f);
+    public Vector3 currentCheckpoint;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -55,6 +55,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_sizeState = (int)SizeState.normal;
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
+        currentCheckpoint = M_walkingPlayer.transform.position;
         M_UIManager.Resume();
     }
 
@@ -166,7 +167,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
         M_walkingPlayer.transform.rotation.eulerAngles.Set(0.0f, M_launchingPlayer.transform.rotation.eulerAngles.y, 0.0f);
-        M_walkingPlayer.SetActive(true);
+        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = true;
+        M_walkingPlayer.GetComponent<SphereCollider>().enabled = true;
 
         //retaining velocity after launch
         M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity;
@@ -191,8 +193,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_state = ArmadilloState.launching;
         
         M_launchingPlayer.SetActive(true);
+        M_launchingPlayer.transform.rotation = M_walkingPlayer.transform.rotation;
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
-        M_walkingPlayer.SetActive(false);
+        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
+        M_walkingPlayer.GetComponent<SphereCollider>().enabled = false;
         M_freeFlyingPlayer.SetActive(false);
     }
 
