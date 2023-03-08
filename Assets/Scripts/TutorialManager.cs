@@ -10,10 +10,14 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_launchAimPrompt;
     public GameObject M_walkPrompt;
     public GameObject M_freeCamPrompt;
+    public GameObject M_freeControl;
+
     public GameObject M_goalArrow;
 
     public GameObject M_BallPlayer;
     public GameObject M_FreeMovePlayer;
+
+    private float m_timerSeconds = 0f;
 
     bool m_Wpressed;
     bool m_Apressed;
@@ -29,6 +33,8 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        m_timerSeconds += Time.deltaTime;
+
         if (Input.GetKey(KeyCode.W))
             m_Wpressed = true;
         if (Input.GetKey(KeyCode.A))
@@ -37,6 +43,11 @@ public class TutorialManager : MonoBehaviour
             m_Spressed = true;
         if (Input.GetKey(KeyCode.D))
             m_Dpressed = true;
+
+        if(PlayerPrefs.GetInt("tute") == 1)
+        {
+            M_introPrompt.SetActive(false);
+        }
 
         if(m_Wpressed && m_Apressed && m_Spressed && m_Dpressed && M_introPrompt.activeSelf)
         {
@@ -59,7 +70,7 @@ public class TutorialManager : MonoBehaviour
             M_launchAimPrompt.SetActive(true);
         }
 
-        if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && M_launchAimPrompt.activeSelf)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)) && M_launchAimPrompt.activeSelf)
         {
 
             StartCoroutine(ExitBall());
@@ -81,14 +92,30 @@ public class TutorialManager : MonoBehaviour
 
        if(Input.GetKeyDown(KeyCode.C) && M_freeCamPrompt.activeSelf)
         {
-            if(M_FreeMovePlayer.activeSelf)
-            M_goalArrow.SetActive(true);
-            M_freeCamPrompt.SetActive(false);
+            m_timerSeconds = 0;
+            M_freeControl.SetActive(true);
+            if (M_FreeMovePlayer.activeSelf)
+            {
+                M_goalArrow.SetActive(true);
+            }
+            
+            M_freeCamPrompt.SetActive(false);      
         }
-       if(!M_FreeMovePlayer.activeSelf)
+        if (!M_FreeMovePlayer.activeSelf)
         {
             M_goalArrow.SetActive(false);
         }
+        else
+        {
+            M_goalArrow.SetActive(true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C) && M_freeControl.activeSelf && m_timerSeconds > 1 )
+        {
+            M_freeControl.SetActive(false);
+        }
+
+
 
 
     }
