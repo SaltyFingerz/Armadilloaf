@@ -2124,6 +2124,7 @@ MonoBehaviour:
   M_launchAimPrompt: {fileID: 1132019704}
   M_walkPrompt: {fileID: 58989062}
   M_freeCamPrompt: {fileID: 457446136}
+  M_freeControl: {fileID: 0}
   M_goalArrow: {fileID: 1565304511}
   M_BallPlayer: {fileID: 305606497}
   M_FreeMovePlayer: {fileID: 1747536734}
@@ -5995,7 +5996,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8499589508368315778, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: M_waitTime
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8499589508368315778, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: M_startTime
@@ -8292,19 +8293,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3836807028369729495, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.43744606
+      value: 0.43744478
       objectReference: {fileID: 0}
     - target: {fileID: 3836807028369729495, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.06917581
+      value: 0.06917554
       objectReference: {fileID: 0}
     - target: {fileID: 3836807028369729495, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.19045421
+      value: -0.19045433
       objectReference: {fileID: 0}
     - target: {fileID: 3836807028369729495, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.87611806
+      value: 0.8761188
       objectReference: {fileID: 0}
     - target: {fileID: 4675492857466330582, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8464,11 +8465,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8431252128297700905, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.0035364984
+      value: 0.0035365466
       objectReference: {fileID: 0}
     - target: {fileID: 8431252128297700905, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0005065303
+      value: 0.0005065371
       objectReference: {fileID: 0}
     - target: {fileID: 8431252128297700905, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_LocalRotation.y
@@ -18722,7 +18723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8499589508368315778, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: M_waitTime
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8499589508368315778, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: M_startTime
@@ -18734,7 +18735,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8499589508368315779, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -183.7
+      value: -181.6
       objectReference: {fileID: 0}
     - target: {fileID: 8499589508368315779, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18742,7 +18743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8499589508368315779, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.55
+      value: -9
       objectReference: {fileID: 0}
     - target: {fileID: 8499589508368315779, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: m_LocalRotation.w
@@ -21037,6 +21038,10 @@ PrefabInstance:
     - target: {fileID: 8499589508368315777, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: m_Name
       value: StoveHazard
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499589508368315778, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
+      propertyPath: M_waitTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8499589508368315779, guid: 58feb45c6a9ebbc46848f606568aee31, type: 3}
       propertyPath: m_RootOrder
