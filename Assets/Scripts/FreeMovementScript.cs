@@ -21,9 +21,10 @@ public class FreeMovementScript : MonoBehaviour
     {
         // calculate movement directions for forward and side movement
         Vector3 l_forward = this.transform.position - M_freeCamera.transform.position;
-        l_forward.y = 0;
         l_forward.Normalize();
         Vector3 l_right = Quaternion.AngleAxis(90, Vector3.up) * l_forward;
+        l_right.y = 0.0f;
+        l_right.Normalize();
 
         // movement with AWSD keys
         Vector3 l_movementDirection;
