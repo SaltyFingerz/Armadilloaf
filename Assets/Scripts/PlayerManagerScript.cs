@@ -22,6 +22,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public ArmadilloState m_state = ArmadilloState.walk;        // Keeps track of the movement state
     public enum SizeState { small = 0, normal = 1, big = 2 };
     public float[] M_sizes = { 0.25f, 0.5f, 1.0f };             // Array of sizes, M_sizeState should be the index
+    public float[] M_weights = { 1.0f, 3.0f, 10.0f };
     public int M_sizeState = (int)SizeState.normal;             // Keeps Track of size, int type to use as M_sizes index
     public float M_jellyBounciness = 0.8f;
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
@@ -40,6 +41,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_justUnpaused = false;
         M_additionalCamera.enabled = false;
         M_UIManager = FindObjectOfType<PauseManagerScript>();
+        M_UIManager.Resume();
         Cursor.lockState = CursorLockMode.Locked;
 
         // change camera
@@ -53,8 +55,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
         M_sizeState = (int)SizeState.normal;
-        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         currentCheckpoint = M_walkingPlayer.transform.position;
         M_UIManager.Resume();
     }
@@ -166,14 +168,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         // enable walking
         m_state = ArmadilloState.walk;
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
+        Debug.Log(M_walkingPlayer.transform.position + " " + M_launchingPlayer.transform.position);
         M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = true;
         M_walkingPlayer.GetComponent<SphereCollider>().enabled = true;
         M_walkingPlayer.GetComponent<Rigidbody>().isKinematic = false;
-        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
 
         // set rotation
         Vector3 l_rotation = M_walkingPlayer.transform.localRotation.eulerAngles;
-        l_rotation.Set(0f, M_launchingPlayer.transform.localRotation.eulerAngles.y + 180.0f, 0f);
+        l_rotation.Set(0f, M_launchingPlayer.transform.localRotation.eulerAngles.y, 0f);
         M_walkingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
         // retaining velocity after launch
@@ -204,11 +207,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         l_rotation.Set(0f, M_walkingPlayer.transform.localRotation.eulerAngles.y, 0f);
         M_launchingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
-        Debug.Log(l_rotation.y + " w:" + M_walkingPlayer.transform.rotation.eulerAngles.y);
-
         // activate and deactivate players
         M_launchingPlayer.SetActive(true);
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
         M_walkingPlayer.GetComponent<SphereCollider>().enabled = false;
         M_walkingPlayer.GetComponent<Rigidbody>().isKinematic = true;
@@ -247,8 +248,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             M_sizeState = 2;
         }
-        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
     }
 
     public void Shrink()
@@ -258,8 +259,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             M_sizeState = 0;
         }
-        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         ResetAbilities();
     }
 

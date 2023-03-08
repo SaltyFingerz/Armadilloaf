@@ -273,9 +273,10 @@ public class PlayerLaunchScript : MonoBehaviour
         // final direction
         m_direction = l_direction;
     }
-    public void SetSize(float a_size)
+    public void SetValues(float a_size, float a_mass)
     {
         transform.localScale = new Vector3(a_size, a_size, a_size);
+        m_rigidbody.mass = a_mass;
     }
 
     private void OnTriggerEnter(Collider a_hit)

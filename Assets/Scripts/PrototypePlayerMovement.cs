@@ -129,8 +129,9 @@ public class PrototypePlayerMovement : MonoBehaviour
     
     }
 
-    public void SetSize(float a_size)
+    public void SetValues(float a_size, float a_mass)
     {
+        m_controller.rb.mass = a_mass;
         transform.localScale = new Vector3(a_size, a_size, a_size);
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
