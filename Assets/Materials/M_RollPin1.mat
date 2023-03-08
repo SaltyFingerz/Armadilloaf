@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Base
+  m_Name: M_RollPin1
   m_Shader: {fileID: 4800000, guid: 849dc4ff793a3f943ad21a3b6ee26456, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -15,7 +15,6 @@ Material:
   - _ADDITIONAL_LIGHTS_ENABLED
   - _ENVIRONMENT_LIGHTING_ENABLED
   - _FOG
-  - _NORMALMAP
   - _RAMP_TRIPLE
   m_InvalidKeywords:
   - _ZWRITE_ON
@@ -30,11 +29,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: e23208d8bab04ae4c8c4454a3bf12eb7, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 98085f210f3d5304c99ca3cf3d7e61ce, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -121,9 +120,9 @@ Material:
     - _Parallax: 0.005
     - _PureShadowColor: 0
     - _QueueOffset: 0
-    - _Ramp0: 0
-    - _Ramp1: 0.5
-    - _RampSmoothness: 0.048
+    - _Ramp0: -0.041
+    - _Ramp1: 0.117
+    - _RampSmoothness: 0.136
     - _RampTriple: 1
     - _ReceiveShadows: 1
     - _ReflectionBlend: 0.5
@@ -146,15 +145,15 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.9245283, g: 0.85317487, b: 0.6497864, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0.6509804}
+    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0.87058824}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &4632192187843863483
+--- !u!114 &5697948184410677779
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
