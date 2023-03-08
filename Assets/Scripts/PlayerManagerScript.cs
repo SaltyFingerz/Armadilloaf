@@ -17,6 +17,9 @@ public partial class PlayerManagerScript : MonoBehaviour
     const int m_launchingCameraMaxPriority = 8;
     const int m_freeMovementCameraMaxPriority = 10;
 
+    public float M_velocityRetain = 0.65f;      // how much velocity walking player gets from the launch, keep below 1
+    public float M_velocityRetiainAir = 0.95f;  // how much velocity walking player mid-air gets from the launch, keep below 1
+
     // State enums
     public enum ArmadilloState { walk, launching };
     public ArmadilloState m_state = ArmadilloState.walk;        // Keeps track of the movement state
@@ -180,7 +183,14 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
         // retaining velocity after launch
-        M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity;
+        if (M_launchingPlayer.GetComponent<PlayerLaunchScript>().isGrounded())
+        {
+            M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity * M_velocityRetain;
+        }
+        else
+        {
+            M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity * M_velocityRetiainAir;
+        }
         M_walkingPlayer.GetComponent<CustomController>().PlayerLaunched();
 
         // deactivate other plyer states

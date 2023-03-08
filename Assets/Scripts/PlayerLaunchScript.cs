@@ -296,5 +296,11 @@ public class PlayerLaunchScript : MonoBehaviour
             PlayerPrefs.SetInt("tute", 1);
         }
     }
+
+    public bool isGrounded()
+    {
+        RaycastHit hit;
+        return Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.7f);
+    }
 }
     
