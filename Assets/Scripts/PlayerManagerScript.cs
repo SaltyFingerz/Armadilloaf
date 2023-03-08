@@ -194,18 +194,19 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingCamera.enabled = false;
         M_additionalCamera.enabled = true;
 
+        // get values from the walking armadillo
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
         M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CustomController>().rb.velocity;
         m_state = ArmadilloState.launching;
 
         // rotation change
         Vector3 l_rotation = M_launchingPlayer.transform.localRotation.eulerAngles;
-        l_rotation.Set(0f, M_walkingPlayer.transform.localRotation.eulerAngles.y + 180.0f, 0f);
+        l_rotation.Set(0f, M_walkingPlayer.transform.localRotation.eulerAngles.y, 0f);
         M_launchingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
         Debug.Log(l_rotation.y + " w:" + M_walkingPlayer.transform.rotation.eulerAngles.y);
 
-
+        // activate and deactivate players
         M_launchingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
         M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
