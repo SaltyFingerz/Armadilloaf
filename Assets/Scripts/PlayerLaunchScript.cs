@@ -280,9 +280,10 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider a_hit)
     {
-        if (a_hit.gameObject.CompareTag("Enemy"))
+        if (a_hit.gameObject.CompareTag("Enemy") || a_hit.gameObject.CompareTag("Hazard"))
         {
             SceneManager.LoadScene("FailScreen");
+            PlayerPrefs.SetInt("tute", 1); //this is to not load the tutorial upon reloading the scene (temporary until respawn)
         }
     }
   
@@ -291,6 +292,7 @@ public class PlayerLaunchScript : MonoBehaviour
         if (a_collider.gameObject.CompareTag("Enemy"))
         {
             SceneManager.LoadScene("FailScreen");
+            PlayerPrefs.SetInt("tute", 1);
         }
     }
 }
