@@ -53,7 +53,7 @@ public class TutorialManager : MonoBehaviour
             M_introPrompt.SetActive(false);
         }
 
-        if(m_Wpressed && m_Apressed && m_Spressed && m_Dpressed && M_introPrompt.activeSelf)
+        if((m_Wpressed || m_Apressed || m_Spressed || m_Dpressed) && M_introPrompt.activeSelf)
         {
             M_introPrompt.SetActive(false);
             M_jumpPrompt.SetActive(true);
