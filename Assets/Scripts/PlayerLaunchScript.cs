@@ -273,9 +273,10 @@ public class PlayerLaunchScript : MonoBehaviour
         // final direction
         m_direction = l_direction;
     }
-    public void SetSize(float a_size)
+    public void SetValues(float a_size, float a_mass)
     {
         transform.localScale = new Vector3(a_size, a_size, a_size);
+        m_rigidbody.mass = a_mass;
     }
 
     private void OnTriggerEnter(Collider a_hit)
@@ -294,6 +295,12 @@ public class PlayerLaunchScript : MonoBehaviour
             SceneManager.LoadScene("FailScreen");
             PlayerPrefs.SetInt("tute", 1);
         }
+    }
+
+    public bool isGrounded()
+    {
+        RaycastHit hit;
+        return Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.7f);
     }
 }
     

@@ -86,6 +86,7 @@ public class CustomController : MonoBehaviour
         Vector3 cameraRelativeMovement = forwardRelativeVerticalInput + rightRelativeHorizontalInput;
         rb.velocity = new Vector3(cameraRelativeMovement.x, rb.velocity.y, cameraRelativeMovement.z);
         
+        
     }
 
     void MovePlayerIndependentFromCamera()
