@@ -41,6 +41,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Physics.gravity = new Vector3(0.0f, -19.77f, 0.0f);
         m_justUnpaused = false;
         M_additionalCamera.enabled = false;
         M_UIManager = FindObjectOfType<PauseManagerScript>();
@@ -182,7 +183,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         l_rotation.Set(0f, M_launchingPlayer.transform.localRotation.eulerAngles.y, 0f);
         M_walkingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
-        // retaining velocity after launch
+        // retaining velocity after launch, different when mid-air and on ground
         if (M_launchingPlayer.GetComponent<PlayerLaunchScript>().isGrounded())
         {
             M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity * M_velocityRetain;
