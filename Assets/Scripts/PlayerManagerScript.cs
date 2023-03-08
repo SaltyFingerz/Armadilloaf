@@ -169,6 +169,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.transform.rotation.eulerAngles.Set(0.0f, M_launchingPlayer.transform.rotation.eulerAngles.y, 0.0f);
         M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = true;
         M_walkingPlayer.GetComponent<SphereCollider>().enabled = true;
+        M_walkingPlayer.GetComponent<Rigidbody>().isKinematic = false;
 
         //retaining velocity after launch
         M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity;
@@ -197,6 +198,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
         M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
         M_walkingPlayer.GetComponent<SphereCollider>().enabled = false;
+        M_walkingPlayer.GetComponent<Rigidbody>().isKinematic = true;
         M_freeFlyingPlayer.SetActive(false);
     }
 
@@ -285,5 +287,10 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_PlayerMovement.m_jumpHeight = 1;
         M_abilityState = 0;
+    }
+
+    public bool isWalking()
+    {
+        return (m_state == ArmadilloState.walk);
     }
 }

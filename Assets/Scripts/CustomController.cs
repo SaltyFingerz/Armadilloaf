@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using static PlayerManagerScript;
 
 public class CustomController : MonoBehaviour
 {
@@ -29,7 +30,8 @@ public class CustomController : MonoBehaviour
     void Update()
     {
         // Player won't move when free camera is turned on
-        if(M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
+        // don't update when player is launching
+        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying || !M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
         {
             return;
         }
