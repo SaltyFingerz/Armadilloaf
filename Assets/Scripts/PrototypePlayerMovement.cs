@@ -60,18 +60,13 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
+        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying ||!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
         {
             return;
         }
 
         m_groundedPlayer = m_controller.isGrounded;
         HandleInput();
-
-        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
-        {
-            return;
-        }
 
 
         if (m_groundedPlayer && playerVelocity.y < 0)
