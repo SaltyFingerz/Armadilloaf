@@ -25,5 +25,6 @@ public class UIManagerScript : MonoBehaviour
     public void Level01()
     {
         SceneManager.LoadScene("Level_01");
+        PlayerPrefs.SetInt("tute", 0);
     }
 }
