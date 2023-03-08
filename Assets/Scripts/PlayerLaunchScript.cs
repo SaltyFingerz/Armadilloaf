@@ -192,6 +192,10 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Reset()
     {
+        M_holdDownCamera.Priority = 0;
+        M_freeRotationCamera.Priority = m_cameraMaxPriority;
+        m_cameraMode = CameraMode.freeRotation;
+
         m_rigidbody.freezeRotation = false;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
@@ -208,6 +212,10 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void LaunchingStart()
     {
+        M_freeRotationCamera.Priority = 0;
+        M_holdDownCamera.Priority = m_cameraMaxPriority;
+        m_cameraMode = CameraMode.holdDown;
+         
         M_canvas.enabled = false;
         m_launchingDirection = m_direction;
         m_launchingDirection.Normalize();
