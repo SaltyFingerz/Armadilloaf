@@ -173,7 +173,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         // set rotation
         Vector3 l_rotation = M_walkingPlayer.transform.localRotation.eulerAngles;
-        l_rotation.Set(0f, M_launchingPlayer.transform.localRotation.eulerAngles.y, 0f);
+        l_rotation.Set(0f, M_launchingPlayer.transform.localRotation.eulerAngles.y + 180.0f, 0f);
         M_walkingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
         // retaining velocity after launch
@@ -200,7 +200,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         // rotation change
         Vector3 l_rotation = M_launchingPlayer.transform.localRotation.eulerAngles;
-        l_rotation.Set(0f, M_walkingPlayer.transform.localRotation.eulerAngles.y, 0f);
+        l_rotation.Set(0f, M_walkingPlayer.transform.localRotation.eulerAngles.y + 180.0f, 0f);
         M_launchingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
         Debug.Log(l_rotation.y + " w:" + M_walkingPlayer.transform.rotation.eulerAngles.y);
