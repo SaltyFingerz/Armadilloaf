@@ -12,10 +12,6 @@ public class UIManagerScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    public void GolfScene()
-    {
-        SceneManager.LoadScene("Launching");
-    }
     public void OnMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
@@ -26,8 +22,8 @@ public class UIManagerScript : MonoBehaviour
         Application.Quit();
     }
 
-    public void KitchenScene()
+    public void Level01()
     {
-        SceneManager.LoadScene("KitchenAndLivingRoom");
+        SceneManager.LoadScene("Level_01");
     }
 }
