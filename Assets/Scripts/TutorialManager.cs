@@ -11,6 +11,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_walkPrompt;
     public GameObject M_freeCamPrompt;
     public GameObject M_freeControl;
+    public GameObject M_closePrompt;
 
     public GameObject M_goalArrow;
 
@@ -23,7 +24,10 @@ public class TutorialManager : MonoBehaviour
     bool m_Apressed;
     bool m_Spressed;
     bool m_Dpressed;
-  
+
+    bool m_Qpressed;
+    bool m_Epressed;
+
 
     void Start()
     {
@@ -99,7 +103,9 @@ public class TutorialManager : MonoBehaviour
                 M_goalArrow.SetActive(true);
             }
             
-            M_freeCamPrompt.SetActive(false);      
+            M_freeCamPrompt.SetActive(false);
+
+           
         }
         if (!M_FreeMovePlayer.activeSelf)
         {
@@ -109,10 +115,24 @@ public class TutorialManager : MonoBehaviour
         {
             M_goalArrow.SetActive(true);
         }
-
-        if (Input.GetKeyDown(KeyCode.C) && M_freeControl.activeSelf && m_timerSeconds > 1 )
+        if(M_freeControl.activeSelf)
         {
+            if (Input.GetKey(KeyCode.Q))
+                m_Qpressed = true;
+            if (Input.GetKey(KeyCode.E))
+                m_Epressed = true;
+        }
+
+        if (m_Qpressed && m_Epressed && M_freeControl.activeSelf)
+        {
+            M_closePrompt.SetActive(true);
             M_freeControl.SetActive(false);
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.C) && M_closePrompt && m_timerSeconds > 1 )
+        {
+            M_closePrompt.SetActive(false);
         }
 
 
