@@ -7,18 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Oven Glass
+  m_Name: Fridge colour
   m_Shader: {fileID: 4800000, guid: 849dc4ff793a3f943ad21a3b6ee26456, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ADDITIONAL_LIGHTS_ENABLED
-  - _EMISSION
   - _ENVIRONMENT_LIGHTING_ENABLED
   - _FOG
   - _NORMALMAP
-  - _REFLECTIONS
-  - _SPECULAR
   m_InvalidKeywords:
   - _ZWRITE_ON
   m_LightmapFlags: 4
@@ -32,11 +29,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 7234703f281bcdc419dd4c0aa8f423fb, type: 3}
+        m_Texture: {fileID: 2800000, guid: ffa1caea5e6f53c4699ec3ae724feeb2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 9ccac37254fc12345a3b78b30d38a754, type: 3}
+        m_Texture: {fileID: 2800000, guid: affb0c78ad94d2c4eb88ce9693720b5f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -108,7 +105,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _Emission: 1
+    - _Emission: 0
     - _EnvironmentLightingEnabled: 1
     - _EnvironmentReflections: 1
     - _Fog: 1
@@ -125,21 +122,21 @@ Material:
     - _QueueOffset: 0
     - _Ramp0: 0
     - _Ramp1: 0.5
-    - _RampSmoothness: 0.134
+    - _RampSmoothness: 0.005
     - _RampTriple: 0
     - _ReceiveShadows: 1
-    - _ReflectionBlend: 0.403
+    - _ReflectionBlend: 0.5
     - _ReflectionProbes: 0
-    - _ReflectionSmoothness: 0.758
-    - _Reflections: 1
+    - _ReflectionSmoothness: 0.5
+    - _Reflections: 0
     - _ShadowMask: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
-    - _Specular: 1
+    - _Specular: 0
     - _SpecularExponent: 200
     - _SpecularHighlights: 1
     - _SpecularSmoothness: 0.025
-    - _SpecularThreshold: 0.703
+    - _SpecularThreshold: 0.8
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
@@ -156,7 +153,7 @@ Material:
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &7906069070312555512
+--- !u!114 &9205715269377650855
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
