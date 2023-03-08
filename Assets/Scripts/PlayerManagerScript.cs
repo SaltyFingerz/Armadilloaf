@@ -163,20 +163,25 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_additionalCamera.enabled = false;
         M_walkingCamera.enabled = true;
 
+        // enable walking
         m_state = ArmadilloState.walk;
-        
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
-        M_walkingPlayer.transform.rotation.eulerAngles.Set(0.0f, M_launchingPlayer.transform.rotation.eulerAngles.y, 0.0f);
         M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = true;
         M_walkingPlayer.GetComponent<SphereCollider>().enabled = true;
         M_walkingPlayer.GetComponent<Rigidbody>().isKinematic = false;
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
 
-        //retaining velocity after launch
+        // set rotation
+        Vector3 l_rotation = M_walkingPlayer.transform.localRotation.eulerAngles;
+        l_rotation.Set(0f, M_launchingPlayer.transform.localRotation.eulerAngles.y + 180.0f, 0f);
+        M_walkingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
+
+        // retaining velocity after launch
         M_walkingPlayer.GetComponent<CustomController>().rb.velocity = M_launchingPlayer.GetComponent<Rigidbody>().velocity;
         M_walkingPlayer.GetComponent<CustomController>().PlayerLaunched();
 
+        // deactivate other plyer states
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
-        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSize(M_sizes[M_sizeState]);
         M_launchingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
     }
@@ -192,9 +197,16 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
         M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CustomController>().rb.velocity;
         m_state = ArmadilloState.launching;
-        
+
+        // rotation change
+        Vector3 l_rotation = M_launchingPlayer.transform.localRotation.eulerAngles;
+        l_rotation.Set(0f, M_walkingPlayer.transform.localRotation.eulerAngles.y + 180.0f, 0f);
+        M_launchingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
+
+        Debug.Log(l_rotation.y + " w:" + M_walkingPlayer.transform.rotation.eulerAngles.y);
+
+
         M_launchingPlayer.SetActive(true);
-        M_launchingPlayer.transform.rotation = M_walkingPlayer.transform.rotation;
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetSize(M_sizes[M_sizeState]);
         M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
         M_walkingPlayer.GetComponent<SphereCollider>().enabled = false;
