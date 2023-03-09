@@ -187,7 +187,7 @@ public class PlayerLaunchScript : MonoBehaviour
     private void DirectionInput()
     {
         // Mouse RB is dragged, calculate camera rotation from the mouse position difference between frames
-        m_rotationMouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * m_mouseSensitivityX;
+        m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.deltaTime * m_mouseSensitivityX;
         m_rotationMouseY = -Input.GetAxisRaw("Mouse Y") * Time.deltaTime * m_mouseSensitivityY;
 
         // Rotation using 2D vector rotation by angle formula
