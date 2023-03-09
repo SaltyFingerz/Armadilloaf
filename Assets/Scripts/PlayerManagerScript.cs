@@ -173,9 +173,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_state = ArmadilloState.walk;
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
         Debug.Log(M_walkingPlayer.transform.position + " " + M_launchingPlayer.transform.position);
-        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = true;
-        M_walkingPlayer.GetComponent<SphereCollider>().enabled = true;
-        M_walkingPlayer.GetComponent<Rigidbody>().isKinematic = false;
+        M_walkingPlayer.SetActive(true);
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
 
         // set rotation
@@ -221,9 +219,11 @@ public partial class PlayerManagerScript : MonoBehaviour
         // activate and deactivate players
         M_launchingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
-        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
-        M_walkingPlayer.GetComponent<SphereCollider>().enabled = false;
-        M_walkingPlayer.GetComponent<Rigidbody>().isKinematic = true;
+        // animation reset before deactivating
+        M_walkingPlayer.GetComponent<Animator>().CrossFade("Empty", 0f);
+        M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
+        M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
+        M_walkingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
     }
 
