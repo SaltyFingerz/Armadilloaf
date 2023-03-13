@@ -160,6 +160,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public void Reset()
     {
         m_rigidbody.freezeRotation = false;
+        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
