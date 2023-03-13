@@ -27,7 +27,7 @@ public class CustomController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void FixedUpdate()
     {
         // Player won't move when free camera is turned on
         // don't update when player is launching
