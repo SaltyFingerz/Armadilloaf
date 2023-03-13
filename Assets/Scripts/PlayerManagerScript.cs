@@ -11,7 +11,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
     public CinemachineVirtualCamera M_freeMovementCamera;
-    public Camera M_walkingCamera, M_launchCamera, M_additionalCamera;
+    public GameObject M_walkingCamera, M_launchCamera, M_additionalCamera;
 
     public float M_velocityRetain = 0.65f;      // how much velocity walking player gets from the launch, keep below 1
     public float M_velocityRetiainAir = 0.85f;  // how much velocity walking player mid-air gets from the launch, keep below 1
@@ -39,8 +39,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     {
         Physics.gravity = new Vector3(0.0f, -19.77f, 0.0f);
         m_justUnpaused = false;
-        M_additionalCamera.enabled = false;
-        M_launchCamera.enabled = false;
+        M_additionalCamera.SetActive(false);
+        M_launchCamera.SetActive(false);
         M_UIManager = FindObjectOfType<PauseManagerScript>();
         M_UIManager.Resume();
         Cursor.lockState = CursorLockMode.Locked;
@@ -157,12 +157,14 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void StartWalking()
     {
         // change camera
-        M_walkingCamera.enabled = true;
+        M_launchCamera.SetActive(false);
+        M_additionalCamera.SetActive(false);
 
         // enable walking
         m_state = ArmadilloState.walk;
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
         M_walkingPlayer.SetActive(true);
+        M_walkingCamera.SetActive(true);
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
 
         // set rotation
@@ -189,8 +191,10 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void StartLaunching()
     {
+        M_additionalCamera.SetActive(false);
+
         // change camera
-        M_launchCamera.enabled = true;
+        M_launchCamera.SetActive(true);
 
         // get values from the walking armadillo
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
@@ -215,12 +219,14 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     void StartFlying()
     {
-
-        M_additionalCamera.enabled = true;
-        M_walkingCamera.enabled = false;
+        
+        M_additionalCamera.SetActive(true);
+        M_walkingCamera.SetActive(false);
+        M_launchCamera.SetActive(false);
 
         M_freeFlyingPlayer.SetActive(true);
         M_isFreeFlying = true;
+
         switch (m_state)
         {
             case ArmadilloState.walk:
