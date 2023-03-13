@@ -35,10 +35,10 @@ MonoBehaviour:
   m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: OutlineEffect
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     passTag: OutlineEffect
     Event: 250
@@ -76,7 +76,7 @@ MonoBehaviour:
         serializedVersion: 2
         m_Bits: 64
       PassNames: []
-    overrideMaterial: {fileID: 2100000, guid: d0b2103a9dc1c9f4a95807bd32d49332, type: 2}
+    overrideMaterial: {fileID: 2100000, guid: c0be0a21791565143b4a2a2ec90b5125, type: 2}
     overrideMaterialPassIndex: 0
     overrideDepthState: 0
     depthCompareFunction: 4
