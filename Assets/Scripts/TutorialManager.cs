@@ -57,7 +57,7 @@ public class TutorialManager : MonoBehaviour
         {
             M_introPrompt.SetActive(false);
             M_jumpPrompt.SetActive(true);
-          
+     
 
         }
 

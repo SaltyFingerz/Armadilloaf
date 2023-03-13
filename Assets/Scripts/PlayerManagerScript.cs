@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 using static PlayerManagerScript;
 
 public partial class PlayerManagerScript : MonoBehaviour
@@ -27,8 +29,15 @@ public partial class PlayerManagerScript : MonoBehaviour
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
 
+    //Player HUD objects
+    public Canvas M_playerHUD;
+    public GameObject M_freshnessBar;
+    public Image armadilloaf;
+    public TextMeshProUGUI lifeText;
 
+    //Player values
     public Vector3 currentCheckpoint;
+    public int lives = 5;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -45,6 +54,11 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_UIManager.Resume();
         Cursor.lockState = CursorLockMode.Locked;
 
+        M_freshnessBar.SetActive(false);
+
+        StartCoroutine(FadeAway(armadilloaf));
+        StartCoroutine(FadeAway(lifeText));
+
         m_state = ArmadilloState.walk;
 
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
@@ -58,8 +72,40 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_UIManager.Resume();
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator FadeAway(Image a_image)
+    {
+            // loop over 1 second backwards
+            for (float i = 1; i >= 0; i -= Time.deltaTime)
+            {
+                // set color with i as alpha
+                a_image.color = new Color(1, 1, 1, i);
+                yield return null;
+            }
+    }
+
+    IEnumerator FadeAway(TextMeshProUGUI a_text)
+    {
+        // loop over 1 second backwards
+        for (float i = 1; i >= 0; i -= Time.deltaTime)
+        {
+            // set color with i as alpha
+            a_text.color = new Color(1, 1, 1, i);
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeIn(Image a_image)
+    {
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            // set color with i as alpha
+            a_image.color = new Color(1, 1, 1, i);
+            yield return null;
+        }
+    }
+
+        // Update is called once per frame
+        void Update()
     {
         if (m_justUnpaused)
         {
