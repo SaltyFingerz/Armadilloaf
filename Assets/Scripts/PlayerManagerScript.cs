@@ -10,12 +10,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     public bool M_isFreeFlying = false;
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
-    public CinemachineFreeLook M_launchingBaseCamera;
     public CinemachineVirtualCamera M_freeMovementCamera;
-    public Camera M_walkingCamera, M_additionalCamera;
-
-    const int m_launchingCameraMaxPriority = 8;
-    const int m_freeMovementCameraMaxPriority = 10;
+    public Camera M_walkingCamera, M_launchCamera, M_additionalCamera;
 
     public float M_velocityRetain = 0.65f;      // how much velocity walking player gets from the launch, keep below 1
     public float M_velocityRetiainAir = 0.85f;  // how much velocity walking player mid-air gets from the launch, keep below 1
@@ -44,13 +40,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         Physics.gravity = new Vector3(0.0f, -19.77f, 0.0f);
         m_justUnpaused = false;
         M_additionalCamera.enabled = false;
+        M_launchCamera.enabled = false;
         M_UIManager = FindObjectOfType<PauseManagerScript>();
         M_UIManager.Resume();
         Cursor.lockState = CursorLockMode.Locked;
-
-        // change camera
-        M_launchingBaseCamera.Priority = 0;
-        M_freeMovementCamera.Priority = 0;
 
         m_state = ArmadilloState.walk;
 
@@ -164,18 +157,12 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void StartWalking()
     {
         // change camera
-        M_launchingBaseCamera.Priority = 0;
-        M_freeMovementCamera.Priority = 0;
-        M_additionalCamera.enabled = false;
         M_walkingCamera.enabled = true;
 
         // enable walking
         m_state = ArmadilloState.walk;
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
-        Debug.Log(M_walkingPlayer.transform.position + " " + M_launchingPlayer.transform.position);
-        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = true;
-        M_walkingPlayer.GetComponent<SphereCollider>().enabled = true;
-        M_walkingPlayer.GetComponent<Rigidbody>().isKinematic = false;
+        M_walkingPlayer.SetActive(true);
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
 
         // set rotation
@@ -203,10 +190,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void StartLaunching()
     {
         // change camera
-        M_freeMovementCamera.Priority = 0;
-        M_launchingBaseCamera.Priority = m_launchingCameraMaxPriority;
-        M_walkingCamera.enabled = false;
-        M_additionalCamera.enabled = true;
+        M_launchCamera.enabled = true;
 
         // get values from the walking armadillo
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
@@ -221,9 +205,11 @@ public partial class PlayerManagerScript : MonoBehaviour
         // activate and deactivate players
         M_launchingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
-        M_walkingPlayer.GetComponent<SpriteRenderer>().enabled = false;
-        M_walkingPlayer.GetComponent<SphereCollider>().enabled = false;
-        M_walkingPlayer.GetComponent<Rigidbody>().isKinematic = true;
+        // animation reset before deactivating
+        M_walkingPlayer.GetComponent<Animator>().CrossFade("Empty", 0f);
+        M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
+        M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
+        M_walkingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
     }
 
@@ -233,9 +219,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_additionalCamera.enabled = true;
         M_walkingCamera.enabled = false;
 
-        // change camera
-        M_launchingBaseCamera.Priority = 0;
-        M_freeMovementCamera.Priority = m_freeMovementCameraMaxPriority;
         M_freeFlyingPlayer.SetActive(true);
         M_isFreeFlying = true;
         switch (m_state)
