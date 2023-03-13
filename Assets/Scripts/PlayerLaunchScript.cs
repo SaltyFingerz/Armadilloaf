@@ -215,7 +215,7 @@ public class PlayerLaunchScript : MonoBehaviour
         Quaternion l_rotation = Quaternion.LookRotation(l_direction * Time.deltaTime);
         m_rigidbody.MoveRotation(l_rotation);
 
-        M_freeRotationCamera.transform.position = this.transform.position + new Vector3(this.transform.forward.x * 15.0f, 5.0f, this.transform.forward.z * 15.0f);
+        M_freeRotationCamera.transform.position = this.transform.position + new Vector3(-this.transform.forward.x * 5.0f, 5.0f, -this.transform.forward.z * 5.0f);
         M_freeRotationCamera.transform.LookAt(this.transform.position + m_direction);
 
         // final direction
