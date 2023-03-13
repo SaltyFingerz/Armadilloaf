@@ -14,6 +14,6 @@ public class RotateObjectScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(new Vector3(0, M_rotationSpeed, 0));
+        transform.Rotate(new Vector3( M_rotationSpeed, 0, 0));
     }
 }
