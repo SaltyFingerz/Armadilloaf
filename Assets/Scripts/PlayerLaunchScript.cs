@@ -12,7 +12,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_arrow;
     public GameObject M_arrowMaximum;
 
-    public GameObject M_launchCamera, M_rollingCamera;
+    public GameObject M_launchCamera;
     public GameObject M_playerManager;
     public UnityEngine.UI.Image M_fillImage;
     public Canvas M_canvas;
@@ -38,7 +38,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Start()
     {
-        M_rollingCamera.SetActive(false);
         m_direction = new Vector3(0.0f, 0.0f, 1.0f);
         M_fillImage.fillAmount = 0.0f;
         m_rigidbody = GetComponent<Rigidbody>();
@@ -158,7 +157,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void Reset()
     {
-        M_rollingCamera.SetActive(false);
         m_rigidbody.freezeRotation = false;
         m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         M_arrow.SetActive(true);
@@ -174,10 +172,6 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     private void LaunchingStart()
     {
-        M_launchCamera.SetActive(false);
-        M_rollingCamera.SetActive(true);
-        M_rollingCamera.transform.position = M_launchCamera.transform.position;
-        M_rollingCamera.transform.rotation = M_launchCamera.transform.rotation;
         M_canvas.enabled = false;
         m_direction.Normalize();
         m_launchingStage++;
@@ -219,8 +213,8 @@ public class PlayerLaunchScript : MonoBehaviour
         Quaternion l_rotation = Quaternion.LookRotation(l_direction * Time.fixedDeltaTime);
         m_rigidbody.MoveRotation(l_rotation);
 
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-this.transform.forward.x * 5.0f, 2.0f, -this.transform.forward.z * 5.0f);
-        M_launchCamera.transform.LookAt(this.transform.position + m_direction);
+        //M_launchCamera.transform.position = this.transform.position + new Vector3(-this.transform.forward.x * 5.0f, 2.0f, -this.transform.forward.z * 5.0f);
+        //M_launchCamera.transform.LookAt(this.transform.position + m_direction);
 
         // final direction
         m_direction = l_direction;
