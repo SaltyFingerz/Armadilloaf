@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3454250857340460168
+--- !u!114 &-314095775645242893
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,19 +20,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Counter
-  m_Shader: {fileID: 4800000, guid: 849dc4ff793a3f943ad21a3b6ee26456, type: 3}
-  m_Parent: {fileID: 2100000, guid: 1721110c4649ed54d9ecdeb028b0db5e, type: 2}
+  m_Name: Outline Material
+  m_Shader: {fileID: -6465566751694194690, guid: d104668bda748fe49bc41e18ef0c7f12, type: 3}
+  m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ADDITIONAL_LIGHTS_ENABLED
-  - _ENVIRONMENT_LIGHTING_ENABLED
-  - _FOG
-  - _NORMALMAP
-  - _RAMP_TRIPLE
-  - _SHADOW_MASK
-  m_InvalidKeywords:
-  - _ZWRITE_ON
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -43,21 +36,23 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: b79b1ad629da9c940a8a393876d82ffd, type: 3}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: e2b7ed071c2cb8347bfedec1ec8cb841, type: 3}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FresnelSmoothness: 0.1
-    - _FresnelThickness: 0.45
-    - _Ramp0: 0
-    - _RampSmoothness: 0.108
-    - _ShadowMask: 1
+    - _Outline_Thickness: 1
+    - _QueueControl: 0
+    - _QueueOffset: 0
     m_Colors:
-    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0.39607844}
+    - _Outline_Colour: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -18,7 +18,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     const int m_freeMovementCameraMaxPriority = 10;
 
     public float M_velocityRetain = 0.65f;      // how much velocity walking player gets from the launch, keep below 1
-    public float M_velocityRetiainAir = 0.95f;  // how much velocity walking player mid-air gets from the launch, keep below 1
+    public float M_velocityRetiainAir = 0.85f;  // how much velocity walking player mid-air gets from the launch, keep below 1
 
     // State enums
     public enum ArmadilloState { walk, launching };
