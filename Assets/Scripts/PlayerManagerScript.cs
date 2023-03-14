@@ -12,7 +12,6 @@ public partial class PlayerManagerScript : MonoBehaviour
     public bool M_isFreeFlying = false;
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
-    public CinemachineVirtualCamera M_freeMovementCamera;
     public GameObject M_walkingCamera, M_launchCamera, M_additionalCamera;
 
     public float M_velocityRetain = 0.65f;      // how much velocity walking player gets from the launch, keep below 1
@@ -132,7 +131,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             if (M_isFreeFlying)
             {
-                M_isFreeFlying = false;
 
                 switch (m_state)
                 {
@@ -146,6 +144,7 @@ public partial class PlayerManagerScript : MonoBehaviour
                     default:
                         break;
                 }
+                M_isFreeFlying = false;
             }
             else
             {
@@ -255,10 +254,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         // activate and deactivate players
         M_launchingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
-        // animation reset before deactivating
-        M_walkingPlayer.GetComponent<Animator>().CrossFade("Empty", 0f);
-        M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
-        M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
+
+        if (!M_isFreeFlying)
+        {
+            // animation reset before deactivating
+            M_walkingPlayer.GetComponent<Animator>().CrossFade("Empty", 0f);
+            M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
+            M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
+        }
+       
         M_walkingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
     }
