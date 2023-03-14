@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using static PlayerManagerScript;
+using UnityEngine.InputSystem.XR;
 
 public class CustomController : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class CustomController : MonoBehaviour
     public Transform M_groundPoint;
     private bool m_justLaunched = false;
 
+    float m_mouseSensitivity = 1000.0f;
+    float m_rotationMouseX;
+
     [SerializeField] private float m_minimumSpeed = 0.2f;
     
     // Start is called before the first frame update
@@ -29,6 +33,10 @@ public class CustomController : MonoBehaviour
     // Update is called once per frame
     public void FixedUpdate()
     {
+        // Mouse RB is dragged, calculate player rotation from the mouse position difference between frames
+        m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
+        transform.Rotate(Vector3.up, -m_rotationMouseX);
+
         // Player won't move when free camera is turned on
         // don't update when player is launching
         if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying || !M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
@@ -51,7 +59,10 @@ public class CustomController : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
 
+    public void Update()
+    {
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.velocity += new Vector3(0f, m_playerMovement.m_jumpHeight, 0f);
