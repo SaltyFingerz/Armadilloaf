@@ -127,16 +127,12 @@ public class PlayerLaunchScript : MonoBehaviour
         l_direction.Normalize();
         m_rigidbody.velocity = l_direction * m_rigidbody.velocity.magnitude;
 
-        M_launchCamera.transform.LookAt(this.transform.position + m_direction * 10.0f);
+        M_launchCamera.transform.LookAt(this.transform.position + m_direction);
 
     }
 
     void HandleLaunchInput()
     {
-        /*if (!m_isOnFloor)
-        {
-            return;
-        }*/
         //override player rotation
         if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
         {       
