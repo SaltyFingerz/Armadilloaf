@@ -251,6 +251,12 @@ public class PlayerLaunchScript : MonoBehaviour
             SceneManager.LoadScene("FailScreen");
             PlayerPrefs.SetInt("tute", 1); //this is to not load the tutorial upon reloading the scene (temporary until respawn)
         }
+
+        if( a_hit.gameObject.CompareTag("Collectible"))
+        {
+            print("collectible +1");
+            a_hit.gameObject.SetActive(false);
+        }
     }
   
     void OnCollisionStay(Collision a_collider)

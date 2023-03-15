@@ -38,11 +38,19 @@ public class TutorialManager : MonoBehaviour
     public void CloseIntro()
     {
         M_introPrompt.SetActive(false);
+        print("yas");
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(M_introPrompt.activeSelf)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+      
+       
         m_timerSeconds += Time.deltaTime;
 
         if (Input.GetKey(KeyCode.W))
