@@ -67,7 +67,7 @@ public class PlayerLaunchScript : MonoBehaviour
             m_isOnFloor = true;
             if(m_launchingStage != 0)
             {
-               // M_playerManager.GetComponent<PlayerManagerScript>().StartWalking();
+                M_playerManager.GetComponent<PlayerManagerScript>().StartWalking();
             }
         }
         else
