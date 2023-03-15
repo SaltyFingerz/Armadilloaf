@@ -5,6 +5,7 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     public GameObject M_introPrompt;
+    public GameObject M_movePrompt;
     public GameObject M_jumpPrompt;
     public GameObject M_launchPrompt;
     public GameObject M_launchAimPrompt;
@@ -34,6 +35,11 @@ public class TutorialManager : MonoBehaviour
        
     }
 
+    public void CloseIntro()
+    {
+        M_introPrompt.SetActive(false);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -51,11 +57,13 @@ public class TutorialManager : MonoBehaviour
         if(PlayerPrefs.GetInt("tute") == 1)
         {
             M_introPrompt.SetActive(false);
+            M_movePrompt.SetActive(true);
         }
 
-        if((m_Wpressed || m_Apressed || m_Spressed || m_Dpressed) && M_introPrompt.activeSelf)
+
+        if((m_Wpressed || m_Apressed || m_Spressed || m_Dpressed) && M_movePrompt.activeSelf)
         {
-            M_introPrompt.SetActive(false);
+            M_movePrompt.SetActive(false);
             M_jumpPrompt.SetActive(true);
      
 
