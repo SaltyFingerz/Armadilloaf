@@ -33,6 +33,17 @@ public class CustomController : MonoBehaviour
     // Update is called once per frame
     public void FixedUpdate()
     {
+        if (Time.timeScale < 0.1f)
+        {
+            return;
+        }
+
+
+        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying || !M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
+        {
+            return;
+        }
+
         // Mouse RB is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
         transform.Rotate(Vector3.up, -m_rotationMouseX);
@@ -63,6 +74,11 @@ public class CustomController : MonoBehaviour
 
     public void Update()
     {
+        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying || !M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
+        {
+            return;
+        }
+
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.velocity += new Vector3(0f, m_playerMovement.m_jumpHeight, 0f);
