@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Handle
+  m_Name: Armadillo ball
   m_Shader: {fileID: 4800000, guid: 849dc4ff793a3f943ad21a3b6ee26456, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -30,11 +30,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 86f6df86626c80b44970092d4e98032e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6f783408792f4a94d8e4231981aa6879, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 04bd0fad8cde119499e5fcc62731164b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6af6595f4c8c63a44b93de5cae0bb8e6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -123,7 +123,7 @@ Material:
     - _QueueOffset: 0
     - _Ramp0: 0
     - _Ramp1: 0.5
-    - _RampSmoothness: 0.031
+    - _RampSmoothness: 0.021
     - _RampTriple: 1
     - _ReceiveShadows: 1
     - _ReflectionBlend: 0.5
@@ -150,11 +150,11 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0.9372549}
+    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0.27058825}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &3301575386995264365
+--- !u!114 &9205715269377650855
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
