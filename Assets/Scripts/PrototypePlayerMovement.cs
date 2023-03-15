@@ -8,6 +8,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 {
     public Camera M_walkCamera;
     public GameObject M_playerManager;
+    public GameObject M_Tutorial;
     public CustomController m_controller;
     public Vector3 playerVelocity;
     private bool m_groundedPlayer;
@@ -37,7 +38,21 @@ public class PrototypePlayerMovement : MonoBehaviour
             print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
         }
-    }
+
+        if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
+        {
+            M_Tutorial.transform.GetChild(3).gameObject.SetActive(true);
+            M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(7).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(1).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(2).gameObject.SetActive(false);
+        }
+
+
+}
     private void OnControllerColliderHit(ControllerColliderHit a_hit)
     {
         if (a_hit.gameObject.CompareTag("Wall"))
@@ -111,7 +126,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            m_playerSpeed = 8.0f;
+            m_playerSpeed = 4.0f;
         }
         else
         {

@@ -40,6 +40,7 @@ public class TutorialManager : MonoBehaviour
         M_introPrompt.SetActive(false);
         print("yas");
         Cursor.lockState = CursorLockMode.Locked;
+        M_movePrompt.SetActive(true);
     }
 
     // Update is called once per frame
@@ -106,9 +107,19 @@ public class TutorialManager : MonoBehaviour
 
         if((Input.GetKeyDown(KeyCode.Q) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
         {
-            M_walkPrompt.SetActive(false);
-            M_freeCamPrompt.SetActive(true);
+            StartCoroutine(ShowFreeCamPrompt());
         }
+
+        IEnumerator ShowFreeCamPrompt()
+        {
+            M_walkPrompt.SetActive(false);
+            yield return new WaitForSeconds(3f);
+            if (!M_launchPrompt.activeSelf && !M_launchAimPrompt.activeSelf)
+            {
+                M_freeCamPrompt.SetActive(true);
+            }
+        }
+
 
        if(Input.GetKeyDown(KeyCode.C) && M_freeCamPrompt.activeSelf)
         {
