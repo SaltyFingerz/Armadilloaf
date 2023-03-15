@@ -9,8 +9,8 @@ using UnityEngine.UIElements;
 public class PlayerLaunchScript : MonoBehaviour
 {
     private Rigidbody m_rigidbody;
-    public GameObject M_arrow;
-    public GameObject M_arrowMaximum;
+    private GameObject M_arrow;
+    private GameObject M_arrowMaximum;
 
     public GameObject M_launchCamera;
     public GameObject M_playerManager;
@@ -18,13 +18,11 @@ public class PlayerLaunchScript : MonoBehaviour
     public Canvas M_canvas;
 
     float m_rotationMouseY, m_rotationMouseX;
-    [SerializeField] float m_mouseSensitivityX = 100f;
-    [SerializeField] float m_mouseSensitivityY = 200f;
+    public float m_mouseSensitivityX;
+    public float m_mouseSensitivityY;
     float m_currentScroll;
 
     Vector3 m_direction;
-    Vector3 m_eyeDirection;
-
     int m_launchingStage = 0;
     float m_launchingPower;
     bool m_isOnFloor = false;
@@ -34,18 +32,24 @@ public class PlayerLaunchScript : MonoBehaviour
     public float M_angleChangeRadians;
     public float M_floorAngleChangeRadians;
 
-    [SerializeField] float m_powerSizeStep = 1.0f;
-    [SerializeField] float m_baseLength = 10.0f;
-    [SerializeField] private float m_minimumSpeed = 0.2f;
+    [SerializeField] float m_powerSizeStep = 1.0f;          // Determines how big is the scale difference in the arrow when choosing launching power.
+    [SerializeField] float m_baseLength = 10.0f;            // Minimum lenght of the arrow.
+    [SerializeField] private float m_minimumSpeed = 0.2f;   // Speed minimum limit before the player changes to walking player.
+
+    public Vector2 M_cameraOffset;
 
     public void Start()
     {
-        m_direction = new Vector3(0.0f, 0.0f, 1.0f);
-        m_eyeDirection = m_direction;
-
-        M_fillImage.fillAmount = 0.0f;
+        // get objects
         m_rigidbody = GetComponent<Rigidbody>();
+        M_arrowMaximum = this.gameObject.transform.GetChild(0).gameObject;
+        M_arrow = this.gameObject.transform.GetChild(1).gameObject;
+
+        // assign starting values
+        m_direction = new Vector3(0.0f, 0.0f, 1.0f);
+        M_fillImage.fillAmount = 0.0f;
         M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, m_baseLength + m_powerSizeStep * M_maxPower);
+
     }
 
     // Handle rigidbody physics
@@ -63,7 +67,7 @@ public class PlayerLaunchScript : MonoBehaviour
             m_isOnFloor = true;
             if(m_launchingStage != 0)
             {
-                M_playerManager.GetComponent<PlayerManagerScript>().StartWalking();
+               // M_playerManager.GetComponent<PlayerManagerScript>().StartWalking();
             }
         }
         else
@@ -108,30 +112,52 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         Vector3 l_direction = m_rigidbody.velocity.normalized;
         Vector3 l_rotatedDirection = l_direction;
-        float l_angle = M_angleChangeRadians;
+        float l_angleChange = M_angleChangeRadians;
 
         if (m_isOnFloor)
         {
-            l_angle = M_floorAngleChangeRadians;
+            l_angleChange = M_floorAngleChangeRadians;
         }
-        // change direction
+
+        // Change direction based on input
         if (Input.GetKey(KeyCode.A))
         {
-            l_rotatedDirection.x = l_direction.x * Mathf.Cos(l_angle * Time.fixedDeltaTime) - l_direction.z * Mathf.Sin(l_angle * Time.fixedDeltaTime);
-            l_rotatedDirection.z = l_direction.x * Mathf.Sin(l_angle * Time.fixedDeltaTime) + l_direction.z * Mathf.Cos(l_angle * Time.fixedDeltaTime);
+            l_rotatedDirection.x = l_direction.x * Mathf.Cos(l_angleChange * Time.fixedDeltaTime) - l_direction.z * Mathf.Sin(l_angleChange * Time.fixedDeltaTime);
+            l_rotatedDirection.z = l_direction.x * Mathf.Sin(l_angleChange * Time.fixedDeltaTime) + l_direction.z * Mathf.Cos(l_angleChange * Time.fixedDeltaTime);
             l_direction = l_rotatedDirection;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            l_rotatedDirection.x = l_direction.x * Mathf.Cos(-l_angle * Time.fixedDeltaTime) - l_direction.z * Mathf.Sin(-l_angle * Time.fixedDeltaTime);
-            l_rotatedDirection.z = l_direction.x * Mathf.Sin(-l_angle * Time.fixedDeltaTime) + l_direction.z * Mathf.Cos(-l_angle * Time.fixedDeltaTime);
+            l_rotatedDirection.x = l_direction.x * Mathf.Cos(-l_angleChange * Time.fixedDeltaTime) - l_direction.z * Mathf.Sin(-l_angleChange * Time.fixedDeltaTime);
+            l_rotatedDirection.z = l_direction.x * Mathf.Sin(-l_angleChange * Time.fixedDeltaTime) + l_direction.z * Mathf.Cos(-l_angleChange * Time.fixedDeltaTime);
             l_direction = l_rotatedDirection;
         }
+
+        // normalize and apply changed direction
         l_direction.Normalize();
         m_rigidbody.velocity = l_direction * m_rigidbody.velocity.magnitude;
 
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-this.transform.forward.x * 5.0f, 2.0f, -this.transform.forward.z * 5.0f);
-        M_launchCamera.transform.LookAt(this.transform.position + m_direction);
+        // Mouse is moved, calculate camera rotation from the mouse position difference between frames
+        m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
+        m_rotationMouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
+
+        // CAMERA ROTATION
+        // Rotation using 2D vector rotation by angle formula
+        Vector3 l_desiredRotation;
+        l_desiredRotation.x = m_direction.x * Mathf.Cos(m_rotationMouseX) - m_direction.z * Mathf.Sin(m_rotationMouseX);
+        l_desiredRotation.y = 0.0f;
+        l_desiredRotation.z = m_direction.x * Mathf.Sin(m_rotationMouseX) + m_direction.z * Mathf.Cos(m_rotationMouseX);
+
+        //rotate the camera and interpolate
+        Quaternion l_rotation = Quaternion.LookRotation(l_desiredRotation * Time.fixedDeltaTime);
+        l_rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotation, Time.deltaTime * 10.0f);
+
+        //camera transform change
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        M_launchCamera.transform.rotation = l_rotation;
+
+        // final direction
+        m_direction = l_desiredRotation;
 
     }
 
@@ -145,7 +171,7 @@ public class PlayerLaunchScript : MonoBehaviour
         }
 
         //m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-        m_launchingPower += (m_currentScroll - Input.mouseScrollDelta.y);
+        m_launchingPower += (m_currentScroll + Input.mouseScrollDelta.y);
         M_fillImage.fillAmount = m_launchingPower / M_maxPower;
 
         // clamp the power of the lauch between 0 and the limit
@@ -195,28 +221,27 @@ public class PlayerLaunchScript : MonoBehaviour
         m_rotationMouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
 
         // Rotation using 2D vector rotation by angle formula
-        Vector3 l_result;
-        l_result.x = m_direction.x * Mathf.Cos(m_rotationMouseX) - m_direction.z * Mathf.Sin(m_rotationMouseX);
-        l_result.y = 0.0f;
-        l_result.z = m_direction.x * Mathf.Sin(m_rotationMouseX) + m_direction.z * Mathf.Cos(m_rotationMouseX);
+        Vector3 l_desiredRotation;
+        l_desiredRotation.x = m_direction.x * Mathf.Cos(m_rotationMouseX) - m_direction.z * Mathf.Sin(m_rotationMouseX);
+        l_desiredRotation.y = 0.0f;
+        l_desiredRotation.z = m_direction.x * Mathf.Sin(m_rotationMouseX) + m_direction.z * Mathf.Cos(m_rotationMouseX);
 
-        //rotate the player after getting the updated direction
-        Quaternion l_rotation = Quaternion.LookRotation(l_result * Time.fixedDeltaTime);
+        //rotate the player after getting the updated direction, interpolate
+        Quaternion l_rotation = Quaternion.LookRotation(l_desiredRotation * Time.fixedDeltaTime);
         m_rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, l_rotation, Time.deltaTime * 10.0f));
 
         // Calculate and clamp Y value
-        Vector3 l_axis = Vector3.Cross(l_result, Vector3.up);
-        if (l_axis == Vector3.zero) l_axis = Vector3.right;
-        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * new Vector3(l_result.x, m_eyeDirection.y, l_result.z);
-        l_direction.Normalize();
+        //Vector3 l_axis = Vector3.Cross(l_result, Vector3.up);
+        //if (l_axis == Vector3.zero) l_axis = Vector3.right;
+        //Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * l_result;
+        //l_direction.Normalize();
 
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-this.transform.forward.x * 5.0f, 2.0f, -this.transform.forward.z * 5.0f);
+        //camera transform change
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-this.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -this.transform.forward.z * M_cameraOffset.x);
         M_launchCamera.transform.rotation = this.transform.rotation;
 
         // final direction
-        m_direction = l_result;
-        m_eyeDirection = l_direction;
-        m_eyeDirection.Normalize();
+        m_direction = l_desiredRotation;
     }
     public void SetValues(float a_size, float a_mass)
     {
