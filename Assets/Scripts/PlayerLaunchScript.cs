@@ -137,27 +137,17 @@ public class PlayerLaunchScript : MonoBehaviour
         l_direction.Normalize();
         m_rigidbody.velocity = l_direction * m_rigidbody.velocity.magnitude;
 
-        // Mouse is moved, calculate camera rotation from the mouse position difference between frames
-        m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
-        m_rotationMouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
-
-        // CAMERA ROTATION
-        // Rotation using 2D vector rotation by angle formula
-        Vector3 l_desiredRotation;
-        l_desiredRotation.x = m_direction.x * Mathf.Cos(m_rotationMouseX) - m_direction.z * Mathf.Sin(m_rotationMouseX);
-        l_desiredRotation.y = 0.0f;
-        l_desiredRotation.z = m_direction.x * Mathf.Sin(m_rotationMouseX) + m_direction.z * Mathf.Cos(m_rotationMouseX);
-
+        // Calculate camera rotation
+        Vector3 l_desiredRotation = GetDesiredRotationFromMouseInput();
+        m_direction = l_desiredRotation;
+        
         //rotate the camera and interpolate
-        Quaternion l_rotation = Quaternion.LookRotation(l_desiredRotation * Time.fixedDeltaTime);
-        l_rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotation, Time.deltaTime * 10.0f);
+        Quaternion l_rotation = Quaternion.LookRotation(l_desiredRotation);
+        l_rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotation, Time.fixedDeltaTime * 10.0f);
 
         //camera transform change
         M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
         M_launchCamera.transform.rotation = l_rotation;
-
-        // final direction
-        m_direction = l_desiredRotation;
 
     }
 
@@ -216,19 +206,12 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private void DirectionInput()
     {
-        // Mouse is moved, calculate camera rotation from the mouse position difference between frames
-        m_rotationMouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
-        m_rotationMouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
-
-        // Rotation using 2D vector rotation by angle formula
-        Vector3 l_desiredRotation;
-        l_desiredRotation.x = m_direction.x * Mathf.Cos(m_rotationMouseX) - m_direction.z * Mathf.Sin(m_rotationMouseX);
-        l_desiredRotation.y = 0.0f;
-        l_desiredRotation.z = m_direction.x * Mathf.Sin(m_rotationMouseX) + m_direction.z * Mathf.Cos(m_rotationMouseX);
+        Vector3 l_desiredRotation = GetDesiredRotationFromMouseInput();
+        m_direction = l_desiredRotation;
 
         //rotate the player after getting the updated direction, interpolate
-        Quaternion l_rotation = Quaternion.LookRotation(l_desiredRotation * Time.fixedDeltaTime);
-        m_rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, l_rotation, Time.deltaTime * 10.0f));
+        Quaternion l_rotation = Quaternion.LookRotation(l_desiredRotation);
+        m_rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, l_rotation, Time.fixedDeltaTime * 10.0f));
 
         // Calculate and clamp Y value
         //Vector3 l_axis = Vector3.Cross(l_result, Vector3.up);
@@ -239,10 +222,23 @@ public class PlayerLaunchScript : MonoBehaviour
         //camera transform change
         M_launchCamera.transform.position = this.transform.position + new Vector3(-this.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -this.transform.forward.z * M_cameraOffset.x);
         M_launchCamera.transform.rotation = this.transform.rotation;
-
-        // final direction
-        m_direction = l_desiredRotation;
     }
+
+    Vector3 GetDesiredRotationFromMouseInput()
+    {
+        // Mouse is moved, calculate camera rotation from the mouse position difference between frames
+        float l_mouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
+        float l_mouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
+
+        // Rotation using 2D vector rotation by angle formula
+        Vector3 l_rotation;
+        l_rotation.x = m_direction.x * Mathf.Cos(l_mouseX) - m_direction.z * Mathf.Sin(l_mouseX);
+        l_rotation.y = 0.0f;
+        l_rotation.z = m_direction.x * Mathf.Sin(l_mouseX) + m_direction.z * Mathf.Cos(l_mouseX);
+
+        return l_rotation;
+    }
+
     public void SetValues(float a_size, float a_mass)
     {
         transform.localScale = new Vector3(a_size, a_size, a_size);
