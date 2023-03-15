@@ -13,6 +13,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_freeCamPrompt;
     public GameObject M_freeControl;
     public GameObject M_closePrompt;
+    public GameObject M_tiltPrompt;
 
     public GameObject M_goalArrow;
 
@@ -101,7 +102,7 @@ public class TutorialManager : MonoBehaviour
         {
             
             M_launchAimPrompt.SetActive(false);
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(4);
             M_walkPrompt.SetActive(true);
         }
 
@@ -163,7 +164,16 @@ public class TutorialManager : MonoBehaviour
         }
 
 
+        if(M_tiltPrompt.activeSelf)
+        {
+            StartCoroutine(DeactivateTiltPrompt());
+        }
 
+        IEnumerator DeactivateTiltPrompt()
+        {
+            yield return new WaitForSeconds(10);
+            M_tiltPrompt.SetActive(false);
+        }
 
     }
 }
