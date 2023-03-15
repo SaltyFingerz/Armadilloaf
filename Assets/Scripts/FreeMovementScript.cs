@@ -1,4 +1,3 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +7,8 @@ using UnityEngine.UIElements;
 public class FreeMovementScript : MonoBehaviour
 {
     public float m_playerSpeed;
-    public float m_mouseSensitivity;
+    public float m_mouseSensitivityX;
+    public float m_mouseSensitivityY;
     Camera m_camera;
     Vector3 m_direction;
 
@@ -29,11 +29,9 @@ public class FreeMovementScript : MonoBehaviour
 
         RotateCamera();
 
-       
-
         // calculate movement directions for forward and side movement
-        Vector3 l_forward = this.transform.forward;
-        Vector3 l_right = this.transform.right;
+        Vector3 l_forward = m_camera.transform.forward;
+        Vector3 l_right = m_camera.transform.right;
 
         // movement with AWSD keys
         Vector3 l_movementDirection;
@@ -57,16 +55,25 @@ public class FreeMovementScript : MonoBehaviour
     void RotateCamera()
     {
         // Mouse is moved, calculate camera rotation from the mouse position difference between frames
-        float l_mouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
-        float l_mouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivity;
+        float l_mouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
+        float l_mouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
 
         // Rotation using 2D vector rotation by angle formula
         Vector3 l_rotation;
         l_rotation.x = m_direction.x * Mathf.Cos(l_mouseX) - m_direction.z * Mathf.Sin(l_mouseX);
-        l_rotation.y = 0.0f;
+        l_rotation.y = m_direction.y;
         l_rotation.z = m_direction.x * Mathf.Sin(l_mouseX) + m_direction.z * Mathf.Cos(l_mouseX);
 
-        m_direction = l_rotation;
+        // Calculate and clamp Y value
+        Vector3 l_axis = Vector3.Cross(l_rotation, Vector3.up);
+        if (l_axis == Vector3.zero)
+        {
+            l_axis = Vector3.right;
+        }
+        m_direction = Quaternion.AngleAxis(-l_mouseY, l_axis) * l_rotation;
+
+        m_direction.y = Mathf.Clamp(m_direction.y, -0.9f, 0.9f);
+        m_direction.Normalize();
 
         //rotate the camera and interpolate
         Quaternion l_rotationQuaternion = Quaternion.LookRotation(l_rotation);
