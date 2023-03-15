@@ -23,21 +23,23 @@ Material:
   m_Name: Counter
   m_Shader: {fileID: 4800000, guid: 849dc4ff793a3f943ad21a3b6ee26456, type: 3}
   m_Parent: {fileID: 2100000, guid: 1721110c4649ed54d9ecdeb028b0db5e, type: 2}
-  m_ModifiedSerializedProperties: 0
+  m_ModifiedSerializedProperties: 20
   m_ValidKeywords:
   - _ADDITIONAL_LIGHTS_ENABLED
   - _ENVIRONMENT_LIGHTING_ENABLED
   - _FOG
   - _NORMALMAP
   - _RAMP_TRIPLE
+  - _REFLECTION_PROBES
   - _SHADOW_MASK
   m_InvalidKeywords:
   - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -53,11 +55,27 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _Cull: 2
+    - _Cutoff: 0.365
+    - _DstBlend: 0
+    - _Emission: 0
+    - _Fresnel: 0
     - _FresnelSmoothness: 0.1
     - _FresnelThickness: 0.45
+    - _PureShadowColor: 0
     - _Ramp0: 0
     - _RampSmoothness: 0.108
+    - _ReflectionBlend: 0.069
+    - _ReflectionProbes: 1
+    - _ReflectionSmoothness: 0.51
+    - _Reflections: 0
     - _ShadowMask: 1
+    - _Specular: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _VertexColor: 0
+    - _ZWrite: 1
     m_Colors:
     - _ShadowTint: {r: 0, g: 0, b: 0, a: 0.39607844}
   m_BuildTextureStacks: []
