@@ -14,6 +14,8 @@ public class CustomController : MonoBehaviour
     private float m_gravityValue = -9.81f;
     private Vector2 m_moveInput;
 
+    public RenderingScript M_RenderScript;
+
     public LayerMask M_whatIsGround;
     public Transform M_groundPoint;
     private bool m_justLaunched = false;
@@ -82,6 +84,8 @@ public class CustomController : MonoBehaviour
         {
             rb.velocity += new Vector3(0f, m_playerMovement.m_jumpHeight, 0f);
         }
+
+       // M_RenderScript.DisableBlur();
     }
 
     void MovePlayerRelativeToCamera()

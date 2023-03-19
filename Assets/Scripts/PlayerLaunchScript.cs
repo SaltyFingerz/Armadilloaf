@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using System.Collections;
 
 public class PlayerLaunchScript : MonoBehaviour
 {
@@ -14,17 +15,21 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_launchCamera;
     public GameObject M_playerManager;
     public UnityEngine.UI.Image M_fillImage;
+    public RenderingScript M_RenderScript;
     public Canvas M_canvas;
 
     float m_rotationMouseY, m_rotationMouseX;
     public float m_mouseSensitivityX;
     public float m_mouseSensitivityY;
     float m_currentScroll;
+    bool m_collisionEnter = false;
+    bool m_collisionStay = false;
 
     Vector3 m_direction;
     int m_launchingStage = 0;
     float m_launchingPower;
     bool m_isOnFloor = false;
+    bool m_canShake = false;
 
     public int M_maxPower;
     public float M_minimumDirectionY, M_maximumDirectionY;
@@ -48,6 +53,7 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction = new Vector3(0.0f, 0.0f, 1.0f);
         M_fillImage.fillAmount = 0.0f;
         M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, m_baseLength + m_powerSizeStep * M_maxPower);
+       
 
     }
 
@@ -201,6 +207,13 @@ public class PlayerLaunchScript : MonoBehaviour
         M_arrowMaximum.SetActive(false);
         m_launchingPower *= 3.0f;
         m_rigidbody.velocity = new Vector3(m_direction.x * m_launchingPower, m_direction.y * m_launchingPower, m_direction.z * m_launchingPower);
+        Animator anim = gameObject.GetComponent<Animator>();
+        anim.SetTrigger("Launching");
+        StartCoroutine(BlurDisableCooldown());
+        if (m_canBlur)
+        {
+            M_RenderScript.EnableBlur();
+        }
     }
 
     private void DirectionInput()
@@ -266,6 +279,37 @@ public class PlayerLaunchScript : MonoBehaviour
             SceneManager.LoadScene("FailScreen");
             PlayerPrefs.SetInt("tute", 1);
         }
+        if (a_collider != null)
+        {
+            m_collisionStay = true;
+        }
+
+        if (!m_canBlur)
+        {
+            M_RenderScript.DisableBlur();
+        }
+    }
+
+    public void OnCollisionExit(Collision collision)
+    {
+            m_collisionStay = false;
+ 
+            StartCoroutine(CollisionCooldown());
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        m_collisionEnter = true;
+       
+        if(m_collisionEnter & m_canShake)
+        {
+            StartCoroutine(ShakeCooldown());
+        }
+        if (!m_canBlur)
+        {
+            M_RenderScript.DisableBlur();
+        }
     }
 
     public bool isGrounded()
@@ -273,5 +317,38 @@ public class PlayerLaunchScript : MonoBehaviour
         RaycastHit hit;
         return Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.7f);
     }
+
+     IEnumerator CollisionCooldown()
+    {
+        if (!m_collisionStay)
+        {
+            yield return new WaitForSeconds(0.5f);
+            if(!m_collisionStay)
+            {
+                m_collisionEnter = false;
+                m_canShake = true;
+            }
+        }
+        
+    }
+
+    IEnumerator ShakeCooldown()
+    {
+        Animator anim = gameObject.GetComponent<Animator>();
+        anim.SetTrigger("Landing");
+        m_canShake = false;
+        yield return new WaitForSeconds(0.5f);
+   
+
+    }
+
+    bool m_canBlur = false;
+    IEnumerator BlurDisableCooldown()
+    {
+        m_canBlur = true;
+        yield return new WaitForSeconds(3f);
+        m_canBlur = false;
+    }
+
 }
     
