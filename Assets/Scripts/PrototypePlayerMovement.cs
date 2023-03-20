@@ -26,11 +26,18 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider a_hit)
     {
-        if (a_hit.gameObject.CompareTag("Enemy") || a_hit.gameObject.CompareTag("Hazard"))
+        if (a_hit.gameObject.CompareTag("Enemy"))
         {
             SceneManager.LoadScene("FailScreen");
             PlayerPrefs.SetInt("tute", 1); //this is to not load the tutorial upon reloading the scene (temporary until respawn)
 
+        }
+        {
+            if ( a_hit.gameObject.CompareTag("Hazard"))
+            {
+                PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
+                m_playerManagerScript.M_takingDamage = true;
+            }
         }
 
         if(a_hit.gameObject.CompareTag("Collectible"))
@@ -69,6 +76,12 @@ public class PrototypePlayerMovement : MonoBehaviour
 
 
 
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
+        m_playerManagerScript.M_takingDamage = false;
     }
     private void OnControllerColliderHit(ControllerColliderHit a_hit)
     {
@@ -154,6 +167,12 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             PlayerManagerScript m_playerScript = M_playerManager.GetComponent<PlayerManagerScript>();
             m_playerScript.Respawn();
+        }
+
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            PlayerManagerScript m_playerScript = M_playerManager.GetComponent<PlayerManagerScript>();
+            StartCoroutine(m_playerScript.ShowUIQuickly());
         }
 
         // movement with AWSD keys
