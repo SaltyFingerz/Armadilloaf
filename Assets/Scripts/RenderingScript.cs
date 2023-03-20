@@ -33,7 +33,6 @@ public class RenderingScript : MonoBehaviour
             if (M_PPVol.profile.TryGet<MotionBlur>(out m_motionBlur))
             {
                 m_motionBlur.intensity.value = 0.6f;
-                print("blur enabled");
             }
 
         }
@@ -45,7 +44,6 @@ public class RenderingScript : MonoBehaviour
             if (M_PPVol.profile.TryGet<MotionBlur>(out m_motionBlur))
             {
                 m_motionBlur.intensity.value = 0.0f;
-            print("blur disabled");
             }
        
     }

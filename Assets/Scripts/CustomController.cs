@@ -85,7 +85,7 @@ public class CustomController : MonoBehaviour
             rb.velocity += new Vector3(0f, m_playerMovement.m_jumpHeight, 0f);
         }
 
-       // M_RenderScript.DisableBlur();
+        M_RenderScript.DisableBlur();
     }
 
     void MovePlayerRelativeToCamera()
