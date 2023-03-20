@@ -23425,10 +23425,6 @@ PrefabInstance:
       propertyPath: M_FinishUI
       value: 
       objectReference: {fileID: 455816476}
-    - target: {fileID: 707024123, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-      propertyPath: M_RenderScript
-      value: 
-      objectReference: {fileID: 2049684755}
     - target: {fileID: 2163527014642896243, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: M_Tutorial
       value: 
@@ -23489,12 +23485,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8854288522490146423, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-      propertyPath: M_RenderScript
-      value: 
-      objectReference: {fileID: 2049684755}
-    m_RemovedComponents:
-    - {fileID: 1983485587, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+    m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
 --- !u!1001 &870375850
@@ -25629,11 +25620,6 @@ Transform:
   m_Father: {fileID: 521909539}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1141598590 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2163527014642896250, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-  m_PrefabInstance: {fileID: 860440016}
-  m_PrefabAsset: {fileID: 0}
 --- !u!64 &1153604372
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -40140,6 +40126,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b82f9adacadce14193b0d45d98f0d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amp: 0
+  freq: 0
+  ampHor: 0
+  freqHor: 0
+  GlowBobbles: {fileID: 0}
+  ampDep: 0
+  freqDep: 0
 --- !u!135 &1635729359
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -50235,37 +50228,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 092cad2a394a96644ad4efccb8a94f2a, type: 3}
   m_PrefabInstance: {fileID: 834801631}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2049684751 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1983485584, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-  m_PrefabInstance: {fileID: 860440016}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2049684754 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1983485585, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-  m_PrefabInstance: {fileID: 860440016}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049684751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2049684755
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049684751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c3c26622c735f240b033554b8c0b43d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  M_PPVol: {fileID: 2049684754}
-  M_Ball: {fileID: 305606497}
-  M_Walker: {fileID: 1141598590}
 --- !u!1 &2056720629
 GameObject:
   m_ObjectHideFlags: 0
@@ -70988,6 +70950,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b82f9adacadce14193b0d45d98f0d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amp: 0
+  freq: 0
+  ampHor: 0
+  freqHor: 0
+  GlowBobbles: {fileID: 0}
+  ampDep: 0
+  freqDep: 0
 --- !u!135 &3553943764293876776
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -71013,6 +70982,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b82f9adacadce14193b0d45d98f0d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amp: 0
+  freq: 0
+  ampHor: 0
+  freqHor: 0
+  GlowBobbles: {fileID: 0}
+  ampDep: 0
+  freqDep: 0
 --- !u!1 &3553943764293876778
 GameObject:
   m_ObjectHideFlags: 0
@@ -75958,6 +75934,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b82f9adacadce14193b0d45d98f0d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amp: 0
+  freq: 0
+  ampHor: 0
+  freqHor: 0
+  GlowBobbles: {fileID: 0}
+  ampDep: 0
+  freqDep: 0
 --- !u!33 &3553943765261918292
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -76056,6 +76039,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b82f9adacadce14193b0d45d98f0d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amp: 0
+  freq: 0
+  ampHor: 0
+  freqHor: 0
+  GlowBobbles: {fileID: 0}
+  ampDep: 0
+  freqDep: 0
 --- !u!135 &3553943765295063651
 SphereCollider:
   m_ObjectHideFlags: 0
