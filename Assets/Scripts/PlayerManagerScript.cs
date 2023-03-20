@@ -130,20 +130,25 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             if (M_isFreeFlying)
             {
-
+                M_isFreeFlying = false;
                 switch (m_state)
                 {
                     case ArmadilloState.walk:
-                        StartWalking();
+                        M_additionalCamera.SetActive(false);
+                        M_walkingCamera.SetActive(true);
+                        M_launchCamera.SetActive(false);
+                        M_freeFlyingPlayer.SetActive(false);
                         break;
                     case ArmadilloState.launching:
-                        StartLaunching();
+                        M_additionalCamera.SetActive(false);
+                        M_walkingCamera.SetActive(false);
+                        M_launchCamera.SetActive(true);
+                        M_freeFlyingPlayer.SetActive(false);
                         break;
 
                     default:
                         break;
                 }
-                M_isFreeFlying = false;
             }
             else
             {
