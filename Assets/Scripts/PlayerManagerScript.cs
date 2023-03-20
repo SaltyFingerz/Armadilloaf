@@ -290,10 +290,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchCamera.SetActive(false);
         M_additionalCamera.SetActive(false);
 
-        // enable walking
-        m_state = ArmadilloState.walk;
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
-        M_walkingPlayer.SetActive(true);
         M_walkingCamera.SetActive(true);
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
 
@@ -317,6 +314,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
         M_launchingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
+        m_state = ArmadilloState.walk;
+        M_walkingPlayer.SetActive(true);
     }
 
     public void StartLaunching()
