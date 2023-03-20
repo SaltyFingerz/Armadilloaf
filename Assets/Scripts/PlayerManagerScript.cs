@@ -329,16 +329,14 @@ public partial class PlayerManagerScript : MonoBehaviour
         // get values from the walking armadillo
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
         M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CustomController>().rb.velocity;
-        m_state = ArmadilloState.launching;
+       
 
         // rotation change
         Vector3 l_rotation = M_launchingPlayer.transform.localRotation.eulerAngles;
         l_rotation.Set(0f, M_walkingPlayer.transform.localRotation.eulerAngles.y, 0f);
         M_launchingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
-        // activate and deactivate players
-        M_launchingPlayer.SetActive(true);
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
+        
 
         if (!M_isFreeFlying)
         {
@@ -348,8 +346,11 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
         }
        
-        M_walkingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
+        M_walkingPlayer.SetActive(false);
+        m_state = ArmadilloState.launching;
+        M_launchingPlayer.SetActive(true);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
     }
 
     void StartFlying()
