@@ -30,12 +30,18 @@ public partial class PlayerManagerScript : MonoBehaviour
     //Player HUD objects
     public Canvas M_playerHUD;
     public GameObject M_freshnessBar;
-    public Image armadilloaf;
-    public TextMeshProUGUI lifeText;
+    public Slider M_freshnessSlider;
+    public Image M_armadilloaf;
+    public Image M_transitionSprite;
+    public TextMeshProUGUI M_lifeText;
 
     //Player values
     public Vector3 currentCheckpoint;
-    public int lives = 5;
+    public int M_lives = 5;
+    public float M_hitPoints = 5.0f;
+    public bool M_takingDamage = false;
+    public bool M_transitionIn = false;
+    public bool M_transitionOut = false;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -52,10 +58,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_UIManager.Resume();
         Cursor.lockState = CursorLockMode.Locked;
 
+        M_freshnessSlider = GetComponentInChildren<Slider>();
+        M_freshnessSlider.maxValue = M_hitPoints;
+        M_freshnessSlider.value = M_hitPoints;
         M_freshnessBar.SetActive(false);
 
-        StartCoroutine(FadeAway(armadilloaf));
-        StartCoroutine(FadeAway(lifeText));
+        M_transitionSprite.enabled = false;
+
+        StartCoroutine(FadeAway(M_armadilloaf));
+        StartCoroutine(FadeAway(M_lifeText));
 
         m_state = ArmadilloState.walk;
 
@@ -68,6 +79,16 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         currentCheckpoint = M_walkingPlayer.transform.position;
         M_UIManager.Resume();
+    }
+
+    public IEnumerator ShowUIQuickly()
+    {
+        M_lifeText.text = M_lives.ToString();
+        StartCoroutine(FadeIn(M_armadilloaf));
+        StartCoroutine(FadeIn(M_lifeText));
+        yield return new WaitForSeconds(2);
+        StartCoroutine(FadeAway(M_armadilloaf));
+        StartCoroutine(FadeAway(M_lifeText));
     }
 
     IEnumerator FadeAway(Image a_image)
@@ -94,6 +115,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     IEnumerator FadeIn(Image a_image)
     {
+        a_image.enabled = true;
         for (float i = 0; i <= 1; i += Time.deltaTime)
         {
             // set color with i as alpha
@@ -102,9 +124,64 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
     }
 
-        // Update is called once per frame
-        void Update()
+    IEnumerator FadeIn(TextMeshProUGUI a_text)
     {
+        a_text.enabled = true;
+        for (float i = 0; i <= 1; i += Time.deltaTime)
+        {
+            // set color with i as alpha
+            a_text.color = new Color(1, 1, 1, i);
+            yield return null;
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (M_takingDamage)
+        {
+            M_freshnessBar.SetActive(true);
+            M_hitPoints -= (1 * Time.deltaTime);
+            M_freshnessSlider.value = M_hitPoints;
+            Debug.Log(M_hitPoints);
+            if (M_hitPoints <= 0)
+            {
+                M_transitionIn = true;
+                M_takingDamage = false;
+            }
+        }
+
+        if (M_transitionIn)
+        {
+          M_transitionSprite.enabled = true;
+          M_transitionSprite.transform.localScale += new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
+          if (M_transitionSprite.transform.localScale.x >= 20.0f)
+            {
+                if (M_lives > 0)
+                { 
+                M_lives--;
+                Respawn();
+                StartCoroutine(ShowUIQuickly());
+                M_transitionIn = false;
+                M_transitionOut = true;
+                }
+                else
+                {
+                    M_transitionIn = false;
+                    SceneManager.LoadScene("FailScreen");
+                }
+            }
+        }
+
+        if (M_transitionOut)
+        {
+            M_transitionSprite.transform.localScale -= new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
+            if (M_transitionSprite.transform.localScale.x <= 0.01f)
+            {
+                M_transitionSprite.enabled = false;
+                M_transitionOut = false;
+            }
+        }
         if (m_justUnpaused)
         {
             m_justUnpaused = false;
@@ -130,20 +207,25 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             if (M_isFreeFlying)
             {
-
+                M_isFreeFlying = false;
                 switch (m_state)
                 {
                     case ArmadilloState.walk:
-                        StartWalking();
+                        M_additionalCamera.SetActive(false);
+                        M_walkingCamera.SetActive(true);
+                        M_launchCamera.SetActive(false);
+                        M_freeFlyingPlayer.SetActive(false);
                         break;
                     case ArmadilloState.launching:
-                        StartLaunching();
+                        M_additionalCamera.SetActive(false);
+                        M_walkingCamera.SetActive(false);
+                        M_launchCamera.SetActive(true);
+                        M_freeFlyingPlayer.SetActive(false);
                         break;
 
                     default:
                         break;
                 }
-                M_isFreeFlying = false;
             }
             else
             {
@@ -155,6 +237,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             SceneManager.LoadScene("FailScreen");
         }
+
         if(Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
             Time.timeScale = 0;
@@ -171,6 +254,9 @@ public partial class PlayerManagerScript : MonoBehaviour
             m_controller.rb.isKinematic = true;
             M_walkingPlayer.transform.position = currentCheckpoint;
             m_controller.rb.isKinematic = false;
+            M_hitPoints = 5;
+            M_freshnessSlider.value = M_hitPoints;
+            M_freshnessBar.SetActive(false);
         }
     }
 
