@@ -23444,6 +23444,14 @@ PrefabInstance:
       propertyPath: M_RenderScript
       value: 
       objectReference: {fileID: 2130601687}
+    - target: {fileID: 1228896357, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: playerAnimator
+      value: 
+      objectReference: {fileID: 860440025}
+    - target: {fileID: 1228896357, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 860440027}
     - target: {fileID: 2163527014642896243, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: M_Tutorial
       value: 
@@ -23551,6 +23559,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &860440025 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1228896356, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+  m_PrefabInstance: {fileID: 860440016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &860440027 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2163527014642896243, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+  m_PrefabInstance: {fileID: 860440016}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860440018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c56cd4ae94440ab4d9801ae9e42a2c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &870375850
