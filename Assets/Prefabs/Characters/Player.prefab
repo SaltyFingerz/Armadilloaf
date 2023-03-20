@@ -708,7 +708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1983485586}
   - component: {fileID: 1983485585}
-  - component: {fileID: 1983485587}
+  - component: {fileID: 214360153370915301}
   m_Layer: 0
   m_Name: PostProcessing
   m_TagString: Untagged
@@ -748,7 +748,7 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: d283777413f5e6142950736b2b693b2f, type: 2}
---- !u!114 &1983485587
+--- !u!114 &214360153370915301
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -757,7 +757,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1983485584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a909b9acbccba0844895f7932fa4a5bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c3c26622c735f240b033554b8c0b43d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   M_PPVol: {fileID: 1983485585}
@@ -1226,7 +1226,7 @@ MonoBehaviour:
   isGrounded: 0
   M_walkCamera: {fileID: 3230808216360575777}
   M_playerManager: {fileID: 4933560404183489198}
-  M_RenderScript: {fileID: 1983485587}
+  M_RenderScript: {fileID: 214360153370915301}
   M_whatIsGround:
     serializedVersion: 2
     m_Bits: 512
@@ -1736,7 +1736,7 @@ Transform:
   - {fileID: 4933560404183489193}
   - {fileID: 1983485586}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6516913502581176968
 GameObject:
@@ -2587,7 +2587,7 @@ MonoBehaviour:
   M_launchCamera: {fileID: 4887848611024666943}
   M_playerManager: {fileID: 4933560404183489198}
   M_fillImage: {fileID: 497028206190739727}
-  M_RenderScript: {fileID: 1983485587}
+  M_RenderScript: {fileID: 214360153370915301}
   M_canvas: {fileID: 4854981069537008706}
   m_mouseSensitivityX: 8
   m_mouseSensitivityY: 500
