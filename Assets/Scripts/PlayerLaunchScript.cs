@@ -210,7 +210,7 @@ public class PlayerLaunchScript : MonoBehaviour
         //m_rigidbody.AddForce(new Vector3(m_direction.x * m_launchingPower * 100, m_direction.y * m_launchingPower * 100, m_direction.z * m_launchingPower * 100));
         m_rigidbody.freezeRotation = false;
         Animator anim = gameObject.GetComponent<Animator>();
-       // anim.SetTrigger("Launching");
+        anim.SetTrigger("Launching");
         StartCoroutine(BlurDisableCooldown());
         if (m_canBlur)
         {
