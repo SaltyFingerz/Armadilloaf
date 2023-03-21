@@ -14,6 +14,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_freeControl;
     public GameObject M_closePrompt;
     public GameObject M_tiltPrompt;
+    public GameObject M_shrinkPrompt;
 
     public GameObject M_goalArrow;
 
@@ -173,6 +174,14 @@ public class TutorialManager : MonoBehaviour
         {
             yield return new WaitForSeconds(10);
             M_tiltPrompt.SetActive(false);
+        }
+
+        if(M_shrinkPrompt.activeSelf)
+        {
+            if(Input.GetKey(KeyCode.E))
+            {
+                M_shrinkPrompt.SetActive(false);
+            }
         }
 
     }
