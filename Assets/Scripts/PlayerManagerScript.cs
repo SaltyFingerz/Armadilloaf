@@ -445,7 +445,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_PlayerMovement.m_jumpHeight = 1;
         M_abilityState = AbilityState.normal;
         M_abilityState = 0;
-        print("reset");
+      
     }
 
     public bool isWalking()

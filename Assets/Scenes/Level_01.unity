@@ -28565,6 +28565,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 107976599}
     m_Modifications:
+    - target: {fileID: 466761024523150473, guid: ad4b04a044fd43546aaf590cdc50b2cd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f73abc66f8ee7345aebfc380ae74b55, type: 2}
     - target: {fileID: 2965643937499721209, guid: ad4b04a044fd43546aaf590cdc50b2cd, type: 3}
       propertyPath: m_Name
       value: MixerObstacle
@@ -28625,6 +28629,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5319565347827509355, guid: ad4b04a044fd43546aaf590cdc50b2cd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f73abc66f8ee7345aebfc380ae74b55, type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ad4b04a044fd43546aaf590cdc50b2cd, type: 3}
@@ -49608,7 +49616,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12c33be1f92bf3548b560aebb4068e03, type: 2}
+  - {fileID: 2100000, guid: 2f73abc66f8ee7345aebfc380ae74b55, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
