@@ -43,6 +43,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
+
         }
 
         if(a_hit.gameObject.name.Contains("FirstLaunchZone"))

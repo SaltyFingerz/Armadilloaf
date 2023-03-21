@@ -274,7 +274,7 @@ public class PlayerLaunchScript : MonoBehaviour
         if( a_hit.gameObject.CompareTag("Collectible"))
         {
             print("collectible +1");
-            a_hit.gameObject.SetActive(false);
+            a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
         }
     }
   
