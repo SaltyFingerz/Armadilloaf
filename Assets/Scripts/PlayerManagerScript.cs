@@ -28,6 +28,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
 
+    public Animator M_BallAnimator;
+
     //Player HUD objects
     public Canvas M_playerHUD;
     public GameObject M_freshnessBar;
@@ -140,6 +142,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        M_BallAnimator.SetInteger("Size", M_sizeState);
+
         if (M_takingDamage)
         {
             M_freshnessBar.SetActive(true);
