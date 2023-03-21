@@ -211,6 +211,7 @@ public partial class PlayerManagerScript : MonoBehaviour
                 switch (m_state)
                 {
                     case ArmadilloState.walk:
+                        M_walkingPlayer.transform.rotation = Quaternion.identity;
                         M_additionalCamera.SetActive(false);
                         M_walkingCamera.SetActive(true);
                         M_launchCamera.SetActive(false);
