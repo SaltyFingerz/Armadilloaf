@@ -357,5 +357,10 @@ public class PlayerLaunchScript : MonoBehaviour
         M_cameraOffset = a_offset;
     }
 
+    public void SetDirection(Vector3 a_direction)
+    {
+        m_direction = a_direction;
+    }
+
 }
     
