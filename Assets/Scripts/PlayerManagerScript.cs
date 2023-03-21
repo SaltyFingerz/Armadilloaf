@@ -188,18 +188,18 @@ public partial class PlayerManagerScript : MonoBehaviour
             return;
         }
         // grow
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             Grow();
         }
         // shrink
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             Shrink();
         }
 
         // state changing
-        if ((Input.GetKeyUp(KeyCode.Q) || Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)) && !M_isFreeFlying)
+        if (( Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)) && !M_isFreeFlying)
         {
             StateCheck();
         }
