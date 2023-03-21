@@ -274,9 +274,9 @@ public partial class PlayerManagerScript : MonoBehaviour
             case ArmadilloState.walk:
                 StartLaunching();
                 break;
+
             case ArmadilloState.launching:
                 StartWalking();
-
                 break;
 
             default:
@@ -289,6 +289,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         // change camera
         M_launchCamera.SetActive(false);
         M_additionalCamera.SetActive(false);
+        //M_walkingCamera.transform.rotation = M_launchCamera.transform.rotation;
 
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
         M_walkingCamera.SetActive(true);
@@ -324,6 +325,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         // change camera
         M_launchCamera.SetActive(true);
+        //M_walkingCamera.transform.rotation = M_launchCamera.transform.rotation;
 
         // get values from the walking armadillo
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
@@ -411,6 +413,8 @@ public partial class PlayerManagerScript : MonoBehaviour
 
             M_PlayerMovement.m_jumpHeight = 2;
             M_abilityState = AbilityState.jelly;
+
+            M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(new Vector2(10.0f, 10.0f));
         }
     }
     //acquire property of stickiness with Jelly pick-up, called in PowerUp_SizeChanger (script)
