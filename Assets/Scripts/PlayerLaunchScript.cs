@@ -202,13 +202,15 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction.Normalize();
         m_launchingStage++;
         m_rigidbody.constraints = RigidbodyConstraints.None;
-        m_rigidbody.freezeRotation = true;
+      //  m_rigidbody.freezeRotation = true;
         M_arrow.SetActive(false);
         M_arrowMaximum.SetActive(false);
         m_launchingPower *= 3.0f;
         m_rigidbody.velocity = new Vector3(m_direction.x * m_launchingPower, m_direction.y * m_launchingPower, m_direction.z * m_launchingPower);
+        //m_rigidbody.AddForce(new Vector3(m_direction.x * m_launchingPower * 100, m_direction.y * m_launchingPower * 100, m_direction.z * m_launchingPower * 100));
+        m_rigidbody.freezeRotation = false;
         Animator anim = gameObject.GetComponent<Animator>();
-        anim.SetTrigger("Launching");
+       // anim.SetTrigger("Launching");
         StartCoroutine(BlurDisableCooldown());
         if (m_canBlur)
         {

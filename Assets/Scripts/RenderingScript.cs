@@ -11,6 +11,7 @@ public class RenderingScript : MonoBehaviour
     public GameObject M_Ball;
     public GameObject M_Walker;
     MotionBlur m_motionBlur;
+    public float M_blurAmount = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +33,7 @@ public class RenderingScript : MonoBehaviour
         {
             if (M_PPVol.profile.TryGet<MotionBlur>(out m_motionBlur))
             {
-                m_motionBlur.intensity.value = 0.6f;
+                m_motionBlur.intensity.value = M_blurAmount;
             }
 
         }
