@@ -708,7 +708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1983485586}
   - component: {fileID: 1983485585}
-  - component: {fileID: 214360153370915301}
+  - component: {fileID: 2130601687}
   m_Layer: 0
   m_Name: PostProcessing
   m_TagString: Untagged
@@ -748,7 +748,7 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: d283777413f5e6142950736b2b693b2f, type: 2}
---- !u!114 &214360153370915301
+--- !u!114 &2130601687
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -757,12 +757,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1983485584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c3c26622c735f240b033554b8c0b43d, type: 3}
+  m_Script: {fileID: 11500000, guid: de1ec026f0dfef34ab9cef801d8310b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   M_PPVol: {fileID: 1983485585}
   M_Ball: {fileID: 8854288522490146422}
   M_Walker: {fileID: 2163527014642896250}
+  M_blurAmount: 0.6
 --- !u!1 &2082011892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1178,8 +1179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071b690fcb90f0742b59b9d28871c372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMovement: {fileID: 0}
-  playerAnimator: {fileID: 0}
+  playerMovement: {fileID: 2163527014642896243}
+  playerAnimator: {fileID: 1228896356}
   M_playerManager: {fileID: 4933560404183489198}
 --- !u!54 &707024119
 Rigidbody:
@@ -1226,7 +1227,7 @@ MonoBehaviour:
   isGrounded: 0
   M_walkCamera: {fileID: 3230808216360575777}
   M_playerManager: {fileID: 4933560404183489198}
-  M_RenderScript: {fileID: 214360153370915301}
+  M_RenderScript: {fileID: 2130601687}
   M_whatIsGround:
     serializedVersion: 2
     m_Bits: 512
@@ -1679,10 +1680,10 @@ MonoBehaviour:
   M_abilityState: 0
   M_playerHUD: {fileID: 716861149890891261}
   M_freshnessBar: {fileID: 3567319114753722534}
-  M_freshnessSlider: {fileID: 0}
-  M_armadilloaf: {fileID: 0}
-  M_transitionSprite: {fileID: 0}
-  M_lifeText: {fileID: 0}
+  M_freshnessSlider: {fileID: 261551049}
+  M_armadilloaf: {fileID: 1728365403}
+  M_transitionSprite: {fileID: 834698630}
+  M_lifeText: {fileID: 8136899250046816700}
   currentCheckpoint: {x: -9.3, y: 1.9, z: 2.1}
   M_lives: 5
   M_hitPoints: 5
@@ -1736,7 +1737,7 @@ Transform:
   - {fileID: 4933560404183489193}
   - {fileID: 1983485586}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6516913502581176968
 GameObject:
@@ -2516,7 +2517,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8854288522490146422}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 2540817853737639666, guid: 5a17263a68f1ba04dadae394e32131b2, type: 3}
 --- !u!23 &8854288522490146425
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2570,7 +2571,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.65
+  m_Radius: 1.3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8854288522490146423
 MonoBehaviour:
@@ -2587,7 +2588,7 @@ MonoBehaviour:
   M_launchCamera: {fileID: 4887848611024666943}
   M_playerManager: {fileID: 4933560404183489198}
   M_fillImage: {fileID: 497028206190739727}
-  M_RenderScript: {fileID: 214360153370915301}
+  M_RenderScript: {fileID: 2130601687}
   M_canvas: {fileID: 4854981069537008706}
   m_mouseSensitivityX: 8
   m_mouseSensitivityY: 500
@@ -2639,7 +2640,7 @@ Animator:
   m_GameObject: {fileID: 8854288522490146422}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ba04a460b605ee648af57434e9c6c407, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4e248f8d378a962429a9f247caae8a83, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
