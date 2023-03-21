@@ -192,7 +192,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         // grow
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            Debug.Break();
             Grow();
         }
         // shrink
