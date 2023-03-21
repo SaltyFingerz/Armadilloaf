@@ -1033,6 +1033,7 @@ MonoBehaviour:
   m_playerSpeed: 20
   m_mouseSensitivityX: 10
   m_mouseSensitivityY: 500
+  M_walkingPlayer: {fileID: 2163527014642896250}
 --- !u!1 &2163527014642896250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,7 +1088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56cd4ae94440ab4d9801ae9e42a2c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  M_walkCamera: {fileID: 3230808216360575777}
   M_playerManager: {fileID: 4933560404183489198}
   M_Tutorial: {fileID: 0}
   m_controller: {fileID: 0}
@@ -1737,7 +1737,7 @@ Transform:
   - {fileID: 4933560404183489193}
   - {fileID: 1983485586}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6516913502581176968
 GameObject:
