@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
-    public Camera M_walkCamera;
     public GameObject M_playerManager;
     public GameObject M_Tutorial;
     public CustomController m_controller;
