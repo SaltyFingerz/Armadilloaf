@@ -82,7 +82,7 @@ MonoBehaviour:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
-        m_Bits: 65535
+        m_Bits: 65407
       PassNames: []
     overrideMaterial: {fileID: 2100000, guid: c0be0a21791565143b4a2a2ec90b5125, type: 2}
     overrideMaterialPassIndex: 0
@@ -136,7 +136,8 @@ MonoBehaviour:
   - {fileID: 1054648981389018093}
   - {fileID: -8467492461863985101}
   - {fileID: -8528633458589196369}
-  m_RendererFeatureMap: 32bc7a10376693c2ed836b2aa9dda20e33a04cf8776c7d8aaf9f47590e35a489
+  - {fileID: 8762257413618621520}
+  m_RendererFeatureMap: 32bc7a10376693c2ed836b2aa9dda20e33a04cf8776c7d8aaf9f47590e35a489505c4579b1ca9979
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -197,3 +198,42 @@ MonoBehaviour:
     DirectLightingStrength: 0.2
     Radius: 1
     SampleCount: 4
+--- !u!114 &8762257413618621520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: PlayerOutline
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: PlayerOutline
+    Event: 250
+    filterSettings:
+      RenderQueueType: 0
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 128
+      PassNames: []
+    overrideMaterial: {fileID: 2100000, guid: 850681f4e65941b4f8806b90feea7392, type: 2}
+    overrideMaterialPassIndex: 0
+    overrideDepthState: 0
+    depthCompareFunction: 4
+    enableWrite: 1
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
