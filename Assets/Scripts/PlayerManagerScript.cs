@@ -340,8 +340,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         l_rotation.Set(0f, M_walkingPlayer.transform.localRotation.eulerAngles.y, 0f);
         M_launchingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
-        
-
         if (!M_isFreeFlying)
         {
             // animation reset before deactivating

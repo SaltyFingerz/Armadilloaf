@@ -41,7 +41,6 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] private float m_minimumSpeed = 0.2f;   // Speed minimum limit before the player changes to walking player.
 
     Vector2 M_cameraOffset;
-    Vector3 m_scale;
 
     public void Start()
     {
@@ -112,8 +111,6 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             HandleLaunchInput();
         }
-
-        Debug.Log(transform.localScale + "h");
     }
 
     void RollingDirectionInput()
@@ -258,10 +255,12 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void SetValues(float a_size, float a_mass)
     {
-        m_scale = new Vector3(a_size, a_size, a_size);
-        transform.localScale = m_scale;
+        GetComponent<Animator>().enabled = false;
+
+        transform.localScale = new Vector3(a_size, a_size, a_size);
         m_rigidbody.mass = a_mass;
-        
+        GetComponent<Animator>().enabled = true;
+
     }
 
     private void OnTriggerEnter(Collider a_hit)
