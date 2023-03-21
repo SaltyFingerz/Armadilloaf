@@ -22,6 +22,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public enum SizeState { small = 0, normal = 1, big = 2 };
     public float[] M_sizes = { 0.25f, 0.5f, 1.0f };             // Array of sizes, M_sizeState should be the index
     public float[] M_weights = { 1.0f, 3.0f, 10.0f };
+    public Vector2[] M_cameraOffsets = { new Vector2(2.5f, 1), new Vector2(5, 2), new Vector2(10, 4) };
     public int M_sizeState = (int)SizeState.normal;             // Keeps Track of size, int type to use as M_sizes index
     public float M_jellyBounciness = 0.8f;
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
@@ -77,6 +78,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_sizeState = (int)SizeState.normal;
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
         currentCheckpoint = M_walkingPlayer.transform.position;
         M_UIManager.Resume();
     }
@@ -190,6 +192,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         // grow
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            Debug.Break();
             Grow();
         }
         // shrink
@@ -290,7 +293,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         // change camera
         M_launchCamera.SetActive(false);
         M_additionalCamera.SetActive(false);
-        //M_walkingCamera.transform.rotation = M_launchCamera.transform.rotation;
 
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
         M_walkingCamera.SetActive(true);
@@ -389,6 +391,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
     }
 
     public void Shrink()
@@ -400,6 +403,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
         ResetAbilities();
     }
 
@@ -415,8 +419,6 @@ public partial class PlayerManagerScript : MonoBehaviour
 
             M_PlayerMovement.m_jumpHeight = 2;
             M_abilityState = AbilityState.jelly;
-
-            M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(new Vector2(10.0f, 10.0f));
         }
     }
     //acquire property of stickiness with Jelly pick-up, called in PowerUp_SizeChanger (script)

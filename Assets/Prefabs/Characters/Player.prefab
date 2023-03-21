@@ -1675,6 +1675,10 @@ MonoBehaviour:
   - 1
   - 3
   - 12
+  M_cameraOffsets:
+  - {x: 2.5, y: 1}
+  - {x: 5, y: 2}
+  - {x: 10, y: 1}
   M_sizeState: 1
   M_jellyBounciness: 0.7
   M_abilityState: 0
@@ -2600,7 +2604,6 @@ MonoBehaviour:
   m_powerSizeStep: 1
   m_baseLength: 10
   m_minimumSpeed: 0.2
-  M_cameraOffset: {x: 5, y: 2}
 --- !u!54 &8854288522490146428
 Rigidbody:
   m_ObjectHideFlags: 0
