@@ -357,6 +357,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         m_state = ArmadilloState.launching;
         M_launchingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
     }
 
     void StartFlying()

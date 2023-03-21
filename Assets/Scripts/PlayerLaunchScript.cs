@@ -41,6 +41,7 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] private float m_minimumSpeed = 0.2f;   // Speed minimum limit before the player changes to walking player.
 
     Vector2 M_cameraOffset;
+    float m_cameraRotationY;
 
     public void Start()
     {
@@ -53,7 +54,7 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction = new Vector3(0.0f, 0.0f, 1.0f);
         M_fillImage.fillAmount = 0.0f;
         M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, m_baseLength + m_powerSizeStep * M_maxPower);
-       
+        m_cameraRotationY = -Mathf.Cos(24f);
 
     }
 
@@ -247,7 +248,7 @@ public class PlayerLaunchScript : MonoBehaviour
         // Rotation using 2D vector rotation by angle formula
         Vector3 l_rotation;
         l_rotation.x = m_direction.x * Mathf.Cos(l_mouseX) - m_direction.z * Mathf.Sin(l_mouseX);
-        l_rotation.y = 0.0f;
+        l_rotation.y = m_cameraRotationY;
         l_rotation.z = m_direction.x * Mathf.Sin(l_mouseX) + m_direction.z * Mathf.Cos(l_mouseX);
 
         return l_rotation;
@@ -364,6 +365,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public void SetDirection(Vector3 a_direction)
     {
         m_direction = a_direction;
+        m_direction.y = m_rotationMouseY;
     }
 
 }
