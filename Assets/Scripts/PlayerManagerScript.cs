@@ -199,7 +199,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
 
         // state changing
-        if (Input.GetKeyUp(KeyCode.Q) && !M_isFreeFlying)
+        if ((Input.GetKeyUp(KeyCode.Q) || Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)) && !M_isFreeFlying)
         {
             StateCheck();
         }
@@ -207,6 +207,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             if (M_isFreeFlying)
             {
+                M_walkingPlayer.transform.rotation = Quaternion.identity;
                 M_isFreeFlying = false;
                 switch (m_state)
                 {
@@ -321,11 +322,11 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void StartLaunching()
     {
+        // change camera and apply new rotations to the launching player so it matches it previous rotation
         M_additionalCamera.SetActive(false);
-
-        // change camera
         M_launchCamera.SetActive(true);
-        //M_walkingCamera.transform.rotation = M_launchCamera.transform.rotation;
+        M_launchCamera.transform.rotation = M_walkingCamera.transform.rotation;
+        M_launchingPlayer.transform.rotation = M_walkingPlayer.transform.rotation;
 
         // get values from the walking armadillo
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
