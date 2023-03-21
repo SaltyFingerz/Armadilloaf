@@ -440,8 +440,12 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
         M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
+        M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
+
         M_PlayerMovement.m_jumpHeight = 1;
+        M_abilityState = AbilityState.normal;
         M_abilityState = 0;
+        print("reset");
     }
 
     public bool isWalking()
