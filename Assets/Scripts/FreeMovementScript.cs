@@ -12,6 +12,8 @@ public class FreeMovementScript : MonoBehaviour
     Camera m_camera;
     Vector3 m_direction;
 
+    public GameObject M_walkingPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +30,32 @@ public class FreeMovementScript : MonoBehaviour
         }
 
         RotateCamera();
+        MoveCamera();
+        RotateWalkingPlayer();
 
+    }
+
+    void RotateWalkingPlayer()
+    {
+        if(!M_walkingPlayer.activeSelf)
+        {
+            return;
+        }
+
+
+        // calculte direction in which the player should be looking at
+        Vector3 l_direction = M_walkingPlayer.transform.position - m_camera.transform.position;
+        l_direction.Normalize();
+
+        Quaternion l_directionQuaternion = Quaternion.LookRotation(l_direction);
+        l_directionQuaternion = Quaternion.Lerp(M_walkingPlayer.transform.rotation, l_directionQuaternion, Time.fixedDeltaTime * 10.0f);
+
+        M_walkingPlayer.transform.rotation = l_directionQuaternion;
+
+    }
+
+    void MoveCamera()
+    {
         // calculate movement directions for forward and side movement
         Vector3 l_forward = m_camera.transform.forward;
         Vector3 l_right = m_camera.transform.right;
@@ -49,7 +76,7 @@ public class FreeMovementScript : MonoBehaviour
 
         }
 
-        this.transform.position += l_movementDirection * m_playerSpeed * Time.deltaTime;
+        this.transform.position += l_movementDirection * m_playerSpeed * Time.fixedDeltaTime;
     }
 
     void RotateCamera()
