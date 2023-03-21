@@ -352,5 +352,10 @@ public class PlayerLaunchScript : MonoBehaviour
         m_canBlur = false;
     }
 
+    public void SetCameraOffset(Vector2 a_offset)
+    {
+        M_cameraOffset = a_offset;
+    }
+
 }
     
