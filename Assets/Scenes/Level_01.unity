@@ -52445,21 +52445,25 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 759409337}
     m_Modifications:
+    - target: {fileID: 421738665, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
+      propertyPath: M_Ball
+      value: 
+      objectReference: {fileID: 305606497}
+    - target: {fileID: 421738665, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
+      propertyPath: M_Walker
+      value: 
+      objectReference: {fileID: 1869161201}
+    - target: {fileID: 421738665, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
+      propertyPath: M_targetBall
+      value: 
+      objectReference: {fileID: 1991442479}
+    - target: {fileID: 421738665, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
+      propertyPath: M_targetWalk
+      value: 
+      objectReference: {fileID: 1869161210}
     - target: {fileID: 404566440074571408, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
       propertyPath: m_RootOrder
       value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 404566440074571408, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.2197
-      objectReference: {fileID: 0}
-    - target: {fileID: 404566440074571408, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2.2197
-      objectReference: {fileID: 0}
-    - target: {fileID: 404566440074571408, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2.2197
       objectReference: {fileID: 0}
     - target: {fileID: 404566440074571408, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -52504,10 +52508,6 @@ PrefabInstance:
     - target: {fileID: 2194135706779178398, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
       propertyPath: m_Name
       value: Enemy_01
-      objectReference: {fileID: 0}
-    - target: {fileID: 2920815221399688382, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
-      propertyPath: M_goals.Array.size
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2920815221399688382, guid: cf29a3bdea0db3944836ae59f5ba3c2c, type: 3}
       propertyPath: M_goals.Array.data[0]
