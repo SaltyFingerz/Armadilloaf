@@ -21,7 +21,7 @@ public class CustomController : MonoBehaviour
     private bool m_justLaunched = false;
 
     float m_mouseSensitivity = 1000.0f;
-    float m_stbleAngleX = 24.0f;
+    float m_mouseSensitivityY = 200.0f;
     float m_rotationY, m_rotationX;
 
     [SerializeField] private float m_minimumSpeed = 0.2f;
@@ -93,28 +93,13 @@ public class CustomController : MonoBehaviour
     {
         // Mouse is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
-        m_rotationY += -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivity;
-        m_rotationY = Mathf.Clamp(m_rotationY, -18f, 30f);
+        m_rotationY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
 
         // rotte the player (left-right)
         this.transform.rotation = Quaternion.AngleAxis(m_rotationX, Vector3.up);
 
-        Quaternion l_quat = Quaternion.AngleAxis(m_rotationY, Vector3.right);
-        //M_walkCamera.transform.localRotation = Quaternion.Lerp(M_walkCamera.transform.localRotation, l_quat, Time.fixedDeltaTime);
-
-        /*
-        Vector3 l_currentCameraRotation = M_walkCamera.transform.eulerAngles;
-        l_currentCameraRotation.x = Mathf.Clamp(l_currentCameraRotation.x, 10.0f, 100.0f);
-
-        if(Mathf.Abs(l_rotationMouseY) < 0.01f)
-        {
-            float l_difference = Mathf.Abs(l_currentCameraRotation.x - m_stbleAngleX) / 180.0f;
-            l_currentCameraRotation.x = Mathf.Lerp(l_currentCameraRotation.x, 24.0f, Time.fixedDeltaTime * l_difference * 10.0f);
-        }
-        l_currentCameraRotation.z = 0.0f;
-
-        M_walkCamera.transform.rotation = Quaternion.Euler(l_currentCameraRotation);
-        */
+        //Quaternion l_quat = Quaternion.AngleAxis(m_rotationY, Vector3.right);
+        //M_walkCamera.transform.rotation = M_walkCamera.transform.rotation * l_quat;
     }
 
     void MovePlayerRelativeToCamera()
