@@ -160,7 +160,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         { 
         playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y += m_gravityValue * Time.deltaTime, playerVelocity.z);
         }
-       // m_controller.Move(playerVelocity * Time.deltaTime);
         m_isHittingWall = false;  
     }
 
