@@ -419,7 +419,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
             M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
 
-            M_PlayerMovement.m_jumpHeight = 2;
+            M_PlayerMovement.m_jumpHeight = 8;
             M_abilityState = AbilityState.jelly;
         }
     }
@@ -433,7 +433,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
             M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
 
-            M_PlayerMovement.m_jumpHeight = 1;
+            M_PlayerMovement.m_jumpHeight = 5;
             M_abilityState = AbilityState.honey;
         }
     }
@@ -446,7 +446,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
 
-        M_PlayerMovement.m_jumpHeight = 1;
+        M_PlayerMovement.m_jumpHeight = 8;
         M_abilityState = AbilityState.normal;
         M_abilityState = 0;
       

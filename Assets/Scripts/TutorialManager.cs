@@ -7,7 +7,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_introPrompt;
     public GameObject M_movePrompt;
     public GameObject M_jumpPrompt;
-    public GameObject M_launchPrompt;
+    //public GameObject M_launchPrompt;
     public GameObject M_launchAimPrompt;
     public GameObject M_walkPrompt;
     public GameObject M_freeCamPrompt;
@@ -15,6 +15,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_closePrompt;
     public GameObject M_tiltPrompt;
     public GameObject M_shrinkPrompt;
+    public GameObject M_curlWorldPrompt;
 
     public GameObject M_goalArrow;
 
@@ -31,6 +32,7 @@ public class TutorialManager : MonoBehaviour
     bool m_Qpressed;
     bool m_Epressed;
 
+    bool m_launched;
 
     void Start()
     {
@@ -83,13 +85,13 @@ public class TutorialManager : MonoBehaviour
         if(Input.GetKey(KeyCode.Space) && M_jumpPrompt.activeSelf)
         {
             M_jumpPrompt.SetActive(false);
-            M_launchPrompt.SetActive(true);
+          //  M_launchPrompt.SetActive(true);
         }
 
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) && M_launchPrompt.activeSelf)
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && !m_launched ) // && M_launchPrompt.activeSelf)
         {
            
-            M_launchPrompt.SetActive(false);
+         //   M_launchPrompt.SetActive(false);
             M_launchAimPrompt.SetActive(true);
         }
 
@@ -101,7 +103,7 @@ public class TutorialManager : MonoBehaviour
 
         IEnumerator ExitBall()
         {
-            
+            m_launched = true;
             M_launchAimPrompt.SetActive(false);
             yield return new WaitForSeconds(4);
             M_walkPrompt.SetActive(true);
@@ -116,7 +118,7 @@ public class TutorialManager : MonoBehaviour
         {
             M_walkPrompt.SetActive(false);
             yield return new WaitForSeconds(3f);
-            if (!M_launchPrompt.activeSelf && !M_launchAimPrompt.activeSelf)
+            if (!M_launchAimPrompt.activeSelf) //&& !M_launchPrompt.activeSelf && )
             {
                 M_freeCamPrompt.SetActive(true);
             }
@@ -157,11 +159,14 @@ public class TutorialManager : MonoBehaviour
         IEnumerator freeControlPromptTimer()
         {
             yield return new WaitForSeconds(5f);
-            M_closePrompt.SetActive(true);
-            M_freeControl.SetActive(false);
+            if (M_freeControl.activeSelf)
+            {
+                M_closePrompt.SetActive(true);
+                M_freeControl.SetActive(false);
+            }
         }
 
-        if (m_Qpressed && m_Epressed && M_freeControl.activeSelf)
+        if ((m_Qpressed || m_Epressed) && M_freeControl.activeSelf)
         {
             M_closePrompt.SetActive(true);
             M_freeControl.SetActive(false);
