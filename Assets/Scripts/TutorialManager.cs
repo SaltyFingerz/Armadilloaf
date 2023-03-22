@@ -111,19 +111,20 @@ public class TutorialManager : MonoBehaviour
 
         if((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
         {
-            StartCoroutine(ShowFreeCamPrompt());
-        }
-
-        IEnumerator ShowFreeCamPrompt()
-        {
             M_walkPrompt.SetActive(false);
-            yield return new WaitForSeconds(3f);
-            if (!M_launchAimPrompt.activeSelf) //&& !M_launchPrompt.activeSelf && )
-            {
-                M_freeCamPrompt.SetActive(true);
-            }
+           // StartCoroutine(ShowFreeCamPrompt());
         }
 
+       // IEnumerator ShowFreeCamPrompt()
+        //{
+        //    M_walkPrompt.SetActive(false);
+           // yield return new WaitForSeconds(3f);
+          //  if (!M_launchAimPrompt.activeSelf) //&& !M_launchPrompt.activeSelf && )
+          //  {
+          //      M_freeCamPrompt.SetActive(true);
+          //  }
+      //  }
+     
 
        if(Input.GetKeyDown(KeyCode.C) && M_freeCamPrompt.activeSelf)
         {

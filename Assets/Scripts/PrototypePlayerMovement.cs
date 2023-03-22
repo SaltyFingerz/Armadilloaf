@@ -53,6 +53,7 @@ public class PrototypePlayerMovement : MonoBehaviour
             
         }
 
+       
         if (a_hit.gameObject.name.Contains("TipZone"))
         {
             M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
@@ -71,6 +72,12 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
             M_TuteWorld.transform.GetChild(1).gameObject.SetActive(true);
+
+        }
+
+        if (a_hit.gameObject.name.Contains("FreeCamZone") && !M_Tutorial.transform.GetChild(5).gameObject.activeSelf && !M_Tutorial.transform.GetChild(4).gameObject.activeSelf)
+        {
+            M_Tutorial.transform.GetChild(6).gameObject.SetActive(true);
 
         }
 
@@ -119,6 +126,12 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             return;
         }
+
+        if (M_Tutorial.transform.GetChild(4).gameObject.activeSelf)
+        {
+            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
+        }
+
 
         m_groundedPlayer = m_controller.isGrounded;
         HandleInput();
