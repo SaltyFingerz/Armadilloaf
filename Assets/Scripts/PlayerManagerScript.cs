@@ -193,15 +193,29 @@ public partial class PlayerManagerScript : MonoBehaviour
             m_justUnpaused = false;
             return;
         }
-        // grow
-        if (Input.GetKeyDown(KeyCode.Q))
+
+        if (!M_isFreeFlying)
         {
-            Grow();
+            // grow
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Grow();
+            }
+            // shrink
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Shrink();
+            }
         }
-        // shrink
-        if (Input.GetKeyDown(KeyCode.E))
+
+        if (Input.GetKey(KeyCode.G))
         {
-            Shrink();
+            Respawn();
+        }
+
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            StartCoroutine(ShowUIQuickly());
         }
 
         // state changing
@@ -255,16 +269,16 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void Respawn()
     {
-        if (M_walkingPlayer)
-        {
-            CustomController m_controller = M_walkingPlayer.GetComponent<CustomController>();
-            m_controller.rb.isKinematic = true;
-            M_walkingPlayer.transform.position = currentCheckpoint;
-            m_controller.rb.isKinematic = false;
-            M_hitPoints = 5;
-            M_freshnessSlider.value = M_hitPoints;
-            M_freshnessBar.SetActive(false);
-        }
+        CustomController l_controller = M_walkingPlayer.GetComponent<CustomController>();
+        l_controller.rb.isKinematic = true;
+        M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = true;
+        M_walkingPlayer.transform.position = currentCheckpoint;
+        M_launchingPlayer.transform.position = currentCheckpoint;
+        M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = false;
+        l_controller.rb.isKinematic = false;
+        M_hitPoints = 5;
+        M_freshnessSlider.value = M_hitPoints;
+        M_freshnessBar.SetActive(false);
     }
 
     public void Resume()

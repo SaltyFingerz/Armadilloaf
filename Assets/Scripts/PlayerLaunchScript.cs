@@ -279,50 +279,67 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider a_hit)
     {
-        if (a_hit.gameObject.CompareTag("Enemy") || a_hit.gameObject.CompareTag("Hazard"))
+        if (a_hit.gameObject.CompareTag("Enemy"))
         {
-            SceneManager.LoadScene("FailScreen");
             PlayerPrefs.SetInt("tute", 1); //this is to not load the tutorial upon reloading the scene (temporary until respawn)
+            SceneManager.LoadScene("FailScreen");
+        }
+        if (a_hit.gameObject.CompareTag("Hazard"))
+        {
+            M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = true;
         }
 
-        if( a_hit.gameObject.CompareTag("Collectible"))
+        if ( a_hit.gameObject.CompareTag("Collectible"))
         {
             print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
         }
     }
   
-    void OnCollisionStay(Collision a_collider)
+    void OnCollisionStay(Collision a_hit)
     {
-        if (a_collider.gameObject.CompareTag("Enemy"))
-        {
-            SceneManager.LoadScene("FailScreen");
-            PlayerPrefs.SetInt("tute", 1);
-        }
-        if (a_collider != null)
-        {
-            m_collisionStay = true;
-        }
-
         if (!m_canBlur)
         {
             M_RenderScript.DisableBlur();
         }
+
+        if (a_hit.gameObject.CompareTag("Enemy"))
+        {
+            PlayerPrefs.SetInt("tute", 1);
+            SceneManager.LoadScene("FailScreen");
+        }
+        
+
+        if (a_hit != null)
+        {
+            m_collisionStay = true;
+        }
+        
     }
 
-    public void OnCollisionExit(Collision collision)
+    public void OnCollisionExit(Collision a_hit)
     {
-            m_collisionStay = false;
- 
-            StartCoroutine(CollisionCooldown());
+        m_collisionStay = false;
+
+        if (a_hit.gameObject.CompareTag("Hazard"))
+        {
+            M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = false;
+        }
+
+        StartCoroutine(CollisionCooldown());
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision a_hit)
     {
         m_collisionEnter = true;
-       
-        if(m_collisionEnter & m_canShake)
+        
+        if (a_hit.gameObject.CompareTag("Hazard"))
+        {
+            M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = true;
+        }
+
+        if (m_collisionEnter & m_canShake)
         {
             StartCoroutine(ShakeCooldown());
         }

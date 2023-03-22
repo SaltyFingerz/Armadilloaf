@@ -107,8 +107,8 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
         else if (a_hit.gameObject.CompareTag("Enemy"))
         {
-            SceneManager.LoadScene("FailScreen");
             PlayerPrefs.SetInt("tute", 1);
+            SceneManager.LoadScene("FailScreen");
         }
         else
         {
@@ -176,18 +176,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         else
         {
             m_playerSpeed = 2.0f;
-        }
-
-        if (Input.GetKey(KeyCode.G))
-        {
-            PlayerManagerScript m_playerScript = M_playerManager.GetComponent<PlayerManagerScript>();
-            m_playerScript.Respawn();
-        }
-
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            PlayerManagerScript m_playerScript = M_playerManager.GetComponent<PlayerManagerScript>();
-            StartCoroutine(m_playerScript.ShowUIQuickly());
         }
 
         // movement with AWSD keys
