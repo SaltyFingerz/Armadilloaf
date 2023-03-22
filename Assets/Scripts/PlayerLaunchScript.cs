@@ -40,7 +40,7 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] float m_baseLength = 10.0f;            // Minimum lenght of the arrow.
     [SerializeField] private float m_minimumSpeed = 0.2f;   // Speed minimum limit before the player changes to walking player.
 
-    Vector2 M_cameraOffset;
+    Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
     float m_cameraRotationY;
 
     public void Start()
@@ -243,7 +243,7 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         // Mouse is moved, calculate camera rotation from the mouse position difference between frames
         float l_mouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
-        float l_mouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
+        //float l_mouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
 
         // Rotation using 2D vector rotation by angle formula
         Vector3 l_rotation;
@@ -364,8 +364,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void SetDirection(Vector3 a_direction)
     {
+        a_direction.y = m_rotationMouseY;
         m_direction = a_direction;
-        m_direction.y = m_rotationMouseY;
     }
 
 }
