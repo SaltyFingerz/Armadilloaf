@@ -5,6 +5,7 @@ using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections;
+using System.Drawing;
 
 public class PlayerLaunchScript : MonoBehaviour
 {
@@ -67,8 +68,7 @@ public class PlayerLaunchScript : MonoBehaviour
             return;
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.7f) && m_rigidbody.velocity.magnitude < m_minimumSpeed)
+        if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
         {
             m_isOnFloor = true;
             if(m_launchingStage != 0)
@@ -143,11 +143,11 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                l_speedMultiplier += 0.5f * Time.fixedDeltaTime;
+                l_speedMultiplier += 0.8f * Time.fixedDeltaTime;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                l_speedMultiplier -= 1f * Time.fixedDeltaTime;
+                l_speedMultiplier -= 1.3f * Time.fixedDeltaTime;
             }
         }
         
@@ -335,7 +335,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public bool isGrounded()
     {
         RaycastHit hit;
-        return Physics.Raycast(this.transform.position, Vector3.down, out hit, 0.7f);
+        return Physics.Raycast(this.transform.position, Vector3.down, out hit, this.transform.lossyScale.y + 0.5f);
     }
 
      IEnumerator CollisionCooldown()
