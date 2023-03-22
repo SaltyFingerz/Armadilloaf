@@ -18,9 +18,21 @@ public class LookAtPlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (M_Walker.activeSelf)
-        { transform.LookAt(M_targetWalk.transform); }
-        else if (M_Ball.activeSelf)
-        { transform.LookAt(M_targetBall.transform); }
+       
+
+        //transform.position.y rather than target.transform.position.y is used to prevent the enemy from tilting off the vertical y axis. 
+
+        {
+            if (M_Walker.activeSelf)
+            {
+                Vector3 targetPosition = new Vector3(M_targetWalk.transform.position.x, transform.position.y, M_targetWalk.transform.position.z);
+                transform.LookAt(targetPosition); }
+            else if (M_Ball.activeSelf)
+            {
+                Vector3 targetPosition = new Vector3(M_targetBall.transform.position.x, transform.position.y, M_targetBall.transform.position.z);
+                transform.LookAt(M_targetBall.transform); }
+           //makes the enemy look at the player. This line of code was learnt from the tutorial available at: www.youtube.com/watch?v=rP_bEq248e4
+
+        }
     }
 }
