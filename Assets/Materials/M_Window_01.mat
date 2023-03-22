@@ -15,6 +15,7 @@ Material:
   - _ADDITIONAL_LIGHTS_ENABLED
   - _ENVIRONMENT_LIGHTING_ENABLED
   - _FOG
+  - _SPECULAR
   m_InvalidKeywords:
   - _TOON_RECEIVE_SHADOWS
   - _ZWRITE_ON
@@ -67,7 +68,7 @@ Material:
     - _ReflectionSmoothness: 0.5
     - _Reflections: 0
     - _ShadowMask: 0
-    - _Specular: 0
+    - _Specular: 1
     - _SpecularExponent: 200
     - _SpecularSmoothness: 0.025
     - _SpecularThreshold: 0.8
@@ -77,11 +78,11 @@ Material:
     - _VertexColor: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 0.91211283, g: 0.9716981, b: 0.96031517, a: 1}
+    - _EmissionColor: {r: 0.15896086, g: 0.15896086, b: 0.15896086, a: 0}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowTint: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 0.32079923, g: 0.65650403, b: 0.764151, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &8765967885550705490
 MonoBehaviour:
