@@ -86,7 +86,7 @@ public class TutorialManager : MonoBehaviour
             M_launchPrompt.SetActive(true);
         }
 
-        if (Input.GetKey(KeyCode.Q) && M_launchPrompt.activeSelf)
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) && M_launchPrompt.activeSelf)
         {
            
             M_launchPrompt.SetActive(false);
@@ -107,7 +107,7 @@ public class TutorialManager : MonoBehaviour
             M_walkPrompt.SetActive(true);
         }
 
-        if((Input.GetKeyDown(KeyCode.Q) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
+        if((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
         {
             StartCoroutine(ShowFreeCamPrompt());
         }
@@ -146,10 +146,19 @@ public class TutorialManager : MonoBehaviour
         }
         if(M_freeControl.activeSelf)
         {
+            StartCoroutine(freeControlPromptTimer());
             if (Input.GetKey(KeyCode.Q))
                 m_Qpressed = true;
             if (Input.GetKey(KeyCode.E))
                 m_Epressed = true;
+        }
+
+
+        IEnumerator freeControlPromptTimer()
+        {
+            yield return new WaitForSeconds(5f);
+            M_closePrompt.SetActive(true);
+            M_freeControl.SetActive(false);
         }
 
         if (m_Qpressed && m_Epressed && M_freeControl.activeSelf)
