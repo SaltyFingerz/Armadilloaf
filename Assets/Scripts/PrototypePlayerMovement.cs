@@ -8,12 +8,13 @@ public class PrototypePlayerMovement : MonoBehaviour
 {
     public GameObject M_playerManager;
     public GameObject M_Tutorial;
+    public GameObject M_TuteWorld;
     public CustomController m_controller;
     public Vector3 playerVelocity;
     private bool m_groundedPlayer;
     [SerializeField] public float m_playerSpeed = 2.0f;
     [SerializeField] public float m_slowSlide = 1;
-    [SerializeField] public float m_jumpHeight = 4.0f;
+    [SerializeField] public float m_jumpHeight = 8.0f;
     private float m_gravityValue = -9.81f;
     private bool m_isHittingWall = false;
     private float m_pushForce = 2.0f;
@@ -48,17 +49,11 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
-            M_Tutorial.transform.GetChild(3).gameObject.SetActive(true);
-            M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(7).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(8).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(1).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(2).gameObject.SetActive(false);
+            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(true);
+            
         }
 
+       
         if (a_hit.gameObject.name.Contains("TipZone"))
         {
             M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
@@ -76,17 +71,13 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
-            M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(1).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(2).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(3).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(7).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(8).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(9).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(10).gameObject.SetActive(true);
+            M_TuteWorld.transform.GetChild(1).gameObject.SetActive(true);
+
+        }
+
+        if (a_hit.gameObject.name.Contains("FreeCamZone") && !M_Tutorial.transform.GetChild(5).gameObject.activeSelf && !M_Tutorial.transform.GetChild(4).gameObject.activeSelf)
+        {
+            M_Tutorial.transform.GetChild(6).gameObject.SetActive(true);
 
         }
 
@@ -98,6 +89,13 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
         m_playerManagerScript.M_takingDamage = false;
+
+
+        if (other.gameObject.name.Contains("FirstLaunchZone"))
+        {
+            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
+
+        }
     }
     private void OnControllerColliderHit(ControllerColliderHit a_hit)
     {
@@ -128,6 +126,12 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             return;
         }
+
+        if (M_Tutorial.transform.GetChild(4).gameObject.activeSelf)
+        {
+            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
+        }
+
 
         m_groundedPlayer = m_controller.isGrounded;
         HandleInput();
