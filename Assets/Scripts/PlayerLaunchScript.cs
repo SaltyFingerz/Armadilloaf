@@ -119,6 +119,7 @@ public class PlayerLaunchScript : MonoBehaviour
         Vector3 l_direction = m_rigidbody.velocity.normalized;
         Vector3 l_rotatedDirection = l_direction;
         float l_angleChange = M_angleChangeRadians;
+        float l_speedMultiplier = 1.0f;
 
         if (m_isOnFloor)
         {
@@ -138,10 +139,22 @@ public class PlayerLaunchScript : MonoBehaviour
             l_rotatedDirection.z = l_direction.x * Mathf.Sin(-l_angleChange * Time.fixedDeltaTime) + l_direction.z * Mathf.Cos(-l_angleChange * Time.fixedDeltaTime);
             l_direction = l_rotatedDirection;
         }
+        if (isGrounded())
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                l_speedMultiplier += 0.5f * Time.fixedDeltaTime;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                l_speedMultiplier -= 1f * Time.fixedDeltaTime;
+            }
+        }
+        
 
         // normalize and apply changed direction
         l_direction.Normalize();
-        m_rigidbody.velocity = l_direction * m_rigidbody.velocity.magnitude;
+        m_rigidbody.velocity = l_direction * m_rigidbody.velocity.magnitude * l_speedMultiplier;
 
         // Calculate camera rotation
         Vector3 l_desiredRotation = GetDesiredRotationFromMouseInput();
