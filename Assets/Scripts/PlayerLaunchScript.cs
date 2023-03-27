@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections;
 using System.Drawing;
+using EZCameraShake;
 
 public class PlayerLaunchScript : MonoBehaviour
 {
@@ -359,7 +360,7 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         if (!m_collisionStay)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             if(!m_collisionStay)
             {
                 m_collisionEnter = false;
@@ -373,6 +374,7 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         Animator anim = gameObject.GetComponent<Animator>();
         anim.SetTrigger("Landing");
+        CameraShaker.Instance.ShakeOnce(2f, 2f, .1f, .1f);
         m_canShake = false;
         yield return new WaitForSeconds(0.5f);
    

@@ -510,6 +510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   M_playerManager: {fileID: 4933560404183489198}
   M_Tutorial: {fileID: 0}
+  M_TuteWorld: {fileID: 0}
   m_controller: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
   m_playerSpeed: 1
@@ -677,6 +678,7 @@ GameObject:
   - component: {fileID: 4457839411338696}
   - component: {fileID: 2881979617651695301}
   - component: {fileID: 2182539908194616359}
+  - component: {fileID: 720514892}
   m_Layer: 7
   m_Name: Armadilloaf
   m_TagString: Untagged
@@ -732,7 +734,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1803768990, guid: 2cf6b38e31ab72c44ae878d7aba717e0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 28c26b895b410f64db738a328ef415f3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -742,6 +744,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &720514892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3040629242665443834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0fb0115a088d2a4fae3efbd2f314ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  M_pManager: {fileID: 4933560404183489192}
+  M_fiveHealth: {fileID: 21300000, guid: 28c26b895b410f64db738a328ef415f3, type: 3}
+  M_fourHealth: {fileID: 21300000, guid: 496b1fe13f1ce7b45ac711db9b06a879, type: 3}
+  M_threeHealth: {fileID: 21300000, guid: 70dce1d1353323942b0822731166a16a, type: 3}
+  M_twoHealth: {fileID: 21300000, guid: 4fd19b3b9ab1d614785050df02f25a45, type: 3}
+  M_oneHealth: {fileID: 21300000, guid: 050ae81477af4024c8d68bb8ceb07167, type: 3}
 --- !u!1 &3567319114753722534
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,6 +941,7 @@ GameObject:
   - component: {fileID: 1806423177773139115}
   - component: {fileID: 3086757401924278502}
   - component: {fileID: 2712980437807628118}
+  - component: {fileID: 1062742542}
   m_Layer: 0
   m_Name: LaunchCamera
   m_TagString: Untagged
@@ -1027,6 +1048,22 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1062742542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4887848611024666943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab8353b5ebd32545867da143199a814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultPosInfluence: {x: 0.15, y: 0.15, z: 0.15}
+  DefaultRotInfluence: {x: 1, y: 1, z: 1}
+  RestPositionOffset: {x: 0, y: 0, z: 0}
+  RestRotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &4933560404183489198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,7 +1136,7 @@ MonoBehaviour:
   - {x: 14, y: 8}
   - {x: 20, y: 14}
   M_sizeState: 1
-  M_jellyBounciness: 0.7
+  M_jellyBounciness: 0.4
   M_abilityState: 0
   M_BallAnimator: {fileID: 305606498}
   M_playerHUD: {fileID: 716861149890891261}
@@ -2010,7 +2047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1655060b86e7d49800c291f5549bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  M_launchCamera: {fileID: 4887848611024666943}
+  M_launchCamera: {fileID: 8431252127155698087}
   M_playerManager: {fileID: 4933560404183489198}
   M_fillImage: {fileID: 497028206190739727}
   M_RenderScript: {fileID: 2130601687}
