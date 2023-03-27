@@ -149,7 +149,6 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_freshnessBar.SetActive(true);
             M_hitPoints -= (1 * Time.deltaTime);
             M_freshnessSlider.value = M_hitPoints;
-            Debug.Log(M_hitPoints);
             if (M_hitPoints <= 0)
             {
                 M_transitionIn = true;
