@@ -18,6 +18,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_playerManager;
     public UnityEngine.UI.Image M_fillImage;
     public RenderingScript M_RenderScript;
+    public LaunchTrailScript M_TrailScript;
     public Canvas M_canvas;
 
     float m_rotationMouseY, m_rotationMouseX;
@@ -40,7 +41,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     [SerializeField] float m_powerSizeStep = 1.0f;          // Determines how big is the scale difference in the arrow when choosing launching power.
     [SerializeField] float m_baseLength = 10.0f;            // Minimum lenght of the arrow.
-    [SerializeField] private float m_minimumSpeed = 0.2f;   // Speed minimum limit before the player changes to walking player.
+    [SerializeField] private float m_minimumSpeed = 0.4f;   // Speed minimum limit before the player changes to walking player.
 
     Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
     float m_cameraRotationY;
@@ -59,6 +60,7 @@ public class PlayerLaunchScript : MonoBehaviour
         m_cameraRotationY = -Mathf.Cos(24f);
 
     }
+
 
     // Handle rigidbody physics
     public void FixedUpdate()
@@ -81,7 +83,15 @@ public class PlayerLaunchScript : MonoBehaviour
         else
         {
             m_isOnFloor = false;
+            
         }
+
+        if(!isGrounded()) //activate trail particle system when ball is in the air
+        {
+            M_TrailScript.ActivateTrail(); 
+        }
+
+       
 
         // Manage launching stage
         switch (m_launchingStage)
@@ -113,6 +123,27 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             HandleLaunchInput();
         }
+
+        //control rate of particle system trail depending on speed of ball
+        //produces an error - wip.
+        /*
+        if(m_rigidbody.velocity.magnitude < 1)
+        {
+            M_TrailScript.SlowDownTrail();
+
+        }
+
+        else if (m_rigidbody.velocity.magnitude >= 1 && m_rigidbody.velocity.magnitude <= 3)
+        {
+            M_TrailScript.MediumTrail();
+        }
+
+        else if(m_rigidbody.velocity.magnitude >3)
+        {
+            M_TrailScript.SpeedUpTrail();
+        }
+        */
+
     }
 
     void RollingDirectionInput()
@@ -226,6 +257,7 @@ public class PlayerLaunchScript : MonoBehaviour
         m_rigidbody.freezeRotation = false;
         Animator anim = gameObject.GetComponent<Animator>();
         anim.SetTrigger("Launching");
+        M_TrailScript.ActivateTrail();
         StartCoroutine(BlurDisableCooldown());
         if (m_canBlur)
         {
@@ -353,7 +385,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public bool isGrounded()
     {
         RaycastHit hit;
-        return Physics.Raycast(this.transform.position, Vector3.down, out hit, this.transform.lossyScale.y + 0.5f);
+        return Physics.Raycast(this.transform.position, Vector3.down, out hit, this.transform.lossyScale.y + 1f);
     }
 
      IEnumerator CollisionCooldown()
@@ -375,6 +407,7 @@ public class PlayerLaunchScript : MonoBehaviour
         Animator anim = gameObject.GetComponent<Animator>();
         anim.SetTrigger("Landing");
         CameraShaker.Instance.ShakeOnce(2f, 2f, .1f, .1f);
+        M_TrailScript.DeactivateTrail();
         m_canShake = false;
         yield return new WaitForSeconds(0.5f);
    
