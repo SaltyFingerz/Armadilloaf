@@ -7,6 +7,7 @@ public class LaunchTrailScript : MonoBehaviour
     public Transform M_BallPosition;
     private ParticleSystem m_launchTrail;
     public PlayerManagerScript M_PManager;
+    public GameObject M_BallPlayer;
     private ParticleSystem.MainModule m_pMain;
     private ParticleSystem.EmissionModule m_pEmission;
     // Start is called before the first frame update
@@ -19,6 +20,10 @@ public class LaunchTrailScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!M_BallPlayer.activeSelf)
+        {
+            DeactivateTrail();
+        }
         gameObject.transform.position = M_BallPosition.position;
         //adjust particle size to ball size
 

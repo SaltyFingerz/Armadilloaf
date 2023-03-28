@@ -46,6 +46,7 @@ public class PlayerAnimator : MonoBehaviour
                     playerAnimator.SetBool("right", true);
                     playerAnimator.SetBool("forwards", false);
                 m_spriteR.flipX = false;
+                //render shader to texture and flip it here
             }
                 else
                 {

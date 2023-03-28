@@ -13,7 +13,8 @@ public class PlayerLaunchScript : MonoBehaviour
     private Rigidbody m_rigidbody;
     private GameObject M_arrow;
     private GameObject M_arrowMaximum;
-
+    public GameObject M_Tutorial;
+    public GameObject M_TuteWorld;
     public GameObject M_launchCamera;
     public GameObject M_playerManager;
     public UnityEngine.UI.Image M_fillImage;
@@ -327,6 +328,13 @@ public class PlayerLaunchScript : MonoBehaviour
             print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
         }
+
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
+        {
+            M_Tutorial.transform.GetChild(4).gameObject.SetActive(true);
+            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
+
+        }
     }
   
     void OnCollisionStay(Collision a_hit)
@@ -347,7 +355,9 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             m_collisionStay = true;
         }
+
         
+
     }
 
     public void OnCollisionExit(Collision a_hit)
