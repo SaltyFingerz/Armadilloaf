@@ -144,18 +144,18 @@ public class PlayerLaunchScript : MonoBehaviour
 
         Vector3 l_velocity = m_rigidbody.velocity;
         float l_angleChange = M_angleChangeRadians;
-        float l_translationChange = 0.2f;
+        float l_translationChange = 0.04f;
         
 
         if (isGrounded())
         {
             l_angleChange = M_floorAngleChangeRadians;
-            l_translationChange = 1.0f;
+            l_translationChange = 0.8f;
         }
 
 
-        //float l_multiplierFwd = 1.0f + (Vector3.Dot(M_launchCamera.transform.forward, l_velocity.normalized * Mathf.Abs(l_playerVerticalInput)) + 1.0f) * 0.5f * Time.fixedDeltaTime * l_translationChange;
-        //float l_multiplierRight = 1.0f + (Vector3.Dot(M_launchCamera.transform.right, l_velocity.normalized * Mathf.Abs(l_playerHorizontalInput)) + 1.0f) * 0.5f * Time.fixedDeltaTime * l_translationChange;
+        float l_multiplierFwd = 1.0f + (Vector3.Dot(M_launchCamera.transform.forward, l_velocity.normalized) + 1.0f) * 0.5f * Time.fixedDeltaTime * l_translationChange * l_playerVerticalInput;
+        float l_multiplierRight = 1.0f + (Vector3.Dot(M_launchCamera.transform.right, l_velocity.normalized) + 1.0f) * 0.5f * Time.fixedDeltaTime * l_translationChange * l_playerHorizontalInput;
 
         // Change direction based on input
         l_velocity = Vector3.RotateTowards(l_velocity * l_multiplierRight, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f);
