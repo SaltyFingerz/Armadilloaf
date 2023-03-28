@@ -109,8 +109,8 @@ public class CustomController : MonoBehaviour
             return;
         }
         //get player input
-        float m_playerVerticalInput = Input.GetAxis("Vertical");
-        float m_playerHorizontalInput = Input.GetAxis("Horizontal");
+        float l_playerVerticalInput = Input.GetAxis("Vertical");
+        float l_playerHorizontalInput = Input.GetAxis("Horizontal");
 
         //get camera normalized directional vectors
         Vector3 forward = M_walkCamera.transform.forward;
@@ -122,8 +122,8 @@ public class CustomController : MonoBehaviour
         right = right.normalized;
 
         //create direction-relative-input vectors
-        Vector3 forwardRelativeVerticalInput = m_playerVerticalInput * forward * m_playerMovement.m_playerSpeed * Time.deltaTime * 200;
-        Vector3 rightRelativeHorizontalInput = m_playerHorizontalInput * right * m_playerMovement.m_playerSpeed * Time.deltaTime * 200;
+        Vector3 forwardRelativeVerticalInput = l_playerVerticalInput * forward * m_playerMovement.m_playerSpeed * Time.deltaTime * 200;
+        Vector3 rightRelativeHorizontalInput = l_playerHorizontalInput * right * m_playerMovement.m_playerSpeed * Time.deltaTime * 200;
 
 
         //Create and apply camera relative movement

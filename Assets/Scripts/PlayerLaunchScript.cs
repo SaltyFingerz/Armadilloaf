@@ -32,7 +32,6 @@ public class PlayerLaunchScript : MonoBehaviour
     Vector3 m_direction;
     int m_launchingStage = 0;
     float m_launchingPower;
-    bool m_isOnFloor = false;
     bool m_canShake = false;
 
     public int M_maxPower;
@@ -74,17 +73,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
         {
-            m_isOnFloor = true;
-            if(m_launchingStage != 0)
-            {
-                M_playerManager.GetComponent<PlayerManagerScript>().StartWalking();
-            }
-        }
-
-        else
-        {
-            m_isOnFloor = false;
-            
+            m_launchingStage = 0;
         }
 
         if(!isGrounded()) //activate trail particle system when ball is in the air
@@ -149,45 +138,39 @@ public class PlayerLaunchScript : MonoBehaviour
 
     void RollingDirectionInput()
     {
-        Vector3 l_direction = m_rigidbody.velocity.normalized;
-        Vector3 l_rotatedDirection = l_direction;
+        //get player input
+        float l_playerVerticalInput = Input.GetAxis("Vertical");
+        float l_playerHorizontalInput = Input.GetAxis("Horizontal");
+
+        Vector3 l_velocity = m_rigidbody.velocity;
         float l_angleChange = M_angleChangeRadians;
-        float l_speedMultiplier = 1.0f;
-
-        if (m_isOnFloor)
-        {
-            l_angleChange = M_floorAngleChangeRadians;
-        }
-
-        // Change direction based on input
-        if (Input.GetKey(KeyCode.A))
-        {
-            l_rotatedDirection.x = l_direction.x * Mathf.Cos(l_angleChange * Time.fixedDeltaTime) - l_direction.z * Mathf.Sin(l_angleChange * Time.fixedDeltaTime);
-            l_rotatedDirection.z = l_direction.x * Mathf.Sin(l_angleChange * Time.fixedDeltaTime) + l_direction.z * Mathf.Cos(l_angleChange * Time.fixedDeltaTime);
-            l_direction = l_rotatedDirection;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            l_rotatedDirection.x = l_direction.x * Mathf.Cos(-l_angleChange * Time.fixedDeltaTime) - l_direction.z * Mathf.Sin(-l_angleChange * Time.fixedDeltaTime);
-            l_rotatedDirection.z = l_direction.x * Mathf.Sin(-l_angleChange * Time.fixedDeltaTime) + l_direction.z * Mathf.Cos(-l_angleChange * Time.fixedDeltaTime);
-            l_direction = l_rotatedDirection;
-        }
-        if (isGrounded())
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                l_speedMultiplier += 0.8f * Time.fixedDeltaTime;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                l_speedMultiplier -= 1.3f * Time.fixedDeltaTime;
-            }
-        }
+        float l_translationChange = 0.2f;
         
 
+        if (isGrounded())
+        {
+            l_angleChange = M_floorAngleChangeRadians;
+            l_translationChange = 1.0f;
+        }
+
+
+        float l_multiplierFwd = 1.0f + (Vector3.Dot(M_launchCamera.transform.forward, l_velocity.normalized * Mathf.Abs(l_playerVerticalInput)) + 1.0f) * 0.5f * Time.fixedDeltaTime * l_translationChange;
+        float l_multiplierRight = 1.0f + (Vector3.Dot(M_launchCamera.transform.right, l_velocity.normalized * Mathf.Abs(l_playerHorizontalInput)) + 1.0f) * 0.5f * Time.fixedDeltaTime * l_translationChange;
+
+        // Change direction based on input
+        l_velocity = Vector3.RotateTowards(l_velocity * l_multiplierRight, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f);
+        l_velocity = Vector3.RotateTowards(l_velocity * l_multiplierFwd, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f);
+
+        float l_maxSpeed = 80.0f;
+        if (m_rigidbody.velocity.magnitude > l_maxSpeed)
+        {
+            Debug.Log(m_rigidbody.velocity.magnitude + " before");
+            m_rigidbody.velocity = m_rigidbody.velocity.normalized * l_maxSpeed;
+            Debug.Log(m_rigidbody.velocity.magnitude);
+        }
+
         // normalize and apply changed direction
-        l_direction.Normalize();
-        m_rigidbody.velocity = l_direction * m_rigidbody.velocity.magnitude * l_speedMultiplier;
+        m_rigidbody.velocity = l_velocity;
 
         // Calculate camera rotation
         Vector3 l_desiredRotation = GetDesiredRotationFromMouseInput();
