@@ -36,7 +36,7 @@ public class PlayerAnimator : MonoBehaviour
                     playerAnimator.SetBool("left", true);
                     playerAnimator.SetBool("right", false);
                     playerAnimator.SetBool("forwards", false);
-                    m_spriteR.flipX = true;
+                  
 
             }
                 else if (Input.GetKey(KeyCode.D))
@@ -45,7 +45,7 @@ public class PlayerAnimator : MonoBehaviour
                     playerAnimator.SetBool("left", false);
                     playerAnimator.SetBool("right", true);
                     playerAnimator.SetBool("forwards", false);
-                m_spriteR.flipX = false;
+           
                 //render shader to texture and flip it here
             }
                 else
@@ -59,7 +59,7 @@ public class PlayerAnimator : MonoBehaviour
             }
             else if (Input.GetKey(KeyCode.D))
             {
-            m_spriteR.flipX = false;
+          
             if (Input.GetKey(KeyCode.S))
                 {
                     playerAnimator.SetBool("backwards", true);
@@ -84,7 +84,7 @@ public class PlayerAnimator : MonoBehaviour
             }
             else if (Input.GetKey(KeyCode.A))
             {
-            m_spriteR.flipX = true;
+           
             if (Input.GetKey(KeyCode.S))
                 {
                     playerAnimator.SetBool("backwards", true);
@@ -111,7 +111,7 @@ public class PlayerAnimator : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.A))
                 {
-                m_spriteR.flipX = true;
+               
                 playerAnimator.SetBool("left", true);
                     playerAnimator.SetBool("right", false);
                     playerAnimator.SetBool("backwards", false);
@@ -119,7 +119,7 @@ public class PlayerAnimator : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.D))
                 {
-                m_spriteR.flipX = false;
+            
                 playerAnimator.SetBool("right", true);
                     playerAnimator.SetBool("left", false);
                     playerAnimator.SetBool("backwards", false);
