@@ -18,7 +18,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     private float m_gravityValue = -9.81f;
     private bool m_isHittingWall = false;
     private float m_pushForce = 2.0f;
-
+    public bool M_InLaunchZone = false;
     private void Start()
     {
         m_controller = gameObject.GetComponent<CustomController>();
@@ -50,10 +50,11 @@ public class PrototypePlayerMovement : MonoBehaviour
         if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
             M_TuteWorld.transform.GetChild(0).gameObject.SetActive(true);
+            M_InLaunchZone = true;
             
         }
 
-       
+       //the following "Zone""triggers regulate the tutorial prompts
         if (a_hit.gameObject.name.Contains("TipZone"))
         {
             M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
@@ -107,6 +108,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (other.gameObject.name.Contains("FirstLaunchZone"))
         {
             M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
+            M_InLaunchZone = false;
 
         }
     }

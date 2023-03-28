@@ -21,13 +21,14 @@ public class HoverScript : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(Mathf.Sin(Time.time * freqHor) * ampHor + initPos.x, Mathf.Sin(Time.time * freq) * amp + initPos.y, Mathf.Sin(Time.time * freqDep) * ampDep + initPos.z);
-
+        transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0.2f, 0.8f, 0.2f));
     }
 
     public void StopParticles()
     {
         GlowBobbles.Stop();
         GetComponentInParent<MeshRenderer>().enabled = false;
+        transform.GetChild(1).gameObject.SetActive(false);
         StartCoroutine(DisableCollecible());
     }
 

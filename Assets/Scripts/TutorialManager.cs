@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
+    public PrototypePlayerMovement M_PPlayerMovment;
+
     public GameObject M_introPrompt;
     public GameObject M_movePrompt;
     public GameObject M_jumpPrompt;
@@ -88,7 +90,7 @@ public class TutorialManager : MonoBehaviour
           //  M_launchPrompt.SetActive(true);
         }
 
-        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && !m_launched ) // && M_launchPrompt.activeSelf)
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && M_PPlayerMovment.M_InLaunchZone) // && M_launchPrompt.activeSelf)
         {
            
          //   M_launchPrompt.SetActive(false);
