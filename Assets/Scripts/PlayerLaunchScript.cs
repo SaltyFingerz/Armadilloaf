@@ -306,7 +306,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
-            M_Tutorial.transform.GetChild(4).gameObject.SetActive(true);
+            M_TuteWorld.transform.GetChild(4).gameObject.SetActive(true);
             M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
 
         }

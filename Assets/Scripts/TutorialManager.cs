@@ -15,12 +15,11 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_freeCamPrompt;
     public GameObject M_freeControl;
     public GameObject M_closePrompt;
-    public GameObject M_tiltPrompt;
+    public GameObject M_TiltPrompt;
     public GameObject M_shrinkPrompt;
     public GameObject M_curlWorldPrompt;
     public GameObject M_BananaPrompt;
     public GameObject M_goalArrow;
-
     public GameObject M_BallPlayer;
     public GameObject M_FreeMovePlayer;
 
@@ -109,8 +108,11 @@ public class TutorialManager : MonoBehaviour
         {
             m_launched = true;
             M_launchAimPrompt.SetActive(false);
-            yield return new WaitForSeconds(5);
-            M_walkPrompt.SetActive(true);
+            yield return new WaitForSeconds(6);
+            if (!M_TiltPrompt.activeSelf)
+            {
+                M_walkPrompt.SetActive(true);
+            }
         }
 
         if((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
@@ -184,7 +186,7 @@ public class TutorialManager : MonoBehaviour
         }
 
 
-        if(M_tiltPrompt.activeSelf)
+        if(M_TiltPrompt.activeSelf)
         {
             StartCoroutine(DeactivateTiltPrompt());
         }
@@ -192,7 +194,7 @@ public class TutorialManager : MonoBehaviour
         IEnumerator DeactivateTiltPrompt()
         {
             yield return new WaitForSeconds(10);
-            M_tiltPrompt.SetActive(false);
+            M_TiltPrompt.SetActive(false);
         }
 
         if(M_shrinkPrompt.activeSelf)
