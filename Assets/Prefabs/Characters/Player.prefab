@@ -516,6 +516,7 @@ MonoBehaviour:
   m_playerSpeed: 1
   m_slowSlide: -0.15
   m_jumpHeight: 8
+  M_InLaunchZone: 0
 --- !u!212 &1228896355
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1146,7 +1147,7 @@ MonoBehaviour:
   M_armadilloaf: {fileID: 2182539908194616359}
   M_transitionSprite: {fileID: 834698630}
   M_lifeText: {fileID: 8136899250046816700}
-  currentCheckpoint: {x: -9.3, y: 1.9, z: 2.1}
+  currentCheckpoint: {x: 0, y: 56.5, z: -80}
   M_lives: 5
   M_hitPoints: 5
   M_takingDamage: 0
@@ -2048,6 +2049,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1655060b86e7d49800c291f5549bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  M_Tutorial: {fileID: 0}
+  M_TuteWorld: {fileID: 0}
   M_launchCamera: {fileID: 8431252127155698087}
   M_playerManager: {fileID: 4933560404183489198}
   M_fillImage: {fileID: 497028206190739727}
