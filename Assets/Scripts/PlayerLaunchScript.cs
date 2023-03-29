@@ -308,6 +308,21 @@ public class PlayerLaunchScript : MonoBehaviour
             M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
 
         }
+
+        if (a_hit.gameObject.name.Contains("TipZone"))
+        {
+            M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(1).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(2).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(3).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(7).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(8).gameObject.SetActive(false);
+            M_Tutorial.transform.GetChild(9).gameObject.SetActive(true);
+
+        }
     }
 
     private void OnTriggerStay(Collider a_hit)
