@@ -327,31 +327,22 @@ public class PlayerLaunchScript : MonoBehaviour
             M_RenderScript.DisableBlur();
         }
 
-        if (a_hit.gameObject.CompareTag("Enemy"))
-        {
-            PlayerPrefs.SetInt("tute", 1);
-            SceneManager.LoadScene("FailScreen");
-        }
-        
-
         if (a_hit != null)
         {
             m_collisionStay = true;
         }
 
-        
-
+        if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
+        {
+            PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
+            m_playerManagerScript.M_takingDamage = true;
+        }
     }
 
     public void OnCollisionExit(Collision a_hit)
     {
         m_collisionStay = false;
-
-        if (a_hit.gameObject.CompareTag("Hazard"))
-        {
-            M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = false;
-        }
-
+        M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = false;
         StartCoroutine(CollisionCooldown());
     }
 
@@ -359,11 +350,6 @@ public class PlayerLaunchScript : MonoBehaviour
     private void OnCollisionEnter(Collision a_hit)
     {
         m_collisionEnter = true;
-        
-        if (a_hit.gameObject.CompareTag("Hazard"))
-        {
-            M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = true;
-        }
 
         if (m_collisionEnter & m_canShake)
         {
