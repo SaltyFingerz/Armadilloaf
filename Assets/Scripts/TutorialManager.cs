@@ -18,7 +18,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_tiltPrompt;
     public GameObject M_shrinkPrompt;
     public GameObject M_curlWorldPrompt;
-
+    public GameObject M_BananaPrompt;
     public GameObject M_goalArrow;
 
     public GameObject M_BallPlayer;
@@ -79,6 +79,8 @@ public class TutorialManager : MonoBehaviour
         if((m_Wpressed || m_Apressed || m_Spressed || m_Dpressed) && M_movePrompt.activeSelf)
         {
             M_movePrompt.SetActive(false);
+            M_BananaPrompt.SetActive(true);
+            print("hohoho");
            // M_jumpPrompt.SetActive(true);
      
 
@@ -107,7 +109,7 @@ public class TutorialManager : MonoBehaviour
         {
             m_launched = true;
             M_launchAimPrompt.SetActive(false);
-            yield return new WaitForSeconds(4);
+            yield return new WaitForSeconds(5);
             M_walkPrompt.SetActive(true);
         }
 
