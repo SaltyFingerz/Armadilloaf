@@ -12,6 +12,8 @@ public class HoverScript : MonoBehaviour
     public float ampDep;
     public float freqDep;
     Vector3 initPos;
+    public bool M_RotateOnAllAxes = false;
+    public bool M_RotateOnYAxis = false;
     private void Start()
     {
         initPos = transform.position;
@@ -21,7 +23,15 @@ public class HoverScript : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(Mathf.Sin(Time.time * freqHor) * ampHor + initPos.x, Mathf.Sin(Time.time * freq) * amp + initPos.y, Mathf.Sin(Time.time * freqDep) * ampDep + initPos.z);
-        transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0.2f, 0.8f, 0.2f));
+        
+        if(M_RotateOnAllAxes)
+        {
+            transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0.2f, 0.8f, 0.2f));
+        }
+        else if(M_RotateOnYAxis)
+        {
+            transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0, 0.8f, 0));
+        }
     }
 
     public void StopParticles()
