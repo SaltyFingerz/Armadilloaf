@@ -264,11 +264,11 @@ public class PlayerLaunchScript : MonoBehaviour
         //Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * l_result;
         //l_direction.Normalize();
 
-        //camera transform change
-        Quaternion l_camRotation = Quaternion.LookRotation(l_desiredRotation);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-this.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -this.transform.forward.z * M_cameraOffset.x);
-        M_launchCamera.transform.rotation = (Quaternion.Lerp(M_launchCamera.transform.rotation, l_camRotation, Time.fixedDeltaTime * 10.0f));
+        Quaternion yRotation = Quaternion.LookRotation(l_desiredRotation);
 
+        //camera transform change
+        M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, yRotation, Time.fixedDeltaTime * 10.0f);
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
     }
 
     Vector3 GetDesiredRotationFromMouseInput()
@@ -295,7 +295,6 @@ public class PlayerLaunchScript : MonoBehaviour
         GetComponent<Animator>().enabled = true;
 
     }
-
     private void OnTriggerEnter(Collider a_hit)
     {
         if ( a_hit.gameObject.CompareTag("Collectible"))
@@ -424,9 +423,13 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void SetDirection(Vector3 a_direction)
     {
-        a_direction.y = m_rotationMouseY;
+        M_launchCamera.transform.rotation = Quaternion.LookRotation(new Vector3(a_direction.x, m_cameraRotationY, a_direction.z));
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        m_rigidbody.isKinematic = true;
+        a_direction.y = 0.0f;
         m_direction = a_direction;
+        this.transform.rotation = Quaternion.LookRotation(a_direction);
+        m_rigidbody.isKinematic = false;
     }
-
 }
     
