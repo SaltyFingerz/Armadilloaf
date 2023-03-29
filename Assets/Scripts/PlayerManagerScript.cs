@@ -340,11 +340,13 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void StartLaunching()
     {
         M_additionalCamera.SetActive(false);
+        M_walkingPlayer.SetActive(false);
+        M_launchCamera.SetActive(true);
 
         // get values from the walking armadillo
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(-M_walkingPlayer.transform.forward);
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
         M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CustomController>().rb.velocity;
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(-M_walkingPlayer.transform.forward);
 
 
         // rotation change
@@ -361,8 +363,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
        
         M_freeFlyingPlayer.SetActive(false);
-        M_launchCamera.SetActive(true);
-        M_walkingPlayer.SetActive(false);
         m_state = ArmadilloState.launching;
         M_launchingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
