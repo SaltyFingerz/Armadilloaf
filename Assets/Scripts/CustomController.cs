@@ -147,5 +147,12 @@ public class CustomController : MonoBehaviour
         m_justLaunched = true;
     }
 
- 
+    public void SetRotation(Vector3 a_direction)
+    {
+        Quaternion l_quaternion = Quaternion.LookRotation(a_direction);
+
+        m_rotationX = l_quaternion.eulerAngles.y;
+
+        this.transform.rotation = l_quaternion;
+    }
 }

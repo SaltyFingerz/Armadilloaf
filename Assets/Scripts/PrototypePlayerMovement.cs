@@ -44,6 +44,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
             M_TuteWorld.transform.GetChild(0).gameObject.SetActive(true);
+            M_TuteWorld.transform.GetChild(4).gameObject.SetActive(false);
             M_InLaunchZone = true;
             
         }
@@ -67,6 +68,12 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
             M_TuteWorld.transform.GetChild(1).gameObject.SetActive(true);
+
+        }
+
+        if (a_hit.gameObject.name.Contains("CloseBananaZone"))
+        {
+            M_TuteWorld.transform.GetChild(3).gameObject.SetActive(false);
 
         }
 
@@ -102,6 +109,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (other.gameObject.name.Contains("FirstLaunchZone"))
         {
             M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
+           
             M_InLaunchZone = false;
 
         }

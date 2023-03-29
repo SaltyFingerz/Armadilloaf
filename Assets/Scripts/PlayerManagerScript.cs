@@ -316,7 +316,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         // set rotation
         Vector3 l_rotation = M_walkingPlayer.transform.localRotation.eulerAngles;
         l_rotation.Set(0f, M_launchingPlayer.transform.localRotation.eulerAngles.y, 0f);
-        M_walkingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
+        M_walkingPlayer.GetComponent<CustomController>().SetRotation(-M_launchingPlayer.transform.forward);
 
         // retaining velocity after launch, different when mid-air and on ground
         if (M_launchingPlayer.GetComponent<PlayerLaunchScript>().isGrounded())
@@ -339,17 +339,13 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void StartLaunching()
     {
-        // change camera and apply new rotations to the launching player so it matches it previous rotation
         M_additionalCamera.SetActive(false);
-        M_launchCamera.SetActive(true);
-        M_launchingPlayer.transform.rotation = M_walkingPlayer.transform.rotation;
-        M_launchCamera.transform.rotation = M_walkingCamera.transform.rotation;
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(M_launchCamera.transform.forward);
 
         // get values from the walking armadillo
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
         M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CustomController>().rb.velocity;
-       
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(-M_walkingPlayer.transform.forward);
+
 
         // rotation change
         Vector3 l_rotation = M_launchingPlayer.transform.localRotation.eulerAngles;
@@ -365,6 +361,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
        
         M_freeFlyingPlayer.SetActive(false);
+        M_launchCamera.SetActive(true);
         M_walkingPlayer.SetActive(false);
         m_state = ArmadilloState.launching;
         M_launchingPlayer.SetActive(true);
