@@ -144,29 +144,29 @@ public class PlayerLaunchScript : MonoBehaviour
 
         Vector3 l_velocity = m_rigidbody.velocity;
         float l_angleChange = M_angleChangeRadians;
-        float l_translationChange = 0.04f;
+        float l_translationChange = 0.15f;
         
 
         if (isGrounded())
         {
             l_angleChange = M_floorAngleChangeRadians;
-            l_translationChange = 0.8f;
+            l_translationChange = 1.3f;
         }
 
+        Vector2 multiplier = new Vector2(l_playerHorizontalInput, l_playerVerticalInput);
+        multiplier.Normalize();
 
-        float l_multiplierFwd = 1.0f + (Vector3.Dot(M_launchCamera.transform.forward, l_velocity.normalized) + 1.0f) * 0.5f * Time.fixedDeltaTime * l_translationChange * l_playerVerticalInput;
-        float l_multiplierRight = 1.0f + (Vector3.Dot(M_launchCamera.transform.right, l_velocity.normalized) + 1.0f) * 0.5f * Time.fixedDeltaTime * l_translationChange * l_playerHorizontalInput;
+        multiplier = multiplier * l_translationChange * Time.fixedDeltaTime;
+        multiplier = new Vector2(1f + multiplier.x, 1f + multiplier.y);
 
         // Change direction based on input
-        l_velocity = Vector3.RotateTowards(l_velocity * l_multiplierRight, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f);
-        l_velocity = Vector3.RotateTowards(l_velocity * l_multiplierFwd, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f);
+        l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x);
+        l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y);
 
         float l_maxSpeed = 80.0f;
         if (m_rigidbody.velocity.magnitude > l_maxSpeed)
         {
-            Debug.Log(m_rigidbody.velocity.magnitude + " before");
             m_rigidbody.velocity = m_rigidbody.velocity.normalized * l_maxSpeed;
-            Debug.Log(m_rigidbody.velocity.magnitude);
         }
 
         // normalize and apply changed direction
@@ -296,16 +296,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider a_hit)
     {
-        if (a_hit.gameObject.CompareTag("Enemy"))
-        {
-            PlayerPrefs.SetInt("tute", 1); //this is to not load the tutorial upon reloading the scene (temporary until respawn)
-            SceneManager.LoadScene("FailScreen");
-        }
-        if (a_hit.gameObject.CompareTag("Hazard"))
-        {
-            M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = true;
-        }
-
         if ( a_hit.gameObject.CompareTag("Collectible"))
         {
             print("collectible +1");
@@ -319,7 +309,16 @@ public class PlayerLaunchScript : MonoBehaviour
 
         }
     }
-  
+
+    private void OnTriggerStay(Collider a_hit)
+    {
+        if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
+        {
+            PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
+            m_playerManagerScript.M_takingDamage = true;
+        }
+    }
+
     void OnCollisionStay(Collision a_hit)
     {
         if (!m_canBlur)
@@ -327,31 +326,22 @@ public class PlayerLaunchScript : MonoBehaviour
             M_RenderScript.DisableBlur();
         }
 
-        if (a_hit.gameObject.CompareTag("Enemy"))
-        {
-            PlayerPrefs.SetInt("tute", 1);
-            SceneManager.LoadScene("FailScreen");
-        }
-        
-
         if (a_hit != null)
         {
             m_collisionStay = true;
         }
 
-        
-
+        if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
+        {
+            PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
+            m_playerManagerScript.M_takingDamage = true;
+        }
     }
 
     public void OnCollisionExit(Collision a_hit)
     {
         m_collisionStay = false;
-
-        if (a_hit.gameObject.CompareTag("Hazard"))
-        {
-            M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = false;
-        }
-
+        M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = false;
         StartCoroutine(CollisionCooldown());
     }
 
@@ -359,11 +349,6 @@ public class PlayerLaunchScript : MonoBehaviour
     private void OnCollisionEnter(Collision a_hit)
     {
         m_collisionEnter = true;
-        
-        if (a_hit.gameObject.CompareTag("Hazard"))
-        {
-            M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = true;
-        }
 
         if (m_collisionEnter & m_canShake)
         {

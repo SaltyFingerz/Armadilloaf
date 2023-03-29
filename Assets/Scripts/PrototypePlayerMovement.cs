@@ -24,23 +24,17 @@ public class PrototypePlayerMovement : MonoBehaviour
         m_controller = gameObject.GetComponent<CustomController>();
     }
 
+    private void OnTriggerStay(Collider a_hit)
+    {
+        if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
+        {
+            PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
+            m_playerManagerScript.M_takingDamage = true;
+        }
+    }
     private void OnTriggerEnter(Collider a_hit)
     {
-        if (a_hit.gameObject.CompareTag("Enemy"))
-        {
-            SceneManager.LoadScene("FailScreen");
-            PlayerPrefs.SetInt("tute", 1); //this is to not load the tutorial upon reloading the scene (temporary until respawn)
-
-        }
-        {
-            if ( a_hit.gameObject.CompareTag("Hazard"))
-            {
-                PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
-                m_playerManagerScript.M_takingDamage = true;
-            }
-        }
-
-        if(a_hit.gameObject.CompareTag("Collectible"))
+        if (a_hit.gameObject.CompareTag("Collectible"))
         {
             print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();

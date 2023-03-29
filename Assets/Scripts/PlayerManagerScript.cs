@@ -81,7 +81,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
-        currentCheckpoint = M_walkingPlayer.transform.position;
         M_UIManager.Resume();
     }
 
