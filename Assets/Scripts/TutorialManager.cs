@@ -25,6 +25,9 @@ public class TutorialManager : MonoBehaviour
 
     private float m_timerSeconds = 0f;
 
+
+    private bool m_uncurled = false;
+
     bool m_Wpressed;
     bool m_Apressed;
     bool m_Spressed;
@@ -109,10 +112,11 @@ public class TutorialManager : MonoBehaviour
             m_launched = true;
             M_launchAimPrompt.SetActive(false);
             yield return new WaitForSeconds(6);
-            if (!M_TiltPrompt.activeSelf)
+            if (!M_TiltPrompt.activeSelf && !m_uncurled)
             {
                 M_walkPrompt.SetActive(true);
-            }
+                m_uncurled = true;
+}
         }
 
         if((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
