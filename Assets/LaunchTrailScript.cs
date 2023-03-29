@@ -25,6 +25,9 @@ public class LaunchTrailScript : MonoBehaviour
             DeactivateTrail();
         }
         gameObject.transform.position = M_BallPosition.position;
+
+
+
         //adjust particle size to ball size
 
         //adjust 
