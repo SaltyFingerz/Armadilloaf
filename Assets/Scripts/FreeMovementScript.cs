@@ -11,6 +11,7 @@ public class FreeMovementScript : MonoBehaviour
     public float m_mouseSensitivityY;
     Camera m_camera;
     Vector3 m_direction;
+    Rigidbody m_rigidbody;
 
     public GameObject M_walkingPlayer;
 
@@ -19,6 +20,7 @@ public class FreeMovementScript : MonoBehaviour
     {
         m_camera = this.transform.GetChild(0).GetComponent<Camera>();
         m_direction = new Vector3(0.0f, 0.0f, 1.0f);
+        m_rigidbody = this.transform.GetChild(0).GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -76,7 +78,7 @@ public class FreeMovementScript : MonoBehaviour
 
         }
 
-        this.transform.position += l_movementDirection * m_playerSpeed * Time.fixedDeltaTime;
+        m_rigidbody.MovePosition(m_rigidbody.position + l_movementDirection * m_playerSpeed * Time.fixedDeltaTime);
     }
 
     void RotateCamera()
@@ -107,6 +109,6 @@ public class FreeMovementScript : MonoBehaviour
         l_rotationQuaternion = Quaternion.Lerp(m_camera.transform.rotation, l_rotationQuaternion, Time.fixedDeltaTime * 10.0f);
 
         //camera transform change
-        m_camera.transform.rotation = l_rotationQuaternion;
+        m_rigidbody.MoveRotation(l_rotationQuaternion);
     }
 }
