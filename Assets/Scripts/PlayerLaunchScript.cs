@@ -255,7 +255,7 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction = l_desiredRotation;
 
         //rotate the player after getting the updated direction, interpolate
-        Quaternion l_rotation = Quaternion.LookRotation(l_desiredRotation);
+        Quaternion l_rotation = Quaternion.LookRotation(new Vector3(l_desiredRotation.x, 0.0f, l_desiredRotation.z));
         m_rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, l_rotation, Time.fixedDeltaTime * 10.0f));
 
         // Calculate and clamp Y value
@@ -265,8 +265,10 @@ public class PlayerLaunchScript : MonoBehaviour
         //l_direction.Normalize();
 
         //camera transform change
+        Quaternion l_camRotation = Quaternion.LookRotation(l_desiredRotation);
         M_launchCamera.transform.position = this.transform.position + new Vector3(-this.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -this.transform.forward.z * M_cameraOffset.x);
-        M_launchCamera.transform.rotation = this.transform.rotation;
+        M_launchCamera.transform.rotation = (Quaternion.Lerp(M_launchCamera.transform.rotation, l_camRotation, Time.fixedDeltaTime * 10.0f));
+
     }
 
     Vector3 GetDesiredRotationFromMouseInput()
