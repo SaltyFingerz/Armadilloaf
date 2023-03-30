@@ -217,7 +217,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
 
         // state changing
-        if (( Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift)) && !M_isFreeFlying)
+        if (( Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !M_isFreeFlying)
         {
             StateCheck();
         }

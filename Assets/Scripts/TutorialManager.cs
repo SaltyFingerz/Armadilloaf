@@ -32,7 +32,7 @@ public class TutorialManager : MonoBehaviour
 
     bool m_Qpressed;
     bool m_Epressed;
-
+    bool m_walkPromptShown;
     bool m_launched;
 
     void Start()
@@ -85,7 +85,20 @@ public class TutorialManager : MonoBehaviour
 
         }
 
-        if(Input.GetKey(KeyCode.Space) && M_jumpPrompt.activeSelf)
+        if(!M_BallPlayer.activeSelf && Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            m_timerSeconds = 0;
+
+        }
+
+        if(m_timerSeconds > 10 && M_BallPlayer.activeSelf && !M_freeControl.activeSelf && !M_closePrompt.activeSelf &&!m_walkPromptShown && !M_TiltPrompt.activeSelf)
+        {
+            M_walkPrompt.SetActive(true);
+            m_walkPromptShown = true;
+          
+        }
+
+        if (Input.GetKey(KeyCode.Space) && M_jumpPrompt.activeSelf)
         {
             M_jumpPrompt.SetActive(false);
           //  M_launchPrompt.SetActive(true);
@@ -100,20 +113,21 @@ public class TutorialManager : MonoBehaviour
 
         if ((Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)) && M_launchAimPrompt.activeSelf)
         {
-
-            StartCoroutine(ExitBall());
-        }
-
-        IEnumerator ExitBall()
-        {
             m_launched = true;
             M_launchAimPrompt.SetActive(false);
-            yield return new WaitForSeconds(6);
+          //  StartCoroutine(ExitBall());
+        }
+
+       // IEnumerator ExitBall()
+     //   {
+         
+           /* yield return new WaitForSeconds(6);
             if (!M_TiltPrompt.activeSelf)
             {
                 M_walkPrompt.SetActive(true);
             }
-        }
+           */
+     //   }
 
         if((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
         {
@@ -188,13 +202,21 @@ public class TutorialManager : MonoBehaviour
 
         if(M_TiltPrompt.activeSelf)
         {
+            if(!M_BallPlayer.activeSelf)
+            {
+                M_TiltPrompt.SetActive(false);
+            }
             StartCoroutine(DeactivateTiltPrompt());
         }
 
         IEnumerator DeactivateTiltPrompt()
         {
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(8);
             M_TiltPrompt.SetActive(false);
+            if(M_BallPlayer.activeSelf)
+            {
+                M_walkPrompt.SetActive(true);
+            }
         }
 
         if(M_shrinkPrompt.activeSelf)
