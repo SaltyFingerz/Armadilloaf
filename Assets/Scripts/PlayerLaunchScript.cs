@@ -305,8 +305,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
-            M_TuteWorld.transform.GetChild(4).gameObject.SetActive(true);
             M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
+            M_TuteWorld.transform.GetChild(4).gameObject.SetActive(true);
 
         }
 
@@ -425,11 +425,9 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         M_launchCamera.transform.rotation = Quaternion.LookRotation(new Vector3(a_direction.x, m_cameraRotationY, a_direction.z));
         M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
-        m_rigidbody.isKinematic = true;
         a_direction.y = 0.0f;
         m_direction = a_direction;
         this.transform.rotation = Quaternion.LookRotation(a_direction);
-        m_rigidbody.isKinematic = false;
     }
 }
     

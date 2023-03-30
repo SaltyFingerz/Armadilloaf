@@ -43,8 +43,8 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
-            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(true);
             M_TuteWorld.transform.GetChild(4).gameObject.SetActive(false);
+            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(true);
             M_InLaunchZone = true;
             
         }
@@ -67,6 +67,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
+            M_TuteWorld.transform.GetChild(4).gameObject.SetActive(false);
             M_TuteWorld.transform.GetChild(1).gameObject.SetActive(true);
 
         }
@@ -141,6 +142,8 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
 
         M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
+        M_TuteWorld.transform.GetChild(4).gameObject.SetActive(false);
+
 
         if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying ||!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
         {
@@ -193,9 +196,9 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         Vector3 l_movementDirection = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift)) //sprint currently deactivated
         {
-            m_playerSpeed = 4.0f;
+            m_playerSpeed = 2.0f; 
         }
         else
         {
