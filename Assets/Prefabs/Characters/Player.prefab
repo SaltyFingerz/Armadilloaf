@@ -190,6 +190,61 @@ Transform:
   m_Father: {fileID: 2163527014642896241}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1571760020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1571760021}
+  - component: {fileID: 1571760022}
+  m_Layer: 0
+  m_Name: BlobShadow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1571760021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571760020}
+  m_LocalRotation: {x: 0.0025264747, y: -0.7071023, z: 0.7071023, w: 0.0025264747}
+  m_LocalPosition: {x: -0.05, y: 0.06460571, z: -0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2163527014642896241}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1571760022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571760020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 145441d67e37b314da2fff7bd2e08959, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.5
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_ScaleMode: 0
+  m_Offset: {x: 0, y: 0, z: 25}
+  m_Size: {x: 5, y: 5, z: 50}
+  m_FadeFactor: 0.5
 --- !u!1 &1983485584
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +548,7 @@ Transform:
   - {fileID: 174855514}
   - {fileID: 998696210}
   - {fileID: 7212164434649348602}
+  - {fileID: 1571760021}
   m_Father: {fileID: 4933560404183489193}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -511,6 +567,7 @@ MonoBehaviour:
   M_playerManager: {fileID: 4933560404183489198}
   M_Tutorial: {fileID: 0}
   M_TuteWorld: {fileID: 0}
+  M_BlobShadowDecal: {fileID: 1571760022}
   m_controller: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
   m_playerSpeed: 1
@@ -1200,7 +1257,7 @@ Transform:
   - {fileID: 4933560404183489193}
   - {fileID: 1983485586}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6516913502581176968
 GameObject:
@@ -2112,7 +2169,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 32
+  m_Constraints: 48
   m_CollisionDetection: 1
 --- !u!114 &650581101
 MonoBehaviour:
@@ -2399,6 +2456,46 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3295132189619536450, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295132189619536450, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295132189619536450, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295132189619536450, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.740566
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295132189619536450, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.92995286
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295132189619536450, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295132189619536450, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.atime0
+      value: 36044
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295132189619536450, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403319062037308948, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: M_PManager
+      value: 
+      objectReference: {fileID: 4933560404183489192}
+    - target: {fileID: 3403319062037308948, guid: f85695211350d2540bb1443645237eb0, type: 3}
+      propertyPath: M_BallPlayer
+      value: 
+      objectReference: {fileID: 8854288522490146422}
     - target: {fileID: 3403319062037308948, guid: f85695211350d2540bb1443645237eb0, type: 3}
       propertyPath: M_BallPosition
       value: 

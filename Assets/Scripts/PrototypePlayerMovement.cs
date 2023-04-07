@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering.Universal;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
     public GameObject M_playerManager;
     public GameObject M_Tutorial;
     public GameObject M_TuteWorld;
+    public DecalProjector M_BlobShadowDecal;
     public CustomController m_controller;
     public Vector3 playerVelocity;
     private bool m_groundedPlayer;
@@ -19,6 +21,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     private bool m_isHittingWall = false;
     private float m_pushForce = 2.0f;
     public bool M_InLaunchZone = false;
+
     private void Start()
     {
         m_controller = gameObject.GetComponent<CustomController>();
@@ -219,14 +222,17 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             case (int)PlayerManagerScript.SizeState.big:
                 m_pushForce = 4.0f;
+                M_BlobShadowDecal.size = new Vector3(15, 15, 50);
                 break;
 
             case (int)PlayerManagerScript.SizeState.normal:
                 m_pushForce = 0.0f;
+                M_BlobShadowDecal.size = new Vector3(5, 5, 50);
                 break;
 
             case (int)PlayerManagerScript.SizeState.small:
                 m_pushForce = 0.0f;
+                M_BlobShadowDecal.size = new Vector3(2, 2, 50);
                 break;
 
             default:
@@ -234,4 +240,6 @@ public class PrototypePlayerMovement : MonoBehaviour
                 break;
         }
     }
+
+   
 }
