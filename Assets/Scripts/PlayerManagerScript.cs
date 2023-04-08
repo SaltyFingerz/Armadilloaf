@@ -15,7 +15,9 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public float M_velocityRetain = 0.65f;      // how much velocity walking player gets from the launch, keep below 1
     public float M_velocityRetiainAir = 0.85f;  // how much velocity walking player mid-air gets from the launch, keep below 1
-
+    public ParticleSystem M_EjectionPS1;
+    public ParticleSystem M_EjectionPS2;
+    public GameObject M_JellyDecal;
     // State enums
     public enum ArmadilloState { walk, launching };
     public ArmadilloState m_state = ArmadilloState.walk;        // Keeps track of the movement state
@@ -428,10 +430,28 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
+        if(M_abilityState == AbilityState.jelly)
+        {
+            StartCoroutine(EjectionRoutine());
+        }
         ResetAbilities();
         
         
         
+    }
+
+    public Quaternion M_JellyDecalRotation;
+    public Transform M_JellyParent;
+    public Vector3 M_JellyDecalPosition;
+    IEnumerator EjectionRoutine()
+    {
+        M_EjectionPS1.Play();
+        yield return new WaitForSeconds(1f);
+        M_EjectionPS2.Play();
+        yield return new WaitForSeconds(1f);
+        Instantiate(M_JellyDecal, M_JellyParent.transform.position, M_JellyDecalRotation);
+        print("splat");
+
     }
 
     //acquire property of bounciness with Jelly pick-up, called in PowerUp_SizeChanger (script)
