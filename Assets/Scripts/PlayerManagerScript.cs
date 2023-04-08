@@ -20,16 +20,17 @@ public partial class PlayerManagerScript : MonoBehaviour
     public enum ArmadilloState { walk, launching };
     public ArmadilloState m_state = ArmadilloState.walk;        // Keeps track of the movement state
     public enum SizeState { small = 0, normal = 1, big = 2 };
-    public float[] M_sizes = { 0.25f, 0.5f, 1.0f };             // Array of sizes, M_sizeState should be the index
+    public  float[] M_sizes = { 0.25f, 0.5f, 1.0f };             // Array of sizes, M_sizeState should be the index
     public float[] M_weights = { 1.0f, 3.0f, 10.0f };
     public Vector2[] M_cameraOffsets = { new Vector2(2.5f, 1), new Vector2(5, 2), new Vector2(10, 4) };
     public int M_sizeState = (int)SizeState.normal;             // Keeps Track of size, int type to use as M_sizes index
     public float M_jellyBounciness = 0.8f;
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
-
+    public static float M_TargetSize;
     public Animator M_BallAnimator;
-
+    public static bool M_Growing = false;
+    public static bool M_Shrinking = false;
     //Player HUD objects
     public Canvas M_playerHUD;
     public GameObject M_freshnessBar;
@@ -142,6 +143,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     void Update()
     {
         M_BallAnimator.SetInteger("Size", M_sizeState);
+
+        M_TargetSize = M_sizes[M_sizeState];
 
         if (M_takingDamage)
         {
@@ -393,8 +396,13 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
     }
 
+
+
     public void Grow()
     {
+        M_Growing = true;
+        M_Shrinking = false;
+        
         M_sizeState++;
         if (M_sizeState > 2)
         {
@@ -403,10 +411,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
+        
+        
     }
 
     public void Shrink()
     {
+        M_Shrinking = true;
+        M_Growing = false;
+       
         M_sizeState--;
         if (M_sizeState < 0)
         {
@@ -416,6 +429,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
         ResetAbilities();
+        
+        
+        
     }
 
     //acquire property of bounciness with Jelly pick-up, called in PowerUp_SizeChanger (script)

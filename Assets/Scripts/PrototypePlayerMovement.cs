@@ -21,7 +21,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     private bool m_isHittingWall = false;
     private float m_pushForce = 2.0f;
     public bool M_InLaunchZone = false;
-
+    public Vector3 M_TargetBlobSize;
     private void Start()
     {
         m_controller = gameObject.GetComponent<CustomController>();
@@ -141,8 +141,52 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
     }
 
+
     void Update()
     {
+        //change size gradually each frame
+        Vector3 growthIncrement = new Vector3(1f, 1f, 1f);
+        Vector3 shadowGrowthIncrement = new Vector3(.06f, .06f, 0f);
+        if ( PlayerManagerScript.M_Growing)
+        {
+            if (transform.localScale.x < PlayerManagerScript.M_TargetSize)
+            {
+                transform.localScale += growthIncrement * Time.deltaTime;
+            }
+
+            if(M_BlobShadowDecal.size.x < M_TargetBlobSize.x)
+            {
+                M_BlobShadowDecal.size += shadowGrowthIncrement;
+            }
+
+        }
+        else if ( PlayerManagerScript.M_Shrinking)
+        {
+            if (transform.localScale.x > PlayerManagerScript.M_TargetSize ) 
+            {
+                transform.localScale -= growthIncrement * Time.deltaTime;
+            }
+
+            if (M_BlobShadowDecal.size.x > M_TargetBlobSize.x)
+            {
+                M_BlobShadowDecal.size -= shadowGrowthIncrement;
+            }
+
+        }
+        else if (transform.localScale.x > PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Growing)
+        {
+            transform.localScale = new Vector3 (PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
+            M_BlobShadowDecal.size = M_TargetBlobSize;
+            PlayerManagerScript.M_Growing = false;
+        }
+        else if (transform.localScale.x < PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Shrinking)
+        {
+            transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
+            M_BlobShadowDecal.size = M_TargetBlobSize;
+            PlayerManagerScript.M_Shrinking = false;
+        }
+
+      
 
         M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
         M_TuteWorld.transform.GetChild(4).gameObject.SetActive(false);
@@ -214,25 +258,40 @@ public class PrototypePlayerMovement : MonoBehaviour
     
     }
 
+    //public static Vector3 Lerp(Vector3 a,  Vector3(a_size, a_size, a_size), 1f);
+  
+
     public void SetValues(float a_size, float a_mass)
     {
         //m_controller.rb.mass = a_mass;
-        transform.localScale = new Vector3(a_size, a_size, a_size);
+
+        // transform.localScale = new  Vector3 (a_size, a_size, a_size);
+
+        
+       
+
+      
+      
+       //  if (transform.localScale.x >= endSize.x)
+     //   {
+      //      transform.localScale = new Vector3(a_size, a_size, a_size);
+      //  }
+
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
             case (int)PlayerManagerScript.SizeState.big:
                 m_pushForce = 4.0f;
-                M_BlobShadowDecal.size = new Vector3(15, 15, 50);
+               M_TargetBlobSize = new Vector3(15, 15, 50);
                 break;
 
             case (int)PlayerManagerScript.SizeState.normal:
                 m_pushForce = 0.0f;
-                M_BlobShadowDecal.size = new Vector3(5, 5, 50);
+                M_TargetBlobSize = new Vector3(5, 5, 50);
                 break;
 
             case (int)PlayerManagerScript.SizeState.small:
                 m_pushForce = 0.0f;
-                M_BlobShadowDecal.size = new Vector3(2, 2, 50);
+                M_TargetBlobSize = new Vector3(2, 2, 50);
                 break;
 
             default:

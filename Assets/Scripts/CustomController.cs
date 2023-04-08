@@ -24,6 +24,9 @@ public class CustomController : MonoBehaviour
     float m_mouseSensitivityY = 200.0f;
     float m_rotationY, m_rotationX;
 
+    private bool m_walking = false;
+    [SerializeField] private AudioSource m_walkSound;
+
     [SerializeField] private float m_minimumSpeed = 0.2f;
     
     // Start is called before the first frame update
@@ -87,6 +90,23 @@ public class CustomController : MonoBehaviour
         }
 
         M_RenderScript.DisableBlur();
+
+        if((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) && isGrounded)
+        {
+             m_walking = true;
+            
+        }
+        else 
+        {
+            m_walking = false;
+            m_walkSound.Stop();
+           // m_walkSound.Stop();
+        }
+
+        if(m_walking && !m_walkSound.isPlaying)
+        {
+            m_walkSound.Play();
+        }
     }
 
     void PlayerAndCameraRotation()
@@ -130,6 +150,8 @@ public class CustomController : MonoBehaviour
         Vector3 cameraRelativeMovement = forwardRelativeVerticalInput + rightRelativeHorizontalInput;
         rb.velocity = new Vector3(cameraRelativeMovement.x, rb.velocity.y, cameraRelativeMovement.z);
         
+       
+      
         
     }
 

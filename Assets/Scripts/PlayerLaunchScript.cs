@@ -42,7 +42,8 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] float m_powerSizeStep = 1.0f;          // Determines how big is the scale difference in the arrow when choosing launching power.
     [SerializeField] float m_baseLength = 10.0f;            // Minimum lenght of the arrow.
     [SerializeField] private float m_minimumSpeed = 0.4f;   // Speed minimum limit before the player changes to walking player.
-
+    [SerializeField] private AudioSource m_launchSound;
+    [SerializeField] AudioClip[] m_sLaunchSounds;
     Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
     float m_cameraRotationY;
 
@@ -239,6 +240,11 @@ public class PlayerLaunchScript : MonoBehaviour
         m_rigidbody.velocity = new Vector3(m_direction.x * m_launchingPower, m_direction.y * m_launchingPower, m_direction.z * m_launchingPower);
         //m_rigidbody.AddForce(new Vector3(m_direction.x * m_launchingPower * 100, m_direction.y * m_launchingPower * 100, m_direction.z * m_launchingPower * 100));
         m_rigidbody.freezeRotation = false;
+
+        // m_launchSound.Play();
+        AudioClip clip = m_sLaunchSounds[UnityEngine.Random.Range(0, m_sLaunchSounds.Length)];
+        m_launchSound.PlayOneShot(clip);
+
         Animator anim = gameObject.GetComponent<Animator>();
         anim.SetTrigger("Launching");
         M_TrailScript.ActivateTrail();
@@ -293,6 +299,27 @@ public class PlayerLaunchScript : MonoBehaviour
         transform.localScale = new Vector3(a_size, a_size, a_size);
         m_rigidbody.mass = a_mass;
         GetComponent<Animator>().enabled = true;
+
+       
+            switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
+            {
+                case (int)PlayerManagerScript.SizeState.big:
+                m_launchSound.pitch = 0.5f;
+                    break;
+
+                case (int)PlayerManagerScript.SizeState.normal:
+                m_launchSound.pitch = 1f;
+                break;
+
+                case (int)PlayerManagerScript.SizeState.small:
+                m_launchSound.pitch = 1.5f;
+                break;
+
+                default:
+                    Debug.Log("Error! Did you forget to set a size state?");
+                    break;
+            }
+        
 
     }
     private void OnTriggerEnter(Collider a_hit)
@@ -429,5 +456,7 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction = a_direction;
         this.transform.rotation = Quaternion.LookRotation(a_direction);
     }
+
+
 }
     
