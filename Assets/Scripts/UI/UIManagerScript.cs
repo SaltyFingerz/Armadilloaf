@@ -29,4 +29,10 @@ public class UIManagerScript : MonoBehaviour
         SceneManager.LoadScene("Level_01");
         PlayerPrefs.SetInt("tute", 0);
     }
+
+    public void Cutscene()
+    {
+        SceneManager.LoadScene("CutsceneIntro");
+        PlayerPrefs.SetInt("tute", 0);
+    }
 }
