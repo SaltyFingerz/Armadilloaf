@@ -340,6 +340,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_freeFlyingPlayer.SetActive(false);
         m_state = ArmadilloState.walk;
         M_walkingPlayer.SetActive(true);
+
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSizeImmediate(M_sizes[M_sizeState], M_weights[M_sizeState]);
+        
     }
 
     public void StartLaunching()
@@ -372,6 +375,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
+        if (M_sizeState == 2)
+        {
+            M_BallAnimator.SetTrigger("Big");
+        }
+
+        else if (M_sizeState == 0)
+        {
+            M_BallAnimator.SetTrigger("Small");
+        }
     }
 
     void StartFlying()

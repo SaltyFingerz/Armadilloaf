@@ -22,6 +22,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     private float m_pushForce = 2.0f;
     public bool M_InLaunchZone = false;
     public Vector3 M_TargetBlobSize;
+    private bool m_gradualSize = true;
     private void Start()
     {
         m_controller = gameObject.GetComponent<CustomController>();
@@ -144,47 +145,49 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
-        //change size gradually each frame
-        Vector3 growthIncrement = new Vector3(1f, 1f, 1f);
-        Vector3 shadowGrowthIncrement = new Vector3(.06f, .06f, 0f);
-        if ( PlayerManagerScript.M_Growing)
-        {
-            if (transform.localScale.x < PlayerManagerScript.M_TargetSize)
+      
+            //change size gradually each frame
+            Vector3 growthIncrement = new Vector3(1f, 1f, 1f);
+            Vector3 shadowGrowthIncrement = new Vector3(.06f, .06f, 0f);
+            if (PlayerManagerScript.M_Growing)
             {
-                transform.localScale += growthIncrement * Time.deltaTime;
-            }
+                if (transform.localScale.x < PlayerManagerScript.M_TargetSize)
+                {
+                    transform.localScale += growthIncrement * Time.deltaTime;
+                }
 
-            if(M_BlobShadowDecal.size.x < M_TargetBlobSize.x)
+                if (M_BlobShadowDecal.size.x < M_TargetBlobSize.x)
+                {
+                    M_BlobShadowDecal.size += shadowGrowthIncrement;
+                }
+
+            }
+            else if (PlayerManagerScript.M_Shrinking)
             {
-                M_BlobShadowDecal.size += shadowGrowthIncrement;
-            }
+                if (transform.localScale.x > PlayerManagerScript.M_TargetSize)
+                {
+                    transform.localScale -= growthIncrement * Time.deltaTime;
+                }
 
-        }
-        else if ( PlayerManagerScript.M_Shrinking)
-        {
-            if (transform.localScale.x > PlayerManagerScript.M_TargetSize ) 
+                if (M_BlobShadowDecal.size.x > M_TargetBlobSize.x)
+                {
+                    M_BlobShadowDecal.size -= shadowGrowthIncrement;
+                }
+
+            }
+            else if (transform.localScale.x > PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Growing)
             {
-                transform.localScale -= growthIncrement * Time.deltaTime;
+                transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
+                M_BlobShadowDecal.size = M_TargetBlobSize;
+                PlayerManagerScript.M_Growing = false;
             }
-
-            if (M_BlobShadowDecal.size.x > M_TargetBlobSize.x)
+            else if (transform.localScale.x < PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Shrinking)
             {
-                M_BlobShadowDecal.size -= shadowGrowthIncrement;
+                transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
+                M_BlobShadowDecal.size = M_TargetBlobSize;
+                PlayerManagerScript.M_Shrinking = false;
             }
-
-        }
-        else if (transform.localScale.x > PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Growing)
-        {
-            transform.localScale = new Vector3 (PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
-            M_BlobShadowDecal.size = M_TargetBlobSize;
-            PlayerManagerScript.M_Growing = false;
-        }
-        else if (transform.localScale.x < PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Shrinking)
-        {
-            transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
-            M_BlobShadowDecal.size = M_TargetBlobSize;
-            PlayerManagerScript.M_Shrinking = false;
-        }
+     
 
       
 
@@ -260,17 +263,19 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     //public static Vector3 Lerp(Vector3 a,  Vector3(a_size, a_size, a_size), 1f);
   
+    public void SetSizeImmediate(float a_size, float a_mass)
+    {
+        transform.localScale = new Vector3(a_size, a_size, a_size);
+
+    }
+
+ 
 
     public void SetValues(float a_size, float a_mass)
     {
-        //m_controller.rb.mass = a_mass;
+        m_controller.rb.mass = a_mass;
 
         // transform.localScale = new  Vector3 (a_size, a_size, a_size);
-
-        
-       
-
-      
       
        //  if (transform.localScale.x >= endSize.x)
      //   {
