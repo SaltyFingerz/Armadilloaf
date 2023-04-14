@@ -21,7 +21,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public RenderingScript M_RenderScript;
     public LaunchTrailScript M_TrailScript;
     public Canvas M_canvas;
-
+    public GameObject[] M_BigCans;
     float m_rotationMouseY, m_rotationMouseX;
     public float m_mouseSensitivityX;
     public float m_mouseSensitivityY;
@@ -59,7 +59,7 @@ public class PlayerLaunchScript : MonoBehaviour
         M_fillImage.fillAmount = 0.0f;
         M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, m_baseLength + m_powerSizeStep * M_maxPower);
         m_cameraRotationY = -Mathf.Cos(24f);
-
+        M_BigCans = GameObject.FindGameObjectsWithTag("Big Can");
     }
 
 
@@ -305,6 +305,10 @@ public class PlayerLaunchScript : MonoBehaviour
             {
                 case (int)PlayerManagerScript.SizeState.big:
                 m_launchSound.pitch = 0.5f;
+                foreach (GameObject can in M_BigCans)
+                {
+                    can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                }
                     break;
 
                 case (int)PlayerManagerScript.SizeState.normal:
