@@ -40,6 +40,10 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         if (a_hit.gameObject.CompareTag("Collectible"))
         {
+            a_hit.gameObject.GetComponent<HoverScript>().PlayPickupSound();
+            //if (a_hit.gameObject.name == "Collectible Banana")
+            //{
+            //}
             print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
 
