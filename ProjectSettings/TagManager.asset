@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Enemy
   - Collectible
+  - Big Can
   layers:
   - Default
   - TransparentFX
@@ -46,6 +47,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: 
+  - name: ripples
     uniqueID: 236728119
+    locked: 0
+  - name: splashes
+    uniqueID: 57628999
     locked: 0

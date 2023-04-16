@@ -15,6 +15,7 @@ Material:
   - _ADDITIONAL_LIGHTS_ENABLED
   - _ENVIRONMENT_LIGHTING_ENABLED
   - _FOG
+  - _FRESNEL
   - _NORMALMAP
   - _RAMP_TRIPLE
   - _REFLECTIONS
@@ -112,8 +113,8 @@ Material:
     - _EnvironmentLightingEnabled: 1
     - _EnvironmentReflections: 1
     - _Fog: 1
-    - _Fresnel: 0
-    - _FresnelSmoothness: 0.1
+    - _Fresnel: 1
+    - _FresnelSmoothness: 0.14
     - _FresnelThickness: 0.45
     - _GlossMapScale: 0
     - _Glossiness: 0
@@ -130,7 +131,7 @@ Material:
     - _ReceiveShadows: 1
     - _ReflectionBlend: 0.5
     - _ReflectionProbes: 0
-    - _ReflectionSmoothness: 0.543
+    - _ReflectionSmoothness: 0.817
     - _Reflections: 1
     - _ShadowMask: 0
     - _Smoothness: 0.5
@@ -151,10 +152,10 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _ShadowTint: {r: 0, g: 0, b: 0, a: 0.27058825}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &5660448767953706340
 MonoBehaviour:
