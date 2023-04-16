@@ -14,6 +14,7 @@ public class HoverScript : MonoBehaviour
     Vector3 initPos;
     public bool M_RotateOnAllAxes = false;
     public bool M_RotateOnYAxis = false;
+    [SerializeField] AudioClip m_pickupSoundClip;
     private void Start()
     {
         initPos = transform.position;
@@ -32,6 +33,11 @@ public class HoverScript : MonoBehaviour
         {
             transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0, 0.8f, 0));
         }
+    }
+
+    public void PlayPickupSound()
+    {
+        GetComponent<AudioSource>().PlayOneShot(m_pickupSoundClip);
     }
 
     public void StopParticles()
