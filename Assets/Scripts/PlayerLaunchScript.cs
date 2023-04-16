@@ -17,6 +17,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_TuteWorld;
     public GameObject M_launchCamera;
     public GameObject M_playerManager;
+    public GameObject M_Trail;
     public UnityEngine.UI.Image M_fillImage;
     public RenderingScript M_RenderScript;
     public LaunchTrailScript M_TrailScript;
@@ -241,6 +242,8 @@ public class PlayerLaunchScript : MonoBehaviour
         //m_rigidbody.AddForce(new Vector3(m_direction.x * m_launchingPower * 100, m_direction.y * m_launchingPower * 100, m_direction.z * m_launchingPower * 100));
         m_rigidbody.freezeRotation = false;
 
+        UpdateTrailRotation();
+
         // m_launchSound.Play();
         AudioClip clip = m_sLaunchSounds[UnityEngine.Random.Range(0, m_sLaunchSounds.Length)];
         m_launchSound.PlayOneShot(clip);
@@ -253,6 +256,13 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             M_RenderScript.EnableBlur();
         }
+    }
+
+    public void UpdateTrailRotation()
+    {
+        Vector3 eulerRotation = new Vector3(M_Trail.transform.eulerAngles.x, transform.eulerAngles.y -180, M_Trail.transform.eulerAngles.z);
+
+        M_Trail.transform.rotation = Quaternion.Euler(eulerRotation);
     }
 
     private void DirectionInput()

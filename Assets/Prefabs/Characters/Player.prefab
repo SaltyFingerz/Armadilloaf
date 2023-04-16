@@ -574,6 +574,7 @@ MonoBehaviour:
   m_slowSlide: -0.15
   m_jumpHeight: 8
   M_InLaunchZone: 0
+  M_TargetBlobSize: {x: 0, y: 0, z: 0}
 --- !u!212 &1228896355
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -711,6 +712,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   M_groundPoint: {fileID: 998696210}
+  m_walkSound: {fileID: 0}
   m_minimumSpeed: 0.2
 --- !u!114 &374179176
 MonoBehaviour:
@@ -1156,7 +1158,6 @@ Transform:
   - {fileID: 2163527014642896241}
   - {fileID: 2076531161106135297}
   - {fileID: 5035551740460550131}
-  - {fileID: 2274422828479759853}
   m_Father: {fileID: 7188395514660455878}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1181,6 +1182,9 @@ MonoBehaviour:
   M_additionalCamera: {fileID: 8431252128549774819}
   M_velocityRetain: 0.65
   M_velocityRetiainAir: 0.85
+  M_EjectionPS1: {fileID: 0}
+  M_EjectionPS2: {fileID: 0}
+  M_JellyDecal: {fileID: 0}
   m_state: 0
   M_sizes:
   - 0.5
@@ -1212,6 +1216,9 @@ MonoBehaviour:
   M_transitionOut: 0
   M_UIManager: {fileID: 0}
   M_PlayerMovement: {fileID: 2163527014642896243}
+  M_JellyDecalRotation: {x: 0, y: 0, z: 0, w: 0}
+  M_JellyParent: {fileID: 0}
+  M_JellyDecalPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &905613298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1256,6 +1263,7 @@ Transform:
   - {fileID: 8431252127155698086}
   - {fileID: 4933560404183489193}
   - {fileID: 1983485586}
+  - {fileID: 2274422828479759853}
   m_Father: {fileID: 0}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2145,6 +2153,7 @@ MonoBehaviour:
   M_RenderScript: {fileID: 2130601687}
   M_TrailScript: {fileID: 6395079730380310333}
   M_canvas: {fileID: 4854981069537008706}
+  M_BigCans: []
   m_mouseSensitivityX: 8
   m_mouseSensitivityY: 500
   M_maxPower: 50
@@ -2155,6 +2164,8 @@ MonoBehaviour:
   m_powerSizeStep: 1
   m_baseLength: 10
   m_minimumSpeed: 0.2
+  m_launchSound: {fileID: 0}
+  m_sLaunchSounds: []
 --- !u!54 &8854288522490146428
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2450,7 +2461,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 2
-    m_TransformParent: {fileID: 4933560404183489193}
+    m_TransformParent: {fileID: 7188395514660455878}
     m_Modifications:
     - target: {fileID: 3295132189619536450, guid: f85695211350d2540bb1443645237eb0, type: 3}
       propertyPath: playOnAwake
