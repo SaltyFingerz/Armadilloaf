@@ -43,7 +43,7 @@ public class PowerUp_SizeChanger : MonoBehaviour
                 case Effect.SizeUp:
                     {
                         M_playerManager.Grow();
-
+                        M_playerManager.Grow(); //twice to become big even if picking up when small.
                         if (M_myProperty == Property.Jelly)
                             M_playerManager.Jellify();
                         else if (M_myProperty == Property.Honey)
