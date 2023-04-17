@@ -11,18 +11,26 @@ public class PowerUp_SizeChanger : MonoBehaviour
     private AudioSource m_JamAudio;
     public enum Property { None, Jelly, Honey };
     public Property M_myProperty = Property.None;
-   
+   private MeshRenderer m_Renderer;
     // Start is called before the first frame update
     void Start()
     {
         M_playerManager = FindObjectOfType<PlayerManagerScript>();
        m_JamAudio = GetComponent<AudioSource>();
+        m_Renderer = GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    IEnumerator eatJam()
+    {
+        m_Renderer.enabled = false;
+        yield return new WaitForSeconds(2);
+        Destroy(this.gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -47,14 +55,14 @@ public class PowerUp_SizeChanger : MonoBehaviour
                             
                         }
 
-                        Destroy(this.gameObject);
+                       StartCoroutine(eatJam());
                         return;
                     }
                 case Effect.SizeDown:
                     {
                         M_playerManager.Shrink();
 
-                        Destroy(this.gameObject);
+                        StartCoroutine(eatJam());
                         return;
                     }
                 default:

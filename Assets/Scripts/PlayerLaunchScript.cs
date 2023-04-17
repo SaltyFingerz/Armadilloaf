@@ -23,6 +23,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public LaunchTrailScript M_TrailScript;
     public Canvas M_canvas;
     public GameObject[] M_BigCans;
+    public GameObject[] M_Cereals;
     float m_rotationMouseY, m_rotationMouseX;
     public float m_mouseSensitivityX;
     public float m_mouseSensitivityY;
@@ -61,6 +62,7 @@ public class PlayerLaunchScript : MonoBehaviour
         M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, m_baseLength + m_powerSizeStep * M_maxPower);
         m_cameraRotationY = -Mathf.Cos(24f);
         M_BigCans = GameObject.FindGameObjectsWithTag("Big Can");
+        M_Cereals = GameObject.FindGameObjectsWithTag("Cereal");
     }
 
 
@@ -319,14 +321,34 @@ public class PlayerLaunchScript : MonoBehaviour
                 {
                     can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 }
+                foreach (GameObject cereal in M_Cereals)
+                {
+                    cereal.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                }
                     break;
 
                 case (int)PlayerManagerScript.SizeState.normal:
                 m_launchSound.pitch = 1f;
+                foreach (GameObject can in M_BigCans)
+                {
+                    can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                }
+                foreach (GameObject cereal in M_Cereals)
+                {
+                    cereal.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                }
                 break;
 
                 case (int)PlayerManagerScript.SizeState.small:
                 m_launchSound.pitch = 1.5f;
+                foreach (GameObject can in M_BigCans)
+                {
+                    can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                }
+                foreach (GameObject cereal in M_Cereals)
+                {
+                    cereal.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                }
                 break;
 
                 default:
