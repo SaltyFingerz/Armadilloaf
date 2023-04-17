@@ -32,8 +32,12 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
         {
+
             PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
-            m_playerManagerScript.M_takingDamage = true;
+            if (m_playerManagerScript.M_sizeState != 2)
+            {
+                m_playerManagerScript.M_takingDamage = true;
+            }
         }
     }
     private void OnTriggerEnter(Collider a_hit)

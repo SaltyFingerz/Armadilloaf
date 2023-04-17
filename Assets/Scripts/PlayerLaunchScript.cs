@@ -154,7 +154,7 @@ public class PlayerLaunchScript : MonoBehaviour
         if (isGrounded())
         {
             l_angleChange = M_floorAngleChangeRadians;
-            l_translationChange = 1.3f;
+            l_translationChange = 2.2f;
         }
 
         Vector2 multiplier = new Vector2(l_playerHorizontalInput, l_playerVerticalInput);
