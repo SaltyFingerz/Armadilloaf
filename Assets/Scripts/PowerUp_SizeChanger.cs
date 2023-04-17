@@ -8,6 +8,7 @@ public class PowerUp_SizeChanger : MonoBehaviour
     public Effect M_myEffect;
     public PlayerManagerScript M_playerManager;
     public PrototypePlayerMovement M_prototypePlayerMovement;
+    private AudioSource m_JamAudio;
     public enum Property { None, Jelly, Honey };
     public Property M_myProperty = Property.None;
    
@@ -15,7 +16,7 @@ public class PowerUp_SizeChanger : MonoBehaviour
     void Start()
     {
         M_playerManager = FindObjectOfType<PlayerManagerScript>();
-       
+       m_JamAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -28,6 +29,7 @@ public class PowerUp_SizeChanger : MonoBehaviour
     {
         if (other.gameObject.name == "WalkingPlayer" || other.gameObject.name == "ArmadilloBallPlayer")
         {
+            m_JamAudio.Play();
             switch(M_myEffect)
             {
                 case Effect.SizeUp:
