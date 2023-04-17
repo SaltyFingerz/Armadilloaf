@@ -16,6 +16,10 @@ public class PlayerCollisionSFX : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyUp(KeyCode.LeftShift)) 
+        {
+            m_canHit = false;
+        }
         if (!m_canHit)
         {
             StartCoroutine(waitForP());
