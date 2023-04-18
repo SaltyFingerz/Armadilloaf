@@ -163,7 +163,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        M_FruitUI.text = M_FruitCollected.ToString();
+       // M_FruitUI.text = M_FruitCollected.ToString();
         m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
