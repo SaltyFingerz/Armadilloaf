@@ -34,8 +34,9 @@ public partial class PlayerManagerScript : MonoBehaviour
     public static bool M_Shrinking = false;
     //Player HUD objects
     public Canvas M_playerHUD;
-    public GameObject M_freshnessBar;
-    public Slider M_freshnessSlider;
+    public Image M_freshnessBiscuit;
+    public Sprite[] M_freshnessBiscuitLevels = new Sprite[5];
+    public bool[] M_biscuitBites = new bool[4];
     public Image M_armadilloaf;
     public Image M_transitionSprite;
     public TextMeshProUGUI M_lifeText;
@@ -61,6 +62,9 @@ public partial class PlayerManagerScript : MonoBehaviour
     public Renderer M_Renderer;
     public Renderer M_2DRenderer;
 
+
+    public Animator M_biscuitAnimator;
+
     public static bool M_Fluffed;
     public static int M_FruitCollected;
     public TextMeshProUGUI M_FruitUI;
@@ -75,10 +79,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_UIManager.Resume();
         Cursor.lockState = CursorLockMode.Locked;
 
-        M_freshnessSlider = GetComponentInChildren<Slider>();
-        M_freshnessSlider.maxValue = M_hitPoints;
-        M_freshnessSlider.value = M_hitPoints;
-        M_freshnessBar.SetActive(false);
+        ResetBiscuitBites();
+        M_freshnessBiscuit.enabled = false;
+        M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
 
         M_transitionSprite.enabled = false;
 
@@ -169,10 +172,61 @@ public partial class PlayerManagerScript : MonoBehaviour
         if (M_takingDamage && m_invulnerabilityTimerSeconds > m_invulnerabilityPeriodSeconds)
         {
             Debug.Log("ow");
-            /*M_freshnessBar.SetActive(true);
-            M_hitPoints -= (1 * Time.deltaTime);
-            M_freshnessSlider.value = M_hitPoints;*/
             m_invulnerabilityTimerSeconds = 0.0f;
+            M_freshnessBiscuit.enabled = true;
+            M_hitPoints -= (1.0f * Time.deltaTime);
+            Debug.Log(M_hitPoints);
+
+            if (M_hitPoints <= 0)
+            {
+                M_transitionIn = true;
+                M_takingDamage = false;
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
+                M_freshnessBiscuit.enabled = false;
+                ResetBiscuitBites();
+            }
+            else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[3])
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[4];
+                if (M_biscuitBites[3] == false)
+                {
+                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                    M_biscuitBites[3] = true;
+                }
+            }
+            else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[2])
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[3];
+                if (M_biscuitBites[2] == false)
+                {
+                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                    M_biscuitBites[2] = true;
+                }
+            }
+            else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[1])
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[2];
+                if (M_biscuitBites[1] == false)
+                {
+                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                    M_biscuitBites[1] = true;
+                }
+            }
+            else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[0])
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[1];
+                if (M_biscuitBites[0] == false)
+                { 
+                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                M_biscuitBites[0] = true;
+                }
+            }
+            else
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
+            }
+
+
             AudioClip clip = m_biscuitClip[UnityEngine.Random.Range(0, m_biscuitClip.Length)];
             M_biscuitBreak.PlayOneShot(clip);
 
@@ -303,8 +357,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         Debug.Log(M_walkingPlayer.transform.position);
         l_controller.rb.isKinematic = false;
         M_hitPoints = 5;
-        M_freshnessSlider.value = M_hitPoints;
-        //M_freshnessBar.SetActive(false);
+        M_freshnessBiscuit.enabled = false;
         StartLaunching();
         StartWalking();
     }
@@ -538,6 +591,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_abilityState = AbilityState.normal;
         M_abilityState = 0;
       
+    }
+
+    public void ResetBiscuitBites()
+    {
+
+        for (int i = 0; i < M_biscuitBites.Length; i++)
+        {
+            M_biscuitBites[i] = false;
+        }
     }
 
     public bool isWalking()
