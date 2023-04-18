@@ -575,6 +575,12 @@ MonoBehaviour:
   m_jumpHeight: 8
   M_InLaunchZone: 0
   M_TargetBlobSize: {x: 0, y: 0, z: 0}
+  m_painClip: []
+  M_PainAudio: {fileID: 0}
+  m_drownClip: []
+  M_DrawnAudio: {fileID: 0}
+  m_waterDrops: []
+  M_WaterDrop: {fileID: 0}
 --- !u!212 &1228896355
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1216,6 +1222,8 @@ MonoBehaviour:
   M_transitionOut: 0
   M_UIManager: {fileID: 0}
   M_PlayerMovement: {fileID: 2163527014642896243}
+  m_biscuitClip: []
+  M_biscuitBreak: {fileID: 0}
   M_JellyDecalRotation: {x: 0, y: 0, z: 0, w: 0}
   M_JellyParent: {fileID: 0}
   M_JellyDecalPosition: {x: 0, y: 0, z: 0}
@@ -2149,11 +2157,13 @@ MonoBehaviour:
   M_TuteWorld: {fileID: 0}
   M_launchCamera: {fileID: 8431252127155698087}
   M_playerManager: {fileID: 4933560404183489198}
+  M_Trail: {fileID: 0}
   M_fillImage: {fileID: 497028206190739727}
   M_RenderScript: {fileID: 2130601687}
   M_TrailScript: {fileID: 6395079730380310333}
   M_canvas: {fileID: 4854981069537008706}
   M_BigCans: []
+  M_Cereals: []
   m_mouseSensitivityX: 8
   m_mouseSensitivityY: 500
   M_maxPower: 50
@@ -2166,6 +2176,12 @@ MonoBehaviour:
   m_minimumSpeed: 0.2
   m_launchSound: {fileID: 0}
   m_sLaunchSounds: []
+  m_powerUpSpeed: 50
+  m_powerDownSpeed: 20
+  m_drownClip: []
+  M_DrawnAudio: {fileID: 0}
+  m_waterDrops: []
+  M_WaterDrop: {fileID: 0}
 --- !u!54 &8854288522490146428
 Rigidbody:
   m_ObjectHideFlags: 0
