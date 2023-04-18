@@ -24,10 +24,9 @@ public class PlayerLaunchScript : MonoBehaviour
     public Canvas M_canvas;
     public GameObject[] M_BigCans;
     public GameObject[] M_Cereals;
-    float m_rotationMouseY, m_rotationMouseX;
+    float m_rotationMouseY = 0.0f;
     public float m_mouseSensitivityX;
     public float m_mouseSensitivityY;
-    float m_currentScroll;
     bool m_collisionEnter = false;
     bool m_collisionStay = false;
 
@@ -191,14 +190,9 @@ public class PlayerLaunchScript : MonoBehaviour
         // Calculate camera rotation
         Vector3 l_desiredRotation = GetDesiredRotationFromMouseInput();
         m_direction = l_desiredRotation;
-        
-        //rotate the camera and interpolate
-        Quaternion l_rotation = Quaternion.LookRotation(l_desiredRotation);
-        l_rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotation, Time.fixedDeltaTime * 10.0f);
 
         //camera transform change
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
-        M_launchCamera.transform.rotation = l_rotation;
+        HandleCameraInput(l_desiredRotation);
 
     }
 
@@ -258,8 +252,6 @@ public class PlayerLaunchScript : MonoBehaviour
         m_launchingStage = 0;
         m_launchingPower = 0;
         M_canvas.enabled = true;
-
-        m_currentScroll = Input.mouseScrollDelta.y;
     }
     private void LaunchingStart()
     {
@@ -271,9 +263,12 @@ public class PlayerLaunchScript : MonoBehaviour
         M_arrow.SetActive(false);
         M_arrowMaximum.SetActive(false);
         m_launchingPower *= 3.0f;
-        m_rigidbody.velocity = new Vector3(m_direction.x * m_launchingPower, m_direction.y * m_launchingPower, m_direction.z * m_launchingPower);
+        m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
         //m_rigidbody.AddForce(new Vector3(m_direction.x * m_launchingPower * 100, m_direction.y * m_launchingPower * 100, m_direction.z * m_launchingPower * 100));
         m_rigidbody.freezeRotation = false;
+
+        m_launchingPower = 0.0f;
+        M_fillImage.fillAmount = m_launchingPower / M_maxPower;
 
         UpdateTrailRotation();
 
@@ -304,27 +299,19 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction = l_desiredRotation;
 
         //rotate the player after getting the updated direction, interpolate
-        Quaternion l_rotation = Quaternion.LookRotation(new Vector3(l_desiredRotation.x, 0.0f, l_desiredRotation.z));
+        Quaternion l_rotation = Quaternion.LookRotation(new Vector3(-l_desiredRotation.x, 0.0f, -l_desiredRotation.z));
         m_rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, l_rotation, Time.fixedDeltaTime * 10.0f));
 
-        // Calculate and clamp Y value
-        //Vector3 l_axis = Vector3.Cross(l_result, Vector3.up);
-        //if (l_axis == Vector3.zero) l_axis = Vector3.right;
-        //Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * l_result;
-        //l_direction.Normalize();
-
-        Quaternion yRotation = Quaternion.LookRotation(l_desiredRotation);
-
         //camera transform change
-        M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, yRotation, Time.fixedDeltaTime * 10.0f);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        HandleCameraInput(l_desiredRotation);
     }
 
     Vector3 GetDesiredRotationFromMouseInput()
     {
         // Mouse is moved, calculate camera rotation from the mouse position difference between frames
         float l_mouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
-        //float l_mouseY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
+        m_rotationMouseY += Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
+        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 85.0f, 170.0f);
 
         // Rotation using 2D vector rotation by angle formula
         Vector3 l_rotation;
@@ -333,6 +320,22 @@ public class PlayerLaunchScript : MonoBehaviour
         l_rotation.z = m_direction.x * Mathf.Sin(l_mouseX) + m_direction.z * Mathf.Cos(l_mouseX);
 
         return l_rotation;
+    }
+
+    void HandleCameraInput(Vector3 a_rotation)
+    {
+        Vector3 l_axis = Vector3.Cross(a_rotation, Vector3.up);
+        if (l_axis == Vector3.zero) l_axis = Vector3.right;
+        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_rotation;
+        m_cameraRotationY = l_direction.y;
+
+        l_direction.Normalize();
+
+        Quaternion yRotation = Quaternion.LookRotation(l_direction);
+
+        //camera transform change
+        M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, yRotation, Time.fixedDeltaTime * 10.0f);
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
     }
 
     public void SetValues(float a_size, float a_mass)
