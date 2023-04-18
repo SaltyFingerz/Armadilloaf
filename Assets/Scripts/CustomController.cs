@@ -21,8 +21,8 @@ public class CustomController : MonoBehaviour
     private bool m_justLaunched = false;
 
     float m_mouseSensitivity = 1000.0f;
-    float m_mouseSensitivityY = 200.0f;
-    float m_rotationY, m_rotationX;
+    float m_mouseSensitivityY = 800.0f;
+    float m_rotationY, m_rotationX, m_totalRotationY;
 
     private bool m_walking = false;
     [SerializeField] private AudioSource m_walkSound;
@@ -115,11 +115,18 @@ public class CustomController : MonoBehaviour
         m_rotationX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
         m_rotationY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
 
+        // clamp total rotation
+        m_totalRotationY += m_rotationY;
+        if (m_totalRotationY < -500.0f || m_totalRotationY > 1000.0f)
+        {
+            m_totalRotationY -= m_rotationY;
+            m_rotationY = 0.0f;
+        }
+
         // rotte the player (left-right)
         this.transform.rotation = Quaternion.AngleAxis(m_rotationX, Vector3.up);
-
-        //Quaternion l_quat = Quaternion.AngleAxis(m_rotationY, Vector3.right);
-        //M_walkCamera.transform.rotation = M_walkCamera.transform.rotation * l_quat;
+        Quaternion l_quat = Quaternion.Euler(new Vector3(m_rotationY, 0.0f, 0.0f));
+        M_walkCamera.transform.rotation = Quaternion.Lerp(M_walkCamera.transform.rotation, M_walkCamera.transform.rotation * l_quat, Time.deltaTime);
     }
 
     void MovePlayerRelativeToCamera()
