@@ -53,6 +53,9 @@ public partial class PlayerManagerScript : MonoBehaviour
     public PrototypePlayerMovement M_PlayerMovement;
     bool m_justUnpaused;
 
+    [SerializeField] AudioClip[] m_biscuitClip;
+    public AudioSource M_biscuitBreak;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -92,6 +95,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_lifeText.text = M_lives.ToString();
         StartCoroutine(FadeIn(M_armadilloaf));
         StartCoroutine(FadeIn(M_lifeText));
+
+        AudioClip clip = m_biscuitClip[UnityEngine.Random.Range(0, m_biscuitClip.Length)];
+        M_biscuitBreak.PlayOneShot(clip);
+
         yield return new WaitForSeconds(2);
         StartCoroutine(FadeAway(M_armadilloaf));
         StartCoroutine(FadeAway(M_lifeText));

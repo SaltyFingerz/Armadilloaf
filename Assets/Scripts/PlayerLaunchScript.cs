@@ -49,6 +49,14 @@ public class PlayerLaunchScript : MonoBehaviour
     Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
     float m_cameraRotationY;
 
+    [SerializeField] AudioClip[] m_drownClip;
+    public AudioSource M_DrawnAudio;
+
+    [SerializeField] AudioClip[] m_waterDrops;
+    public AudioSource M_WaterDrop;
+
+    private bool m_canDrown = true;
+
     public void Start()
     {
         // get objects
@@ -388,6 +396,26 @@ public class PlayerLaunchScript : MonoBehaviour
             M_Tutorial.transform.GetChild(9).gameObject.SetActive(true);
 
         }
+
+        if (a_hit.gameObject.name.Contains("Water"))
+        {
+            AudioClip clip = m_waterDrops[UnityEngine.Random.Range(0, m_waterDrops.Length)];
+            M_WaterDrop.PlayOneShot(clip);
+        }
+    }
+
+    IEnumerator waitForDrown()
+    {
+        yield return new WaitForSeconds(3);
+        m_canDrown = true;
+    }
+
+    public void DrownSound()
+    {
+        AudioClip clip = m_drownClip[UnityEngine.Random.Range(0, m_drownClip.Length)];
+        M_DrawnAudio.PlayOneShot(clip);
+        m_canDrown = false;
+        StartCoroutine(waitForDrown());
     }
 
     private void OnTriggerStay(Collider a_hit)
@@ -398,6 +426,12 @@ public class PlayerLaunchScript : MonoBehaviour
             if (m_playerManagerScript.M_sizeState != 2)
             {
                 m_playerManagerScript.M_takingDamage = true;
+            }
+
+
+            if (a_hit.gameObject.name.Contains("Water") && m_canDrown)
+            {
+                DrownSound();
             }
         }
     }

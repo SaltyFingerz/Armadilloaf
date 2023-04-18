@@ -23,6 +23,18 @@ public class PrototypePlayerMovement : MonoBehaviour
     public bool M_InLaunchZone = false;
     public Vector3 M_TargetBlobSize;
     private bool m_gradualSize = true;
+
+    [SerializeField] AudioClip[] m_painClip;
+    public AudioSource M_PainAudio;
+
+    [SerializeField] AudioClip[] m_drownClip;
+    public AudioSource M_DrawnAudio;
+
+    [SerializeField] AudioClip[] m_waterDrops;
+    public AudioSource M_WaterDrop;
+
+    private bool m_canPain = true;
+    private bool m_canDrown = true;
     private void Start()
     {
         m_controller = gameObject.GetComponent<CustomController>();
@@ -37,9 +49,49 @@ public class PrototypePlayerMovement : MonoBehaviour
             if (m_playerManagerScript.M_sizeState != 2)
             {
                 m_playerManagerScript.M_takingDamage = true;
+                if (m_canPain)
+                {
+                    PainSound();
+                   
+                }
+            }
+
+            if(a_hit.gameObject.name.Contains("Water") && m_canDrown)
+            {
+                DrownSound();
             }
         }
     }
+
+    IEnumerator waitForPain()
+    {
+        yield return new WaitForSeconds(1);
+        m_canPain = true;
+
+    }
+
+    IEnumerator waitForDrown()
+    {
+        yield return new WaitForSeconds(3);
+        m_canDrown = true;
+    }
+
+    public void PainSound() //random sound of the player character taunting her opponents by exclaiming "Pathetic!" called upon clearing the enemies of a room.
+    {
+        AudioClip clip = m_painClip[UnityEngine.Random.Range(0, m_painClip.Length)];
+        M_PainAudio.PlayOneShot(clip);
+        m_canPain = false;
+        StartCoroutine(waitForPain());
+    }
+
+    public void DrownSound()
+    {
+        AudioClip clip = m_drownClip[UnityEngine.Random.Range(0, m_drownClip.Length)];
+        M_DrawnAudio.PlayOneShot(clip);
+        m_canDrown = false;
+        StartCoroutine(waitForDrown());
+    }
+
     private void OnTriggerEnter(Collider a_hit)
     {
         if (a_hit.gameObject.CompareTag("Collectible"))
@@ -109,6 +161,12 @@ public class PrototypePlayerMovement : MonoBehaviour
             M_Tutorial.transform.GetChild(8).gameObject.SetActive(false);
             M_Tutorial.transform.GetChild(9).gameObject.SetActive(false);
 
+        }
+
+        if (a_hit.gameObject.name.Contains("Water"))
+        {
+            AudioClip clip = m_waterDrops[UnityEngine.Random.Range(0, m_waterDrops.Length)];
+            M_WaterDrop.PlayOneShot(clip);
         }
 
     }

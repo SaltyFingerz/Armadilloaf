@@ -15,6 +15,13 @@ public class HoverScript : MonoBehaviour
     public bool M_RotateOnAllAxes = false;
     public bool M_RotateOnYAxis = false;
     [SerializeField] AudioClip m_pickupSoundClip;
+    public AudioSource M_pickupSound;
+
+    [SerializeField] AudioClip[] m_biteSounds;
+    public AudioSource M_BiteSound;
+
+    [SerializeField] AudioClip[] m_Burps;
+    public AudioSource M_Burp;
     private void Start()
     {
         initPos = transform.position;
@@ -37,7 +44,17 @@ public class HoverScript : MonoBehaviour
 
     public void PlayPickupSound()
     {
-        GetComponent<AudioSource>().PlayOneShot(m_pickupSoundClip);
+        M_pickupSound.PlayOneShot(m_pickupSoundClip);
+        AudioClip clip = m_biteSounds[UnityEngine.Random.Range(0, m_biteSounds.Length)];
+        M_BiteSound.PlayOneShot(clip);
+        StartCoroutine(waitToBurp());
+    }
+
+    IEnumerator waitToBurp()
+    {
+        yield return new WaitForSeconds(1);
+        AudioClip clip = m_Burps[UnityEngine.Random.Range(0, m_Burps.Length)];
+        M_Burp.PlayOneShot(clip);
     }
 
     public void StopParticles()
