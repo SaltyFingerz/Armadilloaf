@@ -58,6 +58,8 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public Renderer M_Renderer;
     public Renderer M_2DRenderer;
+
+    public static bool M_Fluffed;
     // Start is called before the first frame update
     void Start()
     {
@@ -93,6 +95,8 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         Color StartColor = M_Renderer.material.color;
         Color StartColor2D = M_2DRenderer.material.color;
+
+        
     }
 
     public IEnumerator ShowUIQuickly()
@@ -159,6 +163,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
         M_TargetSize = M_sizes[M_sizeState];
+
+        
+
+       
 
         if (M_takingDamage)
         {
@@ -294,6 +302,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_hitPoints = 5;
         M_freshnessSlider.value = M_hitPoints;
         M_freshnessBar.SetActive(false);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().Defluff();
+        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().Defluff();
     }
 
     public void Resume()
@@ -515,7 +525,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
         M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
-        M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
+        M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.2f;
         M_Renderer.material.color = Color.white;
         M_2DRenderer.material.color = Color.white;
         // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
