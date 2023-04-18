@@ -58,11 +58,13 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public Renderer M_Renderer;
     public Renderer M_2DRenderer;
-
+    public int M_FruitCollected;
+    public TextMeshProUGUI M_FruitText;
     public static bool M_Fluffed;
     // Start is called before the first frame update
     void Start()
     {
+        
         Physics.gravity = new Vector3(0.0f, -19.77f, 0.0f);
         m_justUnpaused = false;
         M_additionalCamera.SetActive(false);
@@ -158,6 +160,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        M_FruitText.text = M_FruitCollected.ToString();
+
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
         M_TargetSize = M_sizes[M_sizeState];
