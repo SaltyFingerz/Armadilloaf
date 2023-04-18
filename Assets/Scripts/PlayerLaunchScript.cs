@@ -210,7 +210,7 @@ public class PlayerLaunchScript : MonoBehaviour
     void HandleLaunchInput()
     {
         // holding space -> bar moving
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetMouseButton(0))
         {
             // power going up
             if (m_powerGoingUp)
@@ -243,7 +243,7 @@ public class PlayerLaunchScript : MonoBehaviour
         }
 
         //override player rotation
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetMouseButtonUp(0))
         {
             LaunchingStart();
             return;

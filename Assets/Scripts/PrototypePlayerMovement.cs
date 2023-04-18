@@ -350,11 +350,11 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift)) //sprint currently deactivated
         {
-      //      m_playerSpeed = 2.0f; 
+             m_playerSpeed = 2.5f; 
         }
         else
         {
-          //  m_playerSpeed = 2.0f;
+            m_playerSpeed = 2.0f;
         }
 
         // movement with AWSD keys
