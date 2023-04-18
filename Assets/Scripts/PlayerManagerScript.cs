@@ -8,7 +8,6 @@ using static PlayerManagerScript;
 
 public partial class PlayerManagerScript : MonoBehaviour
 {
-    public bool M_isFreeFlying = false;
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
     public GameObject M_walkingCamera, M_launchCamera, M_additionalCamera;
@@ -35,9 +34,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     public static bool M_Shrinking = false;
     //Player HUD objects
     public Canvas M_playerHUD;
-    public Image M_freshnessBiscuit;
-    public Sprite[] M_freshnessBiscuitLevels = new Sprite[5];
-    public bool[] M_biscuitBites = new bool[4];
+    public GameObject M_freshnessBar;
+    public Slider M_freshnessSlider;
     public Image M_armadilloaf;
     public Image M_transitionSprite;
     public TextMeshProUGUI M_lifeText;
@@ -49,16 +47,23 @@ public partial class PlayerManagerScript : MonoBehaviour
     public bool M_takingDamage = false;
     public bool M_transitionIn = false;
     public bool M_transitionOut = false;
-
-    public Animator M_biscuitAnimator;
+    public bool M_isFreeFlying = false;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
     bool m_justUnpaused;
 
     [SerializeField] AudioClip[] m_biscuitClip;
+    [SerializeField] float m_invulnerabilityPeriodSeconds = 2.0f;
+    float m_invulnerabilityTimerSeconds = 2.0f;
     public AudioSource M_biscuitBreak;
 
+    public Renderer M_Renderer;
+    public Renderer M_2DRenderer;
+
+    public static bool M_Fluffed;
+    public static int M_FruitCollected;
+    public TextMeshProUGUI M_FruitUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,15 +75,12 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_UIManager.Resume();
         Cursor.lockState = CursorLockMode.Locked;
 
-        ResetBiscuitBites();
-
-
-        M_freshnessBiscuit.enabled = false;
+        M_freshnessSlider = GetComponentInChildren<Slider>();
+        M_freshnessSlider.maxValue = M_hitPoints;
+        M_freshnessSlider.value = M_hitPoints;
+        M_freshnessBar.SetActive(false);
 
         M_transitionSprite.enabled = false;
-
-        StartCoroutine(FadeAway(M_armadilloaf));
-        StartCoroutine(FadeAway(M_lifeText));
 
         m_state = ArmadilloState.walk;
 
@@ -91,6 +93,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
         M_UIManager.Resume();
+
+        Color StartColor = M_Renderer.material.color;
+        Color StartColor2D = M_2DRenderer.material.color;
+        StartCoroutine(ShowUIQuickly());
     }
 
     public IEnumerator ShowUIQuickly()
@@ -154,86 +160,44 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        M_FruitUI.text = M_FruitCollected.ToString();
+        m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
         M_TargetSize = M_sizes[M_sizeState];
 
-        if (M_takingDamage)
+        if (M_takingDamage && m_invulnerabilityTimerSeconds > m_invulnerabilityPeriodSeconds)
         {
-            M_freshnessBiscuit.enabled = true;
+            Debug.Log("ow");
+            /*M_freshnessBar.SetActive(true);
             M_hitPoints -= (1 * Time.deltaTime);
+            M_freshnessSlider.value = M_hitPoints;*/
+            m_invulnerabilityTimerSeconds = 0.0f;
+            AudioClip clip = m_biscuitClip[UnityEngine.Random.Range(0, m_biscuitClip.Length)];
+            M_biscuitBreak.PlayOneShot(clip);
 
-            if (M_hitPoints <= 0)
+            M_lives--;
+            M_lifeText.text = M_lives.ToString();
+
+            if (M_lives == 0)
             {
+                M_lives = 5;
+                M_lifeText.text = M_lives.ToString();
+                Respawn();
                 M_transitionIn = true;
-                M_takingDamage = false;
-                M_freshnessBiscuit.enabled = false;
-                ResetBiscuitBites();
             }
-            else if (M_hitPoints <= 1 && M_hitPoints > 0)
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[4];
-                if (M_biscuitBites[3] == false)
-                {
-                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                    M_biscuitBites[3] = true;
-                }
-            }
-            else if (M_hitPoints <= 2 && M_hitPoints > 1)
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[3];
-                if (M_biscuitBites[2] == false)
-                {
-                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                    M_biscuitBites[2] = true;
-                }
-            }
-            else if (M_hitPoints <= 3 && M_hitPoints > 2)
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[2];
-                if (M_biscuitBites[1] == false)
-                {
-                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                    M_biscuitBites[1] = true;
-                }
-            }
-            else if (M_hitPoints <= 4 && M_hitPoints > 3)
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[1];
-                if (M_biscuitBites[0] == false)
-                { 
-                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                M_biscuitBites[0] = true;
-                }
-
-
-            }
-            else
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
-            }
-
+            M_takingDamage = false;
         }
 
+        // transition sprite starts growing after 5 deaths
         if (M_transitionIn)
         {
           M_transitionSprite.enabled = true;
           M_transitionSprite.transform.localScale += new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
-          if (M_transitionSprite.transform.localScale.x >= 20.0f)
+          if (M_transitionSprite.transform.localScale.x >= 15.0f)
             {
-                if (M_lives > 0)
-                { 
-                M_lives--;
-                Respawn();
-                StartCoroutine(ShowUIQuickly());
                 M_transitionIn = false;
                 M_transitionOut = true;
-                }
-                else
-                {
-                    M_transitionIn = false;
-                    SceneManager.LoadScene("FailScreen");
-                }
             }
         }
 
@@ -330,12 +294,19 @@ public partial class PlayerManagerScript : MonoBehaviour
         CustomController l_controller = M_walkingPlayer.GetComponent<CustomController>();
         l_controller.rb.isKinematic = true;
         M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = true;
+        Debug.Log(currentCheckpoint);
+        Debug.Log(M_walkingPlayer.transform.position);
         M_walkingPlayer.transform.position = currentCheckpoint;
         M_launchingPlayer.transform.position = currentCheckpoint;
         M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = false;
+        Debug.Log(currentCheckpoint);
+        Debug.Log(M_walkingPlayer.transform.position);
         l_controller.rb.isKinematic = false;
         M_hitPoints = 5;
-        M_freshnessBiscuit.enabled = false;
+        M_freshnessSlider.value = M_hitPoints;
+        //M_freshnessBar.SetActive(false);
+        StartLaunching();
+        StartWalking();
     }
 
     public void Resume()
@@ -529,7 +500,9 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
             M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
-
+            M_Renderer.material.color = Color.magenta;
+            M_2DRenderer.material.color = Color.magenta;
+            //or  material.SetColor(""_Color", new Vector 4 (1,1,1,1));
             M_PlayerMovement.m_jumpHeight = 8;
             M_abilityState = AbilityState.jelly;
         }
@@ -556,6 +529,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
         M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
+        M_Renderer.material.color = Color.white;
+        M_2DRenderer.material.color = Color.white;
+        // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
+        // M_2DRenderer.material.SetColor("StartColor", new Vector4(1, 1, 1, 1));
 
         M_PlayerMovement.m_jumpHeight = 8;
         M_abilityState = AbilityState.normal;
@@ -563,18 +540,8 @@ public partial class PlayerManagerScript : MonoBehaviour
       
     }
 
-    public void ResetBiscuitBites()
-    {
-
-        for (int i = 0; i < M_biscuitBites.Length; i++)
-        {
-            M_biscuitBites[i] = false;
-        }
-    }
-
-public bool isWalking()
+    public bool isWalking()
     {
         return (m_state == ArmadilloState.walk);
     }
-
 }

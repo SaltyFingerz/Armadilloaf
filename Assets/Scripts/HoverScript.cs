@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class HoverScript : MonoBehaviour
 {
     public float amp;
@@ -22,6 +23,9 @@ public class HoverScript : MonoBehaviour
 
     [SerializeField] AudioClip[] m_Burps;
     public AudioSource M_Burp;
+    public static int M_FruitCollected = 0;
+    public PlayerManagerScript M_PlayerManager;
+
     private void Start()
     {
         initPos = transform.position;
@@ -45,9 +49,11 @@ public class HoverScript : MonoBehaviour
     public void PlayPickupSound()
     {
         M_pickupSound.PlayOneShot(m_pickupSoundClip);
+        GetComponent<SphereCollider>().enabled = false;
         AudioClip clip = m_biteSounds[UnityEngine.Random.Range(0, m_biteSounds.Length)];
         M_BiteSound.PlayOneShot(clip);
         StartCoroutine(waitToBurp());
+       // M_PlayerManager.M_FruitCollected ++;
     }
 
     IEnumerator waitToBurp()

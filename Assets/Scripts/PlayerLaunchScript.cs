@@ -5,7 +5,7 @@ using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections;
-using System.Drawing;
+//using System.Drawing;
 using EZCameraShake;
 
 public class PlayerLaunchScript : MonoBehaviour
@@ -60,12 +60,14 @@ public class PlayerLaunchScript : MonoBehaviour
     private bool m_canDrown = true;
     bool m_powerGoingUp = true;
 
+    Renderer m_renderer;
     public void Start()
     {
         // get objects
         m_rigidbody = GetComponent<Rigidbody>();
         M_arrowMaximum = this.gameObject.transform.GetChild(0).gameObject;
         M_arrow = this.gameObject.transform.GetChild(1).gameObject;
+        m_renderer = GetComponent<Renderer>();
 
         // assign starting values
         m_direction = new Vector3(0.0f, 0.0f, 1.0f);
@@ -117,6 +119,7 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle key inputs
     public void Update()
     {
+
         // if paused or free flying, don't update
         if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
         {
@@ -127,6 +130,14 @@ public class PlayerLaunchScript : MonoBehaviour
         if (m_launchingStage == 0)
         {
             HandleLaunchInput();
+        }
+        if (PlayerManagerScript.M_Fluffed)
+        {
+            Fluffing();
+        }
+        else
+        {
+            Defluff();
         }
 
         //control rate of particle system trail depending on speed of ball
@@ -459,9 +470,36 @@ public class PlayerLaunchScript : MonoBehaviour
             {
                 DrownSound();
             }
+
+            if (a_hit.gameObject.CompareTag("Enemy") && m_playerManagerScript.M_sizeState != 2)
+            {
+                Fluffing();
+
+            }
+
         }
     }
 
+    private void Fluffing()
+    {
+        PlayerManagerScript.M_Fluffed = true;
+        m_renderer.material.color = Color.cyan;
+        GetComponent<SphereCollider>().material.bounciness = 0f;
+        StartCoroutine(resetFluff());
+    }
+
+    public  void Defluff()
+    {
+        m_renderer.material.color = Color.white;
+        GetComponent<SphereCollider>().material.bounciness = 0.2f;
+        PlayerManagerScript.M_Fluffed = false;
+    }
+
+    IEnumerator resetFluff()
+    {
+        yield return new WaitForSeconds(10);
+        Defluff();
+    }
     void OnCollisionStay(Collision a_hit)
     {
         if (!m_canBlur)
