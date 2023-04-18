@@ -54,17 +54,17 @@ public partial class PlayerManagerScript : MonoBehaviour
     bool m_justUnpaused;
 
     [SerializeField] AudioClip[] m_biscuitClip;
+    [SerializeField] float m_invulnerabilityPeriodSeconds = 2.0f;
+    float m_invulnerabilityTimerSeconds = 2.0f;
     public AudioSource M_biscuitBreak;
 
     public Renderer M_Renderer;
     public Renderer M_2DRenderer;
-    public int M_FruitCollected;
-    public TextMeshProUGUI M_FruitText;
+
     public static bool M_Fluffed;
     // Start is called before the first frame update
     void Start()
     {
-        
         Physics.gravity = new Vector3(0.0f, -19.77f, 0.0f);
         m_justUnpaused = false;
         M_additionalCamera.SetActive(false);
@@ -80,9 +80,6 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_transitionSprite.enabled = false;
 
-        StartCoroutine(FadeAway(M_armadilloaf));
-        StartCoroutine(FadeAway(M_lifeText));
-
         m_state = ArmadilloState.walk;
 
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
@@ -97,6 +94,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         Color StartColor = M_Renderer.material.color;
         Color StartColor2D = M_2DRenderer.material.color;
+        StartCoroutine(ShowUIQuickly());
     }
 
     public IEnumerator ShowUIQuickly()
@@ -160,43 +158,43 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        M_FruitText.text = M_FruitCollected.ToString();
-
+        m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
         M_TargetSize = M_sizes[M_sizeState];
 
-        if (M_takingDamage)
+        if (M_takingDamage && m_invulnerabilityTimerSeconds > m_invulnerabilityPeriodSeconds)
         {
-            M_freshnessBar.SetActive(true);
+            Debug.Log("ow");
+            /*M_freshnessBar.SetActive(true);
             M_hitPoints -= (1 * Time.deltaTime);
-            M_freshnessSlider.value = M_hitPoints;
-            if (M_hitPoints <= 0)
+            M_freshnessSlider.value = M_hitPoints;*/
+            m_invulnerabilityTimerSeconds = 0.0f;
+            AudioClip clip = m_biscuitClip[UnityEngine.Random.Range(0, m_biscuitClip.Length)];
+            M_biscuitBreak.PlayOneShot(clip);
+
+            M_lives--;
+            M_lifeText.text = M_lives.ToString();
+
+            if (M_lives == 0)
             {
+                M_lives = 5;
+                M_lifeText.text = M_lives.ToString();
+                Respawn();
                 M_transitionIn = true;
-                M_takingDamage = false;
             }
+            M_takingDamage = false;
         }
 
+        // transition sprite starts growing after 5 deaths
         if (M_transitionIn)
         {
           M_transitionSprite.enabled = true;
           M_transitionSprite.transform.localScale += new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
-          if (M_transitionSprite.transform.localScale.x >= 20.0f)
+          if (M_transitionSprite.transform.localScale.x >= 15.0f)
             {
-                if (M_lives > 0)
-                { 
-                M_lives--;
-                Respawn();
-                StartCoroutine(ShowUIQuickly());
                 M_transitionIn = false;
                 M_transitionOut = true;
-                }
-                else
-                {
-                    M_transitionIn = false;
-                    SceneManager.LoadScene("FailScreen");
-                }
             }
         }
 
@@ -303,7 +301,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         l_controller.rb.isKinematic = false;
         M_hitPoints = 5;
         M_freshnessSlider.value = M_hitPoints;
-        M_freshnessBar.SetActive(false);
+        //M_freshnessBar.SetActive(false);
         StartLaunching();
         StartWalking();
     }
