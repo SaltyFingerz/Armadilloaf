@@ -8,7 +8,6 @@ using static PlayerManagerScript;
 
 public partial class PlayerManagerScript : MonoBehaviour
 {
-    public bool M_isFreeFlying = false;
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
     public GameObject M_walkingCamera, M_launchCamera, M_additionalCamera;
@@ -48,6 +47,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public bool M_takingDamage = false;
     public bool M_transitionIn = false;
     public bool M_transitionOut = false;
+    public bool M_isFreeFlying = false;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -287,13 +287,19 @@ public partial class PlayerManagerScript : MonoBehaviour
         CustomController l_controller = M_walkingPlayer.GetComponent<CustomController>();
         l_controller.rb.isKinematic = true;
         M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = true;
+        Debug.Log(currentCheckpoint);
+        Debug.Log(M_walkingPlayer.transform.position);
         M_walkingPlayer.transform.position = currentCheckpoint;
         M_launchingPlayer.transform.position = currentCheckpoint;
         M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = false;
+        Debug.Log(currentCheckpoint);
+        Debug.Log(M_walkingPlayer.transform.position);
         l_controller.rb.isKinematic = false;
         M_hitPoints = 5;
         M_freshnessSlider.value = M_hitPoints;
         M_freshnessBar.SetActive(false);
+        StartLaunching();
+        StartWalking();
     }
 
     public void Resume()
