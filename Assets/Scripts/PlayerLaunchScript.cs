@@ -49,6 +49,9 @@ public class PlayerLaunchScript : MonoBehaviour
     Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
     float m_cameraRotationY;
 
+    [SerializeField] private float m_powerUpSpeed;
+    [SerializeField] private float m_powerDownSpeed;
+
     [SerializeField] AudioClip[] m_drownClip;
     public AudioSource M_DrawnAudio;
 
@@ -56,6 +59,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public AudioSource M_WaterDrop;
 
     private bool m_canDrown = true;
+    bool m_powerGoingUp = true;
 
     public void Start()
     {
@@ -200,27 +204,46 @@ public class PlayerLaunchScript : MonoBehaviour
 
     void HandleLaunchInput()
     {
+        // holding space -> bar moving
+        if (Input.GetKey(KeyCode.Space))
+        {
+            // power going up
+            if (m_powerGoingUp)
+            {
+                if (m_launchingPower > M_maxPower)
+                {
+                    m_launchingPower = M_maxPower;
+                    m_powerGoingUp = false;
+                }
+
+                m_launchingPower += m_powerUpSpeed * Time.deltaTime;
+
+            }
+            // power going down
+            else
+            {
+                m_launchingPower -= m_powerDownSpeed * Time.deltaTime;
+                if (m_launchingPower < 0.5f)
+                {
+                    m_powerGoingUp = true;
+                    m_launchingPower = 0.5f;
+                }
+
+            }
+
+            // visual indicators
+            M_fillImage.fillAmount = m_launchingPower / M_maxPower;
+            M_arrow.transform.localScale = new Vector3(5, 5, m_baseLength + m_powerSizeStep * m_launchingPower);
+
+        }
+
         //override player rotation
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyUp(KeyCode.Space))
-        {       
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
             LaunchingStart();
             return;
         }
 
-        //m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-        m_launchingPower += (m_currentScroll + Input.mouseScrollDelta.y);
-        M_fillImage.fillAmount = m_launchingPower / M_maxPower;
-
-        // clamp the power of the lauch between 0 and the limit
-        if (m_launchingPower < 1)
-        {
-            m_launchingPower = 1;
-        }
-        else if (m_launchingPower > M_maxPower)
-        {
-            m_launchingPower = M_maxPower;
-        }
-        M_arrow.transform.localScale = new Vector3(5, 5, m_baseLength + m_powerSizeStep * m_launchingPower);
     }
 
     public void Reset()
