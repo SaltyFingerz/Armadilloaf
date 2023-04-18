@@ -35,9 +35,12 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     private bool m_canPain = true;
     private bool m_canDrown = true;
+
+    Renderer m_renderer;
     private void Start()
     {
         m_controller = gameObject.GetComponent<CustomController>();
+        m_renderer = gameObject.GetComponent<Renderer>();
     }
 
     private void OnTriggerStay(Collider a_hit)
@@ -60,7 +63,33 @@ public class PrototypePlayerMovement : MonoBehaviour
             {
                 DrownSound();
             }
+
+            if(a_hit.gameObject.CompareTag("Enemy") && m_playerManagerScript.M_sizeState != 2)
+            {
+                Fluffing();
+            }
         }
+    }
+
+    private void Fluffing()
+    {
+        PlayerManagerScript.M_Fluffed = true;
+        m_playerSpeed = 1f;
+        m_renderer.material.color = Color.cyan;
+        StartCoroutine(resetFluff());
+    }
+
+    public void Defluff()
+    {
+        m_playerSpeed = 2;
+        m_renderer.material.color = Color.white;
+        PlayerManagerScript.M_Fluffed = false;
+    }
+    IEnumerator resetFluff()
+    {
+        
+        yield return new WaitForSeconds(10);
+        Defluff();
     }
 
     IEnumerator waitForPain()
@@ -211,7 +240,14 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
-      
+      if(PlayerManagerScript.M_Fluffed)
+        {
+            Fluffing();
+        }
+        else
+        {
+            Defluff();
+        }
             //change size gradually each frame
             Vector3 growthIncrement = new Vector3(1f, 1f, 1f);
             Vector3 shadowGrowthIncrement = new Vector3(.06f, .06f, 0f);
@@ -314,11 +350,11 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift)) //sprint currently deactivated
         {
-            m_playerSpeed = 2.0f; 
+      //      m_playerSpeed = 2.0f; 
         }
         else
         {
-            m_playerSpeed = 2.0f;
+          //  m_playerSpeed = 2.0f;
         }
 
         // movement with AWSD keys

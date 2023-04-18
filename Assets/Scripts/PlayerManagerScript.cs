@@ -60,6 +60,8 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public Renderer M_Renderer;
     public Renderer M_2DRenderer;
+
+    public static bool M_Fluffed;
     // Start is called before the first frame update
     void Start()
     {
