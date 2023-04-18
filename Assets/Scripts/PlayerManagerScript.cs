@@ -35,8 +35,9 @@ public partial class PlayerManagerScript : MonoBehaviour
     public static bool M_Shrinking = false;
     //Player HUD objects
     public Canvas M_playerHUD;
-    public GameObject M_freshnessBar;
-    public Slider M_freshnessSlider;
+    public Image M_freshnessBiscuit;
+    public Sprite[] M_freshnessBiscuitLevels = new Sprite[5];
+    public bool[] M_biscuitBites = new bool[4];
     public Image M_armadilloaf;
     public Image M_transitionSprite;
     public TextMeshProUGUI M_lifeText;
@@ -48,6 +49,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     public bool M_takingDamage = false;
     public bool M_transitionIn = false;
     public bool M_transitionOut = false;
+
+    public Animator M_biscuitAnimator;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -67,10 +70,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_UIManager.Resume();
         Cursor.lockState = CursorLockMode.Locked;
 
-        M_freshnessSlider = GetComponentInChildren<Slider>();
-        M_freshnessSlider.maxValue = M_hitPoints;
-        M_freshnessSlider.value = M_hitPoints;
-        M_freshnessBar.SetActive(false);
+        ResetBiscuitBites();
+
+
+        M_freshnessBiscuit.enabled = false;
 
         M_transitionSprite.enabled = false;
 
@@ -157,14 +160,59 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         if (M_takingDamage)
         {
-            M_freshnessBar.SetActive(true);
+            M_freshnessBiscuit.enabled = true;
             M_hitPoints -= (1 * Time.deltaTime);
-            M_freshnessSlider.value = M_hitPoints;
+
             if (M_hitPoints <= 0)
             {
                 M_transitionIn = true;
                 M_takingDamage = false;
+                M_freshnessBiscuit.enabled = false;
+                ResetBiscuitBites();
             }
+            else if (M_hitPoints <= 1 && M_hitPoints > 0)
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[4];
+                if (M_biscuitBites[3] == false)
+                {
+                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                    M_biscuitBites[3] = true;
+                }
+            }
+            else if (M_hitPoints <= 2 && M_hitPoints > 1)
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[3];
+                if (M_biscuitBites[2] == false)
+                {
+                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                    M_biscuitBites[2] = true;
+                }
+            }
+            else if (M_hitPoints <= 3 && M_hitPoints > 2)
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[2];
+                if (M_biscuitBites[1] == false)
+                {
+                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                    M_biscuitBites[1] = true;
+                }
+            }
+            else if (M_hitPoints <= 4 && M_hitPoints > 3)
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[1];
+                if (M_biscuitBites[0] == false)
+                { 
+                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                M_biscuitBites[0] = true;
+                }
+
+
+            }
+            else
+            {
+                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
+            }
+
         }
 
         if (M_transitionIn)
@@ -287,8 +335,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = false;
         l_controller.rb.isKinematic = false;
         M_hitPoints = 5;
-        M_freshnessSlider.value = M_hitPoints;
-        M_freshnessBar.SetActive(false);
+        M_freshnessBiscuit.enabled = false;
     }
 
     public void Resume()
@@ -516,8 +563,18 @@ public partial class PlayerManagerScript : MonoBehaviour
       
     }
 
-    public bool isWalking()
+    public void ResetBiscuitBites()
+    {
+
+        for (int i = 0; i < M_biscuitBites.Length; i++)
+        {
+            M_biscuitBites[i] = false;
+        }
+    }
+
+public bool isWalking()
     {
         return (m_state == ArmadilloState.walk);
     }
+
 }
