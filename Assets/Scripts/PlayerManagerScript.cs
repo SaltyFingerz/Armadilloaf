@@ -78,9 +78,6 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_transitionSprite.enabled = false;
 
-        StartCoroutine(FadeAway(M_armadilloaf));
-        StartCoroutine(FadeAway(M_lifeText));
-
         m_state = ArmadilloState.walk;
 
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
@@ -95,6 +92,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         Color StartColor = M_Renderer.material.color;
         Color StartColor2D = M_2DRenderer.material.color;
+        StartCoroutine(ShowUIQuickly());
     }
 
     public IEnumerator ShowUIQuickly()
@@ -170,26 +168,20 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_hitPoints -= (1 * Time.deltaTime);
             M_freshnessSlider.value = M_hitPoints;*/
             m_invulnerabilityTimerSeconds = 0.0f;
-            if (M_lives > 0)
+            AudioClip clip = m_biscuitClip[UnityEngine.Random.Range(0, m_biscuitClip.Length)];
+            M_biscuitBreak.PlayOneShot(clip);
+
+            M_lives--;
+            M_lifeText.text = M_lives.ToString();
+
+            if (M_lives == 0)
             {
-                StartCoroutine(ShowUIQuickly());
-                M_lives--;
-                M_hitPoints = 5;
-                M_freshnessSlider.value = M_hitPoints;
-                //M_freshnessBar.SetActive(false);
-            }
-            else
-            {
+                M_lives = 5;
+                M_lifeText.text = M_lives.ToString();
                 Respawn();
                 M_transitionIn = true;
             }
             M_takingDamage = false;
-
-            /*if (M_hitPoints <= 0)
-            {
-                M_transitionIn = true;
-                M_takingDamage = false;
-            }*/
         }
 
         // transition sprite starts growing after 5 deaths
@@ -197,7 +189,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
           M_transitionSprite.enabled = true;
           M_transitionSprite.transform.localScale += new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
-          if (M_transitionSprite.transform.localScale.x >= 20.0f)
+          if (M_transitionSprite.transform.localScale.x >= 15.0f)
             {
                 M_transitionIn = false;
                 M_transitionOut = true;
