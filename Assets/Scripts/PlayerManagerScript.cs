@@ -8,7 +8,6 @@ using static PlayerManagerScript;
 
 public partial class PlayerManagerScript : MonoBehaviour
 {
-    public bool M_isFreeFlying = false;
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
     public GameObject M_walkingCamera, M_launchCamera, M_additionalCamera;
@@ -48,6 +47,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public bool M_takingDamage = false;
     public bool M_transitionIn = false;
     public bool M_transitionOut = false;
+    public bool M_isFreeFlying = false;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -58,8 +58,6 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public Renderer M_Renderer;
     public Renderer M_2DRenderer;
-
-    public static bool M_Fluffed;
     // Start is called before the first frame update
     void Start()
     {
@@ -95,8 +93,6 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         Color StartColor = M_Renderer.material.color;
         Color StartColor2D = M_2DRenderer.material.color;
-
-        
     }
 
     public IEnumerator ShowUIQuickly()
@@ -163,10 +159,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
         M_TargetSize = M_sizes[M_sizeState];
-
-        
-
-       
 
         if (M_takingDamage)
         {
@@ -295,15 +287,19 @@ public partial class PlayerManagerScript : MonoBehaviour
         CustomController l_controller = M_walkingPlayer.GetComponent<CustomController>();
         l_controller.rb.isKinematic = true;
         M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = true;
+        Debug.Log(currentCheckpoint);
+        Debug.Log(M_walkingPlayer.transform.position);
         M_walkingPlayer.transform.position = currentCheckpoint;
         M_launchingPlayer.transform.position = currentCheckpoint;
         M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = false;
+        Debug.Log(currentCheckpoint);
+        Debug.Log(M_walkingPlayer.transform.position);
         l_controller.rb.isKinematic = false;
         M_hitPoints = 5;
         M_freshnessSlider.value = M_hitPoints;
         M_freshnessBar.SetActive(false);
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().Defluff();
-        M_walkingPlayer.GetComponent<PrototypePlayerMovement>().Defluff();
+        StartLaunching();
+        StartWalking();
     }
 
     public void Resume()
@@ -525,7 +521,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
         M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
-        M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.2f;
+        M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
         M_Renderer.material.color = Color.white;
         M_2DRenderer.material.color = Color.white;
         // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
