@@ -56,6 +56,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     [SerializeField] AudioClip[] m_biscuitClip;
     public AudioSource M_biscuitBreak;
 
+    public Renderer M_Renderer;
+    public Renderer M_2DRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -88,6 +90,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
         M_UIManager.Resume();
+
+        Color StartColor = M_Renderer.material.color;
+        Color StartColor2D = M_2DRenderer.material.color;
     }
 
     public IEnumerator ShowUIQuickly()
@@ -482,7 +487,9 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
             M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
-
+            M_Renderer.material.color = Color.magenta;
+            M_2DRenderer.material.color = Color.magenta;
+            //or  material.SetColor(""_Color", new Vector 4 (1,1,1,1));
             M_PlayerMovement.m_jumpHeight = 8;
             M_abilityState = AbilityState.jelly;
         }
@@ -509,6 +516,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
         M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
+        M_Renderer.material.color = Color.white;
+        M_2DRenderer.material.color = Color.white;
+        // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
+        // M_2DRenderer.material.SetColor("StartColor", new Vector4(1, 1, 1, 1));
 
         M_PlayerMovement.m_jumpHeight = 8;
         M_abilityState = AbilityState.normal;

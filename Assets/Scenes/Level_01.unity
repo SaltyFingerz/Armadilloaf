@@ -15805,6 +15805,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!23 &305606538 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8854288522490146425, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+  m_PrefabInstance: {fileID: 860440016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &306466284 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6843019920080329955, guid: 3835a90a33fa9ef4e8d9d737f153a0bc, type: 3}
@@ -47239,9 +47244,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1869161210}
     - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: M_Renderer
+      value: 
+      objectReference: {fileID: 305606538}
+    - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: M_UIManager
       value: 
       objectReference: {fileID: 1983984820}
+    - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: M_2DRenderer
+      value: 
+      objectReference: {fileID: 1869161248}
     - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: M_JellyDecal
       value: 
@@ -47426,6 +47439,10 @@ PrefabInstance:
       propertyPath: m_sLaunchSounds.Array.data[1]
       value: 
       objectReference: {fileID: 8300000, guid: 5140d53064fdc6a47b05645a684bb4b8, type: 3}
+    - target: {fileID: 8854288522490146425, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2163527014642896241, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
@@ -98444,6 +98461,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!212 &1869161248 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1228896355, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+  m_PrefabInstance: {fileID: 860440016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1875722744
 PrefabInstance:
   m_ObjectHideFlags: 0
