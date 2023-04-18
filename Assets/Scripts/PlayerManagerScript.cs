@@ -54,6 +54,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     bool m_justUnpaused;
 
     [SerializeField] AudioClip[] m_biscuitClip;
+    [SerializeField] float m_invulnerabilityPeriodSeconds = 2.0f;
+    float m_invulnerabilityTimerSeconds = 2.0f;
     public AudioSource M_biscuitBreak;
 
     public Renderer M_Renderer;
@@ -156,41 +158,49 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
         M_TargetSize = M_sizes[M_sizeState];
 
-        if (M_takingDamage)
+        if (M_takingDamage && m_invulnerabilityTimerSeconds > m_invulnerabilityPeriodSeconds)
         {
-            M_freshnessBar.SetActive(true);
+            Debug.Log("ow");
+            /*M_freshnessBar.SetActive(true);
             M_hitPoints -= (1 * Time.deltaTime);
-            M_freshnessSlider.value = M_hitPoints;
-            if (M_hitPoints <= 0)
+            M_freshnessSlider.value = M_hitPoints;*/
+            m_invulnerabilityTimerSeconds = 0.0f;
+            if (M_lives > 0)
+            {
+                StartCoroutine(ShowUIQuickly());
+                M_lives--;
+                M_hitPoints = 5;
+                M_freshnessSlider.value = M_hitPoints;
+                //M_freshnessBar.SetActive(false);
+            }
+            else
+            {
+                Respawn();
+                M_transitionIn = true;
+            }
+            M_takingDamage = false;
+
+            /*if (M_hitPoints <= 0)
             {
                 M_transitionIn = true;
                 M_takingDamage = false;
-            }
+            }*/
         }
 
+        // transition sprite starts growing after 5 deaths
         if (M_transitionIn)
         {
           M_transitionSprite.enabled = true;
           M_transitionSprite.transform.localScale += new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
           if (M_transitionSprite.transform.localScale.x >= 20.0f)
             {
-                if (M_lives > 0)
-                { 
-                M_lives--;
-                Respawn();
-                StartCoroutine(ShowUIQuickly());
                 M_transitionIn = false;
                 M_transitionOut = true;
-                }
-                else
-                {
-                    M_transitionIn = false;
-                    SceneManager.LoadScene("FailScreen");
-                }
             }
         }
 
@@ -297,7 +307,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         l_controller.rb.isKinematic = false;
         M_hitPoints = 5;
         M_freshnessSlider.value = M_hitPoints;
-        M_freshnessBar.SetActive(false);
+        //M_freshnessBar.SetActive(false);
         StartLaunching();
         StartWalking();
     }
