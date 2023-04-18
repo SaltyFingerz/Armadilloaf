@@ -22302,7 +22302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -10, y: -195.99997}
+  m_AnchoredPosition: {x: -10, y: -195.99998}
   m_SizeDelta: {x: -294.9001, y: -403.915}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &601765496
@@ -42082,6 +42082,10 @@ PrefabInstance:
       propertyPath: M_UIManager
       value: 
       objectReference: {fileID: 1983984820}
+    - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: M_biscuitAnimator
+      value: 
+      objectReference: {fileID: 860440018}
     - target: {fileID: 5205029753891021531, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_Name
       value: Player
@@ -42141,6 +42145,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+--- !u!1 &860440017 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3948445236427478093, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+  m_PrefabInstance: {fileID: 860440016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &860440018
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860440017}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ceb2121a270f958409e98f78a387ba4d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &870375850
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43824,7 +43853,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -4.999939, y: -171.00003}
+  m_AnchoredPosition: {x: -4.999939, y: -171.00005}
   m_SizeDelta: {x: -345.19995, y: -403.405}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1007314410 stripped
@@ -95380,7 +95409,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.999878, y: -155.01859}
+  m_AnchoredPosition: {x: -8.999878, y: -155.0186}
   m_SizeDelta: {x: -369.0601, y: -394.29718}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001580034
