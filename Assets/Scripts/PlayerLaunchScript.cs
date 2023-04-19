@@ -184,13 +184,11 @@ public class PlayerLaunchScript : MonoBehaviour
         if (m_rigidbody.velocity.magnitude < 0.9)
         {
             // Change direction based on input
-            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x) * 2.0f;
-            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y) * 2.0f;
+            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x) * 10.0f * Time.fixedDeltaTime;
+            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y) * 10.0f * Time.fixedDeltaTime;
         }
         else
         {
-            
-
             multiplier = multiplier * l_translationChange * Time.fixedDeltaTime;
             multiplier = new Vector2(1f + multiplier.x, 1f + multiplier.y);
 
