@@ -445,6 +445,7 @@ public class PlayerLaunchScript : MonoBehaviour
         if (a_hit.gameObject.name.Contains("Finish"))
         {
             M_FinishUI.SetActive(true);
+            UnityEngine.Cursor.visible = true;
         }
 
     }

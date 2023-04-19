@@ -201,6 +201,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (a_hit.gameObject.name.Contains("Finish"))
         {
             M_FinishUI.SetActive(true);
+            Cursor.visible = true;
         }
 
     }
