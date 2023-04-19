@@ -53,8 +53,8 @@ public class HoverScript : MonoBehaviour
     {
         M_pickupSound.PlayOneShot(m_pickupSoundClip);
         GetComponent<SphereCollider>().enabled = false;
-        AudioClip clip = m_biteSounds[UnityEngine.Random.Range(0, m_biteSounds.Length)];
-        M_BiteSound.PlayOneShot(clip);
+        // AudioClip clip = m_biteSounds[UnityEngine.Random.Range(0, m_biteSounds.Length)];
+        M_BiteSound.Play();
         StartCoroutine(waitToBurp());
         M_PlayerManager.M_FruitCollected ++;
     }
