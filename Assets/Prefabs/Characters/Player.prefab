@@ -25267,6 +25267,7 @@ MonoBehaviour:
   m_jumpHeight: 8
   M_InLaunchZone: 0
   M_TargetBlobSize: {x: 0, y: 0, z: 0}
+  M_FinishUI: {fileID: 0}
   m_painClip:
   - {fileID: 8300000, guid: c110bb629bd5a164ea7fe3ef1a715b26, type: 3}
   - {fileID: 8300000, guid: cf0e498043c63e5408ce0db9a2a5e163, type: 3}
@@ -25431,7 +25432,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2163527014642896250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72b383a1b29113f4b90da86b88e595c3, type: 3}
   m_Name: 
@@ -31582,6 +31583,7 @@ MonoBehaviour:
   M_biscuitAnimator: {fileID: 860440018}
   M_FruitCollected: 0
   M_FruitUI: {fileID: 626052353}
+  M_FruitUIFin: {fileID: 0}
   M_GrowAudio: {fileID: 905613300}
   M_ShrinkAudio: {fileID: 5285727684655060826}
   M_JellyDecalRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
@@ -31594,7 +31596,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4933560404183489198}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72b383a1b29113f4b90da86b88e595c3, type: 3}
   m_Name: 
@@ -37627,6 +37629,7 @@ MonoBehaviour:
   M_Cereals: []
   m_mouseSensitivityX: 8
   m_mouseSensitivityY: 500
+  M_FinishUI: {fileID: 0}
   M_maxPower: 50
   M_minimumDirectionY: -0.7
   M_maximumDirectionY: 0.7
@@ -37676,7 +37679,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8854288522490146422}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72b383a1b29113f4b90da86b88e595c3, type: 3}
   m_Name: 

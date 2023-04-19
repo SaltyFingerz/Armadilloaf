@@ -68,6 +68,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public static bool M_Fluffed;
     public int M_FruitCollected;
     public TextMeshProUGUI M_FruitUI;
+    public TextMeshProUGUI M_FruitUIFin;
 
     public AudioSource M_GrowAudio;
     public AudioSource M_ShrinkAudio;
@@ -167,6 +168,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     void Update()
     {
         M_FruitUI.text = M_FruitCollected.ToString();
+        M_FruitUIFin.text = M_FruitCollected.ToString();
         m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 

@@ -29,7 +29,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public float m_mouseSensitivityY;
     bool m_collisionEnter = false;
     bool m_collisionStay = false;
-
+    public GameObject M_FinishUI;
     Vector3 m_direction;
     int m_launchingStage = 0;
     float m_launchingPower;
@@ -441,6 +441,12 @@ public class PlayerLaunchScript : MonoBehaviour
             AudioClip clip = m_waterDrops[UnityEngine.Random.Range(0, m_waterDrops.Length)];
             M_WaterDrop.PlayOneShot(clip);
         }
+
+        if (a_hit.gameObject.name.Contains("Finish"))
+        {
+            M_FinishUI.SetActive(true);
+        }
+
     }
 
     IEnumerator waitForDrown()

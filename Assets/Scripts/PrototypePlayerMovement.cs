@@ -23,7 +23,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public bool M_InLaunchZone = false;
     public Vector3 M_TargetBlobSize;
     private bool m_gradualSize = true;
-
+    public GameObject M_FinishUI;
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
 
@@ -196,6 +196,11 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             AudioClip clip = m_waterDrops[UnityEngine.Random.Range(0, m_waterDrops.Length)];
             M_WaterDrop.PlayOneShot(clip);
+        }
+
+        if (a_hit.gameObject.name.Contains("Finish"))
+        {
+            M_FinishUI.SetActive(true);
         }
 
     }
