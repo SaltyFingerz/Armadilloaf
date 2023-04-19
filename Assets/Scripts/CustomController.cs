@@ -113,12 +113,11 @@ public class CustomController : MonoBehaviour
         // Mouse is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
         m_rotationY -= Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime;
-        m_rotationY = Mathf.Clamp(m_rotationY, 0.81f, 0.99f);
-        Debug.Log(m_rotationY);
+        m_rotationY = Mathf.Clamp(m_rotationY, 0.88f, 0.95f);
 
         // rotate the player (left-right)
         //M_walkCamera.transform.RotateAround(this.transform.position, this.transform.right, -m_rotationY  * m_mouseSensitivityY);
-        this.transform.rotation = Quaternion.AngleAxis(m_rotationY * m_mouseSensitivity, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up);
+        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.AngleAxis(m_rotationY * m_mouseSensitivity, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up), Time.fixedDeltaTime * 10.0f);
         //Quaternion l_quat = Quaternion.Euler(new Vector3(m_rotationY, 0.0f, 0.0f));
         //M_walkCamera.transform.rotation = Quaternion.Lerp(M_walkCamera.transform.rotation, M_walkCamera.transform.rotation * l_quat, Time.deltaTime);
     }
