@@ -54,10 +54,20 @@ public partial class PlayerManagerScript : MonoBehaviour
     bool m_justUnpaused;
 
     [SerializeField] AudioClip[] m_biscuitClip;
+    [SerializeField] float m_invulnerabilityPeriodSeconds = 2.0f;
+    float m_invulnerabilityTimerSeconds = 2.0f;
     public AudioSource M_biscuitBreak;
 
     public Renderer M_Renderer;
     public Renderer M_2DRenderer;
+
+    public static bool M_Fluffed;
+    public int M_FruitCollected;
+    public TextMeshProUGUI M_FruitUI;
+    public TextMeshProUGUI M_FruitUIFin;
+
+    public AudioSource M_GrowAudio;
+    public AudioSource M_ShrinkAudio;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,9 +86,6 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_transitionSprite.enabled = false;
 
-        StartCoroutine(FadeAway(M_armadilloaf));
-        StartCoroutine(FadeAway(M_lifeText));
-
         m_state = ArmadilloState.walk;
 
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
@@ -93,6 +100,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         Color StartColor = M_Renderer.material.color;
         Color StartColor2D = M_2DRenderer.material.color;
+        StartCoroutine(ShowUIQuickly());
     }
 
     public IEnumerator ShowUIQuickly()
@@ -156,41 +164,45 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        M_FruitUI.text = M_FruitCollected.ToString();
+        M_FruitUIFin.text = M_FruitCollected.ToString();
+        m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
         M_TargetSize = M_sizes[M_sizeState];
 
-        if (M_takingDamage)
+        if (M_takingDamage && m_invulnerabilityTimerSeconds > m_invulnerabilityPeriodSeconds)
         {
-            M_freshnessBar.SetActive(true);
+            Debug.Log("ow");
+            /*M_freshnessBar.SetActive(true);
             M_hitPoints -= (1 * Time.deltaTime);
-            M_freshnessSlider.value = M_hitPoints;
-            if (M_hitPoints <= 0)
+            M_freshnessSlider.value = M_hitPoints;*/
+            m_invulnerabilityTimerSeconds = 0.0f;
+            AudioClip clip = m_biscuitClip[UnityEngine.Random.Range(0, m_biscuitClip.Length)];
+            M_biscuitBreak.PlayOneShot(clip);
+
+            M_lives--;
+            M_lifeText.text = M_lives.ToString();
+
+            if (M_lives == 0)
             {
+                M_lives = 5;
+                M_lifeText.text = M_lives.ToString();
+                Respawn();
                 M_transitionIn = true;
-                M_takingDamage = false;
             }
+            M_takingDamage = false;
         }
 
+        // transition sprite starts growing after 5 deaths
         if (M_transitionIn)
         {
           M_transitionSprite.enabled = true;
           M_transitionSprite.transform.localScale += new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
-          if (M_transitionSprite.transform.localScale.x >= 20.0f)
+          if (M_transitionSprite.transform.localScale.x >= 15.0f)
             {
-                if (M_lives > 0)
-                { 
-                M_lives--;
-                Respawn();
-                StartCoroutine(ShowUIQuickly());
                 M_transitionIn = false;
                 M_transitionOut = true;
-                }
-                else
-                {
-                    M_transitionIn = false;
-                    SceneManager.LoadScene("FailScreen");
-                }
             }
         }
 
@@ -212,10 +224,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         if (!M_isFreeFlying)
         {
             // grow
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                Grow();
-            }
+           // if (Input.GetKeyDown(KeyCode.Q))
+          //  {
+           //     Grow();
+          //  }
             // shrink
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -234,7 +246,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
 
         // state changing
-        if (( Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !M_isFreeFlying)
+        if (( Input.GetMouseButtonDown(1)) && !M_isFreeFlying)
         {
             StateCheck();
         }
@@ -297,7 +309,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         l_controller.rb.isKinematic = false;
         M_hitPoints = 5;
         M_freshnessSlider.value = M_hitPoints;
-        M_freshnessBar.SetActive(false);
+        //M_freshnessBar.SetActive(false);
         StartLaunching();
         StartWalking();
     }
@@ -443,8 +455,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
-        
-        
+
+        M_GrowAudio.Play();
     }
 
     public void Shrink()
@@ -465,7 +477,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             StartCoroutine(EjectionRoutine());
         }
         ResetAbilities();
-        
+        M_ShrinkAudio.Play();
         
         
     }

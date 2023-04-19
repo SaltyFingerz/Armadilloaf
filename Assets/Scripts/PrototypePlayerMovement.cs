@@ -23,7 +23,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public bool M_InLaunchZone = false;
     public Vector3 M_TargetBlobSize;
     private bool m_gradualSize = true;
-
+    public GameObject M_FinishUI;
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
 
@@ -198,6 +198,12 @@ public class PrototypePlayerMovement : MonoBehaviour
             M_WaterDrop.PlayOneShot(clip);
         }
 
+        if (a_hit.gameObject.name.Contains("Finish"))
+        {
+            M_FinishUI.SetActive(true);
+            Cursor.visible = true;
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -350,11 +356,11 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift)) //sprint currently deactivated
         {
-      //      m_playerSpeed = 2.0f; 
+             m_playerSpeed = 2.5f; 
         }
         else
         {
-          //  m_playerSpeed = 2.0f;
+            m_playerSpeed = 2.0f;
         }
 
         // movement with AWSD keys
@@ -388,17 +394,17 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             case (int)PlayerManagerScript.SizeState.big:
                 m_pushForce = 4.0f;
-               M_TargetBlobSize = new Vector3(15, 15, 50);
+               M_TargetBlobSize = new Vector3(10, 10, 50);
                 break;
 
             case (int)PlayerManagerScript.SizeState.normal:
                 m_pushForce = 0.0f;
-                M_TargetBlobSize = new Vector3(5, 5, 50);
+                M_TargetBlobSize = new Vector3(3, 3, 50);
                 break;
 
             case (int)PlayerManagerScript.SizeState.small:
                 m_pushForce = 0.0f;
-                M_TargetBlobSize = new Vector3(2, 2, 50);
+                M_TargetBlobSize = new Vector3(1.5f, 1.5f, 50);
                 break;
 
             default:

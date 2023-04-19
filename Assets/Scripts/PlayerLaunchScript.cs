@@ -29,7 +29,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public float m_mouseSensitivityY;
     bool m_collisionEnter = false;
     bool m_collisionStay = false;
-
+    public GameObject M_FinishUI;
     Vector3 m_direction;
     int m_launchingStage = 0;
     float m_launchingPower;
@@ -59,7 +59,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private bool m_canDrown = true;
     bool m_powerGoingUp = true;
-
+    public ParticleSystem M_ImpactVFX;
     Renderer m_renderer;
     public void Start()
     {
@@ -189,14 +189,16 @@ public class PlayerLaunchScript : MonoBehaviour
         l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x);
         l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y);
 
+        // normalize and apply changed direction
+        m_rigidbody.velocity = l_velocity;
+
         float l_maxSpeed = 80.0f;
         if (m_rigidbody.velocity.magnitude > l_maxSpeed)
         {
             m_rigidbody.velocity = m_rigidbody.velocity.normalized * l_maxSpeed;
         }
+        Debug.Log(m_rigidbody.velocity.magnitude);
 
-        // normalize and apply changed direction
-        m_rigidbody.velocity = l_velocity;
 
         // Calculate camera rotation
         Vector3 l_desiredRotation = GetDesiredRotationFromMouseInput();
@@ -209,8 +211,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
     void HandleLaunchInput()
     {
-        // holding space -> bar moving
-        if (Input.GetKey(KeyCode.Space))
+        // holding LMB -> bar moving
+        if (Input.GetMouseButton(0))
         {
             // power going up
             if (m_powerGoingUp)
@@ -243,7 +245,7 @@ public class PlayerLaunchScript : MonoBehaviour
         }
 
         //override player rotation
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetMouseButtonUp(0))
         {
             LaunchingStart();
             return;
@@ -439,6 +441,13 @@ public class PlayerLaunchScript : MonoBehaviour
             AudioClip clip = m_waterDrops[UnityEngine.Random.Range(0, m_waterDrops.Length)];
             M_WaterDrop.PlayOneShot(clip);
         }
+
+        if (a_hit.gameObject.name.Contains("Finish"))
+        {
+            M_FinishUI.SetActive(true);
+            UnityEngine.Cursor.visible = true;
+        }
+
     }
 
     IEnumerator waitForDrown()
@@ -531,6 +540,8 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         m_collisionEnter = true;
 
+       
+
         if (m_collisionEnter & m_canShake)
         {
             StartCoroutine(ShakeCooldown());
@@ -565,6 +576,7 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         Animator anim = gameObject.GetComponent<Animator>();
         anim.SetTrigger("Landing");
+        M_ImpactVFX.Play();
         CameraShaker.Instance.ShakeOnce(2f, 2f, .1f, .1f);
         M_TrailScript.DeactivateTrail();
         m_canShake = false;
