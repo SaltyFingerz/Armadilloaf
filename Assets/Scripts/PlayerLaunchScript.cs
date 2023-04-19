@@ -59,7 +59,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private bool m_canDrown = true;
     bool m_powerGoingUp = true;
-
+    public ParticleSystem M_ImpactVFX;
     Renderer m_renderer;
     public void Start()
     {
@@ -209,7 +209,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     void HandleLaunchInput()
     {
-        // holding space -> bar moving
+        // holding LMB -> bar moving
         if (Input.GetMouseButton(0))
         {
             // power going up
@@ -531,6 +531,8 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         m_collisionEnter = true;
 
+       
+
         if (m_collisionEnter & m_canShake)
         {
             StartCoroutine(ShakeCooldown());
@@ -565,6 +567,7 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         Animator anim = gameObject.GetComponent<Animator>();
         anim.SetTrigger("Landing");
+        M_ImpactVFX.Play();
         CameraShaker.Instance.ShakeOnce(2f, 2f, .1f, .1f);
         M_TrailScript.DeactivateTrail();
         m_canShake = false;

@@ -388,17 +388,17 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             case (int)PlayerManagerScript.SizeState.big:
                 m_pushForce = 4.0f;
-               M_TargetBlobSize = new Vector3(15, 15, 50);
+               M_TargetBlobSize = new Vector3(10, 10, 50);
                 break;
 
             case (int)PlayerManagerScript.SizeState.normal:
                 m_pushForce = 0.0f;
-                M_TargetBlobSize = new Vector3(5, 5, 50);
+                M_TargetBlobSize = new Vector3(3, 3, 50);
                 break;
 
             case (int)PlayerManagerScript.SizeState.small:
                 m_pushForce = 0.0f;
-                M_TargetBlobSize = new Vector3(2, 2, 50);
+                M_TargetBlobSize = new Vector3(1.5f, 1.5f, 50);
                 break;
 
             default:
