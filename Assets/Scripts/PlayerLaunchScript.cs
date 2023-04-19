@@ -189,14 +189,16 @@ public class PlayerLaunchScript : MonoBehaviour
         l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x);
         l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y);
 
+        // normalize and apply changed direction
+        m_rigidbody.velocity = l_velocity;
+
         float l_maxSpeed = 80.0f;
         if (m_rigidbody.velocity.magnitude > l_maxSpeed)
         {
             m_rigidbody.velocity = m_rigidbody.velocity.normalized * l_maxSpeed;
         }
+        Debug.Log(m_rigidbody.velocity.magnitude);
 
-        // normalize and apply changed direction
-        m_rigidbody.velocity = l_velocity;
 
         // Calculate camera rotation
         Vector3 l_desiredRotation = GetDesiredRotationFromMouseInput();
