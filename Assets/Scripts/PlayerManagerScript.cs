@@ -278,10 +278,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         if (!M_isFreeFlying)
         {
             // grow
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                Grow();
-            }
+           // if (Input.GetKeyDown(KeyCode.Q))
+          //  {
+           //     Grow();
+          //  }
             // shrink
             if (Input.GetKeyDown(KeyCode.E))
             {
