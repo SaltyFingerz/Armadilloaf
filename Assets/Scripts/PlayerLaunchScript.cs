@@ -88,7 +88,7 @@ public class PlayerLaunchScript : MonoBehaviour
             return;
         }
 
-        if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
+        if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed && Input.GetAxis("Vertical") < 0.1f && Input.GetAxis("Horizontal") < 0.1f)
         {
             m_launchingStage = 0;
         }
@@ -181,13 +181,24 @@ public class PlayerLaunchScript : MonoBehaviour
 
         Vector2 multiplier = new Vector2(l_playerHorizontalInput, l_playerVerticalInput);
         multiplier.Normalize();
+        if (m_rigidbody.velocity.magnitude < 0.9)
+        {
+            // Change direction based on input
+            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x) * 2.0f;
+            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y) * 2.0f;
+        }
+        else
+        {
+            
 
-        multiplier = multiplier * l_translationChange * Time.fixedDeltaTime;
-        multiplier = new Vector2(1f + multiplier.x, 1f + multiplier.y);
+            multiplier = multiplier * l_translationChange * Time.fixedDeltaTime;
+            multiplier = new Vector2(1f + multiplier.x, 1f + multiplier.y);
 
-        // Change direction based on input
-        l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x);
-        l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y);
+            // Change direction based on input
+            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x);
+            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y);
+        }
+       
 
         // normalize and apply changed direction
         m_rigidbody.velocity = l_velocity;
@@ -197,7 +208,6 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             m_rigidbody.velocity = m_rigidbody.velocity.normalized * l_maxSpeed;
         }
-        Debug.Log(m_rigidbody.velocity.magnitude);
 
 
         // Calculate camera rotation
@@ -349,8 +359,6 @@ public class PlayerLaunchScript : MonoBehaviour
         l_direction.Normalize();
 
         Quaternion l_rotationFinal = Quaternion.LookRotation(l_directionRotation);
-
-        Debug.Log(M_cameraOffset.y * (-m_cameraRotationY));
 
         //camera transform change
         M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotationFinal, Time.fixedDeltaTime * 10.0f);
