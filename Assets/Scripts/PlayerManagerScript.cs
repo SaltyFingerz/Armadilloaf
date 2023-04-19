@@ -120,10 +120,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         StartCoroutine(FadeAway(M_lifeText));
     }
 
-    IEnumerator FadeAway(Image a_image)
+    public IEnumerator FadeAway(Image a_image)
     {
             // loop over 1 second backwards
-            for (float i = 1; i >= 0; i -= Time.deltaTime)
+            for (float i = 3; i >= 0; i -= Time.deltaTime)
             {
                 // set color with i as alpha
                 a_image.color = new Color(1, 1, 1, i);
@@ -131,7 +131,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             }
     }
 
-    IEnumerator FadeAway(TextMeshProUGUI a_text)
+    public IEnumerator FadeAway(TextMeshProUGUI a_text)
     {
         // loop over 1 second backwards
         for (float i = 1; i >= 0; i -= Time.deltaTime)
@@ -142,7 +142,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
     }
 
-    IEnumerator FadeIn(Image a_image)
+    public IEnumerator FadeIn(Image a_image)
     {
         a_image.enabled = true;
         for (float i = 0; i <= 1; i += Time.deltaTime)
@@ -153,7 +153,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
     }
 
-    IEnumerator FadeIn(TextMeshProUGUI a_text)
+    public IEnumerator FadeIn(TextMeshProUGUI a_text)
     {
         a_text.enabled = true;
         for (float i = 0; i <= 1; i += Time.deltaTime)

@@ -340,15 +340,21 @@ public class PlayerLaunchScript : MonoBehaviour
         Vector3 l_axis = Vector3.Cross(a_rotation, Vector3.up);
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
         Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_rotation;
-        m_cameraRotationY = l_direction.y;
+        Vector3 l_directionRotation = Quaternion.AngleAxis(-m_rotationMouseY - 24.0f, l_axis) * a_rotation;
+
+        //m_cameraRotationY = l_direction.y;
+
+        m_cameraRotationY = Mathf.Lerp(m_cameraRotationY, l_direction.y, Time.fixedDeltaTime * 5.0f);
 
         l_direction.Normalize();
 
-        Quaternion yRotation = Quaternion.LookRotation(l_direction);
+        Quaternion l_rotationFinal = Quaternion.LookRotation(l_directionRotation);
+
+        Debug.Log(M_cameraOffset.y * (-m_cameraRotationY));
 
         //camera transform change
-        M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, yRotation, Time.fixedDeltaTime * 10.0f);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotationFinal, Time.fixedDeltaTime * 10.0f);
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
     }
 
     public void SetValues(float a_size, float a_mass)
