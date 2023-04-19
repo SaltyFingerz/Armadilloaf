@@ -45,10 +45,7 @@ public class HoverScript : MonoBehaviour
             transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0, 0.8f, 0));
         }
 
-        if(gameObject.name.Contains("Banana") && PlayerPrefs.GetInt("Banana") == 1)
-        {
-            gameObject.SetActive(false);
-        }
+       
         
     }
 
@@ -80,7 +77,6 @@ public class HoverScript : MonoBehaviour
     IEnumerator DisableCollecible()
     {
         yield return new WaitForSeconds(2f);
-        PlayerPrefs.SetInt("Banana", 1);
        gameObject.SetActive(false);
     }
    
