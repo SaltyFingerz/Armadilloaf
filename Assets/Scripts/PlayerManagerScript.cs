@@ -62,8 +62,12 @@ public partial class PlayerManagerScript : MonoBehaviour
     public Renderer M_2DRenderer;
 
     public static bool M_Fluffed;
-    public static int M_FruitCollected;
+    public int M_FruitCollected;
     public TextMeshProUGUI M_FruitUI;
+    public TextMeshProUGUI M_FruitUIFin;
+
+    public AudioSource M_GrowAudio;
+    public AudioSource M_ShrinkAudio;
     // Start is called before the first frame update
     void Start()
     {
@@ -161,6 +165,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     void Update()
     {
         M_FruitUI.text = M_FruitCollected.ToString();
+        M_FruitUIFin.text = M_FruitCollected.ToString();
         m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
@@ -219,10 +224,10 @@ public partial class PlayerManagerScript : MonoBehaviour
         if (!M_isFreeFlying)
         {
             // grow
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                Grow();
-            }
+           // if (Input.GetKeyDown(KeyCode.Q))
+          //  {
+           //     Grow();
+          //  }
             // shrink
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -241,7 +246,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
 
         // state changing
-        if (( Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !M_isFreeFlying)
+        if (( Input.GetMouseButtonDown(1)) && !M_isFreeFlying)
         {
             StateCheck();
         }
@@ -450,8 +455,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
-        
-        
+
+        M_GrowAudio.Play();
     }
 
     public void Shrink()
@@ -472,7 +477,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             StartCoroutine(EjectionRoutine());
         }
         ResetAbilities();
-        
+        M_ShrinkAudio.Play();
         
         
     }
