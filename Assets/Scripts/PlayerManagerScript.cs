@@ -68,6 +68,9 @@ public partial class PlayerManagerScript : MonoBehaviour
     public static bool M_Fluffed;
     public static int M_FruitCollected;
     public TextMeshProUGUI M_FruitUI;
+
+    public AudioSource M_GrowAudio;
+    public AudioSource M_ShrinkAudio;
     // Start is called before the first frame update
     void Start()
     {
@@ -503,8 +506,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
-        
-        
+
+        M_GrowAudio.Play();
     }
 
     public void Shrink()
@@ -525,7 +528,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             StartCoroutine(EjectionRoutine());
         }
         ResetAbilities();
-        
+        M_ShrinkAudio.Play();
         
         
     }
