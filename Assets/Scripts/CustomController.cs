@@ -21,8 +21,7 @@ public class CustomController : MonoBehaviour
     private bool m_justLaunched = false;
 
     float m_mouseSensitivity = 400.0f;
-    float m_mouseSensitivityY = 400.0f;
-    float m_rotationY, m_rotationX, m_totalRotationY;
+    float m_rotationY, m_rotationX;
 
     private bool m_walking = false;
     [SerializeField] private AudioSource m_walkSound;
@@ -113,21 +112,15 @@ public class CustomController : MonoBehaviour
     {
         // Mouse is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
-        m_rotationY = -Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime;
+        m_rotationY -= Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime;
+        m_rotationY = Mathf.Clamp(m_rotationY, 0.81f, 0.99f);
+        Debug.Log(m_rotationY);
 
-        // clamp total rotation
-        m_totalRotationY += m_rotationY;
-        if (m_totalRotationY < -0.01f || m_totalRotationY > 0.07f)
-        {
-            m_totalRotationY -= m_rotationY;
-            m_rotationY = 0.0f;
-        }
-
-        // rotte the player (left-right)
-        M_walkCamera.transform.RotateAround(this.transform.position, this.transform.right, m_rotationY  * m_mouseSensitivityY);
-        this.transform.rotation = Quaternion.AngleAxis(m_rotationX, Vector3.up);
-        Quaternion l_quat = Quaternion.Euler(new Vector3(m_rotationY, 0.0f, 0.0f));
-       //M_walkCamera.transform.rotation = Quaternion.Lerp(M_walkCamera.transform.rotation, M_walkCamera.transform.rotation * l_quat, Time.deltaTime);
+        // rotate the player (left-right)
+        //M_walkCamera.transform.RotateAround(this.transform.position, this.transform.right, -m_rotationY  * m_mouseSensitivityY);
+        this.transform.rotation = Quaternion.AngleAxis(m_rotationY * m_mouseSensitivity, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up);
+        //Quaternion l_quat = Quaternion.Euler(new Vector3(m_rotationY, 0.0f, 0.0f));
+        //M_walkCamera.transform.rotation = Quaternion.Lerp(M_walkCamera.transform.rotation, M_walkCamera.transform.rotation * l_quat, Time.deltaTime);
     }
 
     void MovePlayerRelativeToCamera()
