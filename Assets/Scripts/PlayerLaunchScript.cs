@@ -45,7 +45,7 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] private float m_minimumSpeed = 0.4f;   // Speed minimum limit before the player changes to walking player.
     [SerializeField] private AudioSource m_launchSound;
     [SerializeField] AudioClip[] m_sLaunchSounds;
-    Vector2 M_cameraOffset = new Vector2(14.0f, 16.0f);
+    Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
     float m_cameraRotationY;
 
     [SerializeField] private float m_powerUpSpeed;
@@ -325,7 +325,6 @@ public class PlayerLaunchScript : MonoBehaviour
         float l_mouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
         m_rotationMouseY += Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
         m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 85.0f, 170.0f);
-        Debug.Log(m_rotationMouseY);
 
         // Rotation using 2D vector rotation by angle formula
         Vector3 l_rotation;
@@ -341,6 +340,7 @@ public class PlayerLaunchScript : MonoBehaviour
         Vector3 l_axis = Vector3.Cross(a_rotation, Vector3.up);
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
         Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_rotation;
+        Vector3 l_directionRotation = Quaternion.AngleAxis(-m_rotationMouseY - 24.0f, l_axis) * a_rotation;
 
         //m_cameraRotationY = l_direction.y;
 
@@ -348,7 +348,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         l_direction.Normalize();
 
-        Quaternion l_rotationFinal = Quaternion.LookRotation(l_direction);
+        Quaternion l_rotationFinal = Quaternion.LookRotation(l_directionRotation);
 
         Debug.Log(M_cameraOffset.y * (-m_cameraRotationY));
 
