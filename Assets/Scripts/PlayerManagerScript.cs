@@ -66,7 +66,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public Animator M_biscuitAnimator;
 
     public static bool M_Fluffed;
-    public static int M_FruitCollected;
+    public int M_FruitCollected;
     public TextMeshProUGUI M_FruitUI;
 
     public AudioSource M_GrowAudio;
@@ -166,7 +166,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // M_FruitUI.text = M_FruitCollected.ToString();
+        M_FruitUI.text = M_FruitCollected.ToString();
         m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
