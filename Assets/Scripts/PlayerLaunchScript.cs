@@ -45,7 +45,7 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] private float m_minimumSpeed = 0.4f;   // Speed minimum limit before the player changes to walking player.
     [SerializeField] private AudioSource m_launchSound;
     [SerializeField] AudioClip[] m_sLaunchSounds;
-    Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
+    Vector2 M_cameraOffset = new Vector2(14.0f, 16.0f);
     float m_cameraRotationY;
 
     [SerializeField] private float m_powerUpSpeed;
@@ -325,6 +325,7 @@ public class PlayerLaunchScript : MonoBehaviour
         float l_mouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
         m_rotationMouseY += Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
         m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 85.0f, 170.0f);
+        Debug.Log(m_rotationMouseY);
 
         // Rotation using 2D vector rotation by angle formula
         Vector3 l_rotation;
@@ -340,15 +341,20 @@ public class PlayerLaunchScript : MonoBehaviour
         Vector3 l_axis = Vector3.Cross(a_rotation, Vector3.up);
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
         Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_rotation;
-        m_cameraRotationY = l_direction.y;
+
+        //m_cameraRotationY = l_direction.y;
+
+        m_cameraRotationY = Mathf.Lerp(m_cameraRotationY, l_direction.y, Time.fixedDeltaTime * 5.0f);
 
         l_direction.Normalize();
 
-        Quaternion yRotation = Quaternion.LookRotation(l_direction);
+        Quaternion l_rotationFinal = Quaternion.LookRotation(l_direction);
+
+        Debug.Log(M_cameraOffset.y * (-m_cameraRotationY));
 
         //camera transform change
-        M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, yRotation, Time.fixedDeltaTime * 10.0f);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotationFinal, Time.fixedDeltaTime * 10.0f);
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
     }
 
     public void SetValues(float a_size, float a_mass)
