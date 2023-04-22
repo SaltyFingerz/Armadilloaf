@@ -435,7 +435,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchCamera.SetActive(true);
 
         // get values from the walking armadillo
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(-M_walkingPlayer.transform.forward);
         M_launchingPlayer.transform.position = M_walkingPlayer.transform.position;
         M_launchingPlayer.GetComponent<Rigidbody>().velocity = M_walkingPlayer.GetComponent<CustomController>().rb.velocity;
 
@@ -456,6 +455,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_freeFlyingPlayer.SetActive(false);
         m_state = ArmadilloState.launching;
         M_launchingPlayer.SetActive(true);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(M_walkingPlayer.transform.forward);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
         if (M_sizeState == 2)
