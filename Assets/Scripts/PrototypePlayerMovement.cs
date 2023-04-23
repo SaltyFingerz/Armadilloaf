@@ -56,7 +56,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
 
             PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
-            if (m_playerManagerScript.M_sizeState != 2)
+            if ((m_playerManagerScript.M_sizeState != 2 && a_hit.gameObject.CompareTag("Enemy")) || !a_hit.gameObject.CompareTag("Enemy"))
             {
                 m_playerManagerScript.M_takingDamage = true;
                 if (m_canPain)

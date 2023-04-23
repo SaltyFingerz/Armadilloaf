@@ -438,7 +438,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_freshnessBiscuit.enabled = false;
         StartLaunching();
         StartWalking();
-
+        M_Fluffed = false;
+        M_Jellied = false;
         ResetAbilities();
 
     }
