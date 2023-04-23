@@ -364,6 +364,8 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void Respawn()
     {
+        M_PlayerMovement.GetComponent<PrototypePlayerMovement>().TurnOffYellow();
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().TurnOffYellow();
         CustomController l_controller = M_walkingPlayer.GetComponent<CustomController>();
         l_controller.rb.isKinematic = true;
         M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = true;

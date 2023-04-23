@@ -80,13 +80,10 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
 
         
-            StartCoroutine(YellowScreen());
+            StartCoroutine(YellowScreen()); //activate yellow overlay when underwater
 
         }
-        else if (!a_hit.gameObject.CompareTag("Hazard"))
-        {
-            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
-        }
+        
     }
 
     IEnumerator YellowScreen()
@@ -252,7 +249,25 @@ public class PrototypePlayerMovement : MonoBehaviour
             M_InLaunchZone = false;
 
         }
+
+
+
+      
+          
+          
+       
+
+     
+
     }
+
+    public void TurnOffYellow()
+    {
+        StopCoroutine(YellowScreen());
+        // M_Water.SetActive(false);
+        m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
+    }
+
     private void OnControllerColliderHit(ControllerColliderHit a_hit)
     {
         if (a_hit.gameObject.CompareTag("Wall"))

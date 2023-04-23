@@ -38,11 +38,17 @@ public class HoverScript : MonoBehaviour
         
         if(M_RotateOnAllAxes)
         {
-            transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0.2f, 0.8f, 0.2f));
+            if (transform.GetChild(1) != null)
+            {
+                transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0.2f, 0.8f, 0.2f));
+            }
         }
         else if(M_RotateOnYAxis)
         {
-            transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0, 0.8f, 0));
+            if (transform.GetChild(1) != null)
+            {
+                transform.GetChild(1).gameObject.transform.Rotate(new Vector3(0, 0.8f, 0));
+            }
         }
 
        

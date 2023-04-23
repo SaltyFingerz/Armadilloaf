@@ -469,6 +469,18 @@ public class PlayerLaunchScript : MonoBehaviour
 
     }
 
+    private void OnTriggerExit(Collider a_hit)
+    {
+        if (a_hit.gameObject.name.Contains("Water")) //deactivate yellow overlay
+        {
+            print("exit water");
+            StopCoroutine(YellowScreen());
+            // M_Water.SetActive(false);
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
+        }
+       
+    }
+
     IEnumerator waitForDrown()
     {
         yield return new WaitForSeconds(3);
@@ -509,18 +521,21 @@ public class PlayerLaunchScript : MonoBehaviour
         }
          if (a_hit.gameObject.CompareTag("Hazard") && a_hit.gameObject.name.Contains("Water"))
         {
-            
-            print("activate yellow");
-            StartCoroutine(YellowScreen());
+
+            StartCoroutine(YellowScreen()); //activate yellow overlay when under honey water
            
         }
-        else if (!a_hit.gameObject.CompareTag("Hazard"))
-        {
-            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
-        }
+       
     }
 
-    IEnumerator YellowScreen()
+    public void TurnOffYellow()
+    {
+        StopCoroutine(YellowScreen());
+        // M_Water.SetActive(false);
+        m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
+    }
+
+    IEnumerator YellowScreen() //yellow overlay activator
     {
         M_Water.SetActive(true);
         while (alphaYellow < 0.66f)
@@ -532,6 +547,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         }
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0.66f);
+        yield return null;
     }
 
     private void Fluffing()
