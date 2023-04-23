@@ -398,7 +398,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         switch (m_state)
         {
             case ArmadilloState.walk:
-                StartLaunching();
+                Curl();
                 break;
 
             case ArmadilloState.launching:
@@ -447,9 +447,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         
     }
 
+    public void Curl()
+    {
+        M_walkingPlayer.GetComponent<Animator>().SetTrigger("Curl");
+    }
     public void StartLaunching()
     {
-        M_additionalCamera.SetActive(false);
+        
+
+       M_additionalCamera.SetActive(false);
         M_walkingPlayer.SetActive(false);
         M_launchCamera.SetActive(true);
 

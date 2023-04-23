@@ -291,6 +291,10 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
     }
 
+    public void StartLaunching()
+    {
+        M_playerManager.GetComponent<PlayerManagerScript>().StartLaunching();
+    }
 
     void Update()
     {
