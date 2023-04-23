@@ -270,6 +270,11 @@ public class PlayerLaunchScript : MonoBehaviour
 
     }
 
+    public void StopGrowingAnimation() //this is an animation event called at the end of the growing animation, to play the static idle animation instead 
+    {
+        Animator anim = gameObject.GetComponent<Animator>();
+        anim.SetBool("Grow", false);
+    }
     public void Reset()
     {
         m_rigidbody.freezeRotation = false;

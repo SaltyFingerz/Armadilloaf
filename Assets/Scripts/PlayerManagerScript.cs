@@ -191,6 +191,15 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_TargetSize = M_sizes[M_sizeState];
 
+        if (M_sizeState == 2)
+        {
+            M_BallAnimator.SetTrigger("Big");
+        }
+
+        else if (M_sizeState == 0)
+        {
+            M_BallAnimator.SetTrigger("Small");
+        }
 
 
         if (M_Jellied)
@@ -217,7 +226,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_2DRenderer.material.color = Color.cyan;
             M_freshnessBiscuit.color = Color.cyan;
         }
-        print("Jellied" + M_Jellied); 
+      
 
         if (M_takingDamage)
         {
@@ -496,6 +505,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void Curl()
     {
         M_walkingPlayer.GetComponent<Animator>().SetTrigger("Curl");
+        M_BallAnimator.SetBool("Grow", false);
     }
     public void StartLaunching()
     {
@@ -529,15 +539,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(M_walkingPlayer.transform.forward);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
-        if (M_sizeState == 2)
-        {
-            M_BallAnimator.SetTrigger("Big");
-        }
-
-        else if (M_sizeState == 0)
-        {
-            M_BallAnimator.SetTrigger("Small");
-        }
+       
     }
 
     void StartFlying()
