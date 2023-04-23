@@ -14888,19 +14888,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 114d1c7f0a233fd4392052210f0407b6, type: 3}
   - {fileID: 8300000, guid: a9eac2d2909896c448d1b1a4310090ba, type: 3}
   - {fileID: 8300000, guid: c44b0fe9e187f7241acb444dd26aff70, type: 3}
---- !u!114 &231782478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 231782472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 394c140fef70192458d5c282150132ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BoxCollided: []
 --- !u!82 &231782479
 AudioSource:
   m_ObjectHideFlags: 0
@@ -23337,11 +23324,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1523010297663955174, guid: 309bb4b5bf15de44082ad32d656eeaa4, type: 3}
---- !u!1 &588378743 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4257648964162599058, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-  m_PrefabInstance: {fileID: 860440016}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &591070539 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -540991046233726757, guid: 4afeed205b5085e4b91682994d47268a, type: 3}
@@ -38118,9 +38100,21 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxColor.a
       value: 0.29803923
       objectReference: {fileID: 0}
+    - target: {fileID: 4007594688719301986, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
+      propertyPath: M_playerManager
+      value: 
+      objectReference: {fileID: 905613297}
+    - target: {fileID: 4007594688719301986, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
+      propertyPath: M_prototypePlayerMovement
+      value: 
+      objectReference: {fileID: 1869161211}
     - target: {fileID: 4007594688719301987, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_Name
       value: JellySizeUpPellet (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4007594688719302013, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
+      propertyPath: m_Radius
+      value: 1.29
       objectReference: {fileID: 0}
     - target: {fileID: 4007594688719302014, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_RootOrder
@@ -43460,10 +43454,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 455816476}
     - target: {fileID: 2163527014642896243, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-      propertyPath: M_Water
-      value: 
-      objectReference: {fileID: 588378743}
-    - target: {fileID: 2163527014642896243, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: M_FinishUI
       value: 
       objectReference: {fileID: 455816476}
@@ -43475,10 +43465,6 @@ PrefabInstance:
       propertyPath: M_TuteWorld
       value: 
       objectReference: {fileID: 601765496}
-    - target: {fileID: 4257648964162599058, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: M_UIManager
       value: 
@@ -43490,18 +43476,6 @@ PrefabInstance:
     - target: {fileID: 5205029753891021531, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6793851847579332355, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.069028355
-      objectReference: {fileID: 0}
-    - target: {fileID: 6793851847579332355, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -99.253
-      objectReference: {fileID: 0}
-    - target: {fileID: 6793851847579332355, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 7188395514660455878, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_RootOrder
@@ -43547,10 +43521,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8854288522490146423, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-      propertyPath: M_Water
-      value: 
-      objectReference: {fileID: 588378743}
     - target: {fileID: 8854288522490146423, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: M_FinishUI
       value: 

@@ -19,9 +19,11 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_playerManager;
     public GameObject M_Trail;
     public GameObject M_Water;
+    public GameObject M_FreshBiscuit;
     public UnityEngine.UI.Image M_fillImage;
     public RenderingScript M_RenderScript;
     public LaunchTrailScript M_TrailScript;
+    
     public Canvas M_canvas;
     public GameObject[] M_BigCans;
     public GameObject[] M_Cereals;
@@ -554,6 +556,7 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         PlayerManagerScript.M_Fluffed = true;
         m_renderer.material.color = Color.cyan;
+        M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.cyan;
         GetComponent<SphereCollider>().material.bounciness = 0f;
         StartCoroutine(resetFluff());
     }
@@ -561,6 +564,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public  void Defluff()
     {
         m_renderer.material.color = Color.white;
+        M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.white;
         GetComponent<SphereCollider>().material.bounciness = 0.2f;
         PlayerManagerScript.M_Fluffed = false;
     }

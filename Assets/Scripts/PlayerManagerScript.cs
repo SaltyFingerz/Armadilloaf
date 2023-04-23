@@ -291,11 +291,11 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         if (!M_isFreeFlying)
         {
-            // grow
+             // grow
            // if (Input.GetKeyDown(KeyCode.Q))
-          //  {
-           //     Grow();
-          //  }
+         //   {
+         //       Grow();
+        //   }
             // shrink
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -585,6 +585,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
             M_Renderer.material.color = Color.magenta;
             M_2DRenderer.material.color = Color.magenta;
+            M_freshnessBiscuit.color = Color.magenta;
             //or  material.SetColor(""_Color", new Vector 4 (1,1,1,1));
             M_PlayerMovement.m_jumpHeight = 8;
             M_abilityState = AbilityState.jelly;
@@ -616,7 +617,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_2DRenderer.material.color = Color.white;
         // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
         // M_2DRenderer.material.SetColor("StartColor", new Vector4(1, 1, 1, 1));
-
+        M_freshnessBiscuit.color = Color.white;
         M_PlayerMovement.m_jumpHeight = 8;
         M_abilityState = AbilityState.normal;
         M_abilityState = 0;

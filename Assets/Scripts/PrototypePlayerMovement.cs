@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public GameObject M_FinishUI;
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
-
+    public GameObject M_FreshBiscuit;
     private float alphaYellow;
     private UnityEngine.UI.Image m_Yellow;
 
@@ -106,6 +107,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         PlayerManagerScript.M_Fluffed = true;
         m_playerSpeed = 1f;
         m_renderer.material.color = Color.cyan;
+        M_FreshBiscuit.GetComponent<Image>().color = Color.cyan;
         StartCoroutine(resetFluff());
     }
 
@@ -113,6 +115,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         m_playerSpeed = 2;
         m_renderer.material.color = Color.white;
+        M_FreshBiscuit.GetComponent<Image>().color = Color.white;
         PlayerManagerScript.M_Fluffed = false;
     }
     IEnumerator resetFluff()
@@ -120,6 +123,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         
         yield return new WaitForSeconds(10);
         Defluff();
+        yield return null;
     }
 
     IEnumerator waitForPain()
@@ -302,10 +306,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             Fluffing();
         }
-        else
-        {
-            Defluff();
-        }
+        
             //change size gradually each frame
             Vector3 growthIncrement = new Vector3(1f, 1f, 1f);
             Vector3 shadowGrowthIncrement = new Vector3(.06f, .06f, 0f);
