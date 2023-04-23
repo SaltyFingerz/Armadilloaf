@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class UIManagerScript : MonoBehaviour
 {
 
-    
+    public PlayerManagerScript M_playerManagerScript;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +26,11 @@ public class UIManagerScript : MonoBehaviour
 
     public void Level01()
     {
+        
         SceneManager.LoadScene("Level_01");
+        M_playerManagerScript.ResetAbilities();
         PlayerPrefs.SetInt("tute", 0);
+        
     }
 
     public void Cutscene()

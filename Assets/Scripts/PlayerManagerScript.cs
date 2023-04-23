@@ -85,6 +85,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         ResetBiscuitBites();
+        ResetAbilities();
         M_freshnessBiscuit.enabled = true;
         M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
         M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Safe");
@@ -583,8 +584,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
-        // M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
-        StartCoroutine(DelayedCameraOffset());
+         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
+        //StartCoroutine(DelayedCameraOffset());
         M_GrowAudio.Play();
     }
 
@@ -683,6 +684,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_abilityState = AbilityState.normal;
         M_abilityState = 0;
         M_Jellied = false;
+        M_Fluffed = false;
       
     }
 

@@ -666,7 +666,7 @@ public class PlayerLaunchScript : MonoBehaviour
     
     public void SetCameraOffset(Vector2 a_offset)
     {
-        Vector2 OffsetIncrement = new Vector2 (0.5f, 0.5f);
+       /* Vector2 OffsetIncrement = new Vector2 (0.5f, 0.5f);
         if (M_cameraOffset.x < a_offset.x)
         {
             M_cameraOffset += OffsetIncrement * Time.deltaTime*100;
@@ -674,7 +674,8 @@ public class PlayerLaunchScript : MonoBehaviour
         else if (M_cameraOffset.x > a_offset.x)
         {
             M_cameraOffset -= OffsetIncrement * Time.deltaTime*100;
-        }
+        }*/
+       M_cameraOffset = a_offset;
  
     }
 
