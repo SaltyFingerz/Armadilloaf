@@ -18,6 +18,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_launchCamera;
     public GameObject M_playerManager;
     public GameObject M_Trail;
+    public GameObject M_Water;
     public UnityEngine.UI.Image M_fillImage;
     public RenderingScript M_RenderScript;
     public LaunchTrailScript M_TrailScript;
@@ -34,6 +35,9 @@ public class PlayerLaunchScript : MonoBehaviour
     int m_launchingStage = 0;
     float m_launchingPower;
     bool m_canShake = false;
+
+    private float alphaYellow;
+    private UnityEngine.UI.Image m_Yellow;
 
     public int M_maxPower;
     public float M_minimumDirectionY, M_maximumDirectionY;
@@ -76,6 +80,9 @@ public class PlayerLaunchScript : MonoBehaviour
         m_cameraRotationY = -Mathf.Cos(24f);
         M_BigCans = GameObject.FindGameObjectsWithTag("Big Can");
         M_Cereals = GameObject.FindGameObjectsWithTag("Cereal");
+
+        m_Yellow = M_Water.GetComponent<UnityEngine.UI.Image>();
+        m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
     }
 
 
@@ -489,6 +496,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
             if (a_hit.gameObject.name.Contains("Water") && m_canDrown)
             {
+                print("drown sound");
                 DrownSound();
             }
 
@@ -499,6 +507,31 @@ public class PlayerLaunchScript : MonoBehaviour
             }
 
         }
+         if (a_hit.gameObject.CompareTag("Hazard") && a_hit.gameObject.name.Contains("Water"))
+        {
+            
+            print("activate yellow");
+            StartCoroutine(YellowScreen());
+           
+        }
+        else if (!a_hit.gameObject.CompareTag("Hazard"))
+        {
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
+        }
+    }
+
+    IEnumerator YellowScreen()
+    {
+        M_Water.SetActive(true);
+        while (alphaYellow < 0.66f)
+        {
+
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, alphaYellow);
+            alphaYellow += 0.01f * Time.deltaTime;
+            yield return null;
+
+        }
+        m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0.66f);
     }
 
     private void Fluffing()

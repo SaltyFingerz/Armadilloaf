@@ -27,6 +27,9 @@ public class PrototypePlayerMovement : MonoBehaviour
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
 
+    private float alphaYellow;
+    private UnityEngine.UI.Image m_Yellow;
+
     [SerializeField] AudioClip[] m_drownClip;
     public AudioSource M_DrawnAudio;
 
@@ -35,12 +38,15 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     private bool m_canPain = true;
     private bool m_canDrown = true;
-
+    public GameObject M_Water;
     Renderer m_renderer;
     private void Start()
     {
         m_controller = gameObject.GetComponent<CustomController>();
         m_renderer = gameObject.GetComponent<Renderer>();
+
+        m_Yellow = M_Water.GetComponent<UnityEngine.UI.Image>();
+        m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
     }
 
     private void OnTriggerStay(Collider a_hit)
@@ -69,7 +75,34 @@ public class PrototypePlayerMovement : MonoBehaviour
                 Fluffing();
             }
         }
+
+        if (a_hit.gameObject.CompareTag("Hazard") && a_hit.gameObject.name.Contains("Water"))
+        {
+
+        
+            StartCoroutine(YellowScreen());
+
+        }
+        else if (!a_hit.gameObject.CompareTag("Hazard"))
+        {
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
+        }
     }
+
+    IEnumerator YellowScreen()
+    {
+        M_Water.SetActive(true);
+        while (alphaYellow < 0.66f)
+        {
+
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, alphaYellow);
+            alphaYellow += 0.01f * Time.deltaTime;
+            yield return null;
+
+        }
+        m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0.66f);
+    }
+
 
     private void Fluffing()
     {
