@@ -26,6 +26,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ADDITIONAL_LIGHTS_ENABLED
+  - _EMISSION
   - _ENVIRONMENT_LIGHTING_ENABLED
   - _FOG
   - _FRESNEL
@@ -122,7 +123,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _Emission: 0
+    - _Emission: 1
     - _EnvironmentLightingEnabled: 1
     - _EnvironmentReflections: 1
     - _Fog: 1
@@ -142,9 +143,9 @@ Material:
     - _RampSmoothness: 0.005
     - _RampTriple: 1
     - _ReceiveShadows: 1
-    - _ReflectionBlend: 0.6
+    - _ReflectionBlend: 0.327
     - _ReflectionProbes: 0
-    - _ReflectionSmoothness: 0.776
+    - _ReflectionSmoothness: 0.376
     - _Reflections: 1
     - _ShadowMask: 0
     - _Smoothness: 0.5
@@ -152,7 +153,7 @@ Material:
     - _Specular: 1
     - _SpecularExponent: 187
     - _SpecularHighlights: 1
-    - _SpecularSmoothness: 0.67
+    - _SpecularSmoothness: 0.416
     - _SpecularThreshold: 0.975
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
@@ -162,11 +163,11 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.0141509175, b: 0.44062173, a: 1}
+    - _BaseColor: {r: 1, g: 0.015686274, b: 0.14236441, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1024, g: 0, b: 20.078432, a: 1}
+    - _EmissionColor: {r: 0.5026177, g: 0, b: 0.16753925, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadowTint: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowTint: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

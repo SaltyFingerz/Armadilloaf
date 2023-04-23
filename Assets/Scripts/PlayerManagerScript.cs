@@ -84,8 +84,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         ResetBiscuitBites();
-        M_freshnessBiscuit.enabled = false;
+        M_freshnessBiscuit.enabled = true;
         M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
+        M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Safe");
 
         M_transitionSprite.enabled = false;
 
@@ -174,6 +175,17 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_TargetSize = M_sizes[M_sizeState];
 
+        if(M_takingDamage)
+        {
+            M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Damage");
+        }
+
+        else
+        {
+            M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Safe");
+            M_freshnessBiscuit.enabled = true;
+        }
+
         if (M_takingDamage && m_invulnerabilityTimerSeconds > m_invulnerabilityPeriodSeconds)
         {
             Debug.Log("ow");
@@ -247,6 +259,8 @@ public partial class PlayerManagerScript : MonoBehaviour
             }
             M_takingDamage = false;
         }
+
+      
 
         // transition sprite starts growing after 5 deaths
         if (M_transitionIn)
@@ -365,6 +379,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_freshnessBiscuit.enabled = false;
         StartLaunching();
         StartWalking();
+
+        ResetAbilities();
+
     }
 
     public void Resume()
