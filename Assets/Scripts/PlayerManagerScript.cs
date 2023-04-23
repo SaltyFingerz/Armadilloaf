@@ -66,6 +66,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public Animator M_biscuitAnimator;
 
     public static bool M_Fluffed;
+    public static bool M_Jellied;
     public int M_FruitCollected;
     public TextMeshProUGUI M_FruitUI;
     public TextMeshProUGUI M_FruitUIFin;
@@ -165,6 +166,21 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
     }
 
+    public IEnumerator ChangePlayerColor(Color newColor, float duration)
+    {
+        float elapsedTime = 0;
+        Color startColor = M_Renderer.material.color;
+
+        while (elapsedTime < duration)
+        {
+            M_Renderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        M_Renderer.material.color = newColor;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -175,7 +191,35 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_TargetSize = M_sizes[M_sizeState];
 
-        if(M_takingDamage)
+
+
+        if (M_Jellied)
+        {
+            StartCoroutine(ChangePlayerColor(Color.magenta, 2.0f));
+
+            M_Renderer.material.color = Color.magenta;
+            M_2DRenderer.material.color = Color.magenta;
+            M_freshnessBiscuit.color = Color.magenta;
+            M_Fluffed = false;
+            print("pink ball material");
+        }
+
+        if (!M_Jellied && !M_Fluffed)
+        {
+            M_Renderer.material.color = Color.white;
+            M_2DRenderer.material.color = Color.white;
+            M_freshnessBiscuit.color = Color.white;
+        }
+        if (M_Fluffed)
+        {
+            StartCoroutine(ChangePlayerColor(Color.cyan, 2.0f));
+            M_Renderer.material.color = Color.cyan;
+            M_2DRenderer.material.color = Color.cyan;
+            M_freshnessBiscuit.color = Color.cyan;
+        }
+        print("Jellied" + M_Jellied); 
+
+        if (M_takingDamage)
         {
             M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Damage");
         }
@@ -360,6 +404,8 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_UIManager.enabled = true;
             M_UIManager.Paused();
         }
+
+      
     }
 
     public void Respawn()
@@ -589,6 +635,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             //or  material.SetColor(""_Color", new Vector 4 (1,1,1,1));
             M_PlayerMovement.m_jumpHeight = 8;
             M_abilityState = AbilityState.jelly;
+            M_Jellied = true;
         }
     }
     //acquire property of stickiness with Jelly pick-up, called in PowerUp_SizeChanger (script)
@@ -621,6 +668,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_PlayerMovement.m_jumpHeight = 8;
         M_abilityState = AbilityState.normal;
         M_abilityState = 0;
+        M_Jellied = false;
       
     }
 
