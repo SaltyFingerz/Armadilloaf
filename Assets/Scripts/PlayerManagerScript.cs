@@ -366,10 +366,12 @@ public partial class PlayerManagerScript : MonoBehaviour
             StartCoroutine(ShowUIQuickly());
         }
 
+      
         // state changing
         if (( Input.GetMouseButtonDown(1)) && !M_isFreeFlying)
         {
             StateCheck();
+           
         }
         if(Input.GetKeyDown(KeyCode.C))
         {
@@ -580,9 +582,18 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
-
+        // M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
+        StartCoroutine(DelayedCameraOffset());
         M_GrowAudio.Play();
+    }
+
+    IEnumerator DelayedCameraOffset()
+    {
+        yield return new WaitForSeconds(1);
+       
+            M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
+        
+
     }
 
     public void Shrink()

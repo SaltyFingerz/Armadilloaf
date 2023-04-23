@@ -87,6 +87,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         
     }
 
+    
     IEnumerator YellowScreen()
     {
         M_Water.SetActive(true);
@@ -302,7 +303,10 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
-      if(PlayerManagerScript.M_Fluffed)
+
+     
+
+        if (PlayerManagerScript.M_Fluffed)
         {
             Fluffing();
         }
@@ -317,6 +321,10 @@ public class PrototypePlayerMovement : MonoBehaviour
                     transform.localScale += growthIncrement * Time.deltaTime;
                 }
 
+                else
+            {
+                PlayerManagerScript.M_Growing = false;
+            }
                 if (M_BlobShadowDecal.size.x < M_TargetBlobSize.x)
                 {
                     M_BlobShadowDecal.size += shadowGrowthIncrement;
@@ -328,11 +336,13 @@ public class PrototypePlayerMovement : MonoBehaviour
                 if (transform.localScale.x > PlayerManagerScript.M_TargetSize)
                 {
                     transform.localScale -= growthIncrement * Time.deltaTime;
+                
                 }
 
                 if (M_BlobShadowDecal.size.x > M_TargetBlobSize.x)
                 {
                     M_BlobShadowDecal.size -= shadowGrowthIncrement;
+              
                 }
 
             }
@@ -342,12 +352,20 @@ public class PrototypePlayerMovement : MonoBehaviour
                 M_BlobShadowDecal.size = M_TargetBlobSize;
                 PlayerManagerScript.M_Growing = false;
             }
+
+       
             else if (transform.localScale.x < PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Shrinking)
             {
                 transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
                 M_BlobShadowDecal.size = M_TargetBlobSize;
                 PlayerManagerScript.M_Shrinking = false;
             }
+
+            else if (!PlayerManagerScript.M_Growing && !PlayerManagerScript.M_Shrinking)
+        {
+            transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
+            M_BlobShadowDecal.size = M_TargetBlobSize;
+        }
      
 
       
