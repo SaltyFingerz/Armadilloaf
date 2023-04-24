@@ -306,7 +306,32 @@ public class PrototypePlayerMovement : MonoBehaviour
     void Update()
     {
 
-     
+        switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
+        {
+            case (int)PlayerManagerScript.SizeState.big:
+                m_pushForce = 4.0f;
+                M_TargetBlobSize = new Vector3(10, 10, 50);
+                m_jumpHeight = 15;
+                print("jumpheightshouldbesettohigh" + m_jumpHeight);
+                break;
+
+            case (int)PlayerManagerScript.SizeState.normal:
+                m_pushForce = 0.0f;
+                M_TargetBlobSize = new Vector3(3, 3, 50);
+                m_jumpHeight = 8;
+                break;
+
+            case (int)PlayerManagerScript.SizeState.small:
+                m_pushForce = 0.0f;
+                M_TargetBlobSize = new Vector3(1.5f, 1.5f, 50);
+                m_jumpHeight = 8;
+                break;
+
+            default:
+                Debug.Log("Error! Did you forget to set a size state?");
+                break;
+        }
+
 
         if (PlayerManagerScript.M_Fluffed)
         {
@@ -468,16 +493,20 @@ public class PrototypePlayerMovement : MonoBehaviour
             case (int)PlayerManagerScript.SizeState.big:
                 m_pushForce = 4.0f;
                M_TargetBlobSize = new Vector3(10, 10, 50);
+                m_jumpHeight = 55;
+                print("jumpheightshouldbesettohigh" + m_jumpHeight) ;
                 break;
 
             case (int)PlayerManagerScript.SizeState.normal:
                 m_pushForce = 0.0f;
                 M_TargetBlobSize = new Vector3(3, 3, 50);
+                m_jumpHeight = 8;
                 break;
 
             case (int)PlayerManagerScript.SizeState.small:
                 m_pushForce = 0.0f;
                 M_TargetBlobSize = new Vector3(1.5f, 1.5f, 50);
+                m_jumpHeight = 8;
                 break;
 
             default:
