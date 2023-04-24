@@ -117,7 +117,7 @@ public class CustomController : MonoBehaviour
 
         // rotate the player (left-right)
         //M_walkCamera.transform.RotateAround(this.transform.position, this.transform.right, -m_rotationY  * m_mouseSensitivityY);
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.AngleAxis(m_rotationY * m_mouseSensitivity, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up), Time.fixedDeltaTime * 10.0f);
+        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.AngleAxis(-m_rotationY * m_mouseSensitivity, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up), Time.fixedDeltaTime * 10.0f);
         //Quaternion l_quat = Quaternion.Euler(new Vector3(m_rotationY, 0.0f, 0.0f));
         //M_walkCamera.transform.rotation = Quaternion.Lerp(M_walkCamera.transform.rotation, M_walkCamera.transform.rotation * l_quat, Time.deltaTime);
     }
@@ -176,5 +176,10 @@ public class CustomController : MonoBehaviour
         m_rotationX = l_quaternion.eulerAngles.y;
 
         this.transform.rotation = l_quaternion;
+    }
+
+    public float GetMouseRotation()
+    {
+        return m_rotationY;
     }
 }

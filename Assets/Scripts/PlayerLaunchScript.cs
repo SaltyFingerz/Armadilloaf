@@ -376,7 +376,6 @@ public class PlayerLaunchScript : MonoBehaviour
         M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotationFinal, Time.fixedDeltaTime * 10.0f);
         M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
 
-        //Debug.Log(M_launchCamera.transform.rotation + " " + m_cameraRotationY + " :u");
     }
 
     public void SetValues(float a_size, float a_mass)
@@ -691,10 +690,13 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction = a_direction;
         this.transform.rotation = Quaternion.LookRotation(-a_direction);
         m_rigidbody.isKinematic = false;
-
-        Debug.Log(M_launchCamera.transform.rotation + " " + m_cameraRotationY);
+        Debug.Log(m_rotationMouseY);
     }
-
+    public void SetMouseRotation(float a_rotation)
+    {
+        m_rotationMouseY = a_rotation * 100.0f;
+        Debug.Log(m_rotationMouseY);
+    }
 
 }
     
