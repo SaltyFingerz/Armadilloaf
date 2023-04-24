@@ -62,7 +62,7 @@ public class CustomController : MonoBehaviour
         MovePlayerRelativeToCamera();
 
         RaycastHit hit;
-        if(Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.5f))
+        if(Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.7f))
         {
             isGrounded = true;
             if(rb.velocity.magnitude < m_minimumSpeed)

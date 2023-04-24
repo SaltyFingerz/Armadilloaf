@@ -5,20 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class CutSceneScript : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(LoadLevel1());
+        StopAllCoroutines();
+        if (SceneManager.GetSceneByName("Level_01").isLoaded)
+        {
+            SceneManager.LoadScene("Level_01");
+           
+        }
+        else
+        {
+            StartCoroutine(LoadLevel1());
+        }
     }
 
     IEnumerator LoadLevel1()
     {
+      
         yield return new WaitForSeconds(3);
-        SceneManager.LoadScene("Level_01");
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SceneManager.LoadScene(2);
+       
     }
 }
