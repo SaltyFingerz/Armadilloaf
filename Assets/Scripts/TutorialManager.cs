@@ -185,13 +185,15 @@ public class TutorialManager : MonoBehaviour
                 M_closePrompt.SetActive(true);
                 M_freeControl.SetActive(false);
             }
+            yield return null;
         }
 
-        if ((m_Qpressed || m_Epressed) && M_freeControl.activeSelf)
+      /*  if ((m_Qpressed || m_Epressed) && M_freeControl.activeSelf)
         {
             M_closePrompt.SetActive(true);
             M_freeControl.SetActive(false);
         }
+      */
 
 
         if (Input.GetKeyDown(KeyCode.C) && M_closePrompt && m_timerSeconds > 1 )

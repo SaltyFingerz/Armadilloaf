@@ -234,9 +234,11 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
 
         if (a_hit.gameObject.name.Contains("Finish"))
-        {
+        {Time.timeScale = 0f;
             M_FinishUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            
         }
 
     }

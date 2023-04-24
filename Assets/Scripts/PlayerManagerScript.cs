@@ -345,13 +345,13 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         if (!M_isFreeFlying)
         {
-             // grow
-           // if (Input.GetKeyDown(KeyCode.Q))
-         //   {
-         //       Grow();
-        //   }
+          //   grow
+           if (Input.GetKeyDown(KeyCode.Q) && M_sizeState ==0)
+            {
+               Grow();
+            }
             // shrink
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && M_sizeState > 0)
             {
                 Shrink();
             }
@@ -575,6 +575,8 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void Grow()
     {
+        M_BallAnimator.SetBool("Grow", true);
+        M_BallAnimator.SetBool("Small", false);
         M_Growing = true;
         M_Shrinking = false;
         
@@ -583,12 +585,15 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             M_sizeState = 2;
         }
+        M_BallAnimator.SetBool("Grow", true);
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
          M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
         //StartCoroutine(DelayedCameraOffset());
         M_GrowAudio.Play();
+       
     }
+
 
     IEnumerator DelayedCameraOffset()
     {
@@ -601,6 +606,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void Shrink()
     {
+        M_BallAnimator.SetBool("Grow", false);
         M_Shrinking = true;
         M_Growing = false;
        
