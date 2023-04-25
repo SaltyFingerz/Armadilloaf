@@ -36937,7 +36937,7 @@ Transform:
   - {fileID: 1983485586}
   - {fileID: 2274422828479759853}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7107031088146949285
 GameObject:
@@ -43352,7 +43352,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.9752389
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -43562,7 +43562,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.78
+      value: -0.871
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
       propertyPath: m_LocalRotation.w
@@ -43596,6 +43596,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 203661ecdff21924b8fb119aafdba459, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 6239881831769578202, guid: 36440776706198f42a59fb237f35cac0, type: 3}
     - target: {fileID: 919132149155446097, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
       propertyPath: m_Name
       value: GrayedOutArrow
@@ -43646,7 +43650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.78
+      value: -0.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
       propertyPath: m_LocalRotation.w
@@ -43676,6 +43680,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d305e0800fa74704482560e3ac053b9c, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 6239881831769578202, guid: 36440776706198f42a59fb237f35cac0, type: 3}
     - target: {fileID: 919132149155446097, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
       propertyPath: m_Name
       value: PLACEHOLD_ARROW
