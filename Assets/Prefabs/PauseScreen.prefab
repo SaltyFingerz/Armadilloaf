@@ -33,7 +33,7 @@ Transform:
   - {fileID: 7438572859112945951}
   - {fileID: 7438572860521194372}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1093270514
 MeshCollider:
@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 3345084073008382215}
   - component: {fileID: 1185448891179457546}
   - component: {fileID: 1514180047284566629}
+  - component: {fileID: 8880854326702189205}
   m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
@@ -125,6 +126,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8880854326702189205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5184632803577413937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2270c7510b20649b3430a96c58ad19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  M_sprites:
+  - {fileID: 21300000, guid: 5c1f2f753ad9f234193990ae7968f52a, type: 3}
+  - {fileID: 21300000, guid: 711830ff5963e7e469428f5d27c5814f, type: 3}
+  - {fileID: 21300000, guid: f9c1f7af961a8ee44b4c2dd5cddde13c, type: 3}
+  - {fileID: -922816527, guid: 4f8460e33622095409af3d582f2fb3ea, type: 3}
 --- !u!1 &6531047883773909667
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,10 +1376,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf575eda96fdc4c41b817d0f6827c52c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  M_playerManagerScript: {fileID: 0}
   M_canvas: {fileID: 7438572858854935755}
   M_pausePanel: {fileID: 0}
   M_playerManager: {fileID: 0}
   M_buttonsAndText: {fileID: 0}
+  M_audioMixer: {fileID: 0}
 --- !u!1 &7951913757967037053
 GameObject:
   m_ObjectHideFlags: 0
