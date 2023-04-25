@@ -80095,6 +80095,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   M_rotationSpeed: 1.5
+--- !u!1 &1670945469 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4389597767335383971, guid: 718a89dab6d283748a3c46d8f984ed35, type: 3}
+  m_PrefabInstance: {fileID: 1670945466}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1670945470
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670945469}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6327948663831436113, guid: 718a89dab6d283748a3c46d8f984ed35, type: 3}
 --- !u!64 &1670945472
 MeshCollider:
   m_ObjectHideFlags: 0
