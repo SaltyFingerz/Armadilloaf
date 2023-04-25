@@ -697,8 +697,11 @@ public class PlayerLaunchScript : MonoBehaviour
     public void SetMouseRotation(float a_rotation)
     {
         m_rotationMouseY = a_rotation * 100.0f;
-        Debug.Log(m_rotationMouseY);
     }
 
+    public float GetMouseRotation()
+    {
+        return m_rotationMouseY;
+    }
 }
     

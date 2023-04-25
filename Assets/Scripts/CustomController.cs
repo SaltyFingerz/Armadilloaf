@@ -182,4 +182,11 @@ public class CustomController : MonoBehaviour
     {
         return m_rotationY;
     }
+
+    public void SetMouseRotation(float a_rotation)
+    {
+        m_rotationY = (Mathf.Abs(a_rotation - 95) + 88) / 100.0f;
+        m_rotationY = Mathf.Clamp(m_rotationY, 0.88f, 0.95f);
+        Debug.Log(a_rotation + " " + m_rotationY);
+    }
 }
