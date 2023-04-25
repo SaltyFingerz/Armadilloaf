@@ -21,10 +21,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Counter
-  m_Shader: {fileID: 4800000, guid: 849dc4ff793a3f943ad21a3b6ee26456, type: 3}
+  m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
   m_Parent: {fileID: 2100000, guid: 1721110c4649ed54d9ecdeb028b0db5e, type: 2}
   m_ModifiedSerializedProperties: 20
-  m_ValidKeywords:
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _ADDITIONAL_LIGHTS_ENABLED
   - _ENVIRONMENT_LIGHTING_ENABLED
   - _FOG
@@ -32,7 +33,6 @@ Material:
   - _RAMP_TRIPLE
   - _REFLECTION_PROBES
   - _SHADOW_MASK
-  m_InvalidKeywords:
   - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -51,6 +51,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: e2b7ed071c2cb8347bfedec1ec8cb841, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b79b1ad629da9c940a8a393876d82ffd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
