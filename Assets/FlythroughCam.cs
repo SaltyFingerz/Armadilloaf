@@ -6,12 +6,10 @@ public class FlythroughCam : MonoBehaviour
 {
     public GameObject M_WalkCam;
     public GameObject M_HUD;
-    public GameObject M_cutsceneSkip;
 
     // Start is called before the first frame update
     void Start()
     {
-        M_cutsceneSkip.SetActive(true);
         M_WalkCam.SetActive(false);
         M_HUD.SetActive(false);
     }
@@ -25,7 +23,6 @@ public class FlythroughCam : MonoBehaviour
     }
     public void SwitchCams()
     {
-        M_cutsceneSkip.SetActive(false);
         M_WalkCam.SetActive(true);
         gameObject.SetActive(false);
         M_HUD.SetActive(true);
