@@ -51,7 +51,6 @@ public partial class PlayerManagerScript : MonoBehaviour
     public bool M_isFreeFlying = false;
 
     public PauseManagerScript M_UIManager;
-    public RandomSpritePicker M_pauseSprite;
     public PrototypePlayerMovement M_PlayerMovement;
     public AudioSource M_musicPlayer;
     bool m_justUnpaused;
@@ -429,7 +428,6 @@ public partial class PlayerManagerScript : MonoBehaviour
             Time.timeScale = 0;
             M_UIManager.enabled = true;
             M_UIManager.Paused();
-            M_pauseSprite.SetRandomSprite();
         }
 
       

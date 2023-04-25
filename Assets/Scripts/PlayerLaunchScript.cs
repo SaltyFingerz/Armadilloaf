@@ -688,11 +688,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void SetDirection(Vector3 a_direction)
     {
-        Vector3 l_axis = Vector3.Cross(a_direction, Vector3.up);
-        if (l_axis == Vector3.zero) l_axis = Vector3.right;
-        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_direction;
-        m_cameraRotationY = l_direction.y;
-
+       
         m_rigidbody.isKinematic = true;
         M_launchCamera.transform.rotation = Quaternion.LookRotation(a_direction);
         M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * m_rotationMouseY, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
@@ -704,20 +700,11 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         a_rotation += 85.0f;
         m_rotationMouseY = Mathf.Abs(a_rotation - 140.0f) + 85;
-
     }
 
     public float GetMouseRotation()
     {
         return m_rotationMouseY;
-    }
-    public Vector3 GetDirection()
-    {
-        if (m_launchingStage == 0)
-        {
-            return M_launchCamera.transform.forward;
-        }
-        return this.transform.forward;
     }
 }
     
