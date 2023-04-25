@@ -25215,6 +25215,7 @@ GameObject:
   - component: {fileID: 6581234407597628718}
   - component: {fileID: 9002095825205205875}
   - component: {fileID: 5020110509291053151}
+  - component: {fileID: 1869161216}
   m_Layer: 7
   m_Name: WalkingPlayer
   m_TagString: Player
@@ -25259,7 +25260,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   M_playerManager: {fileID: 4933560404183489198}
   M_Tutorial: {fileID: 0}
-  M_TuteWorld: {fileID: 0}
+  M_CurlPrompt: {fileID: 0}
+  M_AimPrompt: {fileID: 0}
+  M_ShrinkPrompt: {fileID: 0}
   M_BlobShadowDecal: {fileID: 1571760022}
   m_controller: {fileID: 0}
   playerVelocity: {x: 0, y: 0, z: 0}
@@ -25277,6 +25280,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 27ea4a33a6aee2c4294a76c017cc4ab3, type: 3}
   M_PainAudio: {fileID: 6581234407597628718}
   M_FreshBiscuit: {fileID: 3948445236427478093}
+  M_BananaPrompt: {fileID: 0}
   m_drownClip:
   - {fileID: 8300000, guid: dd655dd93ebe87449907ce531ae7a400, type: 3}
   - {fileID: 8300000, guid: 8a6809fceef49f447b2434684679c1dd, type: 3}
@@ -25399,11 +25403,11 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2163527014642896250}
-  m_Material: {fileID: 13400000, guid: 1e8525a5f369f164c9662820f3025163, type: 2}
+  m_Material: {fileID: 13400000, guid: 9fcca5a3cf50c1349b2e78642dc85b2f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.25
+  m_Radius: 1.29
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &707024123
 MonoBehaviour:
@@ -26217,6 +26221,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &1869161216
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2163527014642896250}
+  m_Material: {fileID: 13400000, guid: 1e8525a5f369f164c9662820f3025163, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.98
+  m_Height: 3.12
+  m_Direction: 1
+  m_Center: {x: 0.0000076293945, y: 0, z: 0}
 --- !u!1 &3040629242665443834
 GameObject:
   m_ObjectHideFlags: 0
@@ -42518,12 +42536,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   M_Tutorial: {fileID: 0}
-  M_TuteWorld: {fileID: 0}
   M_launchCamera: {fileID: 8431252127155698087}
   M_playerManager: {fileID: 4933560404183489198}
   M_Trail: {fileID: 1088615149652453840}
   M_Water: {fileID: 4257648964162599058}
   M_FreshBiscuit: {fileID: 3948445236427478093}
+  M_CurlPrompt: {fileID: 0}
+  M_AimPrompt: {fileID: 0}
   M_fillImage: {fileID: 497028206190739727}
   M_RenderScript: {fileID: 2130601687}
   M_TrailScript: {fileID: 6395079730380310333}
