@@ -34,6 +34,7 @@ public class CustomController : MonoBehaviour
     void Start()
     {
         m_rotationMouseY = 0.0f;
+        m_cameraRotationY = this.transform.forward.y;
         m_rotationX = 0.0f;
         m_playerMovement = gameObject.GetComponent<PrototypePlayerMovement>();
     }
@@ -114,9 +115,8 @@ public class CustomController : MonoBehaviour
     {
         // Mouse is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
-        m_rotationMouseY += Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivity;
-        Debug.Log(m_rotationMouseY);
-        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 5.0f, 40.0f);
+        m_rotationMouseY -= Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivity;
+        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 0.0f, 55.0f);
 
         // rotate the player (left-right)
         //M_walkCamera.transform.RotateAround(this.transform.position, this.transform.right, -m_rotationY  * m_mouseSensitivityY);
@@ -175,11 +175,10 @@ public class CustomController : MonoBehaviour
 
     public void SetRotation(Vector3 a_direction)
     {
-        Quaternion l_quaternion = Quaternion.LookRotation(a_direction);
-
-        m_rotationX = l_quaternion.eulerAngles.y;
-
-        this.transform.rotation = l_quaternion;
+        m_cameraRotationY = -a_direction.y;
+        M_walkCamera.transform.rotation = Quaternion.LookRotation(a_direction);
+        M_walkCamera.transform.position = this.transform.position + new Vector3(-M_walkCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (a_direction.y), -M_walkCamera.transform.forward.z * M_cameraOffset.x);
+        this.transform.rotation = Quaternion.LookRotation(a_direction);
     }
 
     void HandleCameraInput(Vector3 a_rotation)
@@ -188,8 +187,6 @@ public class CustomController : MonoBehaviour
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
         Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_rotation;
         Vector3 l_directionRotation = Quaternion.AngleAxis(-m_rotationMouseY + 24.0f, l_axis) * a_rotation;
-
-        //m_cameraRotationY = l_direction.y;
 
         m_cameraRotationY = Mathf.Lerp(m_cameraRotationY, l_direction.y, Time.fixedDeltaTime * 5.0f);
 
@@ -210,8 +207,8 @@ public class CustomController : MonoBehaviour
 
     public void SetMouseRotation(float a_rotation)
     {
-        m_rotationMouseY = (Mathf.Abs(a_rotation - 95) + 88) / 100.0f;
-        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 0.88f, 0.95f);
-        Debug.Log(a_rotation + " " + m_rotationMouseY);
+        a_rotation = a_rotation - 85.0f;
+        a_rotation = Mathf.Clamp(a_rotation, 0.0f, 55.0f);
+        m_rotationMouseY = Mathf.Abs(a_rotation - 55.0f);
     }
 }
