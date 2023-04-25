@@ -55,8 +55,6 @@ public partial class PlayerManagerScript : MonoBehaviour
     public AudioSource M_musicPlayer;
     bool m_justUnpaused;
 
-    public RandomSpritePicker m_randomSpritePicker;
-
     [SerializeField] AudioClip[] m_biscuitClip;
     [SerializeField] float m_invulnerabilityPeriodSeconds = 2.0f;
     float m_invulnerabilityTimerSeconds = 2.0f;
@@ -435,7 +433,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             Time.timeScale = 0;
             M_UIManager.enabled = true;
-            m_randomSpritePicker.PickRandomSprite();
             M_UIManager.Paused();
         }
 
