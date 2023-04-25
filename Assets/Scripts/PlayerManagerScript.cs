@@ -179,6 +179,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             M_Renderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_freshnessBiscuit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
+
+            M_2DRenderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
+            M_freshnessBiscuit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -194,8 +197,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("growing" + M_Growing);
-        print("shrinking" + M_Shrinking);
+        print("fluffed" + M_Fluffed);
+       
 
         M_FruitUI.text = M_FruitCollected.ToString();
         M_FruitUIFin.text = M_FruitCollected.ToString();
@@ -217,27 +220,21 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         if (M_Jellied)
         {
-            StartCoroutine(ChangePlayerColor(Color.magenta, 2.0f));
+            StartCoroutine(ChangePlayerColor(Color.magenta, 0.5f));
 
-            M_Renderer.material.color = Color.magenta;
-            M_2DRenderer.material.color = Color.magenta;
-            M_freshnessBiscuit.color = Color.magenta;
+           
             M_Fluffed = false;
             print("pink ball material");
         }
 
         if (!M_Jellied && !M_Fluffed)
         {
-            M_Renderer.material.color = Color.white;
-            M_2DRenderer.material.color = Color.white;
-            M_freshnessBiscuit.color = Color.white;
+            StartCoroutine(ChangePlayerColor(Color.white, 0.5f));
         }
         if (M_Fluffed)
         {
-            StartCoroutine(ChangePlayerColor(Color.cyan, 2.0f));
-            M_Renderer.material.color = Color.cyan;
-            M_2DRenderer.material.color = Color.cyan;
-            M_freshnessBiscuit.color = Color.cyan;
+            StartCoroutine(ChangePlayerColor(Color.cyan, 0.5f));
+          
         }
       
 
@@ -716,7 +713,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
         // M_2DRenderer.material.SetColor("StartColor", new Vector4(1, 1, 1, 1));
         M_freshnessBiscuit.color = Color.white;
-        StartCoroutine(ChangePlayerColor(Color.white, 2.0f));
+        StartCoroutine(ChangePlayerColor(Color.white, 0.5f));
         M_PlayerMovement.m_jumpHeight = 8;
         M_abilityState = AbilityState.normal;
         M_abilityState = 0;

@@ -76,6 +76,7 @@ public class PrototypePlayerMovement : MonoBehaviour
             if(a_hit.gameObject.CompareTag("Enemy") && m_playerManagerScript.M_sizeState != 2)
             {
                 Fluffing();
+                print("Fluffing being called by enemy");
             }
         }
 
@@ -108,25 +109,27 @@ public class PrototypePlayerMovement : MonoBehaviour
     private void Fluffing()
     {
         PlayerManagerScript.M_Fluffed = true;
-        m_playerSpeed = 1f;
-        m_renderer.material.color = Color.cyan;
-        M_FreshBiscuit.GetComponent<Image>().color = Color.cyan;
+        m_playerSpeed = 0.5f;
+      //  m_renderer.material.color = Color.cyan;
+      //  M_FreshBiscuit.GetComponent<Image>().color = Color.cyan;
         StartCoroutine(resetFluff());
+        print("fluffing is being called from somewhere");
     }
 
     public void Defluff()
     {
-        m_playerSpeed = 2;
-        m_renderer.material.color = Color.white;
-        M_FreshBiscuit.GetComponent<Image>().color = Color.white;
         PlayerManagerScript.M_Fluffed = false;
+        m_playerSpeed = 2;
+     //   m_renderer.material.color = Color.white;
+      //  M_FreshBiscuit.GetComponent<Image>().color = Color.white;
+       
     }
     IEnumerator resetFluff()
     {
         
         yield return new WaitForSeconds(10);
         Defluff();
-        yield return null;
+        
     }
 
     IEnumerator waitForPain()
@@ -260,7 +263,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
 
 
-
+    
       
           
           
@@ -335,10 +338,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
 
 
-        if (PlayerManagerScript.M_Fluffed)
-        {
-            Fluffing();
-        }
+      
         
             //change size gradually each frame
             Vector3 growthIncrement = new Vector3(1f, 1f, 1f);
@@ -457,11 +457,11 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         Vector3 l_movementDirection = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.LeftShift)) //sprint currently deactivated
+        if (Input.GetKey(KeyCode.LeftShift) && PlayerManagerScript.M_Fluffed == false) //sprint currently deactivated
         {
              m_playerSpeed = 2.5f; 
         }
-        else
+        else if(PlayerManagerScript.M_Fluffed == false)
         {
             m_playerSpeed = 2.0f;
         }
