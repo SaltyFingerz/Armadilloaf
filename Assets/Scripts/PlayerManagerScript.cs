@@ -235,7 +235,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Damage");
             if (M_musicPlayer.pitch > 0f)
             { 
-            M_musicPlayer.pitch -= 0.0001f;
+            M_musicPlayer.pitch -= 0.001f;
             }
         }
 
