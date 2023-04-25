@@ -15806,7 +15806,7 @@ AudioSource:
   m_GameObject: {fileID: 276954141}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: da64546eca2651f45a24ff1b5fae37e5, type: 2}
   m_audioClip: {fileID: 8300000, guid: 3f2b84a8a4722af43b817f1fd86b372d, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.166
@@ -44486,6 +44486,14 @@ PrefabInstance:
       propertyPath: M_FruitUIFin
       value: 
       objectReference: {fileID: 1506590441}
+    - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: M_audioMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: da64546eca2651f45a24ff1b5fae37e5, type: 2}
+    - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: M_musicPlayer
+      value: 
+      objectReference: {fileID: 276954142}
     - target: {fileID: 5205029753891021531, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_Name
       value: Player
@@ -101385,6 +101393,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 831386775}
     m_Modifications:
     - target: {fileID: 848327681, guid: f7197d9e076a0e3448ec46078d82f6f1, type: 3}
+      propertyPath: M_audioMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: da64546eca2651f45a24ff1b5fae37e5, type: 2}
+    - target: {fileID: 848327681, guid: f7197d9e076a0e3448ec46078d82f6f1, type: 3}
       propertyPath: M_pausePanel
       value: 
       objectReference: {fileID: 55699192}
@@ -101448,6 +101460,10 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1514180047284566629, guid: f7197d9e076a0e3448ec46078d82f6f1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5c1f2f753ad9f234193990ae7968f52a, type: 3}
     - target: {fileID: 2212908335300114503, guid: f7197d9e076a0e3448ec46078d82f6f1, type: 3}
       propertyPath: m_text
       value: Try Again

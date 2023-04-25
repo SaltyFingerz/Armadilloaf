@@ -11,7 +11,15 @@ public class FlythroughCam : MonoBehaviour
     void Start()
     {
         M_WalkCam.SetActive(false);
-  M_HUD.SetActive(false);
+        M_HUD.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SwitchCams();
+        }
     }
     public void SwitchCams()
     {
