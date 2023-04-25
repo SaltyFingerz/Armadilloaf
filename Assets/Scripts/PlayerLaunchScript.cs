@@ -375,6 +375,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         Quaternion l_rotationFinal = Quaternion.LookRotation(l_directionRotation);
 
+        Debug.Log(m_cameraRotationY);
         //camera transform change
         M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotationFinal, Time.fixedDeltaTime * 10.0f);
         M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
