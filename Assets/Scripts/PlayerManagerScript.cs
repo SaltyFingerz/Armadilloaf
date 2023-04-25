@@ -482,7 +482,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         // set rotation
         Vector3 l_rotation = M_walkingPlayer.transform.localRotation.eulerAngles;
         l_rotation.Set(0f, M_launchingPlayer.transform.localRotation.eulerAngles.y, 0f);
-        M_walkingPlayer.GetComponent<CustomController>().SetRotation(-M_launchingPlayer.transform.forward);
+        M_walkingPlayer.GetComponent<CustomController>().SetRotation(-M_launchCamera.transform.forward);
+        M_walkingPlayer.GetComponent<CustomController>().SetMouseRotation(M_launchingPlayer.GetComponent<PlayerLaunchScript>().GetMouseRotation());
 
         // retaining velocity after launch, different when mid-air and on ground
         if (M_launchingPlayer.GetComponent<PlayerLaunchScript>().isGrounded())
