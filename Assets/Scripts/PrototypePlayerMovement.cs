@@ -383,18 +383,21 @@ public class PrototypePlayerMovement : MonoBehaviour
             }
 
        
-            else if (transform.localScale.x < PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Shrinking)
+            else if (transform.localScale.x < PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Shrinking &&!PlayerManagerScript.M_Growing)
             {
                 transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
                 M_BlobShadowDecal.size = M_TargetBlobSize;
                 PlayerManagerScript.M_Shrinking = false;
-            }
+            } 
 
-            else if (!PlayerManagerScript.M_Growing && !PlayerManagerScript.M_Shrinking)
+           else if (!PlayerManagerScript.M_Growing && !PlayerManagerScript.M_Shrinking)
         {
-            transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
-            M_BlobShadowDecal.size = M_TargetBlobSize;
+            //transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
+            // M_BlobShadowDecal.size = M_TargetBlobSize;
+            PlayerManagerScript.M_Growing = true;
         }
+     
+          
      
 
       

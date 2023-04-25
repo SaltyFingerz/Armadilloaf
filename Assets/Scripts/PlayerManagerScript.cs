@@ -178,6 +178,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         while (elapsedTime < duration)
         {
             M_Renderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
+            M_freshnessBiscuit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -185,9 +186,17 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_Renderer.material.color = newColor;
     }
 
+
+
+
+
+
     // Update is called once per frame
     void Update()
     {
+        print("growing" + M_Growing);
+        print("shrinking" + M_Shrinking);
+
         M_FruitUI.text = M_FruitCollected.ToString();
         M_FruitUIFin.text = M_FruitCollected.ToString();
         m_invulnerabilityTimerSeconds += Time.deltaTime;
@@ -594,8 +603,9 @@ public partial class PlayerManagerScript : MonoBehaviour
     {
         M_BallAnimator.SetBool("Grow", true);
         M_BallAnimator.SetBool("Small", false);
-        M_Growing = true;
         M_Shrinking = false;
+        M_Growing = true;
+       
         
         M_sizeState++;
         if (M_sizeState > 2)
@@ -608,7 +618,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
         //StartCoroutine(DelayedCameraOffset());
         M_GrowAudio.Play();
-       
+        
+
     }
 
 
@@ -625,7 +636,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     {
         M_BallAnimator.SetBool("Grow", false);
         M_Shrinking = true;
-        M_Growing = false;
+        
        
         M_sizeState--;
         if (M_sizeState < 0)
@@ -641,8 +652,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
         ResetAbilities();
         M_ShrinkAudio.Play();
-        
-        
+        M_Growing = false;
+
+
     }
 
     public Quaternion M_JellyDecalRotation;
@@ -704,6 +716,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
         // M_2DRenderer.material.SetColor("StartColor", new Vector4(1, 1, 1, 1));
         M_freshnessBiscuit.color = Color.white;
+        StartCoroutine(ChangePlayerColor(Color.white, 2.0f));
         M_PlayerMovement.m_jumpHeight = 8;
         M_abilityState = AbilityState.normal;
         M_abilityState = 0;
