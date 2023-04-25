@@ -9,10 +9,12 @@ public class StoveHazardScript : MonoBehaviour
     bool m_OnOff;
     bool m_canStart = false;
     public float M_startTime;
+    private AudioSource m_fireSound;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(Delay(M_startTime));
+        m_fireSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,6 +33,7 @@ public class StoveHazardScript : MonoBehaviour
         for (int i = 0; i<M_Fire.Count; i++)
         {
             M_Fire[i].Play();
+            m_fireSound.Play();
         }
 
         yield return new WaitForSeconds(waitTime);
@@ -38,6 +41,7 @@ public class StoveHazardScript : MonoBehaviour
         for (int i = 0; i < M_Fire.Count; i++)
         {
             M_Fire[i].Stop();
+            m_fireSound.Stop();
         }
         m_OnOff = false;
     }

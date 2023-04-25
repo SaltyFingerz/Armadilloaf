@@ -14,12 +14,17 @@ public class PlayerLaunchScript : MonoBehaviour
     private GameObject M_arrow;
     private GameObject M_arrowMaximum;
     public GameObject M_Tutorial;
-    public GameObject M_TuteWorld;
+
     public GameObject M_launchCamera;
     public GameObject M_playerManager;
     public GameObject M_Trail;
     public GameObject M_Water;
     public GameObject M_FreshBiscuit;
+
+    public GameObject M_CurlPrompt;
+    public GameObject M_AimPrompt;
+
+
     public UnityEngine.UI.Image M_fillImage;
     public RenderingScript M_RenderScript;
     public LaunchTrailScript M_TrailScript;
@@ -441,8 +446,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
-            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
-            M_TuteWorld.transform.GetChild(4).gameObject.SetActive(true);
+            M_CurlPrompt.SetActive(false);
+            M_AimPrompt.SetActive(true);
 
         }
 
