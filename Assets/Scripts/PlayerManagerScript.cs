@@ -52,6 +52,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
+    public AudioSource M_musicPlayer;
     bool m_justUnpaused;
 
     [SerializeField] AudioClip[] m_biscuitClip;
@@ -232,12 +233,24 @@ public partial class PlayerManagerScript : MonoBehaviour
         if (M_takingDamage)
         {
             M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Damage");
+            if (M_musicPlayer.pitch > 0f)
+            { 
+            M_musicPlayer.pitch -= 0.0001f;
+            }
         }
 
         else
         {
             M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Safe");
             M_freshnessBiscuit.enabled = true;
+            if (M_musicPlayer.pitch < 1.0f && !M_takingDamage)
+            { 
+            M_musicPlayer.pitch += 0.01f;
+            }
+            else if (M_musicPlayer.pitch > 1.0f)
+            {
+                M_musicPlayer.pitch = 1.0f;
+            }
         }
 
         if (M_takingDamage && m_invulnerabilityTimerSeconds > m_invulnerabilityPeriodSeconds)

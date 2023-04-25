@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class PauseManagerScript : UIManagerScript
 {
@@ -9,6 +10,10 @@ public class PauseManagerScript : UIManagerScript
     public Image M_pausePanel;
     public GameObject M_playerManager;
     public GameObject M_buttonsAndText;
+    public AudioMixer M_audioMixer;
+
+    const string MIXER_MASTER = "M_musicMuffle";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +28,8 @@ public class PauseManagerScript : UIManagerScript
             return;
         }
 
+        M_audioMixer.SetFloat(MIXER_MASTER, 200.0f);
+
         if (Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
             Resume();
@@ -34,6 +41,7 @@ public class PauseManagerScript : UIManagerScript
         M_buttonsAndText.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         StartCoroutine(FadeAway(M_pausePanel));
+        M_audioMixer.SetFloat(MIXER_MASTER, 22000.0f);
         M_playerManager.GetComponent<PlayerManagerScript>().Resume();
     }
 
@@ -42,6 +50,7 @@ public class PauseManagerScript : UIManagerScript
         M_canvas.enabled = true;
         M_buttonsAndText.SetActive(true);
         StartCoroutine(FadeIn(M_pausePanel));
+        M_audioMixer.SetFloat(MIXER_MASTER, 200.0f);
         Cursor.lockState = CursorLockMode.None;
     }
 
