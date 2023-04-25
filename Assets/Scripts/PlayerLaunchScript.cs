@@ -369,8 +369,6 @@ public class PlayerLaunchScript : MonoBehaviour
         Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_rotation;
         Vector3 l_directionRotation = Quaternion.AngleAxis(-m_rotationMouseY - 24.0f, l_axis) * a_rotation;
 
-        //m_cameraRotationY = l_direction.y;
-
         m_cameraRotationY = Mathf.Lerp(m_cameraRotationY, l_direction.y, Time.fixedDeltaTime * 5.0f);
 
         l_direction.Normalize();
@@ -691,17 +689,16 @@ public class PlayerLaunchScript : MonoBehaviour
     {
        
         m_rigidbody.isKinematic = true;
-        m_cameraRotationY = a_direction.y;
-        M_launchCamera.transform.rotation = Quaternion.LookRotation(-a_direction);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (a_direction.y), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
-        m_direction = a_direction;
-        this.transform.rotation = Quaternion.LookRotation(-a_direction);
+        M_launchCamera.transform.rotation = Quaternion.LookRotation(a_direction);
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * m_rotationMouseY, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        m_direction = -a_direction;
+        this.transform.rotation = Quaternion.LookRotation(a_direction);
         m_rigidbody.isKinematic = false;
-        Debug.Log(m_rotationMouseY);
     }
     public void SetMouseRotation(float a_rotation)
     {
-        m_rotationMouseY = a_rotation * 100.0f;
+        a_rotation += 85.0f;
+        m_rotationMouseY = Mathf.Abs(a_rotation - 140.0f) + 85;
     }
 
     public float GetMouseRotation()

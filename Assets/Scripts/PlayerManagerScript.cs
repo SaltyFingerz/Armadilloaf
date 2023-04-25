@@ -482,8 +482,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         // set rotation
         Vector3 l_rotation = M_walkingPlayer.transform.localRotation.eulerAngles;
         l_rotation.Set(0f, M_launchingPlayer.transform.localRotation.eulerAngles.y, 0f);
-        M_walkingPlayer.GetComponent<CustomController>().SetRotation(-M_launchCamera.transform.forward);
         M_walkingPlayer.GetComponent<CustomController>().SetMouseRotation(M_launchingPlayer.GetComponent<PlayerLaunchScript>().GetMouseRotation());
+        M_walkingPlayer.GetComponent<CustomController>().SetRotation(-M_launchCamera.transform.forward);
 
         // retaining velocity after launch, different when mid-air and on ground
         if (M_launchingPlayer.GetComponent<PlayerLaunchScript>().isGrounded())
@@ -541,8 +541,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_freeFlyingPlayer.SetActive(false);
         m_state = ArmadilloState.launching;
         M_launchingPlayer.SetActive(true);
-        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(M_walkingPlayer.transform.forward);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetMouseRotation(M_walkingPlayer.GetComponent<CustomController>().GetMouseRotation());
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(M_walkingPlayer.transform.forward);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
        
@@ -589,7 +589,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_BallAnimator.SetBool("Grow", true);
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
-         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
         //StartCoroutine(DelayedCameraOffset());
         M_GrowAudio.Play();
        
