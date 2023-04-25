@@ -464,7 +464,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
 
         // movement with AWSD keys
-        l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
+      //  l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
         l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
     
     }
