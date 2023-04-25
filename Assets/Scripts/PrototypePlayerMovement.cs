@@ -10,7 +10,9 @@ public class PrototypePlayerMovement : MonoBehaviour
 {
     public GameObject M_playerManager;
     public GameObject M_Tutorial;
-    public GameObject M_TuteWorld;
+    public GameObject M_CurlPrompt;
+    public GameObject M_AimPrompt;
+    public GameObject M_ShrinkPrompt;
     public DecalProjector M_BlobShadowDecal;
     public CustomController m_controller;
     public Vector3 playerVelocity;
@@ -30,7 +32,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public GameObject M_FreshBiscuit;
     private float alphaYellow;
     private UnityEngine.UI.Image m_Yellow;
-
+    public GameObject M_BananaPrompt;
     [SerializeField] AudioClip[] m_drownClip;
     public AudioSource M_DrawnAudio;
 
@@ -171,8 +173,8 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
-            M_TuteWorld.transform.GetChild(4).gameObject.SetActive(false);
-            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(true);
+            M_AimPrompt.SetActive(false);
+            M_CurlPrompt.SetActive(true);
             M_InLaunchZone = true;
             
         }
@@ -195,14 +197,14 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
-            M_TuteWorld.transform.GetChild(4).gameObject.SetActive(false);
-            M_TuteWorld.transform.GetChild(1).gameObject.SetActive(true);
+            M_AimPrompt.SetActive(false);
+            M_ShrinkPrompt.SetActive(true);
 
         }
 
         if (a_hit.gameObject.name.Contains("CloseBananaZone"))
         {
-            M_TuteWorld.transform.GetChild(3).gameObject.SetActive(false);
+            M_BananaPrompt.SetActive(false);
 
         }
 
@@ -251,7 +253,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (other.gameObject.name.Contains("FirstLaunchZone"))
         {
-            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
+            M_CurlPrompt.SetActive(false);
            
             M_InLaunchZone = false;
 
@@ -398,7 +400,7 @@ public class PrototypePlayerMovement : MonoBehaviour
       
 
         M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
-        M_TuteWorld.transform.GetChild(4).gameObject.SetActive(false);
+        M_AimPrompt.SetActive(false);
 
 
         if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying ||!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
@@ -408,7 +410,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (M_Tutorial.transform.GetChild(4).gameObject.activeSelf)
         {
-            M_TuteWorld.transform.GetChild(0).gameObject.SetActive(false);
+            M_CurlPrompt.SetActive(false);
         }
 
 
