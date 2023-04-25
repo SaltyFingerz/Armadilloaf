@@ -25407,7 +25407,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.29
+  m_Radius: 1.13
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &707024123
 MonoBehaviour:
@@ -25425,6 +25425,7 @@ MonoBehaviour:
   isGrounded: 0
   M_walkCamera: {fileID: 3230808216360575777}
   M_playerManager: {fileID: 4933560404183489198}
+  m_playerManager: {fileID: 4933560404183489192}
   M_RenderScript: {fileID: 2130601687}
   M_whatIsGround:
     serializedVersion: 2
@@ -26232,9 +26233,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.98
-  m_Height: 3.12
+  m_Height: 2.75
   m_Direction: 1
-  m_Center: {x: 0.0000076293945, y: 0, z: 0}
+  m_Center: {x: 0.0000076293945, y: 0.02, z: 0}
 --- !u!1 &3040629242665443834
 GameObject:
   m_ObjectHideFlags: 0

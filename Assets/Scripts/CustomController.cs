@@ -13,7 +13,7 @@ public class CustomController : MonoBehaviour
     public GameObject M_playerManager;
     private float m_gravityValue = -9.81f;
     private Vector2 m_moveInput;
-
+    public PlayerManagerScript m_playerManager;
     public RenderingScript M_RenderScript;
 
     public LayerMask M_whatIsGround;
@@ -34,6 +34,7 @@ public class CustomController : MonoBehaviour
         m_rotationY = 0.0f;
         m_rotationX = 0.0f;
         m_playerMovement = gameObject.GetComponent<PrototypePlayerMovement>();
+       
     }
 
     // Update is called once per frame
@@ -62,17 +63,35 @@ public class CustomController : MonoBehaviour
         MovePlayerRelativeToCamera();
 
         RaycastHit hit;
-        if(Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.7f))
+        if (m_playerManager.M_sizeState < 2)
         {
-            isGrounded = true;
-            if(rb.velocity.magnitude < m_minimumSpeed)
+            if (Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.7f))
             {
-                m_justLaunched = false;
+                isGrounded = true;
+                if (rb.velocity.magnitude < m_minimumSpeed)
+                {
+                    m_justLaunched = false;
+                }
+            }
+            else
+            {
+                isGrounded = false;
             }
         }
-        else
+        else if (m_playerManager.M_sizeState == 2)
         {
-            isGrounded = false;
+            if (Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 2f))
+            {
+                isGrounded = true;
+                if (rb.velocity.magnitude < m_minimumSpeed)
+                {
+                    m_justLaunched = false;
+                }
+            }
+            else
+            {
+                isGrounded = false;
+            }
         }
     }
 
