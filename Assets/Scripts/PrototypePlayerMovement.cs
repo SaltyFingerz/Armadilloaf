@@ -13,6 +13,13 @@ public class PrototypePlayerMovement : MonoBehaviour
     public GameObject M_CurlPrompt;
     public GameObject M_AimPrompt;
     public GameObject M_ShrinkPrompt;
+    public GameObject M_BoostTip;
+    public GameObject M_TiltTip;
+    public GameObject M_FreeCamEntry;
+    public GameObject M_LaunchPrompt;
+    
+    public GameObject M_UncurlPrompt;
+    public GameObject M_JumpPrompt;
     public DecalProjector M_BlobShadowDecal;
     public CustomController m_controller;
     public Vector3 playerVelocity;
@@ -47,6 +54,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         m_controller = gameObject.GetComponent<CustomController>();
         m_renderer = gameObject.GetComponent<Renderer>();
+        print(Screen.currentResolution);
 
         m_Yellow = M_Water.GetComponent<UnityEngine.UI.Image>();
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
@@ -176,6 +184,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
+            M_LaunchPrompt.SetActive(false); 
             M_AimPrompt.SetActive(false);
             M_CurlPrompt.SetActive(true);
             M_InLaunchZone = true;
@@ -185,16 +194,8 @@ public class PrototypePlayerMovement : MonoBehaviour
        //the following "Zone""triggers regulate the tutorial prompts
         if (a_hit.gameObject.name.Contains("TipZone"))
         {
-            M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(1).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(2).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(3).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(7).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(8).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(9).gameObject.SetActive(true);
+
+            M_BoostTip.SetActive(true);
 
         }
 
@@ -211,24 +212,31 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         }
 
-        if (a_hit.gameObject.name.Contains("FreeCamZone") && !M_Tutorial.transform.GetChild(5).gameObject.activeSelf && !M_Tutorial.transform.GetChild(4).gameObject.activeSelf)
+        if (a_hit.gameObject.name.Contains("FreeCamZone"))
         {
-            M_Tutorial.transform.GetChild(6).gameObject.SetActive(true);
+            M_FreeCamEntry.SetActive(true);
+            M_UncurlPrompt.SetActive(false);
+            M_CurlPrompt.SetActive(false);
+            M_AimPrompt.SetActive(false);
+            M_ShrinkPrompt.SetActive(false);
+            M_TiltTip.SetActive(false);
+            M_BoostTip.SetActive(false);
+          
+            M_UncurlPrompt.SetActive(false);
+            M_JumpPrompt.SetActive(false);
 
         }
 
         if (a_hit.gameObject.name.Contains("JumpPromptZone"))
         {
-            M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(1).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(2).gameObject.SetActive(true);
-            M_Tutorial.transform.GetChild(3).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(7).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(8).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(9).gameObject.SetActive(false);
+            M_CurlPrompt.SetActive(false);
+     M_AimPrompt.SetActive(false);
+     M_ShrinkPrompt.SetActive(false);
+    M_TiltTip.SetActive(false);
+            M_BoostTip.SetActive(false);
+     M_FreeCamEntry.SetActive(false);
+     M_UncurlPrompt.SetActive(false);
+    M_JumpPrompt.SetActive(true);
 
         }
 
@@ -336,7 +344,7 @@ public class PrototypePlayerMovement : MonoBehaviour
             case (int)PlayerManagerScript.SizeState.normal:
                 m_pushForce = 0.0f;
                 M_TargetBlobSize = new Vector3(3, 3, 50);
-                m_jumpHeight = 8;
+                m_jumpHeight = 10;
                 break;
 
             case (int)PlayerManagerScript.SizeState.small:
@@ -415,8 +423,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
       
 
-        M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
-        M_AimPrompt.SetActive(false);
+       
 
 
         if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying ||!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
@@ -424,7 +431,7 @@ public class PrototypePlayerMovement : MonoBehaviour
             return;
         }
 
-        if (M_Tutorial.transform.GetChild(4).gameObject.activeSelf)
+        if (M_AimPrompt.activeSelf)
         {
             M_CurlPrompt.SetActive(false);
         }
@@ -513,14 +520,14 @@ public class PrototypePlayerMovement : MonoBehaviour
             case (int)PlayerManagerScript.SizeState.big:
                 m_pushForce = 10.0f;
                M_TargetBlobSize = new Vector3(10, 10, 50);
-                m_jumpHeight = 55;
-                print("jumpheightshouldbesettohigh" + m_jumpHeight) ;
+                m_jumpHeight = 15;
+                
                 break;
 
             case (int)PlayerManagerScript.SizeState.normal:
                 m_pushForce = 0.0f;
                 M_TargetBlobSize = new Vector3(3, 3, 50);
-                m_jumpHeight = 8;
+                m_jumpHeight = 10;
                 break;
 
             case (int)PlayerManagerScript.SizeState.small:

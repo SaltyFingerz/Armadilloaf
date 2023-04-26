@@ -14,13 +14,16 @@ public class PlayerLaunchScript : MonoBehaviour
     private GameObject M_arrow;
     private GameObject M_arrowMaximum;
     public GameObject M_Tutorial;
-
+    public GameObject M_BoostTip;
+    public GameObject M_TiltTip;
+    public GameObject M_UncurlPrompt;
     public GameObject M_launchCamera;
     public GameObject M_playerManager;
     public GameObject M_Trail;
     public GameObject M_Water;
     public GameObject M_FreshBiscuit;
-
+    public GameObject M_FreeCamEntry;
+    public GameObject M_LaunchPrompt;
     public GameObject M_CurlPrompt;
     public GameObject M_AimPrompt;
 
@@ -461,6 +464,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
+            M_LaunchPrompt.SetActive(false);
             M_CurlPrompt.SetActive(false);
             M_AimPrompt.SetActive(true);
 
@@ -468,16 +472,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("TipZone"))
         {
-            M_Tutorial.transform.GetChild(0).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(1).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(2).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(3).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(4).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(5).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(6).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(7).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(8).gameObject.SetActive(false);
-            M_Tutorial.transform.GetChild(9).gameObject.SetActive(true);
+           M_BoostTip.SetActive(true);
+
 
         }
 
@@ -493,6 +489,21 @@ public class PlayerLaunchScript : MonoBehaviour
             M_FinishUI.SetActive(true);
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             UnityEngine.Cursor.visible = true;
+        }
+
+        if (a_hit.gameObject.name.Contains("FreeCamZone"))
+        {
+            M_FreeCamEntry.SetActive(true);
+            M_UncurlPrompt.SetActive(false);
+            M_CurlPrompt.SetActive(false);
+            M_AimPrompt.SetActive(false);
+          
+            M_TiltTip.SetActive(false);
+            M_BoostTip.SetActive(false);
+
+            M_UncurlPrompt.SetActive(false);
+           
+
         }
 
     }

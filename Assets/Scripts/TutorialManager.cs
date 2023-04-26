@@ -6,15 +6,21 @@ public class TutorialManager : MonoBehaviour
 {
     public PrototypePlayerMovement M_PPlayerMovment;
 
-    public GameObject M_introPrompt;
+
     public GameObject M_movePrompt;
     public GameObject M_jumpPrompt;
+    public GameObject M_MyChildCanWalk;
     //public GameObject M_launchPrompt;
     public GameObject M_launchAimPrompt;
+    public GameObject M_launchShoot;
     public GameObject M_walkPrompt;
-    public GameObject M_freeCamPrompt;
-    public GameObject M_freeControl;
-    public GameObject M_closePrompt;
+    public GameObject M_FreeCamEntryPrompt;
+    public GameObject M_FreeCamMousePrompt;
+    public GameObject M_FreeCamHeightPrompt;
+    public GameObject M_FreeCamWASDPrompt;
+    public GameObject M_FreeCamExitPrompt;
+
+ public GameObject M_BoostPrompt;
     public GameObject M_TiltPrompt;
     public GameObject M_shrinkPrompt;
     public GameObject M_curlWorldPrompt;
@@ -42,7 +48,7 @@ public class TutorialManager : MonoBehaviour
 
     public void CloseIntro()
     {
-        M_introPrompt.SetActive(false);
+        
         print("yas");
         Cursor.lockState = CursorLockMode.Locked;
         M_movePrompt.SetActive(true);
@@ -51,10 +57,7 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(M_introPrompt.activeSelf)
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
+       
       
        
         m_timerSeconds += Time.deltaTime;
@@ -70,7 +73,7 @@ public class TutorialManager : MonoBehaviour
 
         if(PlayerPrefs.GetInt("tute") == 1)
         {
-            M_introPrompt.SetActive(false);
+           
             M_movePrompt.SetActive(true);
         }
 
@@ -78,12 +81,28 @@ public class TutorialManager : MonoBehaviour
         if((m_Wpressed || m_Apressed || m_Spressed || m_Dpressed) && M_movePrompt.activeSelf)
         {
             M_movePrompt.SetActive(false);
-            M_BananaPrompt.SetActive(true);
+            M_MyChildCanWalk.SetActive(true);
             print("hohoho");
            // M_jumpPrompt.SetActive(true);
      
 
         }
+
+        if (M_MyChildCanWalk.activeSelf)
+        {
+            StartCoroutine(NextPrompt(M_BananaPrompt, M_MyChildCanWalk));
+        }
+
+        IEnumerator NextPrompt(GameObject gameObjOpen, GameObject gameObjClose)
+        {
+            yield return new WaitForSeconds(2.5f);
+
+            gameObjClose.SetActive(false);
+            gameObjOpen.SetActive(true);
+            
+        }
+
+
 
         if(!M_BallPlayer.activeSelf && Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
@@ -91,12 +110,7 @@ public class TutorialManager : MonoBehaviour
 
         }
 
-        if(m_timerSeconds > 10 && M_BallPlayer.activeSelf && !M_freeControl.activeSelf && !M_closePrompt.activeSelf &&!m_walkPromptShown && !M_TiltPrompt.activeSelf)
-        {
-            M_walkPrompt.SetActive(true);
-            m_walkPromptShown = true;
-          
-        }
+        
 
         if (Input.GetKey(KeyCode.Space) && M_jumpPrompt.activeSelf)
         {
@@ -104,11 +118,13 @@ public class TutorialManager : MonoBehaviour
           //  M_launchPrompt.SetActive(true);
         }
 
-        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && M_PPlayerMovment.M_InLaunchZone) // && M_launchPrompt.activeSelf)
+        if ((Input.GetMouseButtonDown(1)) && M_PPlayerMovment.M_InLaunchZone) // && M_launchPrompt.activeSelf)
         {
            
          //   M_launchPrompt.SetActive(false);
+         M_curlWorldPrompt.SetActive(false);
             M_launchAimPrompt.SetActive(true);
+            StartCoroutine(NextPrompt(M_launchShoot, M_launchAimPrompt));
         }
 
         if ((Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)) && M_launchAimPrompt.activeSelf)
@@ -129,7 +145,7 @@ public class TutorialManager : MonoBehaviour
            */
      //   }
 
-        if((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
+        if((Input.GetMouseButtonDown(1) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
         {
             M_walkPrompt.SetActive(false);
            // StartCoroutine(ShowFreeCamPrompt());
@@ -146,19 +162,30 @@ public class TutorialManager : MonoBehaviour
       //  }
      
 
-       if(Input.GetKeyDown(KeyCode.C) && M_freeCamPrompt.activeSelf)
+       if(Input.GetKeyDown(KeyCode.C) && M_FreeCamEntryPrompt.activeSelf)
         {
             m_timerSeconds = 0;
-            M_freeControl.SetActive(true);
+            M_FreeCamMousePrompt.SetActive(true);
             if (M_FreeMovePlayer.activeSelf)
             {
                 M_goalArrow.SetActive(true);
             }
             
-            M_freeCamPrompt.SetActive(false);
+            M_FreeCamEntryPrompt.SetActive(false);
 
-           
+            StartCoroutine(NextPrompt(M_FreeCamWASDPrompt, M_FreeCamMousePrompt));
         }
+
+       if(M_FreeCamWASDPrompt.activeSelf && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) )
+       {
+            StartCoroutine(NextPrompt(M_FreeCamHeightPrompt, M_FreeCamWASDPrompt));
+       }
+
+       if(M_FreeCamHeightPrompt.activeSelf && (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E)))
+            {
+            StartCoroutine(NextPrompt(M_FreeCamExitPrompt, M_FreeCamHeightPrompt));
+        }
+
         if (!M_FreeMovePlayer.activeSelf)
         {
             M_goalArrow.SetActive(false);
@@ -167,26 +194,11 @@ public class TutorialManager : MonoBehaviour
         {
             M_goalArrow.SetActive(true);
         }
-        if(M_freeControl.activeSelf)
-        {
-            StartCoroutine(freeControlPromptTimer());
-            if (Input.GetKey(KeyCode.Q))
-                m_Qpressed = true;
-            if (Input.GetKey(KeyCode.E))
-                m_Epressed = true;
-        }
 
 
-        IEnumerator freeControlPromptTimer()
-        {
-            yield return new WaitForSeconds(5f);
-            if (M_freeControl.activeSelf)
-            {
-                M_closePrompt.SetActive(true);
-                M_freeControl.SetActive(false);
-            }
-            yield return null;
-        }
+
+
+       
 
       /*  if ((m_Qpressed || m_Epressed) && M_freeControl.activeSelf)
         {
@@ -196,24 +208,37 @@ public class TutorialManager : MonoBehaviour
       */
 
 
-        if (Input.GetKeyDown(KeyCode.C) && M_closePrompt && m_timerSeconds > 1 )
+        if (Input.GetKeyDown(KeyCode.C) && M_FreeCamExitPrompt.activeSelf)
         {
-            M_closePrompt.SetActive(false);
+            M_FreeCamExitPrompt.SetActive(false);
         }
 
 
-        if(M_TiltPrompt.activeSelf)
+        if(M_BoostPrompt.activeSelf)
+        {
+            if(Input.GetKeyDown(KeyCode.W))
+            {
+                StartCoroutine(NextPrompt(M_TiltPrompt, M_BoostPrompt));
+            }
+
+        }
+
+        if(M_TiltPrompt.activeSelf || M_BoostPrompt.activeSelf)
         {
             if(!M_BallPlayer.activeSelf)
             {
                 M_TiltPrompt.SetActive(false);
+                M_BoostPrompt.SetActive(false);
             }
-            StartCoroutine(DeactivateTiltPrompt());
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D) && M_TiltPrompt.activeSelf)
+            {
+                StartCoroutine(DeactivateTiltPrompt());
+            }
         }
 
         IEnumerator DeactivateTiltPrompt()
         {
-            yield return new WaitForSeconds(8);
+            yield return new WaitForSeconds(2);
             M_TiltPrompt.SetActive(false);
             if(M_BallPlayer.activeSelf)
             {
