@@ -287,6 +287,12 @@ public class PlayerLaunchScript : MonoBehaviour
         Animator anim = gameObject.GetComponent<Animator>();
         anim.SetBool("Grow", false);
     }
+
+    public void StopShrinkingAnimation() //this is an animation event called at the end of the growing animation, to play the static idle animation instead 
+    {
+        Animator anim = gameObject.GetComponent<Animator>();
+        anim.SetBool("Shrink", false);
+    }
     public void Reset()
     {
         m_rigidbody.freezeRotation = false;

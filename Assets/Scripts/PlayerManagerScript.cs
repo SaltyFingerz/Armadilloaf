@@ -218,7 +218,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         if (M_Jellied)
         {
-            StartCoroutine(ChangePlayerColor(Color.magenta, 0.5f));
+            StartCoroutine(ChangePlayerColor(Color.magenta, 0.2f));
 
            
             M_Fluffed = false;
@@ -227,11 +227,11 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         if (!M_Jellied && !M_Fluffed)
         {
-            StartCoroutine(ChangePlayerColor(Color.white, 0.5f));
+            StartCoroutine(ChangePlayerColor(Color.white, 0.2f));
         }
         if (M_Fluffed)
         {
-            StartCoroutine(ChangePlayerColor(Color.cyan, 0.5f));
+            StartCoroutine(ChangePlayerColor(Color.cyan, 0.2f));
           
         }
       
@@ -535,6 +535,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     {
         M_walkingPlayer.GetComponent<Animator>().SetTrigger("Curl");
         M_BallAnimator.SetBool("Grow", false);
+        M_BallAnimator.SetBool("Shrink", false);
     }
     public void StartLaunching()
     {
@@ -609,6 +610,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void Grow()
     {
         M_BallAnimator.SetBool("Grow", true);
+        M_BallAnimator.SetBool("Shrink", false);
         M_BallAnimator.SetBool("Small", false);
         M_Shrinking = false;
         M_Growing = true;
@@ -642,6 +644,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void Shrink()
     {
         M_BallAnimator.SetBool("Grow", false);
+        M_BallAnimator.SetBool("Shrink", true);
         M_Shrinking = true;
         
        
@@ -723,7 +726,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
         // M_2DRenderer.material.SetColor("StartColor", new Vector4(1, 1, 1, 1));
         M_freshnessBiscuit.color = Color.white;
-        StartCoroutine(ChangePlayerColor(Color.white, 0.5f));
+        StartCoroutine(ChangePlayerColor(Color.white, 0.2f));
         M_PlayerMovement.m_jumpHeight = 8;
         M_abilityState = AbilityState.normal;
         M_abilityState = 0;
