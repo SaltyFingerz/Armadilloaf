@@ -19,6 +19,7 @@ public class CheckpointScript : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         SetCheckpoint();
+        m_player.Regenerate();
     }
 
     public void SetCheckpoint()
