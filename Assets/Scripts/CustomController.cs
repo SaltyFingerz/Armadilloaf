@@ -194,11 +194,14 @@ public class CustomController : MonoBehaviour
 
     public void SetRotation(Vector3 a_direction)
     {
-        m_cameraRotationY = -a_direction.y;
+        Vector3 l_axis = Vector3.Cross(a_direction, Vector3.up);
+        if (l_axis == Vector3.zero) l_axis = Vector3.right;
+        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_direction;
+        m_cameraRotationY = l_direction.y;
+
         this.transform.rotation = Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up);
-        M_walkCamera.transform.position = this.transform.position + new Vector3(-M_walkCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (a_direction.y), -M_walkCamera.transform.forward.z * M_cameraOffset.x);
+        M_walkCamera.transform.position = this.transform.position + new Vector3(-M_walkCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY * 1.6f), -M_walkCamera.transform.forward.z * M_cameraOffset.x);
         this.transform.rotation = Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up);
-        Debug.Break();
     }
 
     void HandleCameraInput(Vector3 a_rotation)
