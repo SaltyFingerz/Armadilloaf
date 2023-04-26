@@ -32,7 +32,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public Canvas M_canvas;
     public GameObject[] M_BigCans;
     public GameObject[] M_Cereals;
-    float m_rotationMouseY = 0.0f;
+    float m_rotationMouseY = 0.0f, m_rotationMouseX = 0.0f;
     public float m_mouseSensitivityX;
     public float m_mouseSensitivityY;
     bool m_collisionEnter = false;
@@ -350,6 +350,7 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         // Mouse is moved, calculate camera rotation from the mouse position difference between frames
         float l_mouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
+        m_rotationMouseX += l_mouseX;
         m_rotationMouseY += Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
         m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 85.0f, 170.0f);
 
@@ -702,9 +703,9 @@ public class PlayerLaunchScript : MonoBehaviour
         m_rotationMouseY = Mathf.Abs(a_rotation - 140.0f) + 85;
     }
 
-    public float GetMouseRotation()
+    public Vector2 GetMouseRotation()
     {
-        return m_rotationMouseY;
+        return new Vector2(m_rotationMouseX/m_mouseSensitivityX, m_rotationMouseY);
     }
 }
     

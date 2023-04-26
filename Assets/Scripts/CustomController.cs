@@ -135,7 +135,7 @@ public class CustomController : MonoBehaviour
         // Mouse is dragged, calculate player rotation from the mouse position difference between frames
         m_rotationX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
         m_rotationMouseY -= Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivity * 0.3f;
-        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 0.0f, 55.0f);
+        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 0.0f, 35.0f);
 
         // rotate the player (left-right)
         //M_walkCamera.transform.RotateAround(this.transform.position, this.transform.right, -m_rotationY  * m_mouseSensitivityY);
@@ -198,6 +198,7 @@ public class CustomController : MonoBehaviour
         M_walkCamera.transform.rotation = Quaternion.LookRotation(a_direction);
         M_walkCamera.transform.position = this.transform.position + new Vector3(-M_walkCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (a_direction.y), -M_walkCamera.transform.forward.z * M_cameraOffset.x);
         this.transform.rotation = Quaternion.LookRotation(a_direction);
+        //Debug.Break();
     }
 
     void HandleCameraInput(Vector3 a_rotation)
@@ -224,10 +225,12 @@ public class CustomController : MonoBehaviour
         return m_rotationMouseY;
     }
 
-    public void SetMouseRotation(float a_rotation)
+    public void SetMouseRotation(Vector2 a_mouseRotation)
     {
-        a_rotation = a_rotation - 85.0f;
-        a_rotation = Mathf.Clamp(a_rotation, 0.0f, 55.0f);
-        m_rotationMouseY = Mathf.Abs(a_rotation - 55.0f);
+        a_mouseRotation.y = a_mouseRotation.y - 85.0f;
+        a_mouseRotation.y = Mathf.Clamp(a_mouseRotation.y, 0.0f, 35.0f);
+        m_rotationMouseY = Mathf.Abs(a_mouseRotation.y - 35.0f);
+
+        m_rotationX = -a_mouseRotation.x * m_mouseSensitivity;
     }
 }
