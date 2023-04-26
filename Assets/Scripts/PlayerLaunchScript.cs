@@ -48,8 +48,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public int M_maxPower;
     public float M_minimumDirectionY, M_maximumDirectionY;
-    public float M_angleChangeRadians;
-    public float M_floorAngleChangeRadians;
 
     [SerializeField] float m_powerSizeStep = 1.0f;          // Determines how big is the scale difference in the arrow when choosing launching power.
     [SerializeField] float m_baseLength = 10.0f;            // Minimum lenght of the arrow.
@@ -96,21 +94,32 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle rigidbody physics
     public void FixedUpdate()
     {
-        print("velocity" + m_rigidbody.velocity.magnitude);
+        //print("velocity" + m_rigidbody.velocity.magnitude);
         // if paused or free flying, don't update
         if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
         {
             return;
         }
 
-        if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed && Input.GetAxis("Vertical") < 0.1f && Input.GetAxis("Horizontal") < 0.1f)
+        if (Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f || Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f)
         {
+            if (m_launchingStage == 0)
+            {
+                // player can roll when AWSD is pressed and was not rolling
+                LaunchingStart();
+            }
+        }
+
+        else if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
+        {
+            // if no key was pressed and player is slow, stop rolling
             print("relaunch");
             m_launchingStage = 0;
         }
 
-       else
+        else
         {
+            //continue rolling
             m_launchingStage = 1;
         }
 
@@ -189,38 +198,23 @@ public class PlayerLaunchScript : MonoBehaviour
         float l_playerVerticalInput = Input.GetAxis("Vertical");
         float l_playerHorizontalInput = Input.GetAxis("Horizontal");
 
-        Vector3 l_velocity = m_rigidbody.velocity;
-        float l_angleChange = M_angleChangeRadians;
-        float l_translationChange = 0.15f;
-        
+        float l_multiplier = 30.0f;
+        float l_angleChange = 25.0f;
 
         if (isGrounded())
         {
-            l_angleChange = M_floorAngleChangeRadians;
-            l_translationChange = 2.2f;
+            l_multiplier = 60.0f;
+            l_angleChange = 40.0f;
         }
 
-        Vector2 multiplier = new Vector2(l_playerHorizontalInput, l_playerVerticalInput);
-        multiplier.Normalize();
-        if (m_rigidbody.velocity.magnitude < 0.9)
-        {
-            // Change direction based on input
-            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x) * 10.0f * Time.fixedDeltaTime;
-            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y) * 10.0f * Time.fixedDeltaTime;
-        }
-        else
-        {
-            multiplier = multiplier * l_translationChange * Time.fixedDeltaTime;
-            multiplier = new Vector2(1f + multiplier.x, 1f + multiplier.y);
+        Vector3 l_direction = m_rigidbody.velocity;
+        l_direction.y = 0.0f;
+        l_direction.Normalize();
 
-            // Change direction based on input
-            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.x);
-            l_velocity = Vector3.RotateTowards(l_velocity, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f) * Mathf.Abs(multiplier.y);
-        }
-       
+        l_direction = Vector3.RotateTowards(l_direction, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f);
+        l_direction = Vector3.RotateTowards(l_direction, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f);
 
-        // normalize and apply changed direction
-        m_rigidbody.velocity = l_velocity;
+        m_rigidbody.AddForce(l_direction * l_multiplier);
 
         float l_maxSpeed = 80.0f;
         if (m_rigidbody.velocity.magnitude > l_maxSpeed)
