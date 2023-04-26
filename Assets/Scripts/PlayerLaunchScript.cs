@@ -128,7 +128,7 @@ public class PlayerLaunchScript : MonoBehaviour
         else
         {
             //continue rolling
-            m_launchingStage = 1;
+            //m_launchingStage = 1;
         }
 
         if(!isGrounded()) //activate trail particle system when ball is in the air
@@ -249,6 +249,7 @@ public class PlayerLaunchScript : MonoBehaviour
         // holding LMB -> bar moving
         if (Input.GetMouseButton(0))
         {
+
             // power going up
             if (m_powerGoingUp)
             {
@@ -295,8 +296,7 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     public void Reset()
     {
-        m_rigidbody.freezeRotation = false;
-        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
