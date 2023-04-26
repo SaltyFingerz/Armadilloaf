@@ -11,7 +11,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
     public GameObject M_walkingCamera, M_launchCamera, M_additionalCamera;
-
+    public RenderingScript M_Rendering;
     public float M_velocityRetain = 0.65f;      // how much velocity walking player gets from the launch, keep below 1
     public float M_velocityRetiainAir = 0.85f;  // how much velocity walking player mid-air gets from the launch, keep below 1
     public ParticleSystem M_EjectionPS1;
@@ -239,6 +239,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         if (M_takingDamage)
         {
             M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Damage");
+            M_Rendering.IncreaseVignette();
+            M_Rendering.DecreaseSaturation();
+
             if (M_musicPlayer.pitch > 0f)
             { 
             M_musicPlayer.pitch -= 0.001f;
@@ -441,6 +444,8 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void Respawn()
     {
+        M_Rendering.ResetVignette();
+        M_Rendering.RestoreSaturation();
         M_PlayerMovement.GetComponent<PrototypePlayerMovement>().TurnOffYellow();
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().TurnOffYellow();
         CustomController l_controller = M_walkingPlayer.GetComponent<CustomController>();
@@ -592,6 +597,14 @@ public partial class PlayerManagerScript : MonoBehaviour
     }
 
 
+    public void Regenerate()
+    {
+        M_hitPoints = 5;
+        M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
+        ResetBiscuitBites();
+        M_Rendering.RestoreSaturation();
+        M_Rendering.ResetVignette();
+    }
 
     public void Grow()
     {
