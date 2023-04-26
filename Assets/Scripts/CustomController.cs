@@ -174,9 +174,14 @@ public class CustomController : MonoBehaviour
 
         HandleCameraInput(this.transform.forward);
 
-
+        M_Direction = new Vector2(cameraRelativeMovement.x, cameraRelativeMovement.z);
+        M_Direction.Normalize();
 
     }
+
+    public static Vector2 M_Direction;
+
+  
 
     void MovePlayerIndependentFromCamera()
     {
@@ -187,6 +192,7 @@ public class CustomController : MonoBehaviour
         rb.velocity = new Vector3(m_moveInput.x * m_playerMovement.m_playerSpeed, rb.velocity.y + m_gravityValue * Time.deltaTime, m_moveInput.y * m_playerMovement.m_playerSpeed);
     }
 
+  
     public void PlayerLaunched()
     {
         m_justLaunched = true;

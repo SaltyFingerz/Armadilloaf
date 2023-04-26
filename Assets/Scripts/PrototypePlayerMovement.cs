@@ -22,7 +22,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     [SerializeField] public float m_jumpHeight = 8.0f;
     private float m_gravityValue = -9.81f;
     private bool m_isHittingWall = false;
-    private float m_pushForce = 2.0f;
+    private float m_pushForce = 4.0f;
     public bool M_InLaunchZone = false;
     public Vector3 M_TargetBlobSize;
     private bool m_gradualSize = true;
@@ -300,6 +300,17 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (m_rb != null && !m_rb.isKinematic)
         {
             m_rb.velocity = a_hit.moveDirection * m_pushForce;
+            print("push");
+        }
+    }
+
+    private void OnCollisionStay(Collision a_hit)
+    {
+        Rigidbody m_rb = a_hit.collider.attachedRigidbody;
+        if (m_rb != null && !m_rb.isKinematic)
+        {
+            m_rb.velocity = transform.forward * m_pushForce;
+            print("push");
         }
     }
 
@@ -308,13 +319,15 @@ public class PrototypePlayerMovement : MonoBehaviour
         M_playerManager.GetComponent<PlayerManagerScript>().StartLaunching();
     }
 
+    
+
     void Update()
     {
 
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
             case (int)PlayerManagerScript.SizeState.big:
-                m_pushForce = 4.0f;
+                m_pushForce = 10.0f;
                 M_TargetBlobSize = new Vector3(10, 10, 50);
                 m_jumpHeight = 15;
                 print("jumpheightshouldbesettohigh" + m_jumpHeight);
@@ -477,6 +490,8 @@ public class PrototypePlayerMovement : MonoBehaviour
     public void SetSizeImmediate(float a_size, float a_mass)
     {
         transform.localScale = new Vector3(a_size, a_size, a_size);
+        M_BlobShadowDecal.size = M_TargetBlobSize;
+
 
     }
 
@@ -496,7 +511,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
             case (int)PlayerManagerScript.SizeState.big:
-                m_pushForce = 4.0f;
+                m_pushForce = 10.0f;
                M_TargetBlobSize = new Vector3(10, 10, 50);
                 m_jumpHeight = 55;
                 print("jumpheightshouldbesettohigh" + m_jumpHeight) ;
