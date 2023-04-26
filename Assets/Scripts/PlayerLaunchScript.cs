@@ -206,8 +206,12 @@ public class PlayerLaunchScript : MonoBehaviour
             l_multiplier = 60.0f;
             l_angleChange = 160.0f;
         }
+        if (Mathf.Abs(Input.GetAxis("Vertical")) < 0.1f || Mathf.Abs(Input.GetAxis("Horizontal")) < 0.1f)
+        {
+            l_multiplier = 0.0f;
+        }
 
-        Vector3 l_direction = m_rigidbody.velocity;
+            Vector3 l_direction = m_rigidbody.velocity;
         l_direction.y = 0.0f;
         l_direction.Normalize();
 
