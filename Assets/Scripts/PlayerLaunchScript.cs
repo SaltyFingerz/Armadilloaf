@@ -199,12 +199,12 @@ public class PlayerLaunchScript : MonoBehaviour
         float l_playerHorizontalInput = Input.GetAxis("Horizontal");
 
         float l_multiplier = 30.0f;
-        float l_angleChange = 25.0f;
+        float l_angleChange = 160.0f;
 
         if (isGrounded())
         {
             l_multiplier = 60.0f;
-            l_angleChange = 40.0f;
+            l_angleChange = 160.0f;
         }
 
         Vector3 l_direction = m_rigidbody.velocity;
@@ -280,12 +280,6 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         Animator anim = gameObject.GetComponent<Animator>();
         anim.SetBool("Grow", false);
-    }
-
-    public void StopShrinkingAnimation() //this is an animation event called at the end of the growing animation, to play the static idle animation instead 
-    {
-        Animator anim = gameObject.GetComponent<Animator>();
-        anim.SetBool("Shrink", false);
     }
     public void Reset()
     {
