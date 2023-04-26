@@ -401,38 +401,38 @@ public class PlayerLaunchScript : MonoBehaviour
             {
                 case (int)PlayerManagerScript.SizeState.big:
                 m_launchSound.pitch = 0.5f;
-                foreach (GameObject can in M_BigCans)
+               /* foreach (GameObject can in M_BigCans)
                 {
                     can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 }
                 foreach (GameObject cereal in M_Cereals)
                 {
                     cereal.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                }
+                } */
                     break;
 
                 case (int)PlayerManagerScript.SizeState.normal:
                 m_launchSound.pitch = 1f;
-                foreach (GameObject can in M_BigCans)
+               /* foreach (GameObject can in M_BigCans)
                 {
                     can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                 }
                 foreach (GameObject cereal in M_Cereals)
                 {
                     cereal.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                }
+                } */
                 break;
 
                 case (int)PlayerManagerScript.SizeState.small:
                 m_launchSound.pitch = 1.5f;
-                foreach (GameObject can in M_BigCans)
+              /*  foreach (GameObject can in M_BigCans)
                 {
                     can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                 }
                 foreach (GameObject cereal in M_Cereals)
                 {
                     cereal.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                }
+                } */
                 break;
 
                 default:
