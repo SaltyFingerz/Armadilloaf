@@ -195,7 +195,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("fluffed" + M_Fluffed);
+        //print("fluffed" + M_Fluffed);
        
 
         M_FruitUI.text = M_FruitCollected.ToString();
@@ -540,7 +540,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     {
         
 
-       M_additionalCamera.SetActive(false);
+        M_additionalCamera.SetActive(false);
         M_walkingPlayer.SetActive(false);
         M_launchCamera.SetActive(true);
 
