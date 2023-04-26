@@ -11,6 +11,7 @@ public class PauseManagerScript : UIManagerScript
     public GameObject M_playerManager;
     public GameObject M_buttonsAndText;
     public AudioMixer M_audioMixer;
+    public RenderingScript M_Rendering;
 
     const string MIXER_MASTER = "M_musicMuffle";
 
@@ -38,18 +39,20 @@ public class PauseManagerScript : UIManagerScript
 
     public void Resume()
     {
+        M_Rendering.UnBlurBackground();
         M_buttonsAndText.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
-        StartCoroutine(FadeAway(M_pausePanel));
+        //StartCoroutine(FadeAway(M_pausePanel));
         M_audioMixer.SetFloat(MIXER_MASTER, 22000.0f);
         M_playerManager.GetComponent<PlayerManagerScript>().Resume();
     }
 
     public void Paused()
     {
+        M_Rendering.BlurBackground();
         M_canvas.enabled = true;
         M_buttonsAndText.SetActive(true);
-        StartCoroutine(FadeIn(M_pausePanel));
+        //StartCoroutine(FadeIn(M_pausePanel));
         M_audioMixer.SetFloat(MIXER_MASTER, 200.0f);
         Cursor.lockState = CursorLockMode.None;
     }

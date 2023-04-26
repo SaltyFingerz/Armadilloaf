@@ -13,6 +13,7 @@ public class RenderingScript : MonoBehaviour
     MotionBlur m_motionBlur;
     Vignette m_Vignette;
     ColorAdjustments m_ColorAd;
+    DepthOfField m_DoF;
     public float M_blurAmount = 0f;
     // Start is called before the first frame update
     void Start()
@@ -81,6 +82,26 @@ public class RenderingScript : MonoBehaviour
             m_ColorAd.saturation.value = 26;
         }
 
+    }
+
+    public void BlurBackground()
+    {
+        if (M_PPVol.profile.TryGet<DepthOfField>(out m_DoF))
+        {
+           
+                m_DoF.focalLength.value = 120;
+           
+           
+               
+        }
+    }
+
+    public void UnBlurBackground()
+    {
+        if (M_PPVol.profile.TryGet<DepthOfField>(out m_DoF))
+        {
+            m_DoF.focalLength.value = 53;
+        }
     }
 
 }
