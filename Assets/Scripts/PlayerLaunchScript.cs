@@ -96,6 +96,7 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle rigidbody physics
     public void FixedUpdate()
     {
+        print("velocity" + m_rigidbody.velocity.magnitude);
         // if paused or free flying, don't update
         if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
         {
@@ -104,7 +105,13 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed && Input.GetAxis("Vertical") < 0.1f && Input.GetAxis("Horizontal") < 0.1f)
         {
+            print("relaunch");
             m_launchingStage = 0;
+        }
+
+       else
+        {
+            m_launchingStage = 1;
         }
 
         if(!isGrounded()) //activate trail particle system when ball is in the air
@@ -303,8 +310,9 @@ public class PlayerLaunchScript : MonoBehaviour
         M_arrow.SetActive(false);
         M_arrowMaximum.SetActive(false);
         m_launchingPower *= 3.0f;
-        m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
-        //m_rigidbody.AddForce(new Vector3(m_direction.x * m_launchingPower * 100, m_direction.y * m_launchingPower * 100, m_direction.z * m_launchingPower * 100));
+       // m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
+        m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100, 0  , -m_direction.z * m_launchingPower * 100));
+       // m_rigidbody.AddForce(-m_direction * m_launchingPower, ForceMode.Impulse);
         m_rigidbody.freezeRotation = false;
 
         m_launchingPower = 0.0f;
