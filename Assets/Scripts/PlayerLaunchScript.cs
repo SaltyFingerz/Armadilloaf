@@ -94,21 +94,32 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle rigidbody physics
     public void FixedUpdate()
     {
-        print("velocity" + m_rigidbody.velocity.magnitude);
+        //print("velocity" + m_rigidbody.velocity.magnitude);
         // if paused or free flying, don't update
         if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
         {
             return;
         }
 
-        if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed && Input.GetAxis("Vertical") < 0.1f && Input.GetAxis("Horizontal") < 0.1f)
+        if (Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f || Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f)
         {
+            if (m_launchingStage == 0)
+            {
+                // player can roll when AWSD is pressed and was not rolling
+                LaunchingStart();
+            }
+        }
+
+        else if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
+        {
+            // if no key was pressed and player is slow, stop rolling
             print("relaunch");
             m_launchingStage = 0;
         }
 
-       else
+        else
         {
+            //continue rolling
             m_launchingStage = 1;
         }
 
