@@ -42,6 +42,7 @@ public class PlayerLaunchScript : MonoBehaviour
     int m_launchingStage = 0;
     float m_launchingPower;
     bool m_canShake = false;
+    bool m_stationaryFrame = false;
 
     private float alphaYellow;
     private UnityEngine.UI.Image m_Yellow;
@@ -51,7 +52,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     [SerializeField] float m_powerSizeStep = 1.0f;          // Determines how big is the scale difference in the arrow when choosing launching power.
     [SerializeField] float m_baseLength = 10.0f;            // Minimum lenght of the arrow.
-    [SerializeField] private float m_minimumSpeed = 0.4f;   // Speed minimum limit before the player changes to walking player.
+    [SerializeField] private float m_minimumSpeed = 1.9f;   // Speed minimum limit before the player changes to walking player.
     [SerializeField] private AudioSource m_launchSound;
     [SerializeField] AudioClip[] m_sLaunchSounds;
     Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
@@ -94,13 +95,18 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle rigidbody physics
     public void FixedUpdate()
     {
-        //print("velocity" + m_rigidbody.velocity.magnitude);
+        if (m_stationaryFrame && isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
+        {
+            Debug.Log("Relaunch");
+            Reset();
+        }
+        m_stationaryFrame = false;
+
         // if paused or free flying, don't update
         if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
         {
             return;
         }
-
         if (Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f || Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f)
         {
             if (m_launchingStage == 0)
@@ -112,9 +118,11 @@ public class PlayerLaunchScript : MonoBehaviour
 
         else if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
         {
-            // if no key was pressed and player is slow, stop rolling
-            print("relaunch");
-            m_launchingStage = 0;
+            // if no key was pressed and player is slow prepare to stop rolling
+            if (m_launchingStage == 1)
+            {
+                m_stationaryFrame = true;
+            }
         }
 
         else
