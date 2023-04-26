@@ -68,7 +68,7 @@ public class CustomController : MonoBehaviour
         RaycastHit hit;
         if (m_playerManager.M_sizeState < 2)
         {
-            if (Physics.Raycast(M_groundPoint.position, Vector3.down, out hit, 0.7f))
+            if (GroundDetectionScript.M_IsGrounded)
             {
                 isGrounded = true;
                 if (rb.velocity.magnitude < m_minimumSpeed)

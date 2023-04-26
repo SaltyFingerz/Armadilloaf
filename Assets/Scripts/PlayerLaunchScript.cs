@@ -120,7 +120,7 @@ public class PlayerLaunchScript : MonoBehaviour
         else
         {
             //continue rolling
-            m_launchingStage = 1;
+             m_launchingStage = 1;
         }
 
         if(!isGrounded()) //activate trail particle system when ball is in the air
