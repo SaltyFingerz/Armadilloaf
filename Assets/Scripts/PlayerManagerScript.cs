@@ -444,6 +444,10 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void Respawn()
     {
+        if(M_sizeState==2)
+        {
+            M_sizeState = 1;
+        }
         M_Rendering.ResetVignette();
         M_Rendering.RestoreSaturation();
         M_PlayerMovement.GetComponent<PrototypePlayerMovement>().TurnOffYellow();
