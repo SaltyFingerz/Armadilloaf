@@ -58,7 +58,23 @@ public class TutorialManager : MonoBehaviour
     void Update()
     {
        
-      
+      if(M_curlWorldPrompt.activeSelf)
+        {
+            M_launchAimPrompt.SetActive(false);
+            M_launchShoot.SetActive(false);
+        }
+
+      if(M_launchAimPrompt.activeSelf)
+        {
+            M_curlWorldPrompt.SetActive(false );
+            M_launchShoot.SetActive(false);
+        }
+
+      if(M_launchShoot.activeSelf)
+        {
+            M_curlWorldPrompt.SetActive(false );
+            M_launchAimPrompt.SetActive(false);
+        }
        
         m_timerSeconds += Time.deltaTime;
 
