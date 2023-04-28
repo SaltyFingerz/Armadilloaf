@@ -112,11 +112,11 @@ public class PlayerLaunchScript : MonoBehaviour
         }
         if (Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f || Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f)
         {
-            if (m_launchingStage == 0)
-            {
-                // player can roll when AWSD is pressed and was not rolling
-                LaunchingStart();
-            }
+            //if (m_launchingStage == 0)
+            //{
+            //    // player can roll when AWSD is pressed and was not rolling
+            //    LaunchingStart();
+            //}
         }
 
         else if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
@@ -209,27 +209,24 @@ public class PlayerLaunchScript : MonoBehaviour
         float l_playerVerticalInput = Input.GetAxis("Vertical");
         float l_playerHorizontalInput = Input.GetAxis("Horizontal");
 
-        float l_multiplier = 30.0f;
-        float l_angleChange = 160.0f;
+        float l_multiplier = 1500.0f;
 
         if (isGrounded())
         {
-            l_multiplier = 60.0f;
-            l_angleChange = 160.0f;
+            l_multiplier = 3000.0f;
         }
-        if (Mathf.Abs(Input.GetAxis("Vertical")) < 0.1f && Mathf.Abs(Input.GetAxis("Horizontal")) < 0.1f)
+        if (Mathf.Abs(l_playerVerticalInput) < 0.1f && Mathf.Abs(l_playerHorizontalInput) < 0.1f)
         {
             l_multiplier = 0.0f;
         }
 
-            Vector3 l_direction = m_rigidbody.velocity;
+        Vector3 l_direction = M_launchCamera.transform.TransformDirection(new Vector3(l_playerHorizontalInput, 0, l_playerVerticalInput));
         l_direction.y = 0.0f;
         l_direction.Normalize();
 
-        l_direction = Vector3.RotateTowards(l_direction, M_launchCamera.transform.right * l_playerHorizontalInput, l_angleChange * Time.fixedDeltaTime, 0.0f);
-        l_direction = Vector3.RotateTowards(l_direction, M_launchCamera.transform.forward * l_playerVerticalInput, l_angleChange * Time.fixedDeltaTime, 0.0f);
+        Debug.Log(l_direction);
 
-        m_rigidbody.AddForce(l_direction * l_multiplier);
+        m_rigidbody.AddForce(l_direction * l_multiplier * Time.fixedDeltaTime);
 
         float l_maxSpeed = 80.0f;
         if (m_rigidbody.velocity.magnitude > l_maxSpeed)
