@@ -708,13 +708,14 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void SetDirection(Vector3 a_direction)
     {
+        // calculate new camera Rotation Y
         Vector3 l_axis = Vector3.Cross(a_direction, Vector3.up);
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
         Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_direction;
         m_cameraRotationY = l_direction.y;
 
+        // set new position and rotations for camera and player
         m_rigidbody.isKinematic = true;
-        Debug.Log(M_launchCamera.transform.position);
         M_launchCamera.transform.rotation = Quaternion.LookRotation(a_direction);
         M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
         m_direction = -a_direction;
@@ -723,6 +724,7 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     public void SetMouseRotation(Vector2 a_rotation)
     {
+        // set mouse input data for smooth camera calculations
         a_rotation.y += 85.0f;
         m_rotationMouseY = Mathf.Abs(a_rotation.y - 120.0f) + 85;
         m_rotationMouseX = -a_rotation.x * m_mouseSensitivityX;
@@ -730,6 +732,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public Vector2 GetMouseRotation()
     {
+        // get mouse input data for smooth camera calculations
         return new Vector2(m_rotationMouseX/m_mouseSensitivityX, m_rotationMouseY);
     }
 }
