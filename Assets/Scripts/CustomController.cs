@@ -229,9 +229,9 @@ public class CustomController : MonoBehaviour
 
     }
 
-    public float GetMouseRotation()
+    public Vector2 GetMouseRotation()
     {
-        return m_rotationMouseY;
+        return new Vector2(m_rotationX / m_mouseSensitivity, m_rotationMouseY);
     }
 
     public void SetMouseRotation(Vector2 a_mouseRotation)

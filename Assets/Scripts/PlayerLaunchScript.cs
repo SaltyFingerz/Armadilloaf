@@ -224,8 +224,6 @@ public class PlayerLaunchScript : MonoBehaviour
         l_direction.y = 0.0f;
         l_direction.Normalize();
 
-        Debug.Log(l_direction);
-
         m_rigidbody.AddForce(l_direction * l_multiplier * Time.fixedDeltaTime);
 
         float l_maxSpeed = 80.0f;
@@ -718,10 +716,11 @@ public class PlayerLaunchScript : MonoBehaviour
         this.transform.rotation = Quaternion.LookRotation(a_direction);
         m_rigidbody.isKinematic = false;
     }
-    public void SetMouseRotation(float a_rotation)
+    public void SetMouseRotation(Vector2 a_rotation)
     {
-        a_rotation += 85.0f;
-        m_rotationMouseY = Mathf.Abs(a_rotation - 120.0f) + 85;
+        a_rotation.y += 85.0f;
+        m_rotationMouseY = Mathf.Abs(a_rotation.y - 120.0f) + 85;
+        m_rotationMouseX = -a_rotation.x * m_mouseSensitivityX;
     }
 
     public Vector2 GetMouseRotation()
