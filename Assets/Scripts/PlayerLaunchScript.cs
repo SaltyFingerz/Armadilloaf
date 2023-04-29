@@ -708,10 +708,15 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void SetDirection(Vector3 a_direction)
     {
-       
+        Vector3 l_axis = Vector3.Cross(a_direction, Vector3.up);
+        if (l_axis == Vector3.zero) l_axis = Vector3.right;
+        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_direction;
+        m_cameraRotationY = l_direction.y;
+
         m_rigidbody.isKinematic = true;
+        Debug.Log(M_launchCamera.transform.position);
         M_launchCamera.transform.rotation = Quaternion.LookRotation(a_direction);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * m_rotationMouseY, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
         m_direction = -a_direction;
         this.transform.rotation = Quaternion.LookRotation(a_direction);
         m_rigidbody.isKinematic = false;
