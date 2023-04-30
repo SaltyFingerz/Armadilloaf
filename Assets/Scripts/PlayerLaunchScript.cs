@@ -27,7 +27,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_CurlPrompt;
     public GameObject M_AimPrompt;
 
-
+    public ParticleSystem M_BangEffect;
     public UnityEngine.UI.Image M_fillImage;
     public RenderingScript M_RenderScript;
     public LaunchTrailScript M_TrailScript;
@@ -304,8 +304,11 @@ public class PlayerLaunchScript : MonoBehaviour
         m_launchingPower = 0;
         M_canvas.enabled = true;
     }
+
+   
     private void LaunchingStart()
     {
+        M_BangEffect.Play();
         M_canvas.enabled = false;
         m_direction.Normalize();
         m_launchingStage++;
@@ -316,6 +319,8 @@ public class PlayerLaunchScript : MonoBehaviour
         m_launchingPower *= 3.0f;
        // m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
         m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100, 0  , -m_direction.z * m_launchingPower * 100));
+       
+      
        // m_rigidbody.AddForce(-m_direction * m_launchingPower, ForceMode.Impulse);
         m_rigidbody.freezeRotation = false;
 

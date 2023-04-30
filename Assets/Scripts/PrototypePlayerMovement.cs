@@ -42,7 +42,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public GameObject M_BananaPrompt;
     [SerializeField] AudioClip[] m_drownClip;
     public AudioSource M_DrawnAudio;
-
+    public ParticleSystem M_CurlingDust;
     [SerializeField] AudioClip[] m_waterDrops;
     public AudioSource M_WaterDrop;
 
@@ -60,6 +60,10 @@ public class PrototypePlayerMovement : MonoBehaviour
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
     }
 
+    public void PlayCurlingDust()
+    {
+        M_CurlingDust.Play();
+    }
     private void OnTriggerStay(Collider a_hit)
     {
         if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
@@ -335,7 +339,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
             case (int)PlayerManagerScript.SizeState.big:
-                m_pushForce = 10.0f;
+                m_pushForce = 20.0f;
                 M_TargetBlobSize = new Vector3(10, 10, 50);
                 m_jumpHeight = 15;
                 print("jumpheightshouldbesettohigh" + m_jumpHeight);
@@ -518,7 +522,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
             case (int)PlayerManagerScript.SizeState.big:
-                m_pushForce = 10.0f;
+                m_pushForce = 20.0f;
                M_TargetBlobSize = new Vector3(10, 10, 50);
                 m_jumpHeight = 15;
                 
