@@ -44355,6 +44355,10 @@ PrefabInstance:
       propertyPath: M_musicPlayer
       value: 
       objectReference: {fileID: 276954142}
+    - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: M_WalkAnimator
+      value: 
+      objectReference: {fileID: 1869161228}
     - target: {fileID: 5205029753891021531, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_Name
       value: Player
@@ -71241,6 +71245,10 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2005361879007602359, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2185287176642410875, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_Layer
       value: 18
@@ -71272,6 +71280,10 @@ PrefabInstance:
     - target: {fileID: 4007594688719301987, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_Name
       value: JellySizeUpPellet (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4007594688719302012, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4007594688719302013, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_Radius
@@ -71337,6 +71349,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ba07a6342340f9f479220d1e1bca1ae9, type: 2}
+    - target: {fileID: 6505270844171050955, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1197863688441953293, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
@@ -92974,6 +92990,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56cd4ae94440ab4d9801ae9e42a2c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1869161228 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1228896356, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+  m_PrefabInstance: {fileID: 860440016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1875722744
 PrefabInstance:
   m_ObjectHideFlags: 0

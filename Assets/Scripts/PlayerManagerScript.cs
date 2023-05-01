@@ -30,6 +30,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
     public static float M_TargetSize;
     public Animator M_BallAnimator;
+    public Animator M_WalkAnimator;
     public static bool M_Growing = false;
     public static bool M_Shrinking = false;
     //Player HUD objects
@@ -499,6 +500,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void StartWalking()
     {
+       
         // change camera
         M_launchCamera.SetActive(false);
         M_additionalCamera.SetActive(false);
@@ -532,7 +534,8 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.SetActive(true);
 
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSizeImmediate(M_sizes[M_sizeState], M_weights[M_sizeState]);
-        
+        M_WalkAnimator.SetTrigger("Ucurl");
+
     }
 
     public void Curl()
