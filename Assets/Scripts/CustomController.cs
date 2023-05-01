@@ -206,8 +206,8 @@ public class CustomController : MonoBehaviour
         m_cameraRotationY = l_direction.y;
 
         this.transform.rotation = Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up);
-        M_walkCamera.transform.position = this.transform.position + new Vector3(-M_walkCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY * 1.6f), -M_walkCamera.transform.forward.z * M_cameraOffset.x);
         this.transform.rotation = Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up);
+        HandleCameraInput(a_direction);
     }
 
     void HandleCameraInput(Vector3 a_rotation)
@@ -229,9 +229,9 @@ public class CustomController : MonoBehaviour
 
     }
 
-    public float GetMouseRotation()
+    public Vector2 GetMouseRotation()
     {
-        return m_rotationMouseY;
+        return new Vector2(m_rotationX / m_mouseSensitivity, m_rotationMouseY);
     }
 
     public void SetMouseRotation(Vector2 a_mouseRotation)

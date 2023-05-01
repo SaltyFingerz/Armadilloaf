@@ -27,7 +27,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_CurlPrompt;
     public GameObject M_AimPrompt;
 
-
+    public ParticleSystem M_BangEffect;
     public UnityEngine.UI.Image M_fillImage;
     public RenderingScript M_RenderScript;
     public LaunchTrailScript M_TrailScript;
@@ -160,6 +160,7 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle key inputs
     public void Update()
     {
+       
 
         // if paused or free flying, don't update
         if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
@@ -223,8 +224,6 @@ public class PlayerLaunchScript : MonoBehaviour
         Vector3 l_direction = M_launchCamera.transform.TransformDirection(new Vector3(l_playerHorizontalInput, 0, l_playerVerticalInput));
         l_direction.y = 0.0f;
         l_direction.Normalize();
-
-        Debug.Log(l_direction);
 
         m_rigidbody.AddForce(l_direction * l_multiplier * Time.fixedDeltaTime);
 
@@ -296,6 +295,7 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     public void Reset()
     {
+        M_TrailScript.DeactivateTrail();
         m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
@@ -306,8 +306,11 @@ public class PlayerLaunchScript : MonoBehaviour
         m_launchingPower = 0;
         M_canvas.enabled = true;
     }
+
+   
     private void LaunchingStart()
     {
+        M_BangEffect.Play();
         M_canvas.enabled = false;
         m_direction.Normalize();
         m_launchingStage++;
@@ -318,6 +321,8 @@ public class PlayerLaunchScript : MonoBehaviour
         m_launchingPower *= 3.0f;
        // m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
         m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100, 0  , -m_direction.z * m_launchingPower * 100));
+       
+      
        // m_rigidbody.AddForce(-m_direction * m_launchingPower, ForceMode.Impulse);
         m_rigidbody.freezeRotation = false;
 
@@ -710,22 +715,31 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void SetDirection(Vector3 a_direction)
     {
-       
+        // calculate new camera Rotation Y
+        Vector3 l_axis = Vector3.Cross(a_direction, Vector3.up);
+        if (l_axis == Vector3.zero) l_axis = Vector3.right;
+        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_direction;
+        m_cameraRotationY = l_direction.y;
+
+        // set new position and rotations for camera and player
         m_rigidbody.isKinematic = true;
         M_launchCamera.transform.rotation = Quaternion.LookRotation(a_direction);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * m_rotationMouseY, -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
         m_direction = -a_direction;
         this.transform.rotation = Quaternion.LookRotation(a_direction);
         m_rigidbody.isKinematic = false;
     }
-    public void SetMouseRotation(float a_rotation)
+    public void SetMouseRotation(Vector2 a_rotation)
     {
-        a_rotation += 85.0f;
-        m_rotationMouseY = Mathf.Abs(a_rotation - 120.0f) + 85;
+        // set mouse input data for smooth camera calculations
+        a_rotation.y += 85.0f;
+        m_rotationMouseY = Mathf.Abs(a_rotation.y - 120.0f) + 85;
+        m_rotationMouseX = -a_rotation.x * m_mouseSensitivityX;
     }
 
     public Vector2 GetMouseRotation()
     {
+        // get mouse input data for smooth camera calculations
         return new Vector2(m_rotationMouseX/m_mouseSensitivityX, m_rotationMouseY);
     }
 }

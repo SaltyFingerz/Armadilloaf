@@ -12,6 +12,7 @@ public class PowerUp_SizeChanger : MonoBehaviour
     public enum Property { None, Jelly, Honey };
     public Property M_myProperty = Property.None;
    private MeshRenderer m_Renderer;
+    public GameObject M_Jar;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,7 @@ public class PowerUp_SizeChanger : MonoBehaviour
     IEnumerator eatJam()
     {
         m_Renderer.enabled = false;
+        M_Jar.SetActive(false);
         yield return new WaitForSeconds(2);
         Destroy(this.gameObject);
     }
