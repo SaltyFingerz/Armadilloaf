@@ -18,6 +18,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     public ParticleSystem M_EjectionPS2;
     public GameObject M_JellyDecal;
     public GameObject M_Tail;
+    public Material M_Silhouette;
+    public Material M_SilhouetteBall;
     // State enums
     public enum ArmadilloState { walk, launching };
     public ArmadilloState m_state = ArmadilloState.walk;        // Keeps track of the movement state
@@ -221,20 +223,30 @@ public partial class PlayerManagerScript : MonoBehaviour
         if (M_Jellied)
         {
             StartCoroutine(ChangePlayerColor(Color.magenta, 0.2f));
+            M_Silhouette.SetFloat("_Jellied", 1);
+            M_SilhouetteBall.SetFloat("_Jellied", 1);
 
-           
             M_Fluffed = false;
             print("pink ball material");
         }
 
         if (!M_Jellied && !M_Fluffed)
         {
+            M_Silhouette.SetFloat("_Jellied", 0);
+            M_SilhouetteBall.SetFloat("_Jellied", 0);
             StartCoroutine(ChangePlayerColor(Color.white, 0.2f));
         }
         if (M_Fluffed)
         {
+            M_Silhouette.SetFloat("_Fluffed", 1);
+            M_SilhouetteBall.SetFloat("_Fluffed", 1);
             StartCoroutine(ChangePlayerColor(Color.cyan, 0.2f));
           
+        }
+        else
+        {
+            M_Silhouette.SetFloat("_Fluffed", 0);
+            M_SilhouetteBall.SetFloat("_Fluffed", 0);
         }
       
 
