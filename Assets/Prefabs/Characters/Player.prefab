@@ -42164,6 +42164,9 @@ MonoBehaviour:
   M_EjectionPS1: {fileID: 5651533360741858334}
   M_EjectionPS2: {fileID: 3068867419686127668}
   M_JellyDecal: {fileID: 4484776131425894401, guid: 903d12cab7ce98d42a28f686a3afecdc, type: 3}
+  M_Tail: {fileID: 2833906836152799989}
+  M_Silhouette: {fileID: 2100000, guid: 0620974542789ef42b25297cc46c1f3e, type: 2}
+  M_SilhouetteBall: {fileID: -876546973899608171, guid: 90ab585e063bb604fb9964abf5e441ab, type: 3}
   m_state: 0
   M_sizes:
   - 0.5
@@ -42178,9 +42181,10 @@ MonoBehaviour:
   - {x: 14, y: 10}
   - {x: 20, y: 14}
   M_sizeState: 1
-  M_jellyBounciness: 0.4
+  M_jellyBounciness: 0.7
   M_abilityState: 0
   M_BallAnimator: {fileID: 305606498}
+  M_WalkAnimator: {fileID: 1228896356}
   M_playerHUD: {fileID: 716861149890891261}
   M_freshnessBiscuit: {fileID: 8213029957005157553}
   M_freshnessBiscuitLevels:
@@ -49651,6 +49655,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
+--- !u!1 &2833906836152799989 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
+  m_PrefabInstance: {fileID: 3140529089517809572}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3179506067419695183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0a939db4950d4574aab8313593fddbed, type: 3}
