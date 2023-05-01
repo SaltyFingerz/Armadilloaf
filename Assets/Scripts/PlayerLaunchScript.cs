@@ -160,6 +160,7 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle key inputs
     public void Update()
     {
+       
 
         // if paused or free flying, don't update
         if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
@@ -294,6 +295,7 @@ public class PlayerLaunchScript : MonoBehaviour
     }
     public void Reset()
     {
+        M_TrailScript.DeactivateTrail();
         m_rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
