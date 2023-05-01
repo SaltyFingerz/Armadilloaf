@@ -17,6 +17,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public ParticleSystem M_EjectionPS1;
     public ParticleSystem M_EjectionPS2;
     public GameObject M_JellyDecal;
+    public GameObject M_Tail;
     // State enums
     public enum ArmadilloState { walk, launching };
     public ArmadilloState m_state = ArmadilloState.walk;        // Keeps track of the movement state
@@ -25,7 +26,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public float[] M_weights = { 1.0f, 3.0f, 10.0f };
     public Vector2[] M_cameraOffsets = { new Vector2(2.5f, 1), new Vector2(5, 2), new Vector2(10, 4) };
     public int M_sizeState = (int)SizeState.normal;             // Keeps Track of size, int type to use as M_sizes index
-    public float M_jellyBounciness = 0.8f;
+    public float M_jellyBounciness = 0.9f;
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
     public static float M_TargetSize;
@@ -178,7 +179,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             M_Renderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_freshnessBiscuit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
-
+            M_Tail.GetComponent<Renderer>().material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_2DRenderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_freshnessBiscuit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
@@ -197,7 +198,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     void Update()
     {
         //print("fluffed" + M_Fluffed);
-       
+        print("bounciness" + M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness + "and" + M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness);
 
         M_FruitUI.text = M_FruitCollected.ToString();
         M_FruitUIFin.text = M_FruitCollected.ToString();
@@ -692,11 +693,14 @@ public partial class PlayerManagerScript : MonoBehaviour
     public void Jellify()
     {
         {
+            
             M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
+        
             M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
             M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
 
             M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = M_jellyBounciness;
+            M_walkingPlayer.GetComponent<CapsuleCollider>().material.bounciness = M_jellyBounciness;
             M_Renderer.material.color = Color.magenta;
             M_2DRenderer.material.color = Color.magenta;
             M_freshnessBiscuit.color = Color.magenta;
@@ -704,8 +708,11 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_PlayerMovement.m_jumpHeight = 8;
             M_abilityState = AbilityState.jelly;
             M_Jellied = true;
+           
         }
     }
+
+
     //acquire property of stickiness with Jelly pick-up, called in PowerUp_SizeChanger (script)
     public void Honify()
     {
@@ -723,10 +730,10 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void ResetAbilities()
     {
-        M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
+        M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.2f;
         M_launchingPlayer.GetComponent<SphereCollider>().material.dynamicFriction = 0.6f;
         M_launchingPlayer.GetComponent<SphereCollider>().material.staticFriction = 0.6f;
-
+        M_walkingPlayer.GetComponent<CapsuleCollider>().material.bounciness = 0f;
         M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
         M_Renderer.material.color = Color.white;
         M_2DRenderer.material.color = Color.white;

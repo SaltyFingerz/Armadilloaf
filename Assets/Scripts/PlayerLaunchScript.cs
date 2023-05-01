@@ -177,7 +177,7 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             Fluffing();
         }
-        else
+        else if(!PlayerManagerScript.M_Jellied)
         {
             Defluff();
         }
@@ -544,12 +544,13 @@ public class PlayerLaunchScript : MonoBehaviour
             if (m_playerManagerScript.M_sizeState != 2)
             {
                 m_playerManagerScript.M_takingDamage = true;
+                
             }
 
 
             if (a_hit.gameObject.name.Contains("Water") && m_canDrown)
             {
-                print("drown sound");
+                
                 DrownSound();
             }
 
@@ -604,7 +605,9 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         m_renderer.material.color = Color.white;
         M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.white;
-        GetComponent<SphereCollider>().material.bounciness = 0.2f;
+      
+            GetComponent<SphereCollider>().material.bounciness = 0.2f;
+       
         PlayerManagerScript.M_Fluffed = false;
     }
 
@@ -628,7 +631,13 @@ public class PlayerLaunchScript : MonoBehaviour
         if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
         {
             PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
-            m_playerManagerScript.M_takingDamage = true;
+
+            if (m_playerManagerScript.M_sizeState != 2)
+            {
+                m_playerManagerScript.M_takingDamage = true;
+        
+            }
+           
         }
     }
 

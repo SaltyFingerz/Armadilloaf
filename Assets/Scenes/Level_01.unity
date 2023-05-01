@@ -44359,10 +44359,6 @@ PrefabInstance:
       propertyPath: M_musicPlayer
       value: 
       objectReference: {fileID: 276954142}
-    - target: {fileID: 4933560404183489192, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-      propertyPath: M_WalkAnimator
-      value: 
-      objectReference: {fileID: 1869161228}
     - target: {fileID: 5205029753891021531, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: m_Name
       value: Player
@@ -92998,11 +92994,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56cd4ae94440ab4d9801ae9e42a2c12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &1869161228 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 1228896356, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
-  m_PrefabInstance: {fileID: 860440016}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1875722744
 PrefabInstance:
   m_ObjectHideFlags: 0
