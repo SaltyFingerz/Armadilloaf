@@ -299,6 +299,12 @@ public class PlayerLaunchScript : MonoBehaviour
         Animator anim = gameObject.GetComponent<Animator>();
         anim.SetBool("Grow", false);
     }
+
+    public void StopShrinkingAnimation()
+    {
+        Animator anim = gameObject.GetComponent<Animator>();
+        anim.SetBool("Shrink", false);
+    }
     public void Reset()
     {
         M_TrailScript.DeactivateTrail();
