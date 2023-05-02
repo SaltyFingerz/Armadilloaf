@@ -324,6 +324,7 @@ public class PlayerLaunchScript : MonoBehaviour
    
     private void LaunchingStart()
     {
+        M_playerManager.GetComponent<PlayerManagerScript>().M_shots++;
         M_BangEffect.Play();
         M_canvas.enabled = false;
         m_direction.Normalize();

@@ -14,6 +14,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public RenderingScript M_Rendering;
     public float M_velocityRetain = 0.65f;      // how much velocity walking player gets from the launch, keep below 1
     public float M_velocityRetiainAir = 0.85f;  // how much velocity walking player mid-air gets from the launch, keep below 1
+    public float M_timeElapsed;
     public ParticleSystem M_EjectionPS1;
     public ParticleSystem M_EjectionPS2;
     public GameObject M_JellyDecal;
@@ -48,6 +49,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     //Player values
     public Vector3 currentCheckpoint;
     public int M_lives = 5;
+    public int M_respawns = 0;
+    public int M_shots = 0;
     public float M_hitPoints = 5.0f;
     public bool M_takingDamage = false;
     public bool M_transitionIn = false;
@@ -58,6 +61,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public PrototypePlayerMovement M_PlayerMovement;
     public AudioSource M_musicPlayer;
     bool m_justUnpaused;
+    public bool isPaused;
 
     [SerializeField] AudioClip[] m_biscuitClip;
     [SerializeField] float m_invulnerabilityPeriodSeconds = 2.0f;
@@ -199,6 +203,10 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isPaused)
+        { 
+        M_timeElapsed += Time.deltaTime;
+        }
         //print("fluffed" + M_Fluffed);
         print("bounciness" + M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness + "and" + M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness);
 
@@ -462,6 +470,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             M_sizeState = 1;
         }
+        M_respawns++;
         M_Rendering.ResetVignette();
         M_Rendering.RestoreSaturation();
         M_PlayerMovement.GetComponent<PrototypePlayerMovement>().TurnOffYellow();
@@ -602,6 +611,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_freeFlyingPlayer.SetActive(true);
         M_isFreeFlying = true;
+
 
         switch (m_state)
         {
