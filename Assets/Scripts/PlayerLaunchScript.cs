@@ -71,6 +71,9 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] AudioClip[] m_waterDrops;
     public AudioSource M_WaterDrop;
 
+    [SerializeField] AudioClip[] m_launchSmacks;
+    public AudioSource M_LaunchSmack;
+
     private bool m_canDrown = true;
     bool m_powerGoingUp = true;
  
@@ -336,8 +339,11 @@ public class PlayerLaunchScript : MonoBehaviour
         m_launchingPower *= 3.0f;
        // m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
         m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100, 0  , -m_direction.z * m_launchingPower * 100));
-       
-      DeactivatePrompts();
+
+        AudioClip ac = m_launchSmacks[UnityEngine.Random.Range(0, m_launchSmacks.Length)];
+        M_LaunchSmack.PlayOneShot(ac);
+
+        DeactivatePrompts();
 
        // m_rigidbody.AddForce(-m_direction * m_launchingPower, ForceMode.Impulse);
         m_rigidbody.freezeRotation = false;
@@ -490,13 +496,7 @@ public class PlayerLaunchScript : MonoBehaviour
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
         }
 
-        if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
-        {
-           
-           
-           
-
-        }
+       
 
         if (a_hit.gameObject.name.Contains("TipZone"))
         {
