@@ -17,7 +17,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public GameObject M_TiltTip;
     public GameObject M_FreeCamEntry;
     public GameObject M_LaunchPrompt;
-    
+    public GameObject M_LaunchPrompt2;
     public GameObject M_UncurlPrompt;
     public GameObject M_JumpPrompt;
     public DecalProjector M_BlobShadowDecal;
@@ -189,7 +189,8 @@ public class PrototypePlayerMovement : MonoBehaviour
         if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
             M_InLaunchZone = true;
-            M_LaunchPrompt.SetActive(false); 
+            M_LaunchPrompt.SetActive(false);
+            M_LaunchPrompt2.SetActive(false);
             M_AimPrompt.SetActive(false);
             M_CurlPrompt.SetActive(true);
             M_InLaunchZone = true;
@@ -341,7 +342,17 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             M_CurlPrompt.SetActive(false);
             M_LaunchPrompt.SetActive(false);
+            M_LaunchPrompt2.SetActive(false);
             M_AimPrompt.SetActive(false);
+        }
+
+        if(M_InLaunchZone)
+        {
+            M_CurlPrompt.SetActive(true);
+            M_LaunchPrompt.SetActive(false);
+            M_LaunchPrompt2.SetActive(false);
+         
+            M_UncurlPrompt.SetActive(false);
         }
 
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)

@@ -24,6 +24,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_FreshBiscuit;
     public GameObject M_FreeCamEntry;
     public GameObject M_LaunchPrompt;
+    public GameObject M_LaunchPrompt2;
     public GameObject M_CurlPrompt;
     public GameObject M_AimPrompt;
 
@@ -165,6 +166,7 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             M_CurlPrompt.SetActive(false);
             M_LaunchPrompt.SetActive(false);
+            M_LaunchPrompt2.SetActive(false);
             M_AimPrompt.SetActive(false);
         }
 
@@ -334,7 +336,8 @@ public class PlayerLaunchScript : MonoBehaviour
        // m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
         m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100, 0  , -m_direction.z * m_launchingPower * 100));
        
-      
+      DeactivatePrompts();
+
        // m_rigidbody.AddForce(-m_direction * m_launchingPower, ForceMode.Impulse);
         m_rigidbody.freezeRotation = false;
 
@@ -355,6 +358,16 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             M_RenderScript.EnableBlur();
         }
+    }
+
+    private void DeactivatePrompts()
+    {
+
+        M_AimPrompt.SetActive(false);
+        M_LaunchPrompt.SetActive(false);
+        M_CurlPrompt.SetActive(false);
+        M_LaunchPrompt2.SetActive(false);
+        M_UncurlPrompt.SetActive(false);
     }
 
     public void UpdateTrailRotation()
@@ -479,9 +492,12 @@ public class PlayerLaunchScript : MonoBehaviour
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
             PrototypePlayerMovement.M_InLaunchZone = true;
+           /* M_LaunchPrompt.SetActive(false);
             M_LaunchPrompt.SetActive(false);
-            M_CurlPrompt.SetActive(false);
-            M_AimPrompt.SetActive(true);
+            M_CurlPrompt.SetActive(true);
+            M_AimPrompt.SetActive(false);
+            M_UncurlPrompt.SetActive(false);
+           */
 
         }
 
@@ -536,9 +552,11 @@ public class PlayerLaunchScript : MonoBehaviour
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
             PrototypePlayerMovement.M_InLaunchZone = false;
-            M_LaunchPrompt.SetActive(false);
+         /*   M_LaunchPrompt.SetActive(false);
+            M_LaunchPrompt2.SetActive(false);
             M_CurlPrompt.SetActive(false);
             M_AimPrompt.SetActive(false);
+         */
 
         }
 
@@ -589,7 +607,30 @@ public class PlayerLaunchScript : MonoBehaviour
             StartCoroutine(YellowScreen()); //activate yellow overlay when under honey water
            
         }
-       
+
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone") && m_stationaryFrame)
+        {
+            //PrototypePlayerMovement.M_InLaunchZone = true;
+              M_LaunchPrompt.SetActive(false);
+               M_LaunchPrompt2.SetActive(false);
+               M_CurlPrompt.SetActive(false);
+               M_AimPrompt.SetActive(true);
+           
+
+        }
+
+         if  (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf)
+            {
+            print(" in stationary frame" + m_stationaryFrame);
+                //PrototypePlayerMovement.M_InLaunchZone = true;
+                M_LaunchPrompt.SetActive(false);
+                M_LaunchPrompt2.SetActive(false);
+                M_CurlPrompt.SetActive(false);
+                M_AimPrompt.SetActive(false);
+
+
+            }
+
     }
 
     public void TurnOffYellow()

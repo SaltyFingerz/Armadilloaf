@@ -13,6 +13,7 @@ public class TutorialManager : MonoBehaviour
     //public GameObject M_launchPrompt;
     public GameObject M_launchAimPrompt;
     public GameObject M_launchShoot;
+    public GameObject M_launchShoot2;
     public GameObject M_walkPrompt;
     public GameObject M_FreeCamEntryPrompt;
     public GameObject M_FreeCamMousePrompt;
@@ -29,7 +30,12 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_BallPlayer;
     public GameObject M_FreeMovePlayer;
 
+    public GameObject M_Walker;
+    public GameObject M_Ball;
+    private int  m_initialState; // 0 walker and 1 ball
+    private int m_currentState; // 0 walker and 1 ball
     private float m_timerSeconds = 0f;
+    private bool m_stateChanged;
 
     bool m_Wpressed;
     bool m_Apressed;
@@ -57,23 +63,49 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if(M_Walker.activeSelf)
+        {
+            print("walker active");
+            M_launchAimPrompt.SetActive(false);
+            M_launchShoot.SetActive(false);
+            M_launchShoot2.SetActive(false);
+          
+        }
+
+        
        
       if(M_curlWorldPrompt.activeSelf)
         {
             M_launchAimPrompt.SetActive(false);
             M_launchShoot.SetActive(false);
+            if(!M_Walker.activeSelf)
+            {
+                StartCoroutine(NextPrompt2(M_launchAimPrompt, M_curlWorldPrompt));
+            }
         }
 
       if(M_launchAimPrompt.activeSelf)
         {
             M_curlWorldPrompt.SetActive(false );
             M_launchShoot.SetActive(false);
+           
+                StartCoroutine(NextPrompt(M_launchShoot, M_launchAimPrompt));
+            
         }
 
       if(M_launchShoot.activeSelf)
         {
             M_curlWorldPrompt.SetActive(false );
             M_launchAimPrompt.SetActive(false);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+           
+                
+                    StartCoroutine(NextPrompt2(M_launchShoot2, M_launchShoot));
+                
+            }
         }
        
         m_timerSeconds += Time.deltaTime;
@@ -111,16 +143,83 @@ public class TutorialManager : MonoBehaviour
 
         IEnumerator NextPrompt(GameObject gameObjOpen, GameObject gameObjClose)
         {
+            if(M_Walker.activeSelf)
+            {
+                m_initialState = 0;
+            }
+            else if(M_Ball.activeSelf)
+            {
+                m_initialState = 1;
+            }
             yield return new WaitForSeconds(1.5f);
 
-            gameObjClose.SetActive(false);
-            gameObjOpen.SetActive(true);
+            if (M_Walker.activeSelf)
+            {
+                m_currentState = 0;
+            }
+            else if (M_Ball.activeSelf)
+            {
+                m_currentState = 1;
+            }
+
+            if(m_initialState == m_currentState)
+            {
+                m_stateChanged = false;
+            }
+            else if (m_initialState != m_currentState)
+            {
+                m_stateChanged = true;
+            }
+
+            if (!m_stateChanged)
+            {
+                gameObjClose.SetActive(false);
+                gameObjOpen.SetActive(true);
+            }
             
+        }
+
+        IEnumerator NextPrompt2(GameObject gameObjOpen, GameObject gameObjClose)
+        {
+            if (M_Walker.activeSelf)
+            {
+                m_initialState = 0;
+            }
+            else if (M_Ball.activeSelf)
+            {
+                m_initialState = 1;
+            }
+            yield return new WaitForSeconds(0.5f);
+
+            if (M_Walker.activeSelf)
+            {
+                m_currentState = 0;
+            }
+            else if (M_Ball.activeSelf)
+            {
+                m_currentState = 1;
+            }
+
+            if (m_initialState == m_currentState)
+            {
+                m_stateChanged = false;
+            }
+            else if (m_initialState != m_currentState)
+            {
+                m_stateChanged = true;
+            }
+
+            if (!m_stateChanged)
+            {
+                gameObjClose.SetActive(false);
+                gameObjOpen.SetActive(true);
+            }
+
         }
 
 
 
-        if(!M_BallPlayer.activeSelf && Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        if (!M_BallPlayer.activeSelf && Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
             m_timerSeconds = 0;
 
