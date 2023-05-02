@@ -30,7 +30,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     private float m_gravityValue = -9.81f;
     private bool m_isHittingWall = false;
     private float m_pushForce = 4.0f;
-    public bool M_InLaunchZone = false;
+  
     public Vector3 M_TargetBlobSize;
     private bool m_gradualSize = true;
     public GameObject M_FinishUI;
@@ -45,7 +45,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     public ParticleSystem M_CurlingDust;
     [SerializeField] AudioClip[] m_waterDrops;
     public AudioSource M_WaterDrop;
-
+    public static bool M_InLaunchZone;
     private bool m_canPain = true;
     private bool m_canDrown = true;
     public GameObject M_Water;
@@ -188,6 +188,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
+            M_InLaunchZone = true;
             M_LaunchPrompt.SetActive(false); 
             M_AimPrompt.SetActive(false);
             M_CurlPrompt.SetActive(true);
@@ -268,6 +269,7 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (other.gameObject.name.Contains("FirstLaunchZone"))
         {
+            M_InLaunchZone = false;
             M_CurlPrompt.SetActive(false);
            
             M_InLaunchZone = false;
@@ -335,6 +337,12 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if(!M_InLaunchZone)
+        {
+            M_CurlPrompt.SetActive(false);
+            M_LaunchPrompt.SetActive(false);
+            M_AimPrompt.SetActive(false);
+        }
 
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {

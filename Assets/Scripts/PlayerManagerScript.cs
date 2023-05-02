@@ -547,7 +547,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.SetActive(true);
 
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetSizeImmediate(M_sizes[M_sizeState], M_weights[M_sizeState]);
-        M_WalkAnimator.SetTrigger("Ucurl");
+        M_WalkAnimator.SetTrigger("Uncurl");
 
     }
 

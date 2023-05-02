@@ -72,6 +72,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private bool m_canDrown = true;
     bool m_powerGoingUp = true;
+ 
     public ParticleSystem M_ImpactVFX;
     Renderer m_renderer;
     public void Start()
@@ -160,7 +161,12 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle key inputs
     public void Update()
     {
-       
+       if(!PrototypePlayerMovement.M_InLaunchZone)
+        {
+            M_CurlPrompt.SetActive(false);
+            M_LaunchPrompt.SetActive(false);
+            M_AimPrompt.SetActive(false);
+        }
 
         // if paused or free flying, don't update
         if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
@@ -466,6 +472,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
+            PrototypePlayerMovement.M_InLaunchZone = true;
             M_LaunchPrompt.SetActive(false);
             M_CurlPrompt.SetActive(false);
             M_AimPrompt.SetActive(true);
@@ -519,7 +526,16 @@ public class PlayerLaunchScript : MonoBehaviour
             // M_Water.SetActive(false);
             m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
         }
-       
+
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
+        {
+            PrototypePlayerMovement.M_InLaunchZone = false;
+            M_LaunchPrompt.SetActive(false);
+            M_CurlPrompt.SetActive(false);
+            M_AimPrompt.SetActive(false);
+
+        }
+
     }
 
     IEnumerator waitForDrown()
@@ -541,7 +557,7 @@ public class PlayerLaunchScript : MonoBehaviour
         if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
         {
             PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
-            if (m_playerManagerScript.M_sizeState != 2)
+            if (m_playerManagerScript.M_sizeState != 2 || !a_hit.gameObject.CompareTag("Enemy"))
             {
                 m_playerManagerScript.M_takingDamage = true;
                 
@@ -632,7 +648,7 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
 
-            if (m_playerManagerScript.M_sizeState != 2)
+            if (m_playerManagerScript.M_sizeState != 2 || a_hit.gameObject.CompareTag("Enemy"))
             {
                 m_playerManagerScript.M_takingDamage = true;
         

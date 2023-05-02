@@ -111,7 +111,7 @@ public class TutorialManager : MonoBehaviour
 
         IEnumerator NextPrompt(GameObject gameObjOpen, GameObject gameObjClose)
         {
-            yield return new WaitForSeconds(2.5f);
+            yield return new WaitForSeconds(1.5f);
 
             gameObjClose.SetActive(false);
             gameObjOpen.SetActive(true);
@@ -134,7 +134,7 @@ public class TutorialManager : MonoBehaviour
           //  M_launchPrompt.SetActive(true);
         }
 
-        if ((Input.GetMouseButtonDown(1)) && M_PPlayerMovment.M_InLaunchZone) // && M_launchPrompt.activeSelf)
+        if ((Input.GetMouseButtonDown(1)) && PrototypePlayerMovement.M_InLaunchZone) // && M_launchPrompt.activeSelf)
         {
            
          //   M_launchPrompt.SetActive(false);
