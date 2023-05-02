@@ -9,6 +9,7 @@ public class GroundDetectionScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if(!other.isTrigger)
         M_IsGrounded = true;
     }
 

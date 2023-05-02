@@ -77,35 +77,35 @@ public class TutorialManager : MonoBehaviour
        
       if(M_curlWorldPrompt.activeSelf)
         {
-            M_launchAimPrompt.SetActive(false);
+           // M_launchAimPrompt.SetActive(false);
             M_launchShoot.SetActive(false);
             if(!M_Walker.activeSelf)
             {
-                StartCoroutine(NextPrompt2(M_launchAimPrompt, M_curlWorldPrompt));
+                M_launchAimPrompt.SetActive(true);
+               
+                StartCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
+                //  M_curlWorldPrompt.SetActive(false);
             }
         }
 
-      if(M_launchAimPrompt.activeSelf)
-        {
-            M_curlWorldPrompt.SetActive(false );
-            M_launchShoot.SetActive(false);
-           
-                StartCoroutine(NextPrompt(M_launchShoot, M_launchAimPrompt));
-            
-        }
 
       if(M_launchShoot.activeSelf)
         {
             M_curlWorldPrompt.SetActive(false );
             M_launchAimPrompt.SetActive(false);
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
-           
-                
-                    StartCoroutine(NextPrompt2(M_launchShoot2, M_launchShoot));
+                StopCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
+
+                StartCoroutine(NextPrompt2(M_launchShoot2, M_launchShoot));
                 
             }
+        }
+
+      if(M_launchShoot2.activeSelf)
+        {
+            M_launchShoot.SetActive(false);
         }
        
         m_timerSeconds += Time.deltaTime;
@@ -179,6 +179,47 @@ public class TutorialManager : MonoBehaviour
             
         }
 
+        IEnumerator NextPrompt0(GameObject gameObjOpen, GameObject gameObjClose)
+        {
+            M_curlWorldPrompt.SetActive(false);
+            M_launchShoot.SetActive(false);
+            if (M_Walker.activeSelf)
+            {
+                m_initialState = 0;
+            }
+            else if (M_Ball.activeSelf)
+            {
+                m_initialState = 1;
+            }
+            yield return new WaitForSeconds(2f);
+
+            if (M_Walker.activeSelf)
+            {
+                m_currentState = 0;
+            }
+            else if (M_Ball.activeSelf)
+            {
+                m_currentState = 1;
+            }
+
+            if (m_initialState == m_currentState)
+            {
+                m_stateChanged = false;
+            }
+            else if (m_initialState != m_currentState)
+            {
+                m_stateChanged = true;
+            }
+
+            if (!m_stateChanged)
+            {
+                gameObjClose.SetActive(false);
+                gameObjOpen.SetActive(true);
+            }
+
+        }
+
+
         IEnumerator NextPrompt2(GameObject gameObjOpen, GameObject gameObjClose)
         {
             if (M_Walker.activeSelf)
@@ -189,7 +230,7 @@ public class TutorialManager : MonoBehaviour
             {
                 m_initialState = 1;
             }
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.5f);
 
             if (M_Walker.activeSelf)
             {
@@ -233,20 +274,24 @@ public class TutorialManager : MonoBehaviour
           //  M_launchPrompt.SetActive(true);
         }
 
-        if ((Input.GetMouseButtonDown(1)) && PrototypePlayerMovement.M_InLaunchZone) // && M_launchPrompt.activeSelf)
+     /*   if ((Input.GetMouseButtonDown(1)) && PrototypePlayerMovement.M_InLaunchZone) // && M_launchPrompt.activeSelf)
         {
            
          //   M_launchPrompt.SetActive(false);
          M_curlWorldPrompt.SetActive(false);
             M_launchAimPrompt.SetActive(true);
-            StartCoroutine(NextPrompt(M_launchShoot, M_launchAimPrompt));
+            //StartCoroutine(NextPrompt(M_launchShoot, M_launchAimPrompt));
         }
+     */
 
         if ((Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)) && M_launchAimPrompt.activeSelf)
         {
-            m_launched = true;
+           
             M_launchAimPrompt.SetActive(false);
-          //  StartCoroutine(ExitBall());
+            StopCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
+            M_launchShoot.SetActive(true);
+
+            //  StartCoroutine(ExitBall());
         }
 
        // IEnumerator ExitBall()

@@ -492,13 +492,9 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
-            PrototypePlayerMovement.M_InLaunchZone = true;
-           /* M_LaunchPrompt.SetActive(false);
-            M_LaunchPrompt.SetActive(false);
-            M_CurlPrompt.SetActive(true);
-            M_AimPrompt.SetActive(false);
-            M_UncurlPrompt.SetActive(false);
-           */
+           
+           
+           
 
         }
 
@@ -612,22 +608,25 @@ public class PlayerLaunchScript : MonoBehaviour
         if (a_hit.gameObject.name.Contains("FirstLaunchZone") && m_stationaryFrame)
         {
             //PrototypePlayerMovement.M_InLaunchZone = true;
-              M_LaunchPrompt.SetActive(false);
+            /*  M_LaunchPrompt.SetActive(false);
                M_LaunchPrompt2.SetActive(false);
                M_CurlPrompt.SetActive(false);
                M_AimPrompt.SetActive(true);
+            */
            
 
         }
 
-         if  (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf)
+         if  (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf && !M_UncurlPrompt.activeSelf)
             {
             print(" in stationary frame" + m_stationaryFrame);
                 //PrototypePlayerMovement.M_InLaunchZone = true;
                 M_LaunchPrompt.SetActive(false);
                 M_LaunchPrompt2.SetActive(false);
-                M_CurlPrompt.SetActive(false);
+                M_UncurlPrompt.SetActive(true);
                 M_AimPrompt.SetActive(false);
+             
+
 
 
             }
