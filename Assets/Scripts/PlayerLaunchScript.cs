@@ -519,7 +519,14 @@ public class PlayerLaunchScript : MonoBehaviour
             // M_Water.SetActive(false);
             m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
         }
-       
+
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
+        {
+            M_LaunchPrompt.SetActive(false);
+            M_CurlPrompt.SetActive(false);
+            M_AimPrompt.SetActive(false);
+
+        }
     }
 
     IEnumerator waitForDrown()

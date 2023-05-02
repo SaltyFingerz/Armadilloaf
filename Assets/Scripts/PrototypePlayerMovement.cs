@@ -269,7 +269,8 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (other.gameObject.name.Contains("FirstLaunchZone"))
         {
             M_CurlPrompt.SetActive(false);
-           
+            M_AimPrompt.SetActive(false);
+            M_LaunchPrompt.SetActive(false);
             M_InLaunchZone = false;
 
         }
