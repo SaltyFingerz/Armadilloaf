@@ -176,6 +176,7 @@ public class PlayerLaunchScript : MonoBehaviour
             M_LaunchPrompt.SetActive(false);
             M_LaunchPrompt2.SetActive(false);
             M_AimPrompt.SetActive(false);
+            M_UncurlPrompt.SetActive(false);
         }
 
         // if paused or free flying, don't update
