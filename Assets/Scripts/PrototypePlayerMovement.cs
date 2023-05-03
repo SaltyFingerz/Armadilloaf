@@ -30,7 +30,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     private float m_gravityValue = -9.81f;
     private bool m_isHittingWall = false;
     private float m_pushForce = 4.0f;
-  
+    private float m_sizeSupport = 1;
     public Vector3 M_TargetBlobSize;
     private bool m_gradualSize = true;
     public GameObject M_FinishUI;
@@ -361,6 +361,8 @@ public class PrototypePlayerMovement : MonoBehaviour
             M_UncurlPrompt.SetActive(false);
         }
        */
+
+   
 
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
