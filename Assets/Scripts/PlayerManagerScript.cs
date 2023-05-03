@@ -493,6 +493,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_Fluffed = false;
         M_Jellied = false;
         ResetAbilities();
+        M_PlayerMovement.ResetPainState();
 
     }
 

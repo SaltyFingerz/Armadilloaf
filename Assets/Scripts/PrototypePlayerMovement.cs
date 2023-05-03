@@ -64,6 +64,12 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         M_CurlingDust.Play();
     }
+
+    public void ResetPainState()
+    {
+        m_canPain = true;
+        m_canDrown = true;
+    }
     private void OnTriggerStay(Collider a_hit)
     {
         if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
