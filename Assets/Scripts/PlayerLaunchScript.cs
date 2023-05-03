@@ -36,6 +36,11 @@ public class PlayerLaunchScript : MonoBehaviour
     public Canvas M_canvas;
     public GameObject[] M_BigCans;
     public GameObject[] M_Cereals;
+
+    [SerializeField] AudioClip[] m_painClip;
+    public AudioSource M_PainAudio;
+    private bool m_canPain = true;
+
     float m_rotationMouseY = 0.0f, m_rotationMouseX = 0.0f;
     public float m_mouseSensitivityX;
     public float m_mouseSensitivityY;
@@ -213,6 +218,12 @@ public class PlayerLaunchScript : MonoBehaviour
         }
         */
 
+    }
+
+    public void ResetPainState()
+    {
+        m_canPain = true;
+        m_canDrown = true;
     }
 
     void RollingDirectionInput()
@@ -573,6 +584,21 @@ public class PlayerLaunchScript : MonoBehaviour
         StartCoroutine(waitForDrown());
     }
 
+    IEnumerator waitForPain()
+    {
+        yield return new WaitForSeconds(1);
+        m_canPain = true;
+
+    }
+
+    public void PainSound() //random sound of the player character taunting her opponents by exclaiming "Pathetic!" called upon clearing the enemies of a room.
+    {
+        AudioClip clip = m_painClip[UnityEngine.Random.Range(0, m_painClip.Length)];
+        M_PainAudio.PlayOneShot(clip);
+        m_canPain = false;
+        StartCoroutine(waitForPain());
+    }
+
     private void OnTriggerStay(Collider a_hit)
     {
         if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
@@ -580,6 +606,11 @@ public class PlayerLaunchScript : MonoBehaviour
             PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
             if (m_playerManagerScript.M_sizeState != 2 || !a_hit.gameObject.CompareTag("Enemy"))
             {
+                if (m_canPain)
+                {
+                    PainSound();
+
+                }
                 m_playerManagerScript.M_takingDamage = true;
                 
             }
