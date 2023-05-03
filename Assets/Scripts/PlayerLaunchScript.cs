@@ -576,8 +576,9 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         if (a_hit.gameObject.name.Contains("Water")) //deactivate yellow overlay
         {
-            print("exit water");
-            StopCoroutine(YellowScreen());
+           
+            TurnOffYellow();
+           
             // M_Water.SetActive(false);
             m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
         }
@@ -691,6 +692,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void TurnOffYellow()
     {
+        PlayerManagerScript.M_UnderWater = false;
         StopCoroutine(YellowScreen());
         // M_Water.SetActive(false);
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
@@ -699,6 +701,7 @@ public class PlayerLaunchScript : MonoBehaviour
     IEnumerator YellowScreen() //yellow overlay activator
     {
         M_Water.SetActive(true);
+        PlayerManagerScript.M_UnderWater = true;
         while (PlayerManagerScript.alphaYellow < 0.66f)
         {
 

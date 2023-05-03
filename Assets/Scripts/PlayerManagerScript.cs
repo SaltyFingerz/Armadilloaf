@@ -31,6 +31,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public int M_sizeState = (int)SizeState.normal;             // Keeps Track of size, int type to use as M_sizes index
     public float M_jellyBounciness = 0.9f;
     public static float alphaYellow;
+    public static bool M_UnderWater;
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
     public static float M_TargetSize;
@@ -203,6 +204,18 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if(M_UnderWater)
+        {
+            M_launchingPlayer.GetComponent<Rigidbody>().useGravity = false;
+            M_walkingPlayer.GetComponent<Rigidbody>().useGravity = false;
+        }
+        else if(!M_UnderWater)
+        {
+            M_launchingPlayer.GetComponent<Rigidbody>().useGravity = true;
+            M_walkingPlayer.GetComponent<Rigidbody>().useGravity = true;
+        }
+
         if (!isPaused)
         { 
         M_timeElapsed += Time.deltaTime;

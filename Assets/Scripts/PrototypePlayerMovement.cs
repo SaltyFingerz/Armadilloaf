@@ -111,7 +111,9 @@ public class PrototypePlayerMovement : MonoBehaviour
     
     IEnumerator YellowScreen()
     {
+        PlayerManagerScript.M_UnderWater = true;
         M_Water.SetActive(true);
+        
         while (PlayerManagerScript.alphaYellow < 0.66f)
         {
 
@@ -284,18 +286,26 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
 
 
-    
-      
-          
-          
-       
 
-     
+        if (other.gameObject.name.Contains("Water")) //deactivate yellow overlay
+        {
+
+            TurnOffYellow();
+
+            // M_Water.SetActive(false);
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
+        }
+
+
+
+
+
 
     }
 
     public void TurnOffYellow()
     {
+        PlayerManagerScript.M_UnderWater = false;
         StopCoroutine(YellowScreen());
         // M_Water.SetActive(false);
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
