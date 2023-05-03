@@ -104,6 +104,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
         M_walkingPlayer.SetActive(true);
+        M_launchingPlayer.GetComponent<PlayerLaunchScript>().Initialize();
         M_launchingPlayer.SetActive(false);
         M_freeFlyingPlayer.SetActive(false);
         M_sizeState = (int)SizeState.normal;

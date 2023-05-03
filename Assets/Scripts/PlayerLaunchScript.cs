@@ -86,6 +86,10 @@ public class PlayerLaunchScript : MonoBehaviour
     Renderer m_renderer;
     public void Start()
     {
+    }
+
+    public void Initialize()
+    {
         // get objects
         m_rigidbody = GetComponent<Rigidbody>();
         M_arrowMaximum = this.gameObject.transform.GetChild(0).gameObject;
@@ -96,7 +100,6 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction = new Vector3(0.0f, 0.0f, 1.0f);
         M_fillImage.fillAmount = 0.0f;
         M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, m_baseLength + m_powerSizeStep * M_maxPower);
-        m_cameraRotationY = -Mathf.Cos(24f);
         M_BigCans = GameObject.FindGameObjectsWithTag("Big Can");
         M_Cereals = GameObject.FindGameObjectsWithTag("Cereal");
 
@@ -720,7 +723,7 @@ public class PlayerLaunchScript : MonoBehaviour
         StartCoroutine(resetFluff());
     }
 
-    public  void Defluff()
+    public void Defluff()
     {
         m_renderer.material.color = Color.white;
         M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.white;
