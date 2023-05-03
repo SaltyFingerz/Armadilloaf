@@ -51,7 +51,6 @@ public partial class PlayerManagerScript : MonoBehaviour
     public int M_lives = 5;
     public int M_respawns = 0;
     public int M_shots = 0;
-    public float M_hitPoints = 5.0f;
     public bool M_takingDamage = false;
     public bool M_transitionIn = false;
     public bool M_transitionOut = false;
@@ -286,76 +285,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         if (M_takingDamage && m_invulnerabilityTimerSeconds > m_invulnerabilityPeriodSeconds)
         {
-            Debug.Log("ow");
-            m_invulnerabilityTimerSeconds = 0.0f;
-            M_freshnessBiscuit.enabled = true;
-            M_hitPoints -= (1.0f * Time.deltaTime);
-            Debug.Log(M_hitPoints);
-
-            if (M_hitPoints <= 0)
-            {
-                M_transitionIn = true;
-                M_takingDamage = false;
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
-                M_freshnessBiscuit.enabled = false;
-                ResetBiscuitBites();
-            }
-            else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[3])
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[4];
-                if (M_biscuitBites[3] == false)
-                {
-                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                    M_biscuitBites[3] = true;
-                }
-            }
-            else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[2])
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[3];
-                if (M_biscuitBites[2] == false)
-                {
-                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                    M_biscuitBites[2] = true;
-                }
-            }
-            else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[1])
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[2];
-                if (M_biscuitBites[1] == false)
-                {
-                    M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                    M_biscuitBites[1] = true;
-                }
-            }
-            else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[0])
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[1];
-                if (M_biscuitBites[0] == false)
-                { 
-                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                M_biscuitBites[0] = true;
-                }
-            }
-            else
-            {
-                M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
-            }
-
-
-            AudioClip clip = m_biscuitClip[UnityEngine.Random.Range(0, m_biscuitClip.Length)];
-            M_biscuitBreak.PlayOneShot(clip);
-
-            M_lives--;
-            M_lifeText.text = M_lives.ToString();
-
-            if (M_lives == 0)
-            {
-                M_lives = 5;
-                M_lifeText.text = M_lives.ToString();
-                Respawn();
-                M_transitionIn = true;
-            }
-            M_takingDamage = false;
+            TakeDamage();
         }
 
       
@@ -369,6 +299,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             {
                 M_transitionIn = false;
                 M_transitionOut = true;
+                Respawn();
             }
         }
 
@@ -379,6 +310,12 @@ public partial class PlayerManagerScript : MonoBehaviour
             {
                 M_transitionSprite.enabled = false;
                 M_transitionOut = false;
+
+                M_freshnessBiscuit.enabled = true;
+                M_lives = 5;
+                M_lifeText.text = M_lives.ToString();
+                M_takingDamage = false;
+                m_invulnerabilityTimerSeconds = m_invulnerabilityPeriodSeconds;
             }
         }
         if (m_justUnpaused)
@@ -464,6 +401,72 @@ public partial class PlayerManagerScript : MonoBehaviour
       
     }
 
+    public void TakeDamage()
+    {
+        // reset damage taking
+        M_takingDamage = false;
+        m_invulnerabilityTimerSeconds = 0.0f;
+
+        M_freshnessBiscuit.enabled = true;
+
+        // life management
+        M_lives--;
+        M_lifeText.text = M_lives.ToString();
+
+        if (M_lives <= 0)
+        {
+            M_transitionIn = true;
+            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
+            M_freshnessBiscuit.enabled = false;
+            m_invulnerabilityTimerSeconds = -30.0f;
+            ResetBiscuitBites();
+        }
+        else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[3])
+        {
+            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[4];
+            if (M_biscuitBites[3] == false)
+            {
+                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                M_biscuitBites[3] = true;
+            }
+        }
+        else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[2])
+        {
+            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[3];
+            if (M_biscuitBites[2] == false)
+            {
+                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                M_biscuitBites[2] = true;
+            }
+        }
+        else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[1])
+        {
+            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[2];
+            if (M_biscuitBites[1] == false)
+            {
+                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                M_biscuitBites[1] = true;
+            }
+        }
+        else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[0])
+        {
+            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[1];
+            if (M_biscuitBites[0] == false)
+            {
+                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
+                M_biscuitBites[0] = true;
+            }
+        }
+        else
+        {
+            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
+        }
+
+
+        AudioClip clip = m_biscuitClip[UnityEngine.Random.Range(0, m_biscuitClip.Length)];
+        M_biscuitBreak.PlayOneShot(clip);
+    }
+
     public void Respawn()
     {
         if(M_sizeState==2)
@@ -486,7 +489,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         Debug.Log(currentCheckpoint);
         Debug.Log(M_walkingPlayer.transform.position);
         l_controller.rb.isKinematic = false;
-        M_hitPoints = 5;
         M_freshnessBiscuit.enabled = false;
         StartLaunching();
         StartWalking();
@@ -631,7 +633,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void Regenerate()
     {
-        M_hitPoints = 5;
+        M_lives = 5;
         M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
         ResetBiscuitBites();
         M_Rendering.RestoreSaturation();
