@@ -19,6 +19,7 @@ public class PauseManagerScript : UIManagerScript
     public GameObject M_collectedFruits;
     public AudioMixer M_audioMixer;
     public RenderingScript M_Rendering;
+    public int M_timeMins;
 
     const string MIXER_MASTER = "M_musicMuffle";
 
@@ -101,6 +102,45 @@ public class PauseManagerScript : UIManagerScript
         }
         M_audioMixer.SetFloat(MIXER_MASTER, 200.0f);
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    public string GetTimeString()
+    {
+        int l_timeMins = 0;
+        int l_timeSecs = (int)M_playerManager.GetComponent<PlayerManagerScript>().M_timeElapsed;
+        if (l_timeSecs > 60)
+        {
+            l_timeMins = l_timeSecs / 60;
+            for (int i = 0; i < l_timeMins; i++)
+            {
+                l_timeSecs -= 60;
+            }
+        }
+
+        M_timeMins = l_timeMins;
+
+        if (l_timeMins > 0)
+        {
+            if (l_timeSecs < 10)
+            {
+                return l_timeMins.ToString() + ":0" + l_timeSecs.ToString();
+            }
+            else
+            {
+                return l_timeMins.ToString() + ":" + l_timeSecs.ToString();
+            }
+        }
+        else
+        {
+            if (l_timeSecs < 10)
+            {
+                return ":0" + l_timeSecs.ToString();
+            }
+            else
+            {
+                return ":" + l_timeSecs.ToString();
+            }
+        }
     }
 
     public IEnumerator FadeIn(Image a_image)

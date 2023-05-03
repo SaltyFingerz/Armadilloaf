@@ -224,7 +224,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         print("bounciness" + M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness + "and" + M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness);
 
         M_FruitUI.text = M_FruitCollected.ToString();
-        M_FruitUIFin.text = M_FruitCollected.ToString();
         m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
@@ -603,6 +602,12 @@ public partial class PlayerManagerScript : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void FinishedLevel()
+    {
+        LevelFinishScript levelFinishScript = FindObjectOfType<LevelFinishScript>();
+        levelFinishScript.UpdateScores();
     }
 
 
