@@ -52,7 +52,7 @@ public class PlayerLaunchScript : MonoBehaviour
     float m_launchingPower;
     bool m_canShake = false;
     bool m_stationaryFrame = false;
-
+    float m_sizeSupport = 1;
     private float alphaYellow;
     private UnityEngine.UI.Image m_Yellow;
 
@@ -234,6 +234,18 @@ public class PlayerLaunchScript : MonoBehaviour
 
         float l_multiplier = 1500.0f;
 
+       
+
+        if(M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState == 2)
+        {
+            m_sizeSupport = 16;
+        }
+
+        else
+        {
+            m_sizeSupport = 1;
+        }
+
         if (isGrounded())
         {
             l_multiplier = 3000.0f;
@@ -247,7 +259,7 @@ public class PlayerLaunchScript : MonoBehaviour
         l_direction.y = 0.0f;
         l_direction.Normalize();
 
-        m_rigidbody.AddForce(l_direction * l_multiplier * Time.fixedDeltaTime);
+        m_rigidbody.AddForce(l_direction * l_multiplier * Time.fixedDeltaTime * m_sizeSupport);
 
         float l_maxSpeed = 80.0f;
         if (m_rigidbody.velocity.magnitude > l_maxSpeed)
@@ -348,8 +360,20 @@ public class PlayerLaunchScript : MonoBehaviour
         M_arrow.SetActive(false);
         M_arrowMaximum.SetActive(false);
         m_launchingPower *= 3.0f;
-       // m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
-        m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100, 0  , -m_direction.z * m_launchingPower * 100));
+        // m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
+
+        
+        if(M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState == 2)
+        {
+            m_sizeSupport = 16;
+        }
+
+        else
+        {
+            m_sizeSupport = 1;
+        }
+        m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100 * m_sizeSupport, 0  , -m_direction.z * m_launchingPower * 100 * m_sizeSupport));
+        print(m_sizeSupport);
 
         AudioClip ac = m_launchSmacks[UnityEngine.Random.Range(0, m_launchSmacks.Length)];
         M_LaunchSmack.PlayOneShot(ac);
