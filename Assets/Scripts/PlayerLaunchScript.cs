@@ -53,7 +53,7 @@ public class PlayerLaunchScript : MonoBehaviour
     bool m_canShake = false;
     bool m_stationaryFrame = false;
     float m_sizeSupport = 1;
-    private float alphaYellow;
+    
     private UnityEngine.UI.Image m_Yellow;
 
     public int M_maxPower;
@@ -699,11 +699,11 @@ public class PlayerLaunchScript : MonoBehaviour
     IEnumerator YellowScreen() //yellow overlay activator
     {
         M_Water.SetActive(true);
-        while (alphaYellow < 0.66f)
+        while (PlayerManagerScript.alphaYellow < 0.66f)
         {
 
-            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, alphaYellow);
-            alphaYellow += 0.01f * Time.deltaTime;
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, PlayerManagerScript.alphaYellow);
+            PlayerManagerScript.alphaYellow += 0.01f * Time.deltaTime;
             yield return null;
 
         }

@@ -37,7 +37,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
     public GameObject M_FreshBiscuit;
-    private float alphaYellow;
+    
     private UnityEngine.UI.Image m_Yellow;
     public GameObject M_BananaPrompt;
     [SerializeField] AudioClip[] m_drownClip;
@@ -112,11 +112,11 @@ public class PrototypePlayerMovement : MonoBehaviour
     IEnumerator YellowScreen()
     {
         M_Water.SetActive(true);
-        while (alphaYellow < 0.66f)
+        while (PlayerManagerScript.alphaYellow < 0.66f)
         {
 
-            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, alphaYellow);
-            alphaYellow += 0.01f * Time.deltaTime;
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, PlayerManagerScript.alphaYellow);
+            PlayerManagerScript.alphaYellow += 0.01f * Time.deltaTime;
             yield return null;
 
         }
