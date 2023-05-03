@@ -170,7 +170,18 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle key inputs
     public void Update()
     {
-       if(!PrototypePlayerMovement.M_InLaunchZone)
+        if(isGrounded())
+        {
+            GroundDetectionScript.M_IsGrounded = true;
+
+        }
+        else if (!isGrounded())
+        {
+
+            GroundDetectionScript.M_IsGrounded = false;
+        }
+
+            if (!PrototypePlayerMovement.M_InLaunchZone)
         {
             M_CurlPrompt.SetActive(false);
             M_LaunchPrompt.SetActive(false);
@@ -720,26 +731,36 @@ public class PlayerLaunchScript : MonoBehaviour
         m_renderer.material.color = Color.cyan;
         M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.cyan;
         GetComponent<SphereCollider>().material.bounciness = 0f;
-        StartCoroutine(resetFluff());
+        if (!m_resettingFluff)
+        {
+            StartCoroutine(resetFluff());
+        }
     }
 
     public  void Defluff()
     {
+      
+       
         m_renderer.material.color = Color.white;
-        M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.white;
+       M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.white;
       
             GetComponent<SphereCollider>().material.bounciness = 0.2f;
-       
+        
         PlayerManagerScript.M_Fluffed = false;
+       // StopCoroutine(resetFluff());
     }
 
+    bool m_resettingFluff;
     IEnumerator resetFluff()
     {
+        m_resettingFluff = true;
+       
         yield return new WaitForSeconds(10);
         if (!PlayerManagerScript.M_Jellied)
         {
             Defluff();
         }
+        m_resettingFluff = false;
     }
     void OnCollisionStay(Collision a_hit)
     {
