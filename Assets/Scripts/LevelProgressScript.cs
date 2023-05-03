@@ -21,6 +21,8 @@ public class LevelProgressScript : MonoBehaviour
         if(other.CompareTag("Finish"))
         {
             M_FinishUI.SetActive(true);
+            M_FinishUI.GetComponent<LevelFinishScript>().UpdateScores();
+            M_FinishUI.GetComponent<LevelFinishScript>().UpdateStars();
         }
     }
 }
