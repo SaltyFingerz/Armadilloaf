@@ -272,7 +272,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         else
         {
             M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Safe");
-            M_freshnessBiscuit.enabled = true;
             if (M_musicPlayer.pitch < 1.0f && !M_takingDamage)
             { 
             M_musicPlayer.pitch += 0.01f;
@@ -293,29 +292,30 @@ public partial class PlayerManagerScript : MonoBehaviour
         // transition sprite starts growing after 5 deaths
         if (M_transitionIn)
         {
-          M_transitionSprite.enabled = true;
-          M_transitionSprite.transform.localScale += new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
-          if (M_transitionSprite.transform.localScale.x >= 15.0f)
+            M_transitionSprite.enabled = true;
+            M_transitionSprite.transform.localScale += new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
+            if (M_transitionSprite.transform.localScale.x >= 15.0f)
             {
-                M_transitionIn = false;
                 M_transitionOut = true;
+                M_transitionIn = false;
                 Respawn();
             }
         }
 
         if (M_transitionOut)
         {
+            M_transitionIn = false;
+            M_walkingPlayer.transform.position = currentCheckpoint;
+            M_launchingPlayer.transform.position = currentCheckpoint;
+            M_lives = 5;
+            m_invulnerabilityTimerSeconds = 0.0f;
+
             M_transitionSprite.transform.localScale -= new Vector3(15.00f * Time.deltaTime, 15.00f * Time.deltaTime, 15.00f * Time.deltaTime);
             if (M_transitionSprite.transform.localScale.x <= 0.01f)
             {
                 M_transitionSprite.enabled = false;
                 M_transitionOut = false;
-
                 M_freshnessBiscuit.enabled = true;
-                M_lives = 5;
-                M_lifeText.text = M_lives.ToString();
-                M_takingDamage = false;
-                m_invulnerabilityTimerSeconds = m_invulnerabilityPeriodSeconds;
             }
         }
         if (m_justUnpaused)
@@ -403,63 +403,33 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void TakeDamage()
     {
+
         // reset damage taking
         M_takingDamage = false;
         m_invulnerabilityTimerSeconds = 0.0f;
-
-        M_freshnessBiscuit.enabled = true;
 
         // life management
         M_lives--;
         M_lifeText.text = M_lives.ToString();
 
+        // death 
         if (M_lives <= 0)
         {
             M_transitionIn = true;
-            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
             M_freshnessBiscuit.enabled = false;
+            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
             m_invulnerabilityTimerSeconds = -30.0f;
             ResetBiscuitBites();
         }
-        else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[3])
+        // show health UI
+        else 
         {
-            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[4];
-            if (M_biscuitBites[3] == false)
+            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[4 - M_lives + 1];
+            if (M_biscuitBites[4 - M_lives] == false)
             {
                 M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                M_biscuitBites[3] = true;
+                M_biscuitBites[4 - M_lives] = true;
             }
-        }
-        else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[2])
-        {
-            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[3];
-            if (M_biscuitBites[2] == false)
-            {
-                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                M_biscuitBites[2] = true;
-            }
-        }
-        else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[1])
-        {
-            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[2];
-            if (M_biscuitBites[1] == false)
-            {
-                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                M_biscuitBites[1] = true;
-            }
-        }
-        else if (M_freshnessBiscuit.sprite == M_freshnessBiscuitLevels[0])
-        {
-            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[1];
-            if (M_biscuitBites[0] == false)
-            {
-                M_biscuitAnimator.Play("Base Layer.BiscuitAnimation", 0, 0);
-                M_biscuitBites[0] = true;
-            }
-        }
-        else
-        {
-            M_freshnessBiscuit.sprite = M_freshnessBiscuitLevels[0];
         }
 
 
@@ -469,34 +439,23 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void Respawn()
     {
-        if(M_sizeState==2)
-        {
-            M_sizeState = 1;
-        }
+        M_walkingPlayer.transform.position = currentCheckpoint;
+        M_launchingPlayer.transform.position = currentCheckpoint;
+        M_sizeState = 1;
         M_respawns++;
         M_Rendering.ResetVignette();
         M_Rendering.RestoreSaturation();
         M_PlayerMovement.GetComponent<PrototypePlayerMovement>().TurnOffYellow();
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().TurnOffYellow();
-        CustomController l_controller = M_walkingPlayer.GetComponent<CustomController>();
-        l_controller.rb.isKinematic = true;
-        M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = true;
-        Debug.Log(currentCheckpoint);
-        Debug.Log(M_walkingPlayer.transform.position);
-        M_walkingPlayer.transform.position = currentCheckpoint;
-        M_launchingPlayer.transform.position = currentCheckpoint;
-        M_launchingPlayer.GetComponent<Rigidbody>().isKinematic = false;
-        Debug.Log(currentCheckpoint);
-        Debug.Log(M_walkingPlayer.transform.position);
-        l_controller.rb.isKinematic = false;
-        M_freshnessBiscuit.enabled = false;
         StartLaunching();
         StartWalking();
         M_Fluffed = false;
         M_Jellied = false;
         ResetAbilities();
+        M_freshnessBiscuit.enabled = true;
+        M_lifeText.text = M_lives.ToString();
+        M_takingDamage = false;
         M_PlayerMovement.ResetPainState();
-
     }
 
     public void Resume()
