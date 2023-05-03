@@ -369,7 +369,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             StateCheck();
            
         }
-        if(Input.GetKeyDown(KeyCode.C))
+       /* if(Input.GetKeyDown(KeyCode.C))
         {
             if (M_isFreeFlying)
             {
@@ -398,12 +398,13 @@ public partial class PlayerManagerScript : MonoBehaviour
             {
                 StartFlying();
             }
-        }
+        }*/
         // prototype restart, to do: have this be automatic upon failure
-        if (Input.GetKeyDown(KeyCode.R))
+      /*  if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("FailScreen");
         }
+      */
 
         if(Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {

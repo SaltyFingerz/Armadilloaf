@@ -133,23 +133,30 @@ public class PrototypePlayerMovement : MonoBehaviour
       //  m_renderer.material.color = Color.cyan;
       //  M_FreshBiscuit.GetComponent<Image>().color = Color.cyan;
         StartCoroutine(resetFluff());
-        print("fluffing is being called from somewhere");
+        
     }
 
     public void Defluff()
     {
+        
         PlayerManagerScript.M_Fluffed = false;
         m_playerSpeed = 2;
-     //   m_renderer.material.color = Color.white;
-      //  M_FreshBiscuit.GetComponent<Image>().color = Color.white;
+       // StopCoroutine(resetFluff());
+        m_renderer.material.color = Color.white;
+        M_FreshBiscuit.GetComponent<Image>().color = Color.white;
        
     }
+    bool m_resettingFluff;
     IEnumerator resetFluff()
     {
+        m_resettingFluff = true;
         
         yield return new WaitForSeconds(10);
-        Defluff();
-        
+        if (!PlayerManagerScript.M_Jellied)
+        {
+            Defluff();
+        }
+        m_resettingFluff = false;
     }
 
     IEnumerator waitForPain()
@@ -354,6 +361,8 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
+       
+
       /*  if(!M_InLaunchZone)
         {
             M_CurlPrompt.SetActive(false);
@@ -526,6 +535,14 @@ public class PrototypePlayerMovement : MonoBehaviour
         else if(PlayerManagerScript.M_Fluffed == false)
         {
             m_playerSpeed = 2.0f;
+        }
+        else if(PlayerManagerScript.M_Fluffed)
+        {
+            m_playerSpeed = 0.5f;
+            if (!m_resettingFluff)
+            {
+                StartCoroutine(resetFluff());
+            }
         }
 
         // movement with AWSD keys
