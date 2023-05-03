@@ -528,11 +528,11 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         Vector3 l_movementDirection = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.LeftShift) && PlayerManagerScript.M_Fluffed == false) //sprint currently deactivated
+        if (Input.GetKey(KeyCode.LeftShift) && !PlayerManagerScript.M_Fluffed) //sprint currently deactivated
         {
              m_playerSpeed = 2.5f; 
         }
-        else if(PlayerManagerScript.M_Fluffed == false)
+        else if(!PlayerManagerScript.M_Fluffed)
         {
             m_playerSpeed = 2.0f;
         }
