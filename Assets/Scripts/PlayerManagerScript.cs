@@ -571,7 +571,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     }
     public void StartLaunching()
     {
-        
+
+      
 
         M_additionalCamera.SetActive(false);
         M_walkingPlayer.SetActive(false);

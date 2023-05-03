@@ -176,6 +176,7 @@ public class PlayerLaunchScript : MonoBehaviour
             M_LaunchPrompt.SetActive(false);
             M_LaunchPrompt2.SetActive(false);
             M_AimPrompt.SetActive(false);
+            M_UncurlPrompt.SetActive(false);
         }
 
         // if paused or free flying, don't update
@@ -732,7 +733,10 @@ public class PlayerLaunchScript : MonoBehaviour
     IEnumerator resetFluff()
     {
         yield return new WaitForSeconds(10);
-        Defluff();
+        if (!PlayerManagerScript.M_Jellied)
+        {
+            Defluff();
+        }
     }
     void OnCollisionStay(Collision a_hit)
     {
@@ -750,7 +754,7 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             PlayerManagerScript m_playerManagerScript = M_playerManager.GetComponent<PlayerManagerScript>();
 
-            if (m_playerManagerScript.M_sizeState != 2 || a_hit.gameObject.CompareTag("Enemy"))
+            if (m_playerManagerScript.M_sizeState != 2 || !a_hit.gameObject.CompareTag("Enemy"))
             {
                 m_playerManagerScript.M_takingDamage = true;
         
