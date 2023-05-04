@@ -1111,6 +1111,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: JellySizeUpPellet (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 4007594688719302013, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
+      propertyPath: m_Radius
+      value: 1.43
+      objectReference: {fileID: 0}
     - target: {fileID: 4007594688719302014, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_RootOrder
       value: 80
@@ -1133,7 +1137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4007594688719302014, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 59.14
+      value: 60.04
       objectReference: {fileID: 0}
     - target: {fileID: 4007594688719302014, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3827,7 +3831,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 148904404}
   m_LocalRotation: {x: 0, y: 0.99240834, z: -0.12298658, w: 0}
-  m_LocalPosition: {x: 16.96, y: 58.17, z: 59.79}
+  m_LocalPosition: {x: 16.96, y: 59.1, z: 59.79}
   m_LocalScale: {x: 1.0453169, y: 1.0453169, z: 1.0453169}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47828,7 +47832,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260168631}
   m_LocalRotation: {x: 0.61477244, y: 2.0242753e-10, z: -2.5969857e-10, w: 0.78870463}
-  m_LocalPosition: {x: 0.22, y: 0.29261017, z: -0.102667555}
+  m_LocalPosition: {x: 0.22, y: -0.43, z: -2.97}
   m_LocalScale: {x: 0.9566478, y: 0.95664763, z: 0.95664763}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -89146,6 +89150,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: JellySizeUpPellet (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 4007594688719302013, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
+      propertyPath: m_Radius
+      value: 1.42
+      objectReference: {fileID: 0}
     - target: {fileID: 4007594688719302014, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_RootOrder
       value: 87
@@ -89168,7 +89176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4007594688719302014, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 62.3
+      value: 63.83
       objectReference: {fileID: 0}
     - target: {fileID: 4007594688719302014, guid: ff1d2c5bd7b41df46a7e81f7f6a51d57, type: 3}
       propertyPath: m_LocalPosition.z
@@ -90554,7 +90562,7 @@ RectTransform:
   m_GameObject: {fileID: 2060092517}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 62.34}
-  m_LocalScale: {x: 0.20534717, y: 0.025809214, z: 0.20534717}
+  m_LocalScale: {x: 0.16156715, y: 0.025809214, z: 0.20534717}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 601765500}
@@ -90585,7 +90593,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: da5e2c61ba03b4446abc1e2b32bdb9ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a2d506d95eb1e734e8a15526b35782da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
