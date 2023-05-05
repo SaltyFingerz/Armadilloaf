@@ -55,7 +55,6 @@ public class TutorialManager : MonoBehaviour
     public void CloseIntro()
     {
         
-        print("yas");
         Cursor.lockState = CursorLockMode.Locked;
         M_movePrompt.SetActive(true);
     }
@@ -66,7 +65,6 @@ public class TutorialManager : MonoBehaviour
         
         if(M_Walker.activeSelf)
         {
-            print("walker active");
             M_launchAimPrompt.SetActive(false);
             M_launchShoot.SetActive(false);
             M_launchShoot2.SetActive(false);
@@ -130,8 +128,6 @@ public class TutorialManager : MonoBehaviour
         {
             M_movePrompt.SetActive(false);
             M_MyChildCanWalk.SetActive(true);
-            print("hohoho");
-           // M_jumpPrompt.SetActive(true);
      
 
         }

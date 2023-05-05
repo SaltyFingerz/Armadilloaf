@@ -220,8 +220,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         { 
         M_timeElapsed += Time.deltaTime;
         }
-        //print("fluffed" + M_Fluffed);
-        print("bounciness" + M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness + "and" + M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness);
 
         M_FruitUI.text = M_FruitCollected.ToString();
         m_invulnerabilityTimerSeconds += Time.deltaTime;
@@ -247,7 +245,6 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_SilhouetteBall.SetFloat("_Jellied", 1);
 
             M_Fluffed = false;
-            print("pink ball material");
         }
 
         if (!M_Jellied && !M_Fluffed)
@@ -690,7 +687,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_EjectionPS2.Play();
         yield return new WaitForSeconds(1f);
         Instantiate(M_JellyDecal, M_JellyParent.transform.position, M_JellyDecalRotation);
-        print("splat");
 
     }
 
