@@ -63,6 +63,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public AudioSource M_musicPlayer;
     bool m_justUnpaused;
     public bool isPaused;
+    public bool levelCompleted;
 
     [SerializeField] AudioClip[] m_biscuitClip;
     [SerializeField] float m_invulnerabilityPeriodSeconds = 2.0f;
@@ -360,7 +361,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
       
         // state changing
-        if (( Input.GetMouseButtonDown(1)) && !M_isFreeFlying)
+        if (( Input.GetMouseButtonDown(1)) && !M_isFreeFlying && !levelCompleted)
         {
             StateCheck();
            
@@ -404,9 +405,12 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         if(Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
+            if (!levelCompleted)
+            { 
             Time.timeScale = 0;
             M_UIManager.enabled = true;
             M_UIManager.Paused();
+            }
         }
 
       
