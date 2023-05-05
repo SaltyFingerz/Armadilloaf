@@ -54,7 +54,6 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         m_controller = gameObject.GetComponent<CustomController>();
         m_renderer = gameObject.GetComponent<Renderer>();
-        print(Screen.currentResolution);
 
         m_Yellow = M_Water.GetComponent<UnityEngine.UI.Image>();
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
@@ -94,7 +93,6 @@ public class PrototypePlayerMovement : MonoBehaviour
             if(a_hit.gameObject.CompareTag("Enemy") && m_playerManagerScript.M_sizeState != 2)
             {
                 Fluffing();
-                print("Fluffing being called by enemy");
             }
         }
 
@@ -193,10 +191,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (a_hit.gameObject.CompareTag("Collectible"))
         {
             a_hit.gameObject.GetComponent<HoverScript>().PlayPickupSound();
-            //if (a_hit.gameObject.name == "Collectible Banana")
-            //{
-            //}
-            print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
 
         }
@@ -338,7 +332,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (m_rb != null && !m_rb.isKinematic)
         {
             m_rb.velocity = a_hit.moveDirection * m_pushForce;
-            print("push");
         }
     }
 
@@ -348,7 +341,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (m_rb != null && !m_rb.isKinematic)
         {
             m_rb.velocity = transform.forward * m_pushForce;
-            print("push");
         }
     }
 
@@ -389,7 +381,6 @@ public class PrototypePlayerMovement : MonoBehaviour
                 m_pushForce = 20.0f;
                 M_TargetBlobSize = new Vector3(10, 10, 50);
                 m_jumpHeight = 15;
-                print("jumpheightshouldbesettohigh" + m_jumpHeight);
                 break;
 
             case (int)PlayerManagerScript.SizeState.normal:
@@ -405,7 +396,7 @@ public class PrototypePlayerMovement : MonoBehaviour
                 break;
 
             default:
-                Debug.Log("Error! Did you forget to set a size state?");
+                //Did you forget to set a size state?
                 break;
         }
 
@@ -596,7 +587,7 @@ public class PrototypePlayerMovement : MonoBehaviour
                 break;
 
             default:
-                Debug.Log("Error! Did you forget to set a size state?");
+                //Did you forget to set a size state?
                 break;
         }
     }

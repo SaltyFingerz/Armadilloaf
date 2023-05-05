@@ -20,7 +20,6 @@ public class UIManagerScript : MonoBehaviour
     }
     public void Exit()
     {
-        Debug.Log("Game exit");
         Application.Quit();
     }
 

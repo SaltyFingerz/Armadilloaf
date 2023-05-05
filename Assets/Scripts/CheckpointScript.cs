@@ -31,7 +31,6 @@ public class CheckpointScript : MonoBehaviour
         { 
         m_player.currentCheckpoint = new Vector3 (transform.position.x, transform.position.y + 2.0f, transform.position.z);   
         StartCoroutine(m_messageScreen.CheckpointTextOnScreen(this));
-        Debug.Log("Checkpoint set at following coords: " + transform.position);
         }
     }
 

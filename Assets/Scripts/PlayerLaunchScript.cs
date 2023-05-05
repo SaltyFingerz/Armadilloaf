@@ -111,7 +111,6 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         if (m_stationaryFrame && isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
         {
-            Debug.Log("Relaunch");
             Reset();
         }
         m_stationaryFrame = false;
@@ -396,7 +395,6 @@ public class PlayerLaunchScript : MonoBehaviour
             m_sizeSupport = 1;
         }
         m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100 * m_sizeSupport, 0  , -m_direction.z * m_launchingPower * 100 * m_sizeSupport));
-        print(m_sizeSupport);
 
         AudioClip ac = m_launchSmacks[UnityEngine.Random.Range(0, m_launchSmacks.Length)];
         M_LaunchSmack.PlayOneShot(ac);
@@ -539,7 +537,7 @@ public class PlayerLaunchScript : MonoBehaviour
                 break;
 
                 default:
-                    Debug.Log("Error! Did you forget to set a size state?");
+                    //This shouldn't happen. Did you forget to set a size state?
                     break;
             }
         
@@ -549,7 +547,6 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         if ( a_hit.gameObject.CompareTag("Collectible"))
         {
-            print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().PlayPickupSound();
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
         }
@@ -698,7 +695,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
          if  (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf && !M_UncurlPrompt.activeSelf)
             {
-            print(" in stationary frame" + m_stationaryFrame);
                 //PrototypePlayerMovement.M_InLaunchZone = true;
                 M_LaunchPrompt.SetActive(false);
                 M_LaunchPrompt2.SetActive(false);
