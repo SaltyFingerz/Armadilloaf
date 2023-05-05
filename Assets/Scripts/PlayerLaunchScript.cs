@@ -27,6 +27,7 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_LaunchPrompt2;
     public GameObject M_CurlPrompt;
     public GameObject M_AimPrompt;
+    public GameObject M_ShrinkPrompt;
     public bool hasFinishedLevel = false;
 
     public ParticleSystem M_BangEffect;
@@ -261,6 +262,11 @@ public class PlayerLaunchScript : MonoBehaviour
         if(M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState == 2)
         {
             m_sizeSupport = 16;
+        }
+
+        else if(M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState == 0)
+        {
+            m_sizeSupport = 0.5f;
         }
 
         else
@@ -586,6 +592,13 @@ public class PlayerLaunchScript : MonoBehaviour
 
             M_UncurlPrompt.SetActive(false);
            
+
+        }
+
+        if (a_hit.gameObject.name.Contains("ShrinkZone"))
+        {
+            M_AimPrompt.SetActive(false);
+            M_ShrinkPrompt.SetActive(true);
 
         }
 

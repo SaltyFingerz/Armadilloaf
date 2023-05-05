@@ -42,6 +42,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     //Player HUD objects
     public Canvas M_playerHUD;
     public Image M_freshnessBiscuit;
+    public Image M_MelonFruit;
     public Sprite[] M_freshnessBiscuitLevels = new Sprite[5];
     public bool[] M_biscuitBites = new bool[4];
     public Image M_armadilloaf;
@@ -187,6 +188,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             M_Renderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_freshnessBiscuit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
+            M_MelonFruit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_Tail.GetComponent<Renderer>().material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_2DRenderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_freshnessBiscuit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);

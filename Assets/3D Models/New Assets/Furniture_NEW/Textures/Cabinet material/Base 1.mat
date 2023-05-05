@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fridge Crust
+  m_Name: Base 1
   m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -25,11 +25,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 8a480f98a36483f48abe7514d1c5a9a6, type: 3}
+        m_Texture: {fileID: 2800000, guid: e23208d8bab04ae4c8c4454a3bf12eb7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 90ef416813b6fdd47b0ad0365cfd0b94, type: 3}
+        m_Texture: {fileID: 2800000, guid: 98085f210f3d5304c99ca3cf3d7e61ce, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -49,7 +49,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 8a480f98a36483f48abe7514d1c5a9a6, type: 3}
+        m_Texture: {fileID: 2800000, guid: e23208d8bab04ae4c8c4454a3bf12eb7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -107,8 +107,8 @@ Material:
     - _EnvironmentReflections: 1
     - _Fog: 1
     - _Fresnel: 0
-    - _FresnelSmoothness: 0.1
-    - _FresnelThickness: 0.45
+    - _FresnelSmoothness: 1
+    - _FresnelThickness: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -117,9 +117,9 @@ Material:
     - _Parallax: 0.005
     - _PureShadowColor: 0
     - _QueueOffset: 50
-    - _Ramp0: 0
+    - _Ramp0: -0.11
     - _Ramp1: 0.5
-    - _RampSmoothness: 0.021
+    - _RampSmoothness: 0.086
     - _RampTriple: 1
     - _ReceiveShadows: 1
     - _ReflectionBlend: 0.5
@@ -147,11 +147,11 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0.27058825}
+    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0.59607846}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &9205715269377650855
+--- !u!114 &4632192187843863483
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
