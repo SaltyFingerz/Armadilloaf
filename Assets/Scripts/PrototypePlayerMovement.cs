@@ -516,7 +516,8 @@ public class PrototypePlayerMovement : MonoBehaviour
     private void HandleInput()
     {
        
-
+        if (!M_playerManager.GetComponent<PlayerManagerScript>().levelCompleted)
+        { 
         Vector3 l_movementDirection = Vector3.zero;
 
         if (Input.GetKey(KeyCode.LeftShift) && !PlayerManagerScript.M_Fluffed) //sprint currently deactivated
@@ -539,7 +540,8 @@ public class PrototypePlayerMovement : MonoBehaviour
         // movement with AWSD keys
       //  l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
         l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
-    
+        }
+
     }
 
     //public static Vector3 Lerp(Vector3 a,  Vector3(a_size, a_size, a_size), 1f);

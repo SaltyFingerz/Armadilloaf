@@ -8,6 +8,8 @@ public class LevelFinishScript : MonoBehaviour
 {
     public PlayerManagerScript M_playerManager;
     public PauseManagerScript M_pauseManager;
+    public AudioSource M_musicPlayer;
+    public AudioClip M_levelEndTheme;
     public GameObject M_attachedObject;
     public TextMeshProUGUI M_timeTaken, M_fruitcollected, M_shotsTaken, M_respawns;
     public Image[] starImages = new Image[15];
@@ -23,6 +25,9 @@ public class LevelFinishScript : MonoBehaviour
 
     public void UpdateScores()
     {
+        M_musicPlayer.Stop();
+        M_musicPlayer.PlayOneShot(M_levelEndTheme);
+        M_playerManager.levelCompleted = true;
         M_timeTaken.text = M_pauseManager.GetTimeString();
         M_fruitcollected.text = M_playerManager.M_FruitCollected.ToString() + " of 11";
         M_shotsTaken.text = M_playerManager.M_shots.ToString();

@@ -23,6 +23,9 @@ public class LevelProgressScript : MonoBehaviour
             M_FinishUI.SetActive(true);
             M_FinishUI.GetComponent<LevelFinishScript>().UpdateScores();
             M_FinishUI.GetComponent<LevelFinishScript>().UpdateStars();
+            Time.timeScale = 0.0f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 }
