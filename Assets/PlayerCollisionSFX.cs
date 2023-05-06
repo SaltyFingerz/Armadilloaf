@@ -5,8 +5,10 @@ using UnityEngine;
 public class PlayerCollisionSFX : MonoBehaviour
 {
     [SerializeField] AudioClip[] PCollided;
+    [SerializeField] AudioClip[] M_Bounces;
+    public GameObject M_PManager;
     public AudioSource PHit;
-    private bool m_canHit = false;
+    private bool m_canHit = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,19 +18,13 @@ public class PlayerCollisionSFX : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.LeftShift)) 
-        {
-            m_canHit = false;
-        }
-        if (!m_canHit)
-        {
-            StartCoroutine(waitForP());
-        }
+        
+      
     }
 
     IEnumerator waitForP()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
         m_canHit = true;
 
     }
@@ -41,11 +37,30 @@ public class PlayerCollisionSFX : MonoBehaviour
         StartCoroutine(waitForP());
     }
 
+    public void BounceSound() //random sound of the player character taunting her opponents by exclaiming "Pathetic!" called upon clearing the enemies of a room.
+    {
+        AudioClip clip = M_Bounces[UnityEngine.Random.Range(0, M_Bounces.Length)];
+        PHit.PlayOneShot(clip);
+        m_canHit = false;
+        StartCoroutine(waitForP());
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (m_canHit)
+        if (m_canHit && M_PManager.GetComponent<PlayerManagerScript>().M_sizeState <2)
         {
             PHitSound();
+        }
+
+        else if (m_canHit && M_PManager.GetComponent<PlayerManagerScript>().M_sizeState == 2)
+        {
+            BounceSound();
+
+        }
+
+        else if (!m_canHit)
+        {
+            StartCoroutine(waitForP());
         }
     }
 }
