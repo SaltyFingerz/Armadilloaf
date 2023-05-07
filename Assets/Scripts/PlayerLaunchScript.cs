@@ -547,7 +547,11 @@ public class PlayerLaunchScript : MonoBehaviour
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
         }
 
-       
+        if (a_hit.gameObject.CompareTag("Enemy") && M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState != 2)
+        {
+            Fluffing();
+
+        }
 
         if (a_hit.gameObject.name.Contains("TipZone"))
         {
@@ -647,6 +651,7 @@ public class PlayerLaunchScript : MonoBehaviour
         StartCoroutine(waitForPain());
     }
 
+
     private void OnTriggerStay(Collider a_hit)
     {
         if (a_hit.gameObject.CompareTag("Hazard") || a_hit.gameObject.CompareTag("Enemy"))
@@ -670,11 +675,7 @@ public class PlayerLaunchScript : MonoBehaviour
                 DrownSound();
             }
 
-            if (a_hit.gameObject.CompareTag("Enemy") && m_playerManagerScript.M_sizeState != 2)
-            {
-                Fluffing();
-
-            }
+           
 
         }
          if (a_hit.gameObject.CompareTag("Hazard") && a_hit.gameObject.name.Contains("Water"))

@@ -89,10 +89,7 @@ public class PrototypePlayerMovement : MonoBehaviour
                 DrownSound();
             }
 
-            if(a_hit.gameObject.CompareTag("Enemy") && m_playerManagerScript.M_sizeState != 2)
-            {
-                Fluffing();
-            }
+           
         }
 
         if (a_hit.gameObject.CompareTag("Hazard") && a_hit.gameObject.name.Contains("Water"))
@@ -175,7 +172,12 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         }
 
-        if(a_hit.gameObject.name.Contains("FirstLaunchZone"))
+        if (a_hit.gameObject.CompareTag("Enemy") && M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState != 2)
+        {
+            Fluffing();
+        }
+
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
             M_InLaunchZone = true;
             M_LaunchPrompt.SetActive(false);

@@ -252,6 +252,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
 
            Defluff();
+           // m_resettingFluff = false;
 
         }
 
@@ -310,6 +311,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             if (M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness > 0f || M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed > 0.5f)
             {
+                print("turning blue");
                 M_Silhouette.SetFloat("_Fluffed", 1);
                 M_SilhouetteBall.SetFloat("_Fluffed", 1);
                 StartCoroutine(ChangePlayerColor(Color.cyan, 0.2f));
