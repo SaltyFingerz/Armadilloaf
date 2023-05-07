@@ -79,6 +79,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public static bool M_Fluffed;
     public static bool M_Jellied;
+    public static bool m_resettingFluff;
     public int M_FruitCollected;
     public TextMeshProUGUI M_FruitUI;
     public TextMeshProUGUI M_FruitUIFin;
@@ -120,6 +121,30 @@ public partial class PlayerManagerScript : MonoBehaviour
         Color StartColor2D = M_2DRenderer.material.color;
         StartCoroutine(ShowUIQuickly());
     }
+
+    public void ResetFluffFunction()
+    {
+        StartCoroutine(resetFluff());
+    }
+    IEnumerator resetFluff()
+    {
+        m_resettingFluff = true;
+
+        yield return new WaitForSeconds(10);
+
+
+        Defluff();
+
+        m_resettingFluff = false;
+
+       
+    }
+ public void Defluff()
+        {
+            print("Defluffed");
+
+            M_Fluffed = false;
+        }
 
     public IEnumerator ShowUIQuickly()
     {
@@ -179,6 +204,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
     }
 
+  
     public IEnumerator ChangePlayerColor(Color newColor, float duration)
     {
         float elapsedTime = 0;
@@ -195,7 +221,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+       
         M_Renderer.material.color = newColor;
     }
 
@@ -208,7 +234,27 @@ public partial class PlayerManagerScript : MonoBehaviour
     void Update()
     {
 
-        if(M_UnderWater)
+        if (M_Fluffed)
+
+        {
+
+
+            if (!m_resettingFluff)
+            {
+                ResetFluffFunction();
+            }
+
+        }
+
+        else if (M_Jellied)
+
+        {
+
+           Defluff();
+
+        }
+
+        if (M_UnderWater)
         {
             M_launchingPlayer.GetComponent<Rigidbody>().useGravity = false;
             M_walkingPlayer.GetComponent<Rigidbody>().useGravity = false;
@@ -255,20 +301,36 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_Silhouette.SetFloat("_Jellied", 0);
             M_SilhouetteBall.SetFloat("_Jellied", 0);
             StartCoroutine(ChangePlayerColor(Color.white, 0.2f));
+            M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.2f;
+            M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed = 2f;
+
         }
         if (M_Fluffed)
         {
-            M_Silhouette.SetFloat("_Fluffed", 1);
-            M_SilhouetteBall.SetFloat("_Fluffed", 1);
-            StartCoroutine(ChangePlayerColor(Color.cyan, 0.2f));
-          
+            if (M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness > 0f || M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed > 0.5f)
+            {
+                M_Silhouette.SetFloat("_Fluffed", 1);
+                M_SilhouetteBall.SetFloat("_Fluffed", 1);
+                StartCoroutine(ChangePlayerColor(Color.cyan, 0.2f));
+                M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
+                M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed = 0.5f;
+            }
+
+
+
         }
         else
         {
+            M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed = 2f;
             M_Silhouette.SetFloat("_Fluffed", 0);
             M_SilhouetteBall.SetFloat("_Fluffed", 0);
+
         }
-      
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            print("FLuffed" + M_Fluffed);
+            print("resettingFLuff" + m_resettingFluff);
+        }
 
         if (M_takingDamage)
         {
@@ -744,8 +806,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
         M_Renderer.material.color = Color.white;
         M_2DRenderer.material.color = Color.white;
-        // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
-        // M_2DRenderer.material.SetColor("StartColor", new Vector4(1, 1, 1, 1));
         M_freshnessBiscuit.color = Color.white;
         StartCoroutine(ChangePlayerColor(Color.white, 0.2f));
         M_PlayerMovement.m_jumpHeight = 8;

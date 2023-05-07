@@ -42,7 +42,7 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
     private bool m_canPain = true;
-    bool m_resettingFluff;
+    
     float m_rotationMouseY = 0.0f, m_rotationMouseX = 0.0f;
     public float m_mouseSensitivityX;
     public float m_mouseSensitivityY;
@@ -172,14 +172,6 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle key inputs
     public void Update()
     {
-        if (PlayerManagerScript.M_Fluffed)
-        {
-           
-            if (!m_resettingFluff)
-            {
-                StartCoroutine(resetFluff());
-            }
-        }
 
         if (isGrounded())
         {
@@ -212,14 +204,8 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             HandleLaunchInput();
         }
-        if (PlayerManagerScript.M_Fluffed)
-        {
-            Fluffing();
-        }
-        else if(!PlayerManagerScript.M_Jellied)
-        {
-            Defluff();
-        }
+      
+      
 
         //control rate of particle system trail depending on speed of ball
         //produces an error - wip.
@@ -266,7 +252,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         else if(M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState == 0)
         {
-            m_sizeSupport = 0.5f;
+            m_sizeSupport = 0.7f;
         }
 
         else
@@ -748,35 +734,19 @@ public class PlayerLaunchScript : MonoBehaviour
     private void Fluffing()
     {
         PlayerManagerScript.M_Fluffed = true;
-        m_renderer.material.color = Color.cyan;
-        M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.cyan;
-        GetComponent<SphereCollider>().material.bounciness = 0f;
-        if (!m_resettingFluff)
-        {
-            StartCoroutine(resetFluff());
-        }
-    }
-
-    public  void Defluff()
-    {
-        m_renderer.material.color = Color.white;
-        M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.white;
-      
-            GetComponent<SphereCollider>().material.bounciness = 0.2f;
+        // m_renderer.material.color = Color.cyan;
+        //  M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.cyan;
        
-        PlayerManagerScript.M_Fluffed = false;
+        if (!PlayerManagerScript.m_resettingFluff)
+        {
+            M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
+        }
     }
 
-    IEnumerator resetFluff()
-    {
-        m_resettingFluff = true;
-        yield return new WaitForSeconds(10);
-        if (!PlayerManagerScript.M_Jellied)
-        {
-            Defluff();
-        }
-        m_resettingFluff = false;
-    }
+   
+
+    
+  
     void OnCollisionStay(Collision a_hit)
     {
         if (!m_canBlur)

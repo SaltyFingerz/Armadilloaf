@@ -126,35 +126,16 @@ public class PrototypePlayerMovement : MonoBehaviour
     private void Fluffing()
     {
         PlayerManagerScript.M_Fluffed = true;
-        m_playerSpeed = 0.5f;
+       
       //  m_renderer.material.color = Color.cyan;
       //  M_FreshBiscuit.GetComponent<Image>().color = Color.cyan;
-        StartCoroutine(resetFluff());
+        M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
         
     }
 
-    public void Defluff()
-    {
-        
-        PlayerManagerScript.M_Fluffed = false;
-        m_playerSpeed = 2;
-       // StopCoroutine(resetFluff());
-        m_renderer.material.color = Color.white;
-        M_FreshBiscuit.GetComponent<Image>().color = Color.white;
-       
-    }
-    bool m_resettingFluff;
-    IEnumerator resetFluff()
-    {
-        m_resettingFluff = true;
-        
-        yield return new WaitForSeconds(10);
-        if (!PlayerManagerScript.M_Jellied)
-        {
-            Defluff();
-        }
-        m_resettingFluff = false;
-    }
+   
+
+   
 
     IEnumerator waitForPain()
     {
@@ -519,7 +500,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         { 
         Vector3 l_movementDirection = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.LeftShift) && !PlayerManagerScript.M_Fluffed) //sprint currently deactivated
+        if (Input.GetKey(KeyCode.LeftShift) && !PlayerManagerScript.M_Fluffed) 
         {
              m_playerSpeed = 2.5f; 
         }
@@ -530,9 +511,9 @@ public class PrototypePlayerMovement : MonoBehaviour
         else if(PlayerManagerScript.M_Fluffed)
         {
             m_playerSpeed = 0.5f;
-            if (!m_resettingFluff)
+            if (!PlayerManagerScript.m_resettingFluff)
             {
-                StartCoroutine(resetFluff());
+               M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
             }
         }
 
