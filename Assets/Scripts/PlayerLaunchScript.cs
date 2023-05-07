@@ -88,6 +88,11 @@ public class PlayerLaunchScript : MonoBehaviour
     Renderer m_renderer;
     public void Start()
     {
+       
+    }
+
+    public void Initialize()
+    {
         // get objects
         m_rigidbody = GetComponent<Rigidbody>();
         M_arrowMaximum = this.gameObject.transform.GetChild(0).gameObject;
@@ -105,7 +110,6 @@ public class PlayerLaunchScript : MonoBehaviour
         m_Yellow = M_Water.GetComponent<UnityEngine.UI.Image>();
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
     }
-
 
     // Handle rigidbody physics
     public void FixedUpdate()
