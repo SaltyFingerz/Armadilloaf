@@ -34,19 +34,16 @@ public class LaunchTrailScript : MonoBehaviour
         if (M_PManager.M_sizeState == 1)
         {
             m_pMain.startSize = 1;
-            //print("normal loops");
         }
 
         else if (M_PManager.M_sizeState == 2)
         {
             m_pMain.startSize = 3f;
-            print("big loops");
         }
 
         else if (M_PManager.M_sizeState == 0)
         {
             m_pMain.startSize = 0.5f;
-            print("little loops");
         }
     }
 

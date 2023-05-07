@@ -17,7 +17,7 @@ public class MessageScreenScript : MonoBehaviour
         m_checkpointText.enabled = false;
     }
 
-    public IEnumerator CheckpointTextOnScreen()
+    public IEnumerator CheckpointTextOnScreen(CheckpointScript A_checkPoint)
     {
         m_canvas.enabled = true;
         m_checkpointText.enabled = true;
@@ -26,6 +26,10 @@ public class MessageScreenScript : MonoBehaviour
 
         m_canvas.enabled = false;
         m_checkpointText.enabled = false;
+
+        yield return new WaitForSeconds(1);
+
+        Destroy(A_checkPoint);
     }
 
     // Update is called once per frame

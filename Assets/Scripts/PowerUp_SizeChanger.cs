@@ -70,7 +70,7 @@ public class PowerUp_SizeChanger : MonoBehaviour
                     }
                 default:
                     {
-                        Debug.Log("Error! Did you forget to change the object's effect?");
+                        //Did you forget to set the object's effect?
                         return;
                     }
             }

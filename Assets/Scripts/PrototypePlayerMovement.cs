@@ -30,14 +30,13 @@ public class PrototypePlayerMovement : MonoBehaviour
     private float m_gravityValue = -9.81f;
     private bool m_isHittingWall = false;
     private float m_pushForce = 4.0f;
-    private float m_sizeSupport = 1;
     public Vector3 M_TargetBlobSize;
     private bool m_gradualSize = true;
     public GameObject M_FinishUI;
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
     public GameObject M_FreshBiscuit;
-    private float alphaYellow;
+    
     private UnityEngine.UI.Image m_Yellow;
     public GameObject M_BananaPrompt;
     [SerializeField] AudioClip[] m_drownClip;
@@ -54,7 +53,6 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         m_controller = gameObject.GetComponent<CustomController>();
         m_renderer = gameObject.GetComponent<Renderer>();
-        print(Screen.currentResolution);
 
         m_Yellow = M_Water.GetComponent<UnityEngine.UI.Image>();
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
@@ -94,7 +92,6 @@ public class PrototypePlayerMovement : MonoBehaviour
             if(a_hit.gameObject.CompareTag("Enemy") && m_playerManagerScript.M_sizeState != 2)
             {
                 Fluffing();
-                print("Fluffing being called by enemy");
             }
         }
 
@@ -111,12 +108,14 @@ public class PrototypePlayerMovement : MonoBehaviour
     
     IEnumerator YellowScreen()
     {
+        PlayerManagerScript.M_UnderWater = true;
         M_Water.SetActive(true);
-        while (alphaYellow < 0.66f)
+        
+        while (PlayerManagerScript.alphaYellow < 0.66f)
         {
 
-            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, alphaYellow);
-            alphaYellow += 0.01f * Time.deltaTime;
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, PlayerManagerScript.alphaYellow);
+            PlayerManagerScript.alphaYellow += 0.01f * Time.deltaTime;
             yield return null;
 
         }
@@ -127,28 +126,16 @@ public class PrototypePlayerMovement : MonoBehaviour
     private void Fluffing()
     {
         PlayerManagerScript.M_Fluffed = true;
-        m_playerSpeed = 0.5f;
+       
       //  m_renderer.material.color = Color.cyan;
       //  M_FreshBiscuit.GetComponent<Image>().color = Color.cyan;
-        StartCoroutine(resetFluff());
-        print("fluffing is being called from somewhere");
+        M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
+        
     }
 
-    public void Defluff()
-    {
-        PlayerManagerScript.M_Fluffed = false;
-        m_playerSpeed = 2;
-     //   m_renderer.material.color = Color.white;
-      //  M_FreshBiscuit.GetComponent<Image>().color = Color.white;
-       
-    }
-    IEnumerator resetFluff()
-    {
-        
-        yield return new WaitForSeconds(10);
-        Defluff();
-        
-    }
+   
+
+   
 
     IEnumerator waitForPain()
     {
@@ -184,10 +171,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (a_hit.gameObject.CompareTag("Collectible"))
         {
             a_hit.gameObject.GetComponent<HoverScript>().PlayPickupSound();
-            //if (a_hit.gameObject.name == "Collectible Banana")
-            //{
-            //}
-            print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
 
         }
@@ -284,18 +267,26 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
 
 
-    
-      
-          
-          
-       
 
-     
+        if (other.gameObject.name.Contains("Water")) //deactivate yellow overlay
+        {
+
+            TurnOffYellow();
+
+            // M_Water.SetActive(false);
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
+        }
+
+
+
+
+
 
     }
 
     public void TurnOffYellow()
     {
+        PlayerManagerScript.M_UnderWater = false;
         StopCoroutine(YellowScreen());
         // M_Water.SetActive(false);
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
@@ -321,7 +312,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (m_rb != null && !m_rb.isKinematic)
         {
             m_rb.velocity = a_hit.moveDirection * m_pushForce;
-            print("push");
         }
     }
 
@@ -331,7 +321,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (m_rb != null && !m_rb.isKinematic)
         {
             m_rb.velocity = transform.forward * m_pushForce;
-            print("push");
         }
     }
 
@@ -344,6 +333,8 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     void Update()
     {
+       
+
       /*  if(!M_InLaunchZone)
         {
             M_CurlPrompt.SetActive(false);
@@ -370,7 +361,6 @@ public class PrototypePlayerMovement : MonoBehaviour
                 m_pushForce = 20.0f;
                 M_TargetBlobSize = new Vector3(10, 10, 50);
                 m_jumpHeight = 15;
-                print("jumpheightshouldbesettohigh" + m_jumpHeight);
                 break;
 
             case (int)PlayerManagerScript.SizeState.normal:
@@ -386,7 +376,7 @@ public class PrototypePlayerMovement : MonoBehaviour
                 break;
 
             default:
-                Debug.Log("Error! Did you forget to set a size state?");
+                //Did you forget to set a size state?
                 break;
         }
 
@@ -506,22 +496,32 @@ public class PrototypePlayerMovement : MonoBehaviour
     private void HandleInput()
     {
        
-
+        if (!M_playerManager.GetComponent<PlayerManagerScript>().levelCompleted)
+        { 
         Vector3 l_movementDirection = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.LeftShift) && PlayerManagerScript.M_Fluffed == false) //sprint currently deactivated
+        if (Input.GetKey(KeyCode.LeftShift) && !PlayerManagerScript.M_Fluffed) 
         {
              m_playerSpeed = 2.5f; 
         }
-        else if(PlayerManagerScript.M_Fluffed == false)
+        else if(!PlayerManagerScript.M_Fluffed)
         {
             m_playerSpeed = 2.0f;
+        }
+        else if(PlayerManagerScript.M_Fluffed)
+        {
+            m_playerSpeed = 0.5f;
+            if (!PlayerManagerScript.m_resettingFluff)
+            {
+               M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
+            }
         }
 
         // movement with AWSD keys
       //  l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
         l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
-    
+        }
+
     }
 
     //public static Vector3 Lerp(Vector3 a,  Vector3(a_size, a_size, a_size), 1f);
@@ -569,7 +569,7 @@ public class PrototypePlayerMovement : MonoBehaviour
                 break;
 
             default:
-                Debug.Log("Error! Did you forget to set a size state?");
+                //Did you forget to set a size state?
                 break;
         }
     }

@@ -27,6 +27,8 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_LaunchPrompt2;
     public GameObject M_CurlPrompt;
     public GameObject M_AimPrompt;
+    public GameObject M_ShrinkPrompt;
+    public bool hasFinishedLevel = false;
 
     public ParticleSystem M_BangEffect;
     public UnityEngine.UI.Image M_fillImage;
@@ -40,7 +42,7 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
     private bool m_canPain = true;
-
+    
     float m_rotationMouseY = 0.0f, m_rotationMouseX = 0.0f;
     public float m_mouseSensitivityX;
     public float m_mouseSensitivityY;
@@ -53,7 +55,7 @@ public class PlayerLaunchScript : MonoBehaviour
     bool m_canShake = false;
     bool m_stationaryFrame = false;
     float m_sizeSupport = 1;
-    private float alphaYellow;
+    
     private UnityEngine.UI.Image m_Yellow;
 
     public int M_maxPower;
@@ -86,10 +88,6 @@ public class PlayerLaunchScript : MonoBehaviour
     Renderer m_renderer;
     public void Start()
     {
-    }
-
-    public void Initialize()
-    {
         // get objects
         m_rigidbody = GetComponent<Rigidbody>();
         M_arrowMaximum = this.gameObject.transform.GetChild(0).gameObject;
@@ -100,6 +98,7 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction = new Vector3(0.0f, 0.0f, 1.0f);
         M_fillImage.fillAmount = 0.0f;
         M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, m_baseLength + m_powerSizeStep * M_maxPower);
+        m_cameraRotationY = -Mathf.Cos(24f);
         M_BigCans = GameObject.FindGameObjectsWithTag("Big Can");
         M_Cereals = GameObject.FindGameObjectsWithTag("Cereal");
 
@@ -113,7 +112,6 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         if (m_stationaryFrame && isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
         {
-            Debug.Log("Relaunch");
             Reset();
         }
         m_stationaryFrame = false;
@@ -149,6 +147,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if(!isGrounded()) //activate trail particle system when ball is in the air
         {
+            
             M_TrailScript.ActivateTrail(); 
         }
 
@@ -173,7 +172,19 @@ public class PlayerLaunchScript : MonoBehaviour
     // Handle key inputs
     public void Update()
     {
-       if(!PrototypePlayerMovement.M_InLaunchZone)
+
+        if (isGrounded())
+        {
+            GroundDetectionScript.M_IsGrounded = true;
+
+        }
+        else if (!isGrounded())
+        {
+
+            GroundDetectionScript.M_IsGrounded = false;
+        }
+
+        if (!PrototypePlayerMovement.M_InLaunchZone)
         {
             M_CurlPrompt.SetActive(false);
             M_LaunchPrompt.SetActive(false);
@@ -193,14 +204,8 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             HandleLaunchInput();
         }
-        if (PlayerManagerScript.M_Fluffed)
-        {
-            Fluffing();
-        }
-        else if(!PlayerManagerScript.M_Jellied)
-        {
-            Defluff();
-        }
+      
+      
 
         //control rate of particle system trail depending on speed of ball
         //produces an error - wip.
@@ -243,6 +248,11 @@ public class PlayerLaunchScript : MonoBehaviour
         if(M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState == 2)
         {
             m_sizeSupport = 16;
+        }
+
+        else if(M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState == 0)
+        {
+            m_sizeSupport = 0.7f;
         }
 
         else
@@ -377,7 +387,6 @@ public class PlayerLaunchScript : MonoBehaviour
             m_sizeSupport = 1;
         }
         m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100 * m_sizeSupport, 0  , -m_direction.z * m_launchingPower * 100 * m_sizeSupport));
-        print(m_sizeSupport);
 
         AudioClip ac = m_launchSmacks[UnityEngine.Random.Range(0, m_launchSmacks.Length)];
         M_LaunchSmack.PlayOneShot(ac);
@@ -520,7 +529,7 @@ public class PlayerLaunchScript : MonoBehaviour
                 break;
 
                 default:
-                    Debug.Log("Error! Did you forget to set a size state?");
+                    //This shouldn't happen. Did you forget to set a size state?
                     break;
             }
         
@@ -530,7 +539,6 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         if ( a_hit.gameObject.CompareTag("Collectible"))
         {
-            print("collectible +1");
             a_hit.gameObject.GetComponent<HoverScript>().PlayPickupSound();
             a_hit.gameObject.GetComponent<HoverScript>().StopParticles();
         }
@@ -552,8 +560,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("Finish"))
         {
-            Time.timeScale = 0f;
             M_FinishUI.SetActive(true);
+            Time.timeScale = 0f;
             UnityEngine.Cursor.lockState = CursorLockMode.None;
             UnityEngine.Cursor.visible = true;
         }
@@ -573,14 +581,22 @@ public class PlayerLaunchScript : MonoBehaviour
 
         }
 
+        if (a_hit.gameObject.name.Contains("ShrinkZone"))
+        {
+            M_AimPrompt.SetActive(false);
+            M_ShrinkPrompt.SetActive(true);
+
+        }
+
     }
 
     private void OnTriggerExit(Collider a_hit)
     {
         if (a_hit.gameObject.name.Contains("Water")) //deactivate yellow overlay
         {
-            print("exit water");
-            StopCoroutine(YellowScreen());
+           
+            TurnOffYellow();
+           
             // M_Water.SetActive(false);
             m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
         }
@@ -678,7 +694,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
          if  (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf && !M_UncurlPrompt.activeSelf)
             {
-            print(" in stationary frame" + m_stationaryFrame);
                 //PrototypePlayerMovement.M_InLaunchZone = true;
                 M_LaunchPrompt.SetActive(false);
                 M_LaunchPrompt2.SetActive(false);
@@ -694,6 +709,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
     public void TurnOffYellow()
     {
+        PlayerManagerScript.M_UnderWater = false;
         StopCoroutine(YellowScreen());
         // M_Water.SetActive(false);
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
@@ -702,11 +718,12 @@ public class PlayerLaunchScript : MonoBehaviour
     IEnumerator YellowScreen() //yellow overlay activator
     {
         M_Water.SetActive(true);
-        while (alphaYellow < 0.66f)
+        PlayerManagerScript.M_UnderWater = true;
+        while (PlayerManagerScript.alphaYellow < 0.66f)
         {
 
-            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, alphaYellow);
-            alphaYellow += 0.01f * Time.deltaTime;
+            m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, PlayerManagerScript.alphaYellow);
+            PlayerManagerScript.alphaYellow += 0.01f * Time.deltaTime;
             yield return null;
 
         }
@@ -717,30 +734,19 @@ public class PlayerLaunchScript : MonoBehaviour
     private void Fluffing()
     {
         PlayerManagerScript.M_Fluffed = true;
-        m_renderer.material.color = Color.cyan;
-        M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.cyan;
-        GetComponent<SphereCollider>().material.bounciness = 0f;
-        StartCoroutine(resetFluff());
-    }
-
-    public void Defluff()
-    {
-        m_renderer.material.color = Color.white;
-        M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.white;
-      
-            GetComponent<SphereCollider>().material.bounciness = 0.2f;
+        // m_renderer.material.color = Color.cyan;
+        //  M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.cyan;
        
-        PlayerManagerScript.M_Fluffed = false;
-    }
-
-    IEnumerator resetFluff()
-    {
-        yield return new WaitForSeconds(10);
-        if (!PlayerManagerScript.M_Jellied)
+        if (!PlayerManagerScript.m_resettingFluff)
         {
-            Defluff();
+            M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
         }
     }
+
+   
+
+    
+  
     void OnCollisionStay(Collision a_hit)
     {
         if (!m_canBlur)

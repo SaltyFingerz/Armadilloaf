@@ -11,7 +11,6 @@ public class HoneySplatScript : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("wall")) //also check if player not on ground
         {
-            print("splat!");
             M_HoneyImpact.SetActive(true);
             M_HoneyTrail.SetActive(true);
 
@@ -23,7 +22,6 @@ public class HoneySplatScript : MonoBehaviour
     {
         if(other.CompareTag("wall"))
         {
-            print("splat!");
             M_HoneyImpact.SetActive(true);
             M_HoneyTrail.SetActive(true);
         }

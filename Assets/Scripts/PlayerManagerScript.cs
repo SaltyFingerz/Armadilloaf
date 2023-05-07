@@ -30,6 +30,8 @@ public partial class PlayerManagerScript : MonoBehaviour
     public Vector2[] M_cameraOffsets = { new Vector2(2.5f, 1), new Vector2(5, 2), new Vector2(10, 4) };
     public int M_sizeState = (int)SizeState.normal;             // Keeps Track of size, int type to use as M_sizes index
     public float M_jellyBounciness = 0.9f;
+    public static float alphaYellow;
+    public static bool M_UnderWater;
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
     public static float M_TargetSize;
@@ -40,6 +42,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     //Player HUD objects
     public Canvas M_playerHUD;
     public Image M_freshnessBiscuit;
+    public Image M_MelonFruit;
     public Sprite[] M_freshnessBiscuitLevels = new Sprite[5];
     public bool[] M_biscuitBites = new bool[4];
     public Image M_armadilloaf;
@@ -61,6 +64,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public AudioSource M_musicPlayer;
     bool m_justUnpaused;
     public bool isPaused;
+    public bool levelCompleted;
 
     [SerializeField] AudioClip[] m_biscuitClip;
     [SerializeField] float m_invulnerabilityPeriodSeconds = 2.0f;
@@ -75,6 +79,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public static bool M_Fluffed;
     public static bool M_Jellied;
+    public static bool m_resettingFluff;
     public int M_FruitCollected;
     public TextMeshProUGUI M_FruitUI;
     public TextMeshProUGUI M_FruitUIFin;
@@ -117,6 +122,30 @@ public partial class PlayerManagerScript : MonoBehaviour
         Color StartColor2D = M_2DRenderer.material.color;
         StartCoroutine(ShowUIQuickly());
     }
+
+    public void ResetFluffFunction()
+    {
+        StartCoroutine(resetFluff());
+    }
+    IEnumerator resetFluff()
+    {
+        m_resettingFluff = true;
+
+        yield return new WaitForSeconds(10);
+
+
+        Defluff();
+
+        m_resettingFluff = false;
+
+       
+    }
+ public void Defluff()
+        {
+            print("Defluffed");
+
+            M_Fluffed = false;
+        }
 
     public IEnumerator ShowUIQuickly()
     {
@@ -176,6 +205,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
     }
 
+  
     public IEnumerator ChangePlayerColor(Color newColor, float duration)
     {
         float elapsedTime = 0;
@@ -185,13 +215,14 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             M_Renderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_freshnessBiscuit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
+            M_MelonFruit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_Tail.GetComponent<Renderer>().material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_2DRenderer.material.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             M_freshnessBiscuit.color = Color.Lerp(startColor, newColor, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+       
         M_Renderer.material.color = newColor;
     }
 
@@ -203,15 +234,44 @@ public partial class PlayerManagerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (M_Fluffed)
+
+        {
+
+
+            if (!m_resettingFluff)
+            {
+                ResetFluffFunction();
+            }
+
+        }
+
+        else if (M_Jellied)
+
+        {
+
+           Defluff();
+
+        }
+
+        if (M_UnderWater)
+        {
+            M_launchingPlayer.GetComponent<Rigidbody>().useGravity = false;
+            M_walkingPlayer.GetComponent<Rigidbody>().useGravity = false;
+        }
+        else if(!M_UnderWater)
+        {
+            M_launchingPlayer.GetComponent<Rigidbody>().useGravity = true;
+            M_walkingPlayer.GetComponent<Rigidbody>().useGravity = true;
+        }
+
         if (!isPaused)
         { 
         M_timeElapsed += Time.deltaTime;
         }
-        //print("fluffed" + M_Fluffed);
-        print("bounciness" + M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness + "and" + M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness);
 
         M_FruitUI.text = M_FruitCollected.ToString();
-        M_FruitUIFin.text = M_FruitCollected.ToString();
         m_invulnerabilityTimerSeconds += Time.deltaTime;
         M_BallAnimator.SetInteger("Size", M_sizeState);
 
@@ -235,7 +295,6 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_SilhouetteBall.SetFloat("_Jellied", 1);
 
             M_Fluffed = false;
-            print("pink ball material");
         }
 
         if (!M_Jellied && !M_Fluffed)
@@ -243,20 +302,36 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_Silhouette.SetFloat("_Jellied", 0);
             M_SilhouetteBall.SetFloat("_Jellied", 0);
             StartCoroutine(ChangePlayerColor(Color.white, 0.2f));
+            M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0.2f;
+            M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed = 2f;
+
         }
         if (M_Fluffed)
         {
-            M_Silhouette.SetFloat("_Fluffed", 1);
-            M_SilhouetteBall.SetFloat("_Fluffed", 1);
-            StartCoroutine(ChangePlayerColor(Color.cyan, 0.2f));
-          
+            if (M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness > 0f || M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed > 0.5f)
+            {
+                M_Silhouette.SetFloat("_Fluffed", 1);
+                M_SilhouetteBall.SetFloat("_Fluffed", 1);
+                StartCoroutine(ChangePlayerColor(Color.cyan, 0.2f));
+                M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
+                M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed = 0.5f;
+            }
+
+
+
         }
         else
         {
+            M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed = 2f;
             M_Silhouette.SetFloat("_Fluffed", 0);
             M_SilhouetteBall.SetFloat("_Fluffed", 0);
+
         }
-      
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            print("FLuffed" + M_Fluffed);
+            print("resettingFLuff" + m_resettingFluff);
+        }
 
         if (M_takingDamage)
         {
@@ -351,12 +426,12 @@ public partial class PlayerManagerScript : MonoBehaviour
 
       
         // state changing
-        if (( Input.GetMouseButtonDown(1)) && !M_isFreeFlying)
+        if (( Input.GetMouseButtonDown(1)) && !M_isFreeFlying && !levelCompleted)
         {
             StateCheck();
            
         }
-        if(Input.GetKeyDown(KeyCode.C))
+       /* if(Input.GetKeyDown(KeyCode.C))
         {
             if (M_isFreeFlying)
             {
@@ -385,18 +460,22 @@ public partial class PlayerManagerScript : MonoBehaviour
             {
                 StartFlying();
             }
-        }
+        }*/
         // prototype restart, to do: have this be automatic upon failure
-        if (Input.GetKeyDown(KeyCode.R))
+      /*  if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("FailScreen");
         }
+      */
 
         if(Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
+            if (!levelCompleted)
+            { 
             Time.timeScale = 0;
             M_UIManager.enabled = true;
             M_UIManager.Paused();
+            }
         }
 
       
@@ -591,6 +670,12 @@ public partial class PlayerManagerScript : MonoBehaviour
         }
     }
 
+    public void FinishedLevel()
+    {
+        LevelFinishScript levelFinishScript = FindObjectOfType<LevelFinishScript>();
+        levelFinishScript.UpdateScores();
+    }
+
 
     public void Regenerate()
     {
@@ -671,7 +756,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_EjectionPS2.Play();
         yield return new WaitForSeconds(1f);
         Instantiate(M_JellyDecal, M_JellyParent.transform.position, M_JellyDecalRotation);
-        print("splat");
 
     }
 
@@ -723,8 +807,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
         M_Renderer.material.color = Color.white;
         M_2DRenderer.material.color = Color.white;
-        // M_Renderer.material.SetColor("StartColor", new Vector4 (1, 1, 1, 1));
-        // M_2DRenderer.material.SetColor("StartColor", new Vector4(1, 1, 1, 1));
         M_freshnessBiscuit.color = Color.white;
         StartCoroutine(ChangePlayerColor(Color.white, 0.2f));
         M_PlayerMovement.m_jumpHeight = 8;
