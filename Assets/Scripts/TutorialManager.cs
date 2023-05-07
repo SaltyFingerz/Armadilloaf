@@ -2,29 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(FirstLaunchTuteController))]
 public class TutorialManager : MonoBehaviour
 {
     public PrototypePlayerMovement M_PPlayerMovment;
 
-
+    public FirstLaunchTuteController M_FirstLaunchTute;
+    
     public GameObject M_movePrompt;
     public GameObject M_jumpPrompt;
     public GameObject M_MyChildCanWalk;
     //public GameObject M_launchPrompt;
-    public GameObject M_launchAimPrompt;
-    public GameObject M_launchShoot;
-    public GameObject M_launchShoot2;
-    public GameObject M_walkPrompt;
     public GameObject M_FreeCamEntryPrompt;
     public GameObject M_FreeCamMousePrompt;
     public GameObject M_FreeCamHeightPrompt;
     public GameObject M_FreeCamWASDPrompt;
     public GameObject M_FreeCamExitPrompt;
-
+    public static bool M_ShownTiltAndBoost;
  public GameObject M_BoostPrompt;
     public GameObject M_TiltPrompt;
     public GameObject M_shrinkPrompt;
-    public GameObject M_curlWorldPrompt;
     public GameObject M_BananaPrompt;
     public GameObject M_goalArrow;
     public GameObject M_BallPlayer;
@@ -49,12 +46,13 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-       
+        //M_FirstLaunchTute = new FirstLaunchTuteController(M_walkPrompt, M_curlWorldPrompt, M_launchAimPrompt, M_launchShoot, M_launchShoot2);
+        M_FirstLaunchTute ??= GetComponent<FirstLaunchTuteController>();  
+        M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.hidden);
     }
 
     public void CloseIntro()
     {
-        
         Cursor.lockState = CursorLockMode.Locked;
         M_movePrompt.SetActive(true);
     }
@@ -62,50 +60,48 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if(M_Walker.activeSelf)
-        {
-            M_launchAimPrompt.SetActive(false);
-            M_launchShoot.SetActive(false);
-            M_launchShoot2.SetActive(false);
-          
-        }
+        //  // TODO: redifine my logic using FirstLaunceTuteController
+        //if (M_Walker.activeSelf)
+        //{
+        //    M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.curl);
 
-        
-       
-      if(M_curlWorldPrompt.activeSelf)
-        {
-           // M_launchAimPrompt.SetActive(false);
-            M_launchShoot.SetActive(false);
-            if(!M_Walker.activeSelf)
-            {
-                M_launchAimPrompt.SetActive(true);
-               
-                StartCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
-                //  M_curlWorldPrompt.SetActive(false);
-            }
-        }
+        //}
 
 
-      if(M_launchShoot.activeSelf)
-        {
-            M_curlWorldPrompt.SetActive(false );
-            M_launchAimPrompt.SetActive(false);
 
-            if (Input.GetMouseButton(0))
-            {
-                StopCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
+        //if (M_curlWorldPrompt.activeSelf)
+        //{
+        //    // M_launchAimPrompt.SetActive(false);
+           
+        //    if (!M_Walker.activeSelf)
+        //    {
+        //        M_launchAimPrompt.SetActive(true);
 
-                StartCoroutine(NextPrompt2(M_launchShoot2, M_launchShoot));
-                
-            }
-        }
+        //        StartCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
+        //        //  M_curlWorldPrompt.SetActive(false);
+        //    }
+        //}
 
-      if(M_launchShoot2.activeSelf)
-        {
-            M_launchShoot.SetActive(false);
-        }
-       
+
+        //if(M_launchShoot.activeSelf)
+        //  {
+        //      M_curlWorldPrompt.SetActive(false );
+        //      M_launchAimPrompt.SetActive(false);
+
+        //      if (Input.GetMouseButton(0))
+        //      {
+        //          StopCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
+
+        //          StartCoroutine(NextPrompt2(M_launchShoot2, M_launchShoot));
+
+        //      }
+        //  }
+
+        //if(M_launchShoot2.activeSelf)
+        //  {
+        //      M_launchShoot.SetActive(false);
+        //  }
+
         m_timerSeconds += Time.deltaTime;
 
         if (Input.GetKey(KeyCode.W))
@@ -177,8 +173,10 @@ public class TutorialManager : MonoBehaviour
 
         IEnumerator NextPrompt0(GameObject gameObjOpen, GameObject gameObjClose)
         {
-            M_curlWorldPrompt.SetActive(false);
-            M_launchShoot.SetActive(false);
+            //// TODO: redifine my logic using FirstLaunceTuteController
+            //M_curlWorldPrompt.SetActive(false);
+            //M_launchShoot.SetActive(false);
+
             if (M_Walker.activeSelf)
             {
                 m_initialState = 0;
@@ -270,55 +268,59 @@ public class TutorialManager : MonoBehaviour
           //  M_launchPrompt.SetActive(true);
         }
 
-     /*   if ((Input.GetMouseButtonDown(1)) && PrototypePlayerMovement.M_InLaunchZone) // && M_launchPrompt.activeSelf)
-        {
-           
-         //   M_launchPrompt.SetActive(false);
-         M_curlWorldPrompt.SetActive(false);
-            M_launchAimPrompt.SetActive(true);
-            //StartCoroutine(NextPrompt(M_launchShoot, M_launchAimPrompt));
-        }
-     */
+        /*   if ((Input.GetMouseButtonDown(1)) && PrototypePlayerMovement.M_InLaunchZone) // && M_launchPrompt.activeSelf)
+           {
 
-        if ((Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)) && M_launchAimPrompt.activeSelf)
-        {
-           
-            M_launchAimPrompt.SetActive(false);
-            StopCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
-            M_launchShoot.SetActive(true);
+            //   M_launchPrompt.SetActive(false);
+            M_curlWorldPrompt.SetActive(false);
+               M_launchAimPrompt.SetActive(true);
+               //StartCoroutine(NextPrompt(M_launchShoot, M_launchAimPrompt));
+           }
+        */
 
-            //  StartCoroutine(ExitBall());
-        }
+        //// TODO: redifine my logic using FirstLaunceTuteController
+        //if ((Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)) && M_launchAimPrompt.activeSelf)
+        //{
+        //    //// TODO: redifine my logic using FirstLaunceTuteController
+        //    //M_launchAimPrompt.SetActive(false);
+        //    //StopCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
+        //    //M_launchShoot.SetActive(true);
 
-       // IEnumerator ExitBall()
-     //   {
-         
-           /* yield return new WaitForSeconds(6);
-            if (!M_TiltPrompt.activeSelf)
-            {
-                M_walkPrompt.SetActive(true);
-            }
-           */
-     //   }
+        //    //  StartCoroutine(ExitBall());
+        //}
 
-        if((Input.GetMouseButtonDown(1) || !M_BallPlayer.activeSelf )&& M_walkPrompt.activeSelf)
-        {
-            M_walkPrompt.SetActive(false);
-           // StartCoroutine(ShowFreeCamPrompt());
-        }
+        // IEnumerator ExitBall()
+        //   {
 
-       // IEnumerator ShowFreeCamPrompt()
+        /* yield return new WaitForSeconds(6);
+         if (!M_TiltPrompt.activeSelf)
+         {
+             M_walkPrompt.SetActive(true);
+         }
+        */
+        //   }
+
+        //// TODO: redifine my logic using FirstLaunceTuteController
+        //if (!M_BallPlayer.activeSelf && M_walkPrompt.activeSelf)
+        //{
+        //    M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.curl);
+        //    // StartCoroutine(ShowFreeCamPrompt());
+        //}
+
+       
+
+        // IEnumerator ShowFreeCamPrompt()
         //{
         //    M_walkPrompt.SetActive(false);
-           // yield return new WaitForSeconds(3f);
-          //  if (!M_launchAimPrompt.activeSelf) //&& !M_launchPrompt.activeSelf && )
-          //  {
-          //      M_freeCamPrompt.SetActive(true);
-          //  }
-      //  }
-     
+        // yield return new WaitForSeconds(3f);
+        //  if (!M_launchAimPrompt.activeSelf) //&& !M_launchPrompt.activeSelf && )
+        //  {
+        //      M_freeCamPrompt.SetActive(true);
+        //  }
+        //  }
 
-       if(Input.GetKeyDown(KeyCode.C) && M_FreeCamEntryPrompt.activeSelf)
+
+        if (Input.GetKeyDown(KeyCode.C) && M_FreeCamEntryPrompt.activeSelf)
         {
             m_timerSeconds = 0;
             M_FreeCamMousePrompt.SetActive(true);
@@ -379,6 +381,11 @@ public class TutorialManager : MonoBehaviour
 
         }
 
+        if(M_TiltPrompt.activeSelf)
+        {
+            M_ShownTiltAndBoost = true;
+        }
+
         if(M_TiltPrompt.activeSelf || M_BoostPrompt.activeSelf)
         {
             if(!M_BallPlayer.activeSelf)
@@ -396,10 +403,12 @@ public class TutorialManager : MonoBehaviour
         {
             yield return new WaitForSeconds(2);
             M_TiltPrompt.SetActive(false);
-            if(M_BallPlayer.activeSelf)
-            {
-                M_walkPrompt.SetActive(true);
-            }
+            //// TODO: redifine my logic using FirstLaunceTuteController
+
+            //if (M_BallPlayer.activeSelf)
+            //{
+            //    M_walkPrompt.SetActive(true);
+            //}
         }
 
         if(M_shrinkPrompt.activeSelf)

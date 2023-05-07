@@ -9356,6 +9356,7 @@ GameObject:
   - component: {fileID: 175079669}
   - component: {fileID: 175079668}
   - component: {fileID: 175079672}
+  - component: {fileID: 175079673}
   m_Layer: 5
   m_Name: TutorialManager
   m_TagString: Untagged
@@ -9458,13 +9459,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   M_PPlayerMovment: {fileID: 1869161211}
+  M_FirstLaunchTute: {fileID: 175079673}
   M_movePrompt: {fileID: 355500654}
   M_jumpPrompt: {fileID: 1457234757}
   M_MyChildCanWalk: {fileID: 701607405}
-  M_launchAimPrompt: {fileID: 839183643}
-  M_launchShoot: {fileID: 686003211}
-  M_launchShoot2: {fileID: 1961913092}
-  M_walkPrompt: {fileID: 1327419492}
   M_FreeCamEntryPrompt: {fileID: 352190230}
   M_FreeCamMousePrompt: {fileID: 1041353158}
   M_FreeCamHeightPrompt: {fileID: 907900050}
@@ -9473,13 +9471,29 @@ MonoBehaviour:
   M_BoostPrompt: {fileID: 1692763179}
   M_TiltPrompt: {fileID: 219727920}
   M_shrinkPrompt: {fileID: 32785528}
-  M_curlWorldPrompt: {fileID: 2060092517}
   M_BananaPrompt: {fileID: 679634014}
   M_goalArrow: {fileID: 1565304511}
   M_BallPlayer: {fileID: 305606497}
   M_FreeMovePlayer: {fileID: 1747536734}
   M_Walker: {fileID: 1869161201}
   M_Ball: {fileID: 305606497}
+--- !u!114 &175079673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175079667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ceefb7432b8ee47b76f157a12edba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_uncurlPrompt: {fileID: 1327419492}
+  m_curlPrompt: {fileID: 2060092517}
+  m_aimPrompt: {fileID: 839183643}
+  m_powerPrompt: {fileID: 686003211}
+  m_releasePrompt: {fileID: 1961913092}
 --- !u!1 &178869340
 GameObject:
   m_ObjectHideFlags: 0
@@ -40973,6 +40987,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1393229147}
     - target: {fileID: 2163527014642896243, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: M_TuteMan
+      value: 
+      objectReference: {fileID: 175079672}
+    - target: {fileID: 2163527014642896243, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: M_Tutorial
       value: 
       objectReference: {fileID: 175079667}
@@ -41056,6 +41074,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8854288522490146423, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
+      propertyPath: M_TuteMan
+      value: 
+      objectReference: {fileID: 175079672}
     - target: {fileID: 8854288522490146423, guid: 9fd8ba69c8b8fe149b5f5f10c212fbfd, type: 3}
       propertyPath: M_FinishUI
       value: 

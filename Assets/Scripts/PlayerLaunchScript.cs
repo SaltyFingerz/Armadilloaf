@@ -10,6 +10,7 @@ using EZCameraShake;
 
 public class PlayerLaunchScript : MonoBehaviour
 {
+    public TutorialManager M_TuteMan;
     private Rigidbody m_rigidbody;
     private GameObject M_arrow;
     private GameObject M_arrowMaximum;
@@ -555,12 +556,24 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("TipZone"))
         {
-           M_BoostTip.SetActive(true);
+            if (!TutorialManager.M_ShownTiltAndBoost)
+            {
+                M_BoostTip.SetActive(true);
+            }
 
 
         }
 
-        if (a_hit.gameObject.name.Contains("Water"))
+
+
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf && !M_UncurlPrompt.activeSelf)
+        {
+
+            // M_UncurlPrompt.SetActive(true);
+            M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.uncurl);
+            PrototypePlayerMovement.M_InLaunchZone = true;
+        }
+
         {
             AudioClip clip = m_waterDrops[UnityEngine.Random.Range(0, m_waterDrops.Length)];
             M_WaterDrop.PlayOneShot(clip);
@@ -574,20 +587,20 @@ public class PlayerLaunchScript : MonoBehaviour
             UnityEngine.Cursor.visible = true;
         }
 
-        if (a_hit.gameObject.name.Contains("FreeCamZone"))
-        {
-            M_FreeCamEntry.SetActive(true);
-            M_UncurlPrompt.SetActive(false);
-            M_CurlPrompt.SetActive(false);
-            M_AimPrompt.SetActive(false);
+        //if (a_hit.gameObject.name.Contains("FreeCamZone"))
+        //{
+        //    M_FreeCamEntry.SetActive(true);
+        //    M_UncurlPrompt.SetActive(false);
+        //    M_CurlPrompt.SetActive(false);
+        //    M_AimPrompt.SetActive(false);
           
-            M_TiltTip.SetActive(false);
-            M_BoostTip.SetActive(false);
+        //    M_TiltTip.SetActive(false);
+        //    M_BoostTip.SetActive(false);
 
-            M_UncurlPrompt.SetActive(false);
+        //    M_UncurlPrompt.SetActive(false);
            
 
-        }
+        //}
 
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
@@ -685,32 +698,47 @@ public class PlayerLaunchScript : MonoBehaviour
            
         }
 
-        if (a_hit.gameObject.name.Contains("FirstLaunchZone") && m_stationaryFrame)
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf && !M_UncurlPrompt.activeSelf)
         {
-            //PrototypePlayerMovement.M_InLaunchZone = true;
-            /*  M_LaunchPrompt.SetActive(false);
-               M_LaunchPrompt2.SetActive(false);
-               M_CurlPrompt.SetActive(false);
-               M_AimPrompt.SetActive(true);
-            */
-           
+            PrototypePlayerMovement.M_InLaunchZone = true;
+            M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.uncurl);
+
 
         }
 
-         if  (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf && !M_UncurlPrompt.activeSelf)
-            {
-                //PrototypePlayerMovement.M_InLaunchZone = true;
-                M_LaunchPrompt.SetActive(false);
-                M_LaunchPrompt2.SetActive(false);
-                M_UncurlPrompt.SetActive(true);
-                M_AimPrompt.SetActive(false);
-             
+
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone") && M_arrow.activeSelf)
+        {
+            PrototypePlayerMovement.M_InLaunchZone = true;
+            M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.aim);
+        
 
 
+        }
 
-            }
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone") && M_arrow.activeSelf && Input.GetMouseButtonDown(0))
+        {
+            PrototypePlayerMovement.M_InLaunchZone = true;
+            M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.release);
+            
+
+
+        }
+
+
+        //if (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf && !M_UncurlPrompt.activeSelf)
+        //{
+        //    //PrototypePlayerMovement.M_InLaunchZone = true;
+        //    M_LaunchPrompt.SetActive(false);
+        //    M_LaunchPrompt2.SetActive(false);
+        //    // M_UncurlPrompt.SetActive(true);
+        //    M_AimPrompt.SetActive(false);
+        //}
 
     }
+
+    
+
 
     public void TurnOffYellow()
     {

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class PrototypePlayerMovement : MonoBehaviour
 {
+    public TutorialManager M_TuteMan;
     public GameObject M_playerManager;
     public GameObject M_Tutorial;
     public GameObject M_CurlPrompt;
@@ -99,7 +100,14 @@ public class PrototypePlayerMovement : MonoBehaviour
             StartCoroutine(YellowScreen()); //activate yellow overlay when underwater
 
         }
-        
+
+        //if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
+        //{
+        //    M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.curl);
+
+
+        //}
+
     }
 
     
@@ -179,22 +187,23 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
-            M_InLaunchZone = true;
-            M_LaunchPrompt.SetActive(false);
-            M_LaunchPrompt2.SetActive(false);
-            M_AimPrompt.SetActive(false);
-            M_CurlPrompt.SetActive(true);
-            
-            
+            print("entered zone walking");
+           
+            M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.curl);
+
+
         }
 
        //the following "Zone""triggers regulate the tutorial prompts
-        if (a_hit.gameObject.name.Contains("TipZone"))
+       /* if (a_hit.gameObject.name.Contains("TipZone"))
         {
-
-            M_BoostTip.SetActive(true);
+            if (!TutorialManager.m_shownTiltAndBoost)
+            {
+                M_BoostTip.SetActive(true);
+            }
 
         }
+       */
 
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
