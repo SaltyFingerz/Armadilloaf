@@ -5,7 +5,6 @@ using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections;
-//using System.Drawing;
 using EZCameraShake;
 
 public class PlayerLaunchScript : MonoBehaviour
@@ -128,11 +127,7 @@ public class PlayerLaunchScript : MonoBehaviour
         }
         if (Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f || Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f)
         {
-            //if (m_launchingStage == 0)
-            //{
-            //    // player can roll when AWSD is pressed and was not rolling
-            //    LaunchingStart();
-            //}
+
         }
 
         else if (isGrounded() && m_rigidbody.velocity.magnitude < m_minimumSpeed)
@@ -146,8 +141,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
         else
         {
-            //continue rolling
-            //m_launchingStage = 1;
         }
 
         if(!isGrounded()) //activate trail particle system when ball is in the air
@@ -375,11 +368,9 @@ public class PlayerLaunchScript : MonoBehaviour
         m_direction.Normalize();
         m_launchingStage++;
         m_rigidbody.constraints = RigidbodyConstraints.None;
-      //  m_rigidbody.freezeRotation = true;
         M_arrow.SetActive(false);
         M_arrowMaximum.SetActive(false);
         m_launchingPower *= 3.0f;
-        // m_rigidbody.velocity = new Vector3(-m_direction.x * m_launchingPower, 0.0f * m_launchingPower, -m_direction.z * m_launchingPower);
 
         
         if(M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState == 2)
@@ -398,7 +389,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
         DeactivatePrompts();
 
-       // m_rigidbody.AddForce(-m_direction * m_launchingPower, ForceMode.Impulse);
         m_rigidbody.freezeRotation = false;
 
         m_launchingPower = 0.0f;
@@ -406,7 +396,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
         UpdateTrailRotation();
 
-        // m_launchSound.Play();
         AudioClip clip = m_sLaunchSounds[UnityEngine.Random.Range(0, m_sLaunchSounds.Length)];
         m_launchSound.PlayOneShot(clip);
 
@@ -569,7 +558,6 @@ public class PlayerLaunchScript : MonoBehaviour
         if (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf && !M_UncurlPrompt.activeSelf)
         {
 
-            // M_UncurlPrompt.SetActive(true);
             M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.uncurl);
             PrototypePlayerMovement.M_InLaunchZone = true;
         }
@@ -587,21 +575,6 @@ public class PlayerLaunchScript : MonoBehaviour
             UnityEngine.Cursor.visible = true;
         }
 
-        //if (a_hit.gameObject.name.Contains("FreeCamZone"))
-        //{
-        //    M_FreeCamEntry.SetActive(true);
-        //    M_UncurlPrompt.SetActive(false);
-        //    M_CurlPrompt.SetActive(false);
-        //    M_AimPrompt.SetActive(false);
-          
-        //    M_TiltTip.SetActive(false);
-        //    M_BoostTip.SetActive(false);
-
-        //    M_UncurlPrompt.SetActive(false);
-           
-
-        //}
-
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
             M_AimPrompt.SetActive(false);
@@ -618,18 +591,12 @@ public class PlayerLaunchScript : MonoBehaviour
            
             TurnOffYellow();
            
-            // M_Water.SetActive(false);
             m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
         }
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
             PrototypePlayerMovement.M_InLaunchZone = false;
-         /*   M_LaunchPrompt.SetActive(false);
-            M_LaunchPrompt2.SetActive(false);
-            M_CurlPrompt.SetActive(false);
-            M_AimPrompt.SetActive(false);
-         */
 
         }
 
@@ -725,16 +692,6 @@ public class PlayerLaunchScript : MonoBehaviour
 
         }
 
-
-        //if (a_hit.gameObject.name.Contains("FirstLaunchZone") && !M_arrow.activeSelf && !M_UncurlPrompt.activeSelf)
-        //{
-        //    //PrototypePlayerMovement.M_InLaunchZone = true;
-        //    M_LaunchPrompt.SetActive(false);
-        //    M_LaunchPrompt2.SetActive(false);
-        //    // M_UncurlPrompt.SetActive(true);
-        //    M_AimPrompt.SetActive(false);
-        //}
-
     }
 
     
@@ -744,7 +701,6 @@ public class PlayerLaunchScript : MonoBehaviour
     {
         PlayerManagerScript.M_UnderWater = false;
         StopCoroutine(YellowScreen());
-        // M_Water.SetActive(false);
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
     }
 
@@ -767,8 +723,6 @@ public class PlayerLaunchScript : MonoBehaviour
     private void Fluffing()
     {
         PlayerManagerScript.M_Fluffed = true;
-        // m_renderer.material.color = Color.cyan;
-        //  M_FreshBiscuit.GetComponent<UnityEngine.UI.Image>().color = Color.cyan;
        
         if (!PlayerManagerScript.m_resettingFluff)
         {

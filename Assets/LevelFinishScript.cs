@@ -58,10 +58,10 @@ public class LevelFinishScript : MonoBehaviour
 
         if (time != 0)
         { 
-        for (int i = time - 1; i < 2; i++)
-        {
+           for (int i = time - 1; i < 2; i++)
+           {
             starImages[i].color = new Color(0, 0, 0, 100);
-        }
+           }
 
         }
         else
@@ -95,12 +95,13 @@ public class LevelFinishScript : MonoBehaviour
 
         if (fruits != 3)
         { 
-        for (int i = fruits + (3); i < 6; i++)
-        {
-            starImages[i].color = new Color32(0, 0, 0, 100);
-        }
-        }
 
+           for (int i = fruits + (3); i < 6; i++)
+           {
+            starImages[i].color = new Color32(0, 0, 0, 100);
+           }
+         }
+        
         int shots = 0;
 
         if (M_playerManager.M_shots > 10)
@@ -163,21 +164,18 @@ public class LevelFinishScript : MonoBehaviour
 
         if (score < 12 && score >= 8)
         {
-            for (int i = 14 ; i < 15; i++)
-            {
-                starImages[i].color = new Color32(0, 0, 0, 100);
-            }
+                starImages[14].color = new Color32(0, 0, 0, 100);
         }
         else if (score < 8 && score > 0)
         {
-            for (int i = 13; i < 15; i++)
+            for (int i = 13; i < 14; i++)
             {
                 starImages[i].color = new Color32(0, 0, 0, 100);
             }
         }
         else
         {
-            for (int i = 12; i < 15; i++)
+            for (int i = 12; i < 14; i++)
             {
                 starImages[i].color = new Color32(0, 0, 0, 100);
             }

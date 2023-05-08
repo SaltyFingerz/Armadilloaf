@@ -101,13 +101,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         }
 
-        //if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
-        //{
-        //    M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.curl);
-
-
-        //}
-
     }
 
     
@@ -131,9 +124,6 @@ public class PrototypePlayerMovement : MonoBehaviour
     private void Fluffing()
     {
         PlayerManagerScript.M_Fluffed = true;
-       
-      //  m_renderer.material.color = Color.cyan;
-      //  M_FreshBiscuit.GetComponent<Image>().color = Color.cyan;
         M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
         
     }
@@ -193,18 +183,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
 
         }
-
-       //the following "Zone""triggers regulate the tutorial
-       //s
-       /* if (a_hit.gameObject.name.Contains("TipZone"))
-        {
-            if (!TutorialManager.m_shownTiltAndBoost)
-            {
-                M_BoostTip.SetActive(true);
-            }
-
-        }
-       */
 
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
@@ -283,7 +261,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
             TurnOffYellow();
 
-            // M_Water.SetActive(false);
             m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
         }
 
@@ -298,7 +275,6 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         PlayerManagerScript.M_UnderWater = false;
         StopCoroutine(YellowScreen());
-        // M_Water.SetActive(false);
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
     }
 
@@ -445,8 +421,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
            else if (!PlayerManagerScript.M_Growing && !PlayerManagerScript.M_Shrinking)
         {
-            //transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
-            // M_BlobShadowDecal.size = M_TargetBlobSize;
             PlayerManagerScript.M_Growing = true;
         }
      
@@ -528,13 +502,10 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
 
         // movement with AWSD keys
-      //  l_movementDirection = -Input.GetAxis("Vertical") * this.transform.forward;
         l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
         }
 
     }
-
-    //public static Vector3 Lerp(Vector3 a,  Vector3(a_size, a_size, a_size), 1f);
   
     public void SetSizeImmediate(float a_size, float a_mass)
     {
@@ -548,14 +519,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
     public void SetValues(float a_size, float a_mass)
     {
-        //m_controller.rb.mass = a_mass;
-
-        // transform.localScale = new  Vector3 (a_size, a_size, a_size);
-      
-       //  if (transform.localScale.x >= endSize.x)
-     //   {
-      //      transform.localScale = new Vector3(a_size, a_size, a_size);
-      //  }
 
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
