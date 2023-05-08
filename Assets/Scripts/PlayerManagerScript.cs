@@ -142,7 +142,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     }
  public void Defluff()
         {
-            print("Defluffed");
+            
 
             M_Fluffed = false;
         }
@@ -311,7 +311,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             if (M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness > 0f || M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed > 0.5f)
             {
-                print("turning blue");
+               
                 M_Silhouette.SetFloat("_Fluffed", 1);
                 M_SilhouetteBall.SetFloat("_Fluffed", 1);
                 StartCoroutine(ChangePlayerColor(Color.cyan, 0.2f));
@@ -329,11 +329,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_SilhouetteBall.SetFloat("_Fluffed", 0);
 
         }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            print("FLuffed" + M_Fluffed);
-            print("resettingFLuff" + m_resettingFluff);
-        }
+       
 
         if (M_takingDamage)
         {

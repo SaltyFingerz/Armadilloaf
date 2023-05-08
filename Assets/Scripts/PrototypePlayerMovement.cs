@@ -187,14 +187,15 @@ public class PrototypePlayerMovement : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
         {
-            print("entered zone walking");
+            
            
             M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.curl);
 
 
         }
 
-       //the following "Zone""triggers regulate the tutorial prompts
+       //the following "Zone""triggers regulate the tutorial
+       //s
        /* if (a_hit.gameObject.name.Contains("TipZone"))
         {
             if (!TutorialManager.m_shownTiltAndBoost)
@@ -272,8 +273,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             M_InLaunchZone = false;
             M_CurlPrompt.SetActive(false);
-           
-            M_InLaunchZone = false;
 
         }
 
