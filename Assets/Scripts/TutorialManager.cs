@@ -268,58 +268,6 @@ public class TutorialManager : MonoBehaviour
           //  M_launchPrompt.SetActive(true);
         }
 
-        /*   if ((Input.GetMouseButtonDown(1)) && PrototypePlayerMovement.M_InLaunchZone) // && M_launchPrompt.activeSelf)
-           {
-
-            //   M_launchPrompt.SetActive(false);
-            M_curlWorldPrompt.SetActive(false);
-               M_launchAimPrompt.SetActive(true);
-               //StartCoroutine(NextPrompt(M_launchShoot, M_launchAimPrompt));
-           }
-        */
-
-        //// TODO: redifine my logic using FirstLaunceTuteController
-        //if ((Input.GetMouseButtonDown(0) || Input.GetKey(KeyCode.Space)) && M_launchAimPrompt.activeSelf)
-        //{
-        //    //// TODO: redifine my logic using FirstLaunceTuteController
-        //    //M_launchAimPrompt.SetActive(false);
-        //    //StopCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
-        //    //M_launchShoot.SetActive(true);
-
-        //    //  StartCoroutine(ExitBall());
-        //}
-
-        // IEnumerator ExitBall()
-        //   {
-
-        /* yield return new WaitForSeconds(6);
-         if (!M_TiltPrompt.activeSelf)
-         {
-             M_walkPrompt.SetActive(true);
-         }
-        */
-        //   }
-
-        //// TODO: redifine my logic using FirstLaunceTuteController
-        //if (!M_BallPlayer.activeSelf && M_walkPrompt.activeSelf)
-        //{
-        //    M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.curl);
-        //    // StartCoroutine(ShowFreeCamPrompt());
-        //}
-
-       
-
-        // IEnumerator ShowFreeCamPrompt()
-        //{
-        //    M_walkPrompt.SetActive(false);
-        // yield return new WaitForSeconds(3f);
-        //  if (!M_launchAimPrompt.activeSelf) //&& !M_launchPrompt.activeSelf && )
-        //  {
-        //      M_freeCamPrompt.SetActive(true);
-        //  }
-        //  }
-
-
         if (Input.GetKeyDown(KeyCode.C) && M_FreeCamEntryPrompt.activeSelf)
         {
             m_timerSeconds = 0;
