@@ -19,6 +19,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_FreeCamWASDPrompt;
     public GameObject M_FreeCamExitPrompt;
     public static bool M_ShownTiltAndBoost;
+    public static bool M_ShownBoost;
  public GameObject M_BoostPrompt;
     public GameObject M_TiltPrompt;
     public GameObject M_shrinkPrompt;
@@ -374,6 +375,8 @@ public class TutorialManager : MonoBehaviour
 
         if(M_BoostPrompt.activeSelf)
         {
+            M_ShownBoost = true;
+
             if(Input.GetKeyDown(KeyCode.W))
             {
                 StartCoroutine(NextPrompt(M_TiltPrompt, M_BoostPrompt));

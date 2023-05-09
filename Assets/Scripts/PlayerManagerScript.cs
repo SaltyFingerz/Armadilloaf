@@ -534,6 +534,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_lifeText.text = M_lives.ToString();
         M_takingDamage = false;
         M_PlayerMovement.ResetPainState();
+        
     }
 
     public void Resume()
@@ -812,7 +813,9 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_abilityState = 0;
         M_Jellied = false;
         M_Fluffed = false;
-      
+        TutorialManager.M_ShownBoost = false;
+
+
     }
 
     public void ResetBiscuitBites()
