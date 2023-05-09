@@ -85,11 +85,8 @@ public class PlayerLaunchScript : MonoBehaviour
     bool m_powerGoingUp = true;
  
     public ParticleSystem M_ImpactVFX;
-    public void Start()
-    {
-       
-    }
 
+    // use this function instead of Start function. This will be called when the player first changes to ball mode.
     public void Initialize()
     {
         // get objects
@@ -137,17 +134,11 @@ public class PlayerLaunchScript : MonoBehaviour
             }
         }
 
-        else
-        {
-        }
-
         if(!isGrounded()) //activate trail particle system when ball is in the air
         {
-            
             M_TrailScript.ActivateTrail(); 
         }
 
-       
 
         // Manage launching stage
         switch (m_launchingStage)
@@ -172,11 +163,10 @@ public class PlayerLaunchScript : MonoBehaviour
         if (isGrounded())
         {
             GroundDetectionScript.M_IsGrounded = true;
-
         }
+
         else if (!isGrounded())
         {
-
             GroundDetectionScript.M_IsGrounded = false;
         }
 
@@ -216,10 +206,7 @@ public class PlayerLaunchScript : MonoBehaviour
         //get player input
         float l_playerVerticalInput = Input.GetAxis("Vertical");
         float l_playerHorizontalInput = Input.GetAxis("Horizontal");
-
-        float l_multiplier = 1500.0f;
-
-       
+        float l_multiplier = 1500.0f;       
 
         if(M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState == 2)
         {
@@ -330,7 +317,6 @@ public class PlayerLaunchScript : MonoBehaviour
         M_arrow.SetActive(true);
         M_arrowMaximum.SetActive(true);
         M_arrow.transform.localScale = new Vector3(5f, 5f, 5f);
-        m_direction = new Vector3(0.0f, 0.0f, 1.0f);
 
         m_launchingStage = 0;
         m_launchingPower = 0;
