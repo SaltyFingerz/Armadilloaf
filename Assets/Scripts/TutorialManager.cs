@@ -6,32 +6,18 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     public PrototypePlayerMovement M_PPlayerMovment;
-
     public FirstLaunchTuteController M_FirstLaunchTute;
-    
-    public GameObject M_movePrompt;
-    public GameObject M_jumpPrompt;
+
     public GameObject M_MyChildCanWalk;
-    public static bool M_ShownTiltAndBoost;
- public GameObject M_BoostPrompt;
-    public GameObject M_TiltPrompt;
-    public GameObject M_shrinkPrompt;
-    public GameObject M_BananaPrompt;
-    public GameObject M_goalArrow;
-    public GameObject M_BallPlayer;
-    public GameObject M_FreeMovePlayer;
+    public GameObject M_movePrompt, M_jumpPrompt, M_BoostPrompt, M_TiltPrompt, M_shrinkPrompt,M_BananaPrompt, M_goalArrow;
+    public GameObject M_BallPlayer, M_FreeMovePlayer;
 
-    public GameObject M_Walker;
-    public GameObject M_Ball;
-    private int  m_initialState; // 0 walker and 1 ball
-    private int m_currentState; // 0 walker and 1 ball
-    private float m_timerSeconds = 0f;
+    public GameObject M_Walker, M_Ball;
+    private int  m_initialState, m_currentState;     // 0 walker and 1 ball
     private bool m_stateChanged;
+    public static bool M_ShownTiltAndBoost;
 
-    bool m_Wpressed;
-    bool m_Apressed;
-    bool m_Spressed;
-    bool m_Dpressed;
+    bool m_Wpressed, m_Apressed, m_Spressed, m_Dpressed;
 
     void Start()
     {
