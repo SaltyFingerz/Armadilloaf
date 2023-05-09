@@ -320,27 +320,6 @@ public class PrototypePlayerMovement : MonoBehaviour
     void Update()
     {
        
-
-      /*  if(!M_InLaunchZone)
-        {
-            M_CurlPrompt.SetActive(false);
-            M_LaunchPrompt.SetActive(false);
-            M_LaunchPrompt2.SetActive(false);
-            M_AimPrompt.SetActive(false);
-        }
-
-       if(M_InLaunchZone)
-        {
-            M_CurlPrompt.SetActive(true);
-            M_LaunchPrompt.SetActive(false);
-            M_LaunchPrompt2.SetActive(false);
-         
-            M_UncurlPrompt.SetActive(false);
-        }
-       */
-
-   
-
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
             case (int)PlayerManagerScript.SizeState.big:

@@ -202,29 +202,9 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             HandleLaunchInput();
         }
-      
-      
 
         //control rate of particle system trail depending on speed of ball
         //produces an error - wip.
-        /*
-        if(m_rigidbody.velocity.magnitude < 1)
-        {
-            M_TrailScript.SlowDownTrail();
-
-        }
-
-        else if (m_rigidbody.velocity.magnitude >= 1 && m_rigidbody.velocity.magnitude <= 3)
-        {
-            M_TrailScript.MediumTrail();
-        }
-
-        else if(m_rigidbody.velocity.magnitude >3)
-        {
-            M_TrailScript.SpeedUpTrail();
-        }
-        */
-
     }
 
     public void ResetPainState()
@@ -487,40 +467,16 @@ public class PlayerLaunchScript : MonoBehaviour
             switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
             {
                 case (int)PlayerManagerScript.SizeState.big:
-                m_launchSound.pitch = 0.5f;
-               /* foreach (GameObject can in M_BigCans)
-                {
-                    can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                }
-                foreach (GameObject cereal in M_Cereals)
-                {
-                    cereal.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                } */
+                    m_launchSound.pitch = 0.5f;
                     break;
 
                 case (int)PlayerManagerScript.SizeState.normal:
-                m_launchSound.pitch = 1f;
-               /* foreach (GameObject can in M_BigCans)
-                {
-                    can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                }
-                foreach (GameObject cereal in M_Cereals)
-                {
-                    cereal.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                } */
-                break;
+                    m_launchSound.pitch = 1f;
+                    break;
 
                 case (int)PlayerManagerScript.SizeState.small:
-                m_launchSound.pitch = 1.5f;
-              /*  foreach (GameObject can in M_BigCans)
-                {
-                    can.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                }
-                foreach (GameObject cereal in M_Cereals)
-                {
-                    cereal.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                } */
-                break;
+                    m_launchSound.pitch = 1.5f;
+                    break;
 
                 default:
                     //This shouldn't happen. Did you forget to set a size state?
@@ -827,15 +783,7 @@ public class PlayerLaunchScript : MonoBehaviour
     
     public void SetCameraOffset(Vector2 a_offset)
     {
-       /* Vector2 OffsetIncrement = new Vector2 (0.5f, 0.5f);
-        if (M_cameraOffset.x < a_offset.x)
-        {
-            M_cameraOffset += OffsetIncrement * Time.deltaTime*100;
-        }
-        else if (M_cameraOffset.x > a_offset.x)
-        {
-            M_cameraOffset -= OffsetIncrement * Time.deltaTime*100;
-        }*/
+       
        M_cameraOffset = a_offset;
  
     }

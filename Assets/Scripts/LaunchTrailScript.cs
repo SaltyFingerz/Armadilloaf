@@ -57,25 +57,4 @@ public class LaunchTrailScript : MonoBehaviour
     {
         m_launchTrail.Stop();
     }
-
-    /*
-    public void SpeedUpTrail()
-    {
-        m_pMain.startSpeed = 9;
-        m_pEmission.rateOverTimeMultiplier = 9;
-    }
-
-    public void MediumTrail()
-    {
-        m_pMain.startSpeed = 7;
-        m_pEmission.rateOverTimeMultiplier = new ParticleSystem.EmissionModule ;
-    }
-
-    public void SlowDownTrail()
-    {
-        m_pMain.startSpeed = 5;
-        m_pEmission.rateOverTimeMultiplier = 5;
-    }
-    */
-
 }
