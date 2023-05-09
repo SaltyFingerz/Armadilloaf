@@ -11,6 +11,7 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_MyChildCanWalk;
     public GameObject M_movePrompt, M_jumpPrompt, M_BoostPrompt, M_TiltPrompt, M_shrinkPrompt,M_BananaPrompt, M_goalArrow;
     public GameObject M_BallPlayer, M_FreeMovePlayer;
+    //public GameObject M_launchPrompt;
     public GameObject M_FreeCamEntryPrompt;
     public GameObject M_FreeCamMousePrompt;
     public GameObject M_FreeCamHeightPrompt;
@@ -18,18 +19,10 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_FreeCamExitPrompt;
     public static bool M_ShownTiltAndBoost;
     public static bool M_ShownBoost;
-    public GameObject M_BoostPrompt;
-    public GameObject M_TiltPrompt;
-    public GameObject M_shrinkPrompt;
-    public GameObject M_BananaPrompt;
-    public GameObject M_goalArrow;
-    public GameObject M_BallPlayer;
-    public GameObject M_FreeMovePlayer;
 
     public GameObject M_Walker, M_Ball;
     private int  m_initialState, m_currentState;     // 0 walker and 1 ball
     private bool m_stateChanged;
-    public static bool M_ShownTiltAndBoost;
     float m_timerSeconds;
     bool m_Wpressed, m_Apressed, m_Spressed, m_Dpressed;
 
