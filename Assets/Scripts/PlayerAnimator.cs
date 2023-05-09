@@ -20,10 +20,6 @@ public class PlayerAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
-        {
-            return;
-        }
         HandleInput();
     }
     public void HandleInput()

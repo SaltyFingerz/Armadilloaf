@@ -85,7 +85,6 @@ public class PlayerLaunchScript : MonoBehaviour
     bool m_powerGoingUp = true;
  
     public ParticleSystem M_ImpactVFX;
-    Renderer m_renderer;
     public void Start()
     {
        
@@ -97,7 +96,6 @@ public class PlayerLaunchScript : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody>();
         M_arrowMaximum = this.gameObject.transform.GetChild(0).gameObject;
         M_arrow = this.gameObject.transform.GetChild(1).gameObject;
-        m_renderer = GetComponent<Renderer>();
 
         // assign starting values
         m_direction = new Vector3(0.0f, 0.0f, 1.0f);
