@@ -5,22 +5,20 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using static PlayerManagerScript;
+using System;
 
 public partial class PlayerManagerScript : MonoBehaviour
 {
 
-    public GameObject M_launchingPlayer, M_walkingPlayer, M_freeFlyingPlayer;
-    public GameObject M_walkingCamera, M_launchCamera, M_additionalCamera;
+    public GameObject M_launchingPlayer, M_walkingPlayer;
+    public GameObject M_walkingCamera, M_launchCamera;
     public RenderingScript M_Rendering;
     public float M_velocityRetain = 0.65f;      // how much velocity walking player gets from the launch, keep below 1
     public float M_velocityRetiainAir = 0.85f;  // how much velocity walking player mid-air gets from the launch, keep below 1
     public float M_timeElapsed;
-    public ParticleSystem M_EjectionPS1;
-    public ParticleSystem M_EjectionPS2;
-    public GameObject M_JellyDecal;
-    public GameObject M_Tail;
-    public Material M_Silhouette;
-    public Material M_SilhouetteBall;
+    public ParticleSystem M_EjectionPS1, M_EjectionPS2;
+    public GameObject M_JellyDecal, M_Tail;
+    public Material M_Silhouette, M_SilhouetteBall;
     // State enums
     public enum ArmadilloState { walk, launching };
     public ArmadilloState m_state = ArmadilloState.walk;        // Keeps track of the movement state
@@ -35,8 +33,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public enum AbilityState { normal = 0, jelly = 1, honey = 2, both = 3 };
     public AbilityState M_abilityState = AbilityState.normal;   // Keeps track of abilities the player has
     public static float M_TargetSize;
-    public Animator M_BallAnimator;
-    public Animator M_WalkAnimator;
+    public Animator M_BallAnimator, M_WalkAnimator;
     public static bool M_Growing = false;
     public static bool M_Shrinking = false;
     //Player HUD objects
@@ -57,7 +54,6 @@ public partial class PlayerManagerScript : MonoBehaviour
     public bool M_takingDamage = false;
     public bool M_transitionIn = false;
     public bool M_transitionOut = false;
-    public bool M_isFreeFlying = false;
 
     public PauseManagerScript M_UIManager;
     public PrototypePlayerMovement M_PlayerMovement;
@@ -77,21 +73,18 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public Animator M_biscuitAnimator;
 
-    public static bool M_Fluffed;
-    public static bool M_Jellied;
-    public static bool m_resettingFluff;
+    public static bool M_Fluffed, M_Jellied, m_resettingFluff;
     public int M_FruitCollected;
     public TextMeshProUGUI M_FruitUI;
     public TextMeshProUGUI M_FruitUIFin;
 
-    public AudioSource M_GrowAudio;
-    public AudioSource M_ShrinkAudio;
+    public AudioSource M_GrowAudio, M_ShrinkAudio;
+
     // Start is called before the first frame update
     void Start()
     {
         Physics.gravity = new Vector3(0.0f, -19.77f, 0.0f);
         m_justUnpaused = false;
-        M_additionalCamera.SetActive(false);
         M_launchCamera.SetActive(false);
         M_UIManager = FindObjectOfType<PauseManagerScript>();
         M_UIManager.Resume();
@@ -111,7 +104,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_walkingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().Initialize();
         M_launchingPlayer.SetActive(false);
-        M_freeFlyingPlayer.SetActive(false);
         M_sizeState = (int)SizeState.normal;
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
@@ -130,22 +122,14 @@ public partial class PlayerManagerScript : MonoBehaviour
     IEnumerator resetFluff()
     {
         m_resettingFluff = true;
-
         yield return new WaitForSeconds(10);
-
-
         Defluff();
-
-        m_resettingFluff = false;
-
-       
+        m_resettingFluff = false;       
     }
- public void Defluff()
-        {
-            
-
-            M_Fluffed = false;
-        }
+    public void Defluff()
+    {
+        M_Fluffed = false;
+    }
 
     public IEnumerator ShowUIQuickly()
     {
@@ -163,13 +147,13 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public IEnumerator FadeAway(Image a_image)
     {
-            // loop over 1 second backwards
-            for (float i = 3; i >= 0; i -= Time.deltaTime)
-            {
-                // set color with i as alpha
-                a_image.color = new Color(1, 1, 1, i);
-                yield return null;
-            }
+        // loop over 1 second backwards
+        for (float i = 3; i >= 0; i -= Time.deltaTime)
+        {
+            // set color with i as alpha
+            a_image.color = new Color(1, 1, 1, i);
+            yield return null;
+        }
     }
 
     public IEnumerator FadeAway(TextMeshProUGUI a_text)
@@ -226,34 +210,20 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_Renderer.material.color = newColor;
     }
 
-
-
-
-
-
     // Update is called once per frame
     void Update()
     {
-
         if (M_Fluffed)
-
         {
-
-
             if (!m_resettingFluff)
             {
                 ResetFluffFunction();
             }
-
         }
 
         else if (M_Jellied)
-
         {
-
            Defluff();
-           // m_resettingFluff = false;
-
         }
 
         if (M_UnderWater)
@@ -269,7 +239,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
         if (!isPaused)
         { 
-        M_timeElapsed += Time.deltaTime;
+            M_timeElapsed += Time.deltaTime;
         }
 
         M_FruitUI.text = M_FruitCollected.ToString();
@@ -287,7 +257,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             M_BallAnimator.SetTrigger("Small");
         }
-
 
         if (M_Jellied)
         {
@@ -318,19 +287,14 @@ public partial class PlayerManagerScript : MonoBehaviour
                 M_launchingPlayer.GetComponent<SphereCollider>().material.bounciness = 0f;
                 M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed = 0.5f;
             }
-
-
-
         }
         else
         {
             M_walkingPlayer.GetComponent<PrototypePlayerMovement>().m_playerSpeed = 2f;
             M_Silhouette.SetFloat("_Fluffed", 0);
             M_SilhouetteBall.SetFloat("_Fluffed", 0);
-
         }
        
-
         if (M_takingDamage)
         {
             M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Damage");
@@ -339,7 +303,7 @@ public partial class PlayerManagerScript : MonoBehaviour
 
             if (M_musicPlayer.pitch > 0f)
             { 
-            M_musicPlayer.pitch -= 0.001f;
+                M_musicPlayer.pitch -= 0.001f;
             }
         }
 
@@ -348,7 +312,7 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_freshnessBiscuit.GetComponent<Animator>().SetTrigger("Safe");
             if (M_musicPlayer.pitch < 1.0f && !M_takingDamage)
             { 
-            M_musicPlayer.pitch += 0.01f;
+                M_musicPlayer.pitch += 0.01f;
             }
             else if (M_musicPlayer.pitch > 1.0f)
             {
@@ -360,8 +324,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         {
             TakeDamage();
         }
-
-      
 
         // transition sprite starts growing after 5 deaths
         if (M_transitionIn)
@@ -398,18 +360,15 @@ public partial class PlayerManagerScript : MonoBehaviour
             return;
         }
 
-        if (!M_isFreeFlying)
+        //   grow
+        if (Input.GetKeyDown(KeyCode.Q) && M_sizeState == 0)
         {
-          //   grow
-           if (Input.GetKeyDown(KeyCode.Q) && M_sizeState ==0)
-            {
-               Grow();
-            }
-            // shrink
-            if (Input.GetKeyDown(KeyCode.E) && M_sizeState > 0)
-            {
-                Shrink();
-            }
+            Grow();
+        }
+        // shrink
+        if (Input.GetKeyDown(KeyCode.E) && M_sizeState > 0)
+        {
+            Shrink();
         }
 
         if (Input.GetKey(KeyCode.G))
@@ -424,47 +383,10 @@ public partial class PlayerManagerScript : MonoBehaviour
 
       
         // state changing
-        if (( Input.GetMouseButtonDown(1)) && !M_isFreeFlying && !levelCompleted)
+        if (( Input.GetMouseButtonDown(1)) && !levelCompleted)
         {
             StateCheck();
-           
         }
-       /* if(Input.GetKeyDown(KeyCode.C))
-        {
-            if (M_isFreeFlying)
-            {
-                M_walkingPlayer.transform.rotation = Quaternion.identity;
-                M_isFreeFlying = false;
-                switch (m_state)
-                {
-                    case ArmadilloState.walk:
-                        M_additionalCamera.SetActive(false);
-                        M_walkingCamera.SetActive(true);
-                        M_launchCamera.SetActive(false);
-                        M_freeFlyingPlayer.SetActive(false);
-                        break;
-                    case ArmadilloState.launching:
-                        M_additionalCamera.SetActive(false);
-                        M_walkingCamera.SetActive(false);
-                        M_launchCamera.SetActive(true);
-                        M_freeFlyingPlayer.SetActive(false);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                StartFlying();
-            }
-        }*/
-        // prototype restart, to do: have this be automatic upon failure
-      /*  if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene("FailScreen");
-        }
-      */
 
         if(Input.GetButtonUp("Cancel") || Input.GetKeyDown(KeyCode.P))
         {
@@ -475,13 +397,10 @@ public partial class PlayerManagerScript : MonoBehaviour
             M_UIManager.Paused();
             }
         }
-
-      
     }
 
     public void TakeDamage()
     {
-
         // reset damage taking
         M_takingDamage = false;
         m_invulnerabilityTimerSeconds = 0.0f;
@@ -565,8 +484,6 @@ public partial class PlayerManagerScript : MonoBehaviour
        
         // change camera
         M_launchCamera.SetActive(false);
-        M_additionalCamera.SetActive(false);
-
         M_walkingPlayer.transform.position = M_launchingPlayer.transform.position;
         M_walkingCamera.SetActive(true);
         M_walkingPlayer.GetComponent<PrototypePlayerMovement>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
@@ -591,7 +508,6 @@ public partial class PlayerManagerScript : MonoBehaviour
         // deactivate other plyer states
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().Reset();
         M_launchingPlayer.SetActive(false);
-        M_freeFlyingPlayer.SetActive(false);
         m_state = ArmadilloState.walk;
         M_walkingPlayer.SetActive(true);
 
@@ -608,10 +524,6 @@ public partial class PlayerManagerScript : MonoBehaviour
     }
     public void StartLaunching()
     {
-
-      
-
-        M_additionalCamera.SetActive(false);
         M_walkingPlayer.SetActive(false);
         M_launchCamera.SetActive(true);
 
@@ -625,47 +537,17 @@ public partial class PlayerManagerScript : MonoBehaviour
         l_rotation.Set(0f, M_walkingPlayer.transform.localRotation.eulerAngles.y, 0f);
         M_launchingPlayer.transform.rotation = Quaternion.Euler(l_rotation);
 
-        if (!M_isFreeFlying)
-        {
-            // animation reset before deactivating
-            M_walkingPlayer.GetComponent<Animator>().CrossFade("Empty", 0f);
-            M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
-            M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
-        }
-       
-        M_freeFlyingPlayer.SetActive(false);
+        // animation reset before deactivating
+        M_walkingPlayer.GetComponent<Animator>().CrossFade("Empty", 0f);
+        M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
+        M_walkingPlayer.GetComponent<Animator>().Update(0.0f);
+
         m_state = ArmadilloState.launching;
         M_launchingPlayer.SetActive(true);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetMouseRotation(M_walkingPlayer.GetComponent<CustomController>().GetMouseRotation());
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetDirection(M_walkingPlayer.transform.forward);
         M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetValues(M_sizes[M_sizeState], M_weights[M_sizeState]);
-        //M_launchingPlayer.GetComponent<PlayerLaunchScript>().SetCameraOffset(M_cameraOffsets[M_sizeState]);
-       
-    }
-
-    void StartFlying()
-    {
         
-        M_additionalCamera.SetActive(true);
-        M_walkingCamera.SetActive(false);
-        M_launchCamera.SetActive(false);
-
-        M_freeFlyingPlayer.SetActive(true);
-        M_isFreeFlying = true;
-
-
-        switch (m_state)
-        {
-            case ArmadilloState.walk:
-                M_freeFlyingPlayer.transform.position = M_walkingPlayer.transform.position;
-                break;
-            case ArmadilloState.launching:
-                M_freeFlyingPlayer.transform.position = M_launchingPlayer.transform.position;
-                break;
-
-            default:
-                break;
-        }
     }
 
     public void FinishedLevel()
@@ -817,7 +699,6 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public void ResetBiscuitBites()
     {
-
         for (int i = 0; i < M_biscuitBites.Length; i++)
         {
             M_biscuitBites[i] = false;

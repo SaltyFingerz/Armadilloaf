@@ -365,7 +365,7 @@ public class PrototypePlayerMovement : MonoBehaviour
             PlayerManagerScript.M_Growing = true;
         }
 
-        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying ||!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
+        if (!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
         {
             return;
         }

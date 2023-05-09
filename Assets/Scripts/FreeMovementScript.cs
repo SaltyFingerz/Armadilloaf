@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.UIElements;
 
+[ObsoleteAttribute("Free camera is no longer supported.", true)]
 public class FreeMovementScript : MonoBehaviour
 {
     public float m_playerSpeed;
@@ -26,15 +24,6 @@ public class FreeMovementScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Time.timeScale < 0.1f)
-        {
-            return;
-        }
-
-        RotateCamera();
-        MoveCamera();
-        RotateWalkingPlayer();
-
     }
 
     void RotateWalkingPlayer()

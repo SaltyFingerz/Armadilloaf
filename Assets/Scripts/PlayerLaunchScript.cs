@@ -121,7 +121,7 @@ public class PlayerLaunchScript : MonoBehaviour
         m_stationaryFrame = false;
 
         // if paused or free flying, don't update
-        if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
+        if (Time.timeScale < 0.1f)
         {
             return;
         }
@@ -192,7 +192,7 @@ public class PlayerLaunchScript : MonoBehaviour
         }
 
         // if paused or free flying, don't update
-        if (Time.timeScale < 0.1f || M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying)
+        if (Time.timeScale < 0.1f)
         {
             return;
         }

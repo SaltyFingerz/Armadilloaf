@@ -49,7 +49,7 @@ public class CustomController : MonoBehaviour
         }
 
 
-        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying || !M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
+        if (!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
         {
             return;
         }
@@ -58,7 +58,7 @@ public class CustomController : MonoBehaviour
 
         // Player won't move when free camera is turned on
         // don't update when player is launching
-        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying || !M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
+        if (!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
         {
             return;
         }
@@ -100,7 +100,7 @@ public class CustomController : MonoBehaviour
 
     public void Update()
     {
-        if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying || !M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
+        if (!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
         {
             return;
         }
