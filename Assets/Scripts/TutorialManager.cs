@@ -16,7 +16,7 @@ public class TutorialManager : MonoBehaviour
     private int  m_initialState, m_currentState;     // 0 walker and 1 ball
     private bool m_stateChanged;
     public static bool M_ShownTiltAndBoost;
-
+    float m_timerSeconds;
     bool m_Wpressed, m_Apressed, m_Spressed, m_Dpressed;
 
     void Start()
