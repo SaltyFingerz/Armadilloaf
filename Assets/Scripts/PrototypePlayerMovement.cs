@@ -81,7 +81,6 @@ public class PrototypePlayerMovement : MonoBehaviour
                 if (m_canPain)
                 {
                     PainSound();
-                   
                 }
             }
 
@@ -89,18 +88,12 @@ public class PrototypePlayerMovement : MonoBehaviour
             {
                 DrownSound();
             }
-
-           
         }
 
         if (a_hit.gameObject.CompareTag("Hazard") && a_hit.gameObject.name.Contains("Water"))
         {
-
-        
             StartCoroutine(YellowScreen()); //activate yellow overlay when underwater
-
         }
-
     }
     
     IEnumerator YellowScreen()
@@ -123,14 +116,12 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         PlayerManagerScript.M_Fluffed = true;
         M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
-        
     }
 
     IEnumerator waitForPain()
     {
         yield return new WaitForSeconds(1);
         m_canPain = true;
-
     }
 
     IEnumerator waitForDrown()
@@ -170,25 +161,19 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone"))
-        {
-            
-           
+        {           
             M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.curl);
-
-
         }
 
         if (a_hit.gameObject.name.Contains("ShrinkZone"))
         {
             M_AimPrompt.SetActive(false);
             M_ShrinkPrompt.SetActive(true);
-
         }
 
         if (a_hit.gameObject.name.Contains("CloseBananaZone"))
         {
             M_BananaPrompt.SetActive(false);
-
         }
 
         if (a_hit.gameObject.name.Contains("FreeCamZone"))
@@ -200,10 +185,8 @@ public class PrototypePlayerMovement : MonoBehaviour
             M_ShrinkPrompt.SetActive(false);
             M_TiltTip.SetActive(false);
             M_BoostTip.SetActive(false);
-          
             M_UncurlPrompt.SetActive(false);
             M_JumpPrompt.SetActive(false);
-
         }
 
         if (a_hit.gameObject.name.Contains("JumpPromptZone"))
@@ -337,9 +320,10 @@ public class PrototypePlayerMovement : MonoBehaviour
             }
 
             else
-        {
-            PlayerManagerScript.M_Growing = false;
-        }
+            {
+                PlayerManagerScript.M_Growing = false;
+            }
+
             if (M_BlobShadowDecal.size.x < M_TargetBlobSize.x)
             {
                 M_BlobShadowDecal.size += shadowGrowthIncrement;
@@ -359,8 +343,8 @@ public class PrototypePlayerMovement : MonoBehaviour
                 M_BlobShadowDecal.size -= shadowGrowthIncrement;
               
             }
-
         }
+
         else if (transform.localScale.x > PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Growing)
         {
             transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
@@ -381,7 +365,6 @@ public class PrototypePlayerMovement : MonoBehaviour
             PlayerManagerScript.M_Growing = true;
         }
 
-
         if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying ||!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
         {
             return;
@@ -392,17 +375,13 @@ public class PrototypePlayerMovement : MonoBehaviour
             M_CurlPrompt.SetActive(false);
         }
 
-
         m_groundedPlayer = m_controller.isGrounded;
         HandleInput();
-
 
         if (m_groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
         }
-
-
 
         if (m_isHittingWall)
         {
@@ -432,27 +411,22 @@ public class PrototypePlayerMovement : MonoBehaviour
        
         if (!M_playerManager.GetComponent<PlayerManagerScript>().levelCompleted)
         { 
-        Vector3 l_movementDirection = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.LeftShift) && !PlayerManagerScript.M_Fluffed) 
-        {
-             m_playerSpeed = 2.5f; 
-        }
-        else if(!PlayerManagerScript.M_Fluffed)
-        {
-            m_playerSpeed = 2.0f;
-        }
-        else if(PlayerManagerScript.M_Fluffed)
-        {
-            m_playerSpeed = 0.5f;
-            if (!PlayerManagerScript.m_resettingFluff)
+            if (Input.GetKey(KeyCode.LeftShift) && !PlayerManagerScript.M_Fluffed) 
             {
-               M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
+                 m_playerSpeed = 2.5f; 
             }
-        }
-
-        // movement with AWSD keys
-        l_movementDirection -= Input.GetAxis("Horizontal") * this.transform.right;
+            else if(!PlayerManagerScript.M_Fluffed)
+            {
+                m_playerSpeed = 2.0f;
+            }
+            else if(PlayerManagerScript.M_Fluffed)
+            {
+                m_playerSpeed = 0.5f;
+                if (!PlayerManagerScript.m_resettingFluff)
+                {
+                   M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
+                }
+            }
         }
 
     }
@@ -461,11 +435,8 @@ public class PrototypePlayerMovement : MonoBehaviour
     {
         transform.localScale = new Vector3(a_size, a_size, a_size);
         M_BlobShadowDecal.size = M_TargetBlobSize;
-
-
     }
 
- 
 
     public void SetValues(float a_size, float a_mass)
     {
@@ -474,9 +445,8 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             case (int)PlayerManagerScript.SizeState.big:
                 m_pushForce = 20.0f;
-               M_TargetBlobSize = new Vector3(10, 10, 50);
+                M_TargetBlobSize = new Vector3(10, 10, 50);
                 m_jumpHeight = 15;
-                
                 break;
 
             case (int)PlayerManagerScript.SizeState.normal:
@@ -496,6 +466,4 @@ public class PrototypePlayerMovement : MonoBehaviour
                 break;
         }
     }
-
-   
 }
