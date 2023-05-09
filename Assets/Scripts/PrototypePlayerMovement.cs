@@ -102,7 +102,6 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
 
     }
-
     
     IEnumerator YellowScreen()
     {
@@ -120,17 +119,12 @@ public class PrototypePlayerMovement : MonoBehaviour
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0.66f);
     }
 
-
     private void Fluffing()
     {
         PlayerManagerScript.M_Fluffed = true;
         M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
         
     }
-
-   
-
-   
 
     IEnumerator waitForPain()
     {
@@ -215,14 +209,13 @@ public class PrototypePlayerMovement : MonoBehaviour
         if (a_hit.gameObject.name.Contains("JumpPromptZone"))
         {
             M_CurlPrompt.SetActive(false);
-     M_AimPrompt.SetActive(false);
-     M_ShrinkPrompt.SetActive(false);
-    M_TiltTip.SetActive(false);
+            M_AimPrompt.SetActive(false);
+            M_ShrinkPrompt.SetActive(false);
+            M_TiltTip.SetActive(false);
             M_BoostTip.SetActive(false);
-     M_FreeCamEntry.SetActive(false);
-     M_UncurlPrompt.SetActive(false);
-    M_JumpPrompt.SetActive(true);
-
+            M_FreeCamEntry.SetActive(false);
+            M_UncurlPrompt.SetActive(false);
+            M_JumpPrompt.SetActive(true);
         }
 
         if (a_hit.gameObject.name.Contains("Water"))
@@ -251,10 +244,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         {
             M_InLaunchZone = false;
             M_CurlPrompt.SetActive(false);
-
         }
-
-
 
         if (other.gameObject.name.Contains("Water")) //deactivate yellow overlay
         {
@@ -263,12 +253,6 @@ public class PrototypePlayerMovement : MonoBehaviour
 
             m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
         }
-
-
-
-
-
-
     }
 
     public void TurnOffYellow()
@@ -315,11 +299,8 @@ public class PrototypePlayerMovement : MonoBehaviour
         M_playerManager.GetComponent<PlayerManagerScript>().StartLaunching();
     }
 
-    
-
     void Update()
     {
-       
         switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
         {
             case (int)PlayerManagerScript.SizeState.big:
@@ -345,70 +326,60 @@ public class PrototypePlayerMovement : MonoBehaviour
                 break;
         }
 
-
-      
-        
-            //change size gradually each frame
-            Vector3 growthIncrement = new Vector3(1f, 1f, 1f);
-            Vector3 shadowGrowthIncrement = new Vector3(.06f, .06f, 0f);
-            if (PlayerManagerScript.M_Growing)
+        //change size gradually each frame
+        Vector3 growthIncrement = new Vector3(1f, 1f, 1f);
+        Vector3 shadowGrowthIncrement = new Vector3(.06f, .06f, 0f);
+        if (PlayerManagerScript.M_Growing)
+        {
+            if (transform.localScale.x < PlayerManagerScript.M_TargetSize)
             {
-                if (transform.localScale.x < PlayerManagerScript.M_TargetSize)
-                {
-                    transform.localScale += growthIncrement * Time.deltaTime;
-                }
-
-                else
-            {
-                PlayerManagerScript.M_Growing = false;
+                transform.localScale += growthIncrement * Time.deltaTime;
             }
-                if (M_BlobShadowDecal.size.x < M_TargetBlobSize.x)
-                {
-                    M_BlobShadowDecal.size += shadowGrowthIncrement;
-                }
 
-            }
-            else if (PlayerManagerScript.M_Shrinking)
+            else
+        {
+            PlayerManagerScript.M_Growing = false;
+        }
+            if (M_BlobShadowDecal.size.x < M_TargetBlobSize.x)
             {
-                if (transform.localScale.x > PlayerManagerScript.M_TargetSize)
-                {
-                    transform.localScale -= growthIncrement * Time.deltaTime;
+                M_BlobShadowDecal.size += shadowGrowthIncrement;
+            }
+
+        }
+        else if (PlayerManagerScript.M_Shrinking)
+        {
+            if (transform.localScale.x > PlayerManagerScript.M_TargetSize)
+            {
+                transform.localScale -= growthIncrement * Time.deltaTime;
                 
-                }
-
-                if (M_BlobShadowDecal.size.x > M_TargetBlobSize.x)
-                {
-                    M_BlobShadowDecal.size -= shadowGrowthIncrement;
-              
-                }
-
             }
-            else if (transform.localScale.x > PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Growing)
+
+            if (M_BlobShadowDecal.size.x > M_TargetBlobSize.x)
             {
-                transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
-                M_BlobShadowDecal.size = M_TargetBlobSize;
-                PlayerManagerScript.M_Growing = false;
+                M_BlobShadowDecal.size -= shadowGrowthIncrement;
+              
             }
+
+        }
+        else if (transform.localScale.x > PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Growing)
+        {
+            transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
+            M_BlobShadowDecal.size = M_TargetBlobSize;
+            PlayerManagerScript.M_Growing = false;
+        }
 
        
-            else if (transform.localScale.x < PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Shrinking &&!PlayerManagerScript.M_Growing)
-            {
-                transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
-                M_BlobShadowDecal.size = M_TargetBlobSize;
-                PlayerManagerScript.M_Shrinking = false;
-            } 
+        else if (transform.localScale.x < PlayerManagerScript.M_TargetSize && PlayerManagerScript.M_Shrinking &&!PlayerManagerScript.M_Growing)
+        {
+            transform.localScale = new Vector3(PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize, PlayerManagerScript.M_TargetSize);
+            M_BlobShadowDecal.size = M_TargetBlobSize;
+            PlayerManagerScript.M_Shrinking = false;
+        } 
 
-           else if (!PlayerManagerScript.M_Growing && !PlayerManagerScript.M_Shrinking)
+        else if (!PlayerManagerScript.M_Growing && !PlayerManagerScript.M_Shrinking)
         {
             PlayerManagerScript.M_Growing = true;
         }
-     
-          
-     
-
-      
-
-       
 
 
         if (M_playerManager.GetComponent<PlayerManagerScript>().M_isFreeFlying ||!M_playerManager.GetComponent<PlayerManagerScript>().isWalking())
@@ -451,7 +422,7 @@ public class PrototypePlayerMovement : MonoBehaviour
         }
         else
         { 
-        playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y += m_gravityValue * Time.deltaTime, playerVelocity.z);
+            playerVelocity = new Vector3(playerVelocity.x, playerVelocity.y += m_gravityValue * Time.deltaTime, playerVelocity.z);
         }
         m_isHittingWall = false;  
     }

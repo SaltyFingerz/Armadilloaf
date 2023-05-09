@@ -121,7 +121,6 @@ public class CustomController : MonoBehaviour
         {
             m_walking = false;
             m_walkSound.Stop();
-           // m_walkSound.Stop();
         }
 
         if(m_walking && !m_walkSound.isPlaying)
@@ -138,10 +137,7 @@ public class CustomController : MonoBehaviour
         m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 0.0f, 35.0f);
 
         // rotate the player (left-right)
-        //M_walkCamera.transform.RotateAround(this.transform.position, this.transform.right, -m_rotationY  * m_mouseSensitivityY);
         this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up), Time.fixedDeltaTime * 10.0f);
-        //Quaternion l_quat = Quaternion.Euler(new Vector3(m_rotationY, 0.0f, 0.0f));
-        //M_walkCamera.transform.rotation = Quaternion.Lerp(M_walkCamera.transform.rotation, M_walkCamera.transform.rotation * l_quat, Time.deltaTime);
     }
 
     void MovePlayerRelativeToCamera()
@@ -173,15 +169,7 @@ public class CustomController : MonoBehaviour
         rb.velocity = new Vector3(cameraRelativeMovement.x, rb.velocity.y, cameraRelativeMovement.z);
 
         HandleCameraInput(this.transform.forward);
-
-        M_Direction = new Vector2(cameraRelativeMovement.x, cameraRelativeMovement.z);
-        M_Direction.Normalize();
-
     }
-
-    public static Vector2 M_Direction;
-
-  
 
     void MovePlayerIndependentFromCamera()
     {
