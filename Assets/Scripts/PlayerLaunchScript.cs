@@ -499,7 +499,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         if (a_hit.gameObject.name.Contains("TipZone"))
         {
-            if (!TutorialManager.M_ShownTiltAndBoost)
+            if (!TutorialManager.M_ShownBoost)
             {
                 M_BoostTip.SetActive(true);
             }
