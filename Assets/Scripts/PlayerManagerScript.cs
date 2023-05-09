@@ -1,7 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using static PlayerManagerScript;
+using System;
 
 public partial class PlayerManagerScript : MonoBehaviour
 {
