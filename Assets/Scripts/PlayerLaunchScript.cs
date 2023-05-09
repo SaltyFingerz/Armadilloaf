@@ -9,14 +9,12 @@ using EZCameraShake;
 
 public class PlayerLaunchScript : MonoBehaviour
 {
-    public TutorialManager M_TuteMan;
     private Rigidbody m_rigidbody;
     private GameObject M_arrow;
     private GameObject M_arrowMaximum;
-    public GameObject M_Tutorial;
-    public GameObject M_BoostTip;
-    public GameObject M_TiltTip;
-    public GameObject M_UncurlPrompt;
+    public TutorialManager M_TuteMan;
+    public GameObject M_Tutorial, M_BoostTip, M_TiltTip, M_UncurlPrompt;
+
     public GameObject M_launchCamera;
     public GameObject M_playerManager;
     public GameObject M_Trail;
