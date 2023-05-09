@@ -12,12 +12,6 @@ public class TutorialManager : MonoBehaviour
     public GameObject M_movePrompt;
     public GameObject M_jumpPrompt;
     public GameObject M_MyChildCanWalk;
-    //public GameObject M_launchPrompt;
-    public GameObject M_FreeCamEntryPrompt;
-    public GameObject M_FreeCamMousePrompt;
-    public GameObject M_FreeCamHeightPrompt;
-    public GameObject M_FreeCamWASDPrompt;
-    public GameObject M_FreeCamExitPrompt;
     public static bool M_ShownTiltAndBoost;
  public GameObject M_BoostPrompt;
     public GameObject M_TiltPrompt;
@@ -39,14 +33,8 @@ public class TutorialManager : MonoBehaviour
     bool m_Spressed;
     bool m_Dpressed;
 
-    bool m_Qpressed;
-    bool m_Epressed;
-    bool m_walkPromptShown;
-    bool m_launched;
-
     void Start()
     {
-        //M_FirstLaunchTute = new FirstLaunchTuteController(M_walkPrompt, M_curlWorldPrompt, M_launchAimPrompt, M_launchShoot, M_launchShoot2);
         M_FirstLaunchTute ??= GetComponent<FirstLaunchTuteController>();  
         M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.hidden);
     }
@@ -60,48 +48,6 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //  // TODO: redifine my logic using FirstLaunceTuteController
-        //if (M_Walker.activeSelf)
-        //{
-        //    M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.curl);
-
-        //}
-
-
-
-        //if (M_curlWorldPrompt.activeSelf)
-        //{
-        //    // M_launchAimPrompt.SetActive(false);
-           
-        //    if (!M_Walker.activeSelf)
-        //    {
-        //        M_launchAimPrompt.SetActive(true);
-
-        //        StartCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
-        //        //  M_curlWorldPrompt.SetActive(false);
-        //    }
-        //}
-
-
-        //if(M_launchShoot.activeSelf)
-        //  {
-        //      M_curlWorldPrompt.SetActive(false );
-        //      M_launchAimPrompt.SetActive(false);
-
-        //      if (Input.GetMouseButton(0))
-        //      {
-        //          StopCoroutine(NextPrompt0(M_launchShoot, M_launchAimPrompt));
-
-        //          StartCoroutine(NextPrompt2(M_launchShoot2, M_launchShoot));
-
-        //      }
-        //  }
-
-        //if(M_launchShoot2.activeSelf)
-        //  {
-        //      M_launchShoot.SetActive(false);
-        //  }
-
         m_timerSeconds += Time.deltaTime;
 
         if (Input.GetKey(KeyCode.W))
@@ -173,9 +119,6 @@ public class TutorialManager : MonoBehaviour
 
         IEnumerator NextPrompt0(GameObject gameObjOpen, GameObject gameObjClose)
         {
-            //// TODO: redifine my logic using FirstLaunceTuteController
-            //M_curlWorldPrompt.SetActive(false);
-            //M_launchShoot.SetActive(false);
 
             if (M_Walker.activeSelf)
             {
@@ -260,63 +203,9 @@ public class TutorialManager : MonoBehaviour
 
         }
 
-        
-
         if (Input.GetKey(KeyCode.Space) && M_jumpPrompt.activeSelf)
         {
             M_jumpPrompt.SetActive(false);
-          //  M_launchPrompt.SetActive(true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.C) && M_FreeCamEntryPrompt.activeSelf)
-        {
-            m_timerSeconds = 0;
-            M_FreeCamMousePrompt.SetActive(true);
-            if (M_FreeMovePlayer.activeSelf)
-            {
-                M_goalArrow.SetActive(true);
-            }
-            
-            M_FreeCamEntryPrompt.SetActive(false);
-
-            StartCoroutine(NextPrompt(M_FreeCamWASDPrompt, M_FreeCamMousePrompt));
-        }
-
-       if(M_FreeCamWASDPrompt.activeSelf && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D)) )
-       {
-            StartCoroutine(NextPrompt(M_FreeCamHeightPrompt, M_FreeCamWASDPrompt));
-       }
-
-       if(M_FreeCamHeightPrompt.activeSelf && (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.E)))
-            {
-            StartCoroutine(NextPrompt(M_FreeCamExitPrompt, M_FreeCamHeightPrompt));
-        }
-
-        if (!M_FreeMovePlayer.activeSelf)
-        {
-            M_goalArrow.SetActive(false);
-        }
-        else
-        {
-            M_goalArrow.SetActive(true);
-        }
-
-
-
-
-       
-
-      /*  if ((m_Qpressed || m_Epressed) && M_freeControl.activeSelf)
-        {
-            M_closePrompt.SetActive(true);
-            M_freeControl.SetActive(false);
-        }
-      */
-
-
-        if (Input.GetKeyDown(KeyCode.C) && M_FreeCamExitPrompt.activeSelf)
-        {
-            M_FreeCamExitPrompt.SetActive(false);
         }
 
 
@@ -351,12 +240,6 @@ public class TutorialManager : MonoBehaviour
         {
             yield return new WaitForSeconds(2);
             M_TiltPrompt.SetActive(false);
-            //// TODO: redifine my logic using FirstLaunceTuteController
-
-            //if (M_BallPlayer.activeSelf)
-            //{
-            //    M_walkPrompt.SetActive(true);
-            //}
         }
 
         if(M_shrinkPrompt.activeSelf)
