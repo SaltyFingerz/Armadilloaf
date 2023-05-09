@@ -12,21 +12,14 @@ public class PlayerLaunchScript : MonoBehaviour
     private Rigidbody m_rigidbody;
     private GameObject M_arrow;
     private GameObject M_arrowMaximum;
+
     public TutorialManager M_TuteMan;
     public GameObject M_Tutorial, M_BoostTip, M_TiltTip, M_UncurlPrompt;
 
     public GameObject M_launchCamera;
     public GameObject M_playerManager;
-    public GameObject M_Trail;
-    public GameObject M_Water;
-    public GameObject M_FreshBiscuit;
-    public GameObject M_FreeCamEntry;
-    public GameObject M_LaunchPrompt;
-    public GameObject M_LaunchPrompt2;
-    public GameObject M_CurlPrompt;
-    public GameObject M_AimPrompt;
-    public GameObject M_ShrinkPrompt;
-    public bool hasFinishedLevel = false;
+    public GameObject M_Trail, M_Water, M_FreshBiscuit;
+    public GameObject M_LaunchPrompt, M_LaunchPrompt2, M_CurlPrompt, M_AimPrompt, M_ShrinkPrompt;
 
     public ParticleSystem M_BangEffect;
     public UnityEngine.UI.Image M_fillImage;
@@ -34,8 +27,6 @@ public class PlayerLaunchScript : MonoBehaviour
     public LaunchTrailScript M_TrailScript;
     
     public Canvas M_canvas;
-    public GameObject[] M_BigCans;
-    public GameObject[] M_Cereals;
 
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
@@ -44,16 +35,20 @@ public class PlayerLaunchScript : MonoBehaviour
     float m_rotationMouseY = 0.0f, m_rotationMouseX = 0.0f;
     public float m_mouseSensitivityX;
     public float m_mouseSensitivityY;
-    bool m_collisionEnter = false;
-    bool m_collisionStay = false;
     public GameObject M_FinishUI;
     Vector3 m_direction;
     int m_launchingStage = 0;
     float m_launchingPower;
+    float m_sizeSupport = 1;
+
     bool m_canShake = false;
     bool m_stationaryFrame = false;
-    float m_sizeSupport = 1;
-    
+    bool m_canBlur = false;
+    bool m_collisionEnter = false;
+    bool m_collisionStay = false;
+    bool m_canDrown = true;
+    bool m_powerGoingUp = true;
+
     private UnityEngine.UI.Image m_Yellow;
 
     public int M_maxPower;
@@ -64,7 +59,7 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] private float m_minimumSpeed = 1.9f;   // Speed minimum limit before the player changes to walking player.
     [SerializeField] private AudioSource m_launchSound;
     [SerializeField] AudioClip[] m_sLaunchSounds;
-    Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
+    Vector2 m_cameraOffset = new Vector2(14.0f, 8.0f);
     float m_cameraRotationY;
 
     [SerializeField] private float m_powerUpSpeed;
@@ -78,12 +73,8 @@ public class PlayerLaunchScript : MonoBehaviour
 
     [SerializeField] AudioClip[] m_launchSmacks;
     public AudioSource M_LaunchSmack;
-
-    private bool m_canDrown = true;
-    bool m_powerGoingUp = true;
- 
     public ParticleSystem M_ImpactVFX;
-    Renderer m_renderer;
+
     public void Start()
     {
        
@@ -95,15 +86,12 @@ public class PlayerLaunchScript : MonoBehaviour
         m_rigidbody = GetComponent<Rigidbody>();
         M_arrowMaximum = this.gameObject.transform.GetChild(0).gameObject;
         M_arrow = this.gameObject.transform.GetChild(1).gameObject;
-        m_renderer = GetComponent<Renderer>();
 
         // assign starting values
         m_direction = new Vector3(0.0f, 0.0f, 1.0f);
         M_fillImage.fillAmount = 0.0f;
         M_arrowMaximum.transform.localScale = new Vector3(5.4f, 5.4f, m_baseLength + m_powerSizeStep * M_maxPower);
         m_cameraRotationY = -Mathf.Cos(24f);
-        M_BigCans = GameObject.FindGameObjectsWithTag("Big Can");
-        M_Cereals = GameObject.FindGameObjectsWithTag("Cereal");
 
         m_Yellow = M_Water.GetComponent<UnityEngine.UI.Image>();
         m_Yellow.color = new Color(m_Yellow.color.r, m_Yellow.color.g, m_Yellow.color.b, 0f);
@@ -342,9 +330,7 @@ public class PlayerLaunchScript : MonoBehaviour
         m_launchingPower = 0;
         M_canvas.enabled = true;
     }
-
-   
-    private void LaunchingStart()
+    public void LaunchingStart()
     {
         M_playerManager.GetComponent<PlayerManagerScript>().M_shots++;
         M_BangEffect.Play();
@@ -455,7 +441,7 @@ public class PlayerLaunchScript : MonoBehaviour
 
         //camera transform change
         M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotationFinal, Time.fixedDeltaTime * 10.0f);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * m_cameraOffset.x, m_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * m_cameraOffset.x);
 
     }
 
@@ -467,25 +453,24 @@ public class PlayerLaunchScript : MonoBehaviour
         m_rigidbody.mass = a_mass;
         GetComponent<Animator>().enabled = true;
 
-       
-            switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
-            {
-                case (int)PlayerManagerScript.SizeState.big:
-                    m_launchSound.pitch = 0.5f;
-                    break;
+        switch (M_playerManager.GetComponent<PlayerManagerScript>().M_sizeState)
+        {
+            case (int)PlayerManagerScript.SizeState.big:
+                m_launchSound.pitch = 0.5f;
+                break;
 
-                case (int)PlayerManagerScript.SizeState.normal:
-                    m_launchSound.pitch = 1f;
-                    break;
+            case (int)PlayerManagerScript.SizeState.normal:
+                m_launchSound.pitch = 1f;
+                break;
 
-                case (int)PlayerManagerScript.SizeState.small:
-                    m_launchSound.pitch = 1.5f;
-                    break;
+            case (int)PlayerManagerScript.SizeState.small:
+                m_launchSound.pitch = 1.5f;
+                break;
 
-                default:
-                    //This shouldn't happen. Did you forget to set a size state?
-                    break;
-            }
+            default:
+                //This shouldn't happen. Did you forget to set a size state?
+                break;
+        }
         
 
     }
@@ -638,9 +623,6 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             PrototypePlayerMovement.M_InLaunchZone = true;
             M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.aim);
-        
-
-
         }
 
         if (a_hit.gameObject.name.Contains("FirstLaunchZone") && M_arrow.activeSelf && Input.GetMouseButtonDown(0))
@@ -648,14 +630,8 @@ public class PlayerLaunchScript : MonoBehaviour
             PrototypePlayerMovement.M_InLaunchZone = true;
             M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.release);
             
-
-
         }
-
     }
-
-    
-
 
     public void TurnOffYellow()
     {
@@ -688,11 +664,7 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             M_playerManager.GetComponent<PlayerManagerScript>().ResetFluffFunction();
         }
-    }
-
-   
-
-    
+    }    
   
     void OnCollisionStay(Collision a_hit)
     {
@@ -719,7 +691,7 @@ public class PlayerLaunchScript : MonoBehaviour
         }
     }
 
-    public void OnCollisionExit(Collision a_hit)
+    private void OnCollisionExit(Collision a_hit)
     {
         m_collisionStay = false;
         M_playerManager.GetComponent<PlayerManagerScript>().M_takingDamage = false;
@@ -730,9 +702,6 @@ public class PlayerLaunchScript : MonoBehaviour
     private void OnCollisionEnter(Collision a_hit)
     {
         m_collisionEnter = true;
-
-       
-
         if (m_collisionEnter & m_canShake)
         {
             StartCoroutine(ShakeCooldown());
@@ -750,7 +719,7 @@ public class PlayerLaunchScript : MonoBehaviour
     }
 
      IEnumerator CollisionCooldown()
-    {
+     {
         if (!m_collisionStay)
         {
             yield return new WaitForSeconds(0.2f);
@@ -761,7 +730,7 @@ public class PlayerLaunchScript : MonoBehaviour
             }
         }
         
-    }
+     }
 
     IEnumerator ShakeCooldown()
     {
@@ -775,8 +744,6 @@ public class PlayerLaunchScript : MonoBehaviour
    
 
     }
-
-    bool m_canBlur = false;
     IEnumerator BlurDisableCooldown()
     {
         m_canBlur = true;
@@ -787,9 +754,7 @@ public class PlayerLaunchScript : MonoBehaviour
     
     public void SetCameraOffset(Vector2 a_offset)
     {
-       
-       M_cameraOffset = a_offset;
- 
+       m_cameraOffset = a_offset;
     }
 
     public void SetDirection(Vector3 a_direction)
@@ -803,7 +768,7 @@ public class PlayerLaunchScript : MonoBehaviour
         // set new position and rotations for camera and player
         m_rigidbody.isKinematic = true;
         M_launchCamera.transform.rotation = Quaternion.LookRotation(a_direction);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * M_cameraOffset.x);
+        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * m_cameraOffset.x, m_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * m_cameraOffset.x);
         m_direction = -a_direction;
         this.transform.rotation = Quaternion.LookRotation(a_direction);
         m_rigidbody.isKinematic = false;
