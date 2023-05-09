@@ -157,6 +157,12 @@ public class PlayerLaunchScript : MonoBehaviour
     public void Update()
     {
 
+        if(M_arrow.activeSelf)
+        {
+            M_TrailScript.DeactivateTrail();
+        }
+      
+
         if (isGrounded())
         {
             GroundDetectionScript.M_IsGrounded = true;
