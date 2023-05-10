@@ -13,6 +13,7 @@ public class LevelFinishScript : MonoBehaviour
     public GameObject M_attachedObject;
     public TextMeshProUGUI M_timeTaken, M_fruitcollected, M_shotsTaken, M_respawns;
     public Image[] starImages = new Image[15];
+    public Sprite[] starSprites = new Sprite[2];
     public int score;
 
     // Start is called before the first frame update
@@ -60,15 +61,15 @@ public class LevelFinishScript : MonoBehaviour
         { 
            for (int i = time - 1; i < 2; i++)
            {
-            starImages[i].color = new Color(0, 0, 0, 100);
-           }
+            starImages[i].sprite = starSprites[1];
+            }
 
         }
         else
         {
             for (int i = time; i < 2; i++)
             {
-                starImages[i].color = new Color32(0, 0, 0, 100);
+                starImages[i].sprite = starSprites[1];
             }
         }
 
@@ -98,7 +99,7 @@ public class LevelFinishScript : MonoBehaviour
 
            for (int i = fruits + (3); i < 6; i++)
            {
-            starImages[i].color = new Color32(0, 0, 0, 100);
+            starImages[i].sprite = starSprites[1];
            }
          }
         
@@ -127,7 +128,7 @@ public class LevelFinishScript : MonoBehaviour
         {
             for (int i = shots + (6); i < 9; i++)
             {
-                starImages[i].color = new Color32(0, 0, 0, 100);
+                starImages[i].sprite = starSprites[1];
             }
 
         }
@@ -157,27 +158,27 @@ public class LevelFinishScript : MonoBehaviour
         {
             for (int i = respawns - + (6); i < 12; i++)
             {
-                starImages[i].color = new Color32(0, 0, 0, 100);
+                starImages[i].sprite = starSprites[1];
             }
 
         }
 
         if (score < 12 && score >= 8)
         {
-                starImages[14].color = new Color32(0, 0, 0, 100);
+                starImages[14].sprite = starSprites[1];
         }
         else if (score < 8 && score > 0)
         {
             for (int i = 13; i < 14; i++)
             {
-                starImages[i].color = new Color32(0, 0, 0, 100);
+                starImages[i].sprite = starSprites[1];
             }
         }
         else
         {
             for (int i = 12; i < 14; i++)
             {
-                starImages[i].color = new Color32(0, 0, 0, 100);
+                starImages[i].sprite = starSprites[1];
             }
         }
 
@@ -187,7 +188,7 @@ public class LevelFinishScript : MonoBehaviour
     {
         foreach(Image star in starImages)
         {
-            star.color = new Color32(255, 255, 255, 100);
+            star.sprite =  starSprites[0];
         }
     }
 
