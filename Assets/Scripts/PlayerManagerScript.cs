@@ -17,6 +17,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public float M_timeElapsed;
     public ParticleSystem M_EjectionPS1;
     public ParticleSystem M_EjectionPS2;
+ 
     public GameObject M_JellyDecal;
     public GameObject M_Tail;
     public Material M_Silhouette;
@@ -662,15 +663,25 @@ public partial class PlayerManagerScript : MonoBehaviour
 
     public Quaternion M_JellyDecalRotation;
     public Transform M_JellyParent;
+    public Transform M_JellyParentBall;
     public Vector3 M_JellyDecalPosition;
     IEnumerator EjectionRoutine()
     {
         M_EjectionSound.Play();
-        M_EjectionPS1.Play();
-        yield return new WaitForSeconds(1f);
-        M_EjectionPS2.Play();
-        yield return new WaitForSeconds(1f);
-        Instantiate(M_JellyDecal, M_JellyParent.transform.position, M_JellyDecalRotation);
+        if (M_walkingPlayer.activeSelf && !M_launchingPlayer.activeSelf)
+        {
+            M_EjectionPS1.Play();
+            yield return new WaitForSeconds(1f);
+            M_EjectionPS2.Play();
+            yield return new WaitForSeconds(1f);
+            Instantiate(M_JellyDecal, M_JellyParent.transform.position, M_JellyDecalRotation);
+        }
+        else if (!M_walkingPlayer.activeSelf && M_launchingPlayer.activeSelf)
+        {
+            
+            yield return new WaitForSeconds(0.5f);
+            Instantiate(M_JellyDecal, M_JellyParentBall.transform.position, M_JellyDecalRotation);
+        }
 
     }
 
