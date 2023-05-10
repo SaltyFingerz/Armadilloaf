@@ -38,8 +38,6 @@ public class PlayerLaunchScript : MonoBehaviour
     public GameObject M_FinishUI;
     Vector3 m_direction;
     int m_launchingStage = 0;
-    float m_launchingPower;
-    float m_sizeSupport = 1;
 
     bool m_canShake = false;
     bool m_stationaryFrame = false;
@@ -51,8 +49,10 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private UnityEngine.UI.Image m_Yellow;
 
-    public int M_maxPower;
-    public float M_minimumDirectionY, M_maximumDirectionY;
+    public float M_maxPower;
+    float m_launchingPower;
+    float m_sizeSupport = 1;
+    float m_cameraRotationY;
 
     [SerializeField] float m_powerSizeStep = 1.0f;          // Determines how big is the scale difference in the arrow when choosing launching power.
     [SerializeField] float m_baseLength = 10.0f;            // Minimum lenght of the arrow.
@@ -60,7 +60,6 @@ public class PlayerLaunchScript : MonoBehaviour
     [SerializeField] private AudioSource m_launchSound;
     [SerializeField] AudioClip[] m_sLaunchSounds;
     Vector2 m_cameraOffset = new Vector2(14.0f, 8.0f);
-    float m_cameraRotationY;
 
     [SerializeField] private float m_powerUpSpeed;
     [SerializeField] private float m_powerDownSpeed;
@@ -75,10 +74,6 @@ public class PlayerLaunchScript : MonoBehaviour
     public AudioSource M_LaunchSmack;
     public ParticleSystem M_ImpactVFX;
 
-    public void Start()
-    {
-       
-    }
 
     public void Initialize()
     {
