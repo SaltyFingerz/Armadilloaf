@@ -70,6 +70,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     [SerializeField] float m_invulnerabilityPeriodSeconds = 2.0f;
     float m_invulnerabilityTimerSeconds = 2.0f;
     public AudioSource M_biscuitBreak;
+    public AudioSource M_EjectionSound;
 
     public Renderer M_Renderer;
     public Renderer M_2DRenderer;
@@ -664,6 +665,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public Vector3 M_JellyDecalPosition;
     IEnumerator EjectionRoutine()
     {
+        M_EjectionSound.Play();
         M_EjectionPS1.Play();
         yield return new WaitForSeconds(1f);
         M_EjectionPS2.Play();
