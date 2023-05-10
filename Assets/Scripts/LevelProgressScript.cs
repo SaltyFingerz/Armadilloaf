@@ -5,6 +5,9 @@ using UnityEngine;
 public class LevelProgressScript : MonoBehaviour
 {
     public GameObject M_FinishUI;
+    public PlayerLaunchScript M_playerLaunchScript;
+    public RenderingScript M_renderScript;
+
     void Start()
     {
         

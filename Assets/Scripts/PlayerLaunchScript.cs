@@ -148,6 +148,14 @@ public class PlayerLaunchScript : MonoBehaviour
         }
     }
 
+    public void BlurScreen()
+    {
+        if (m_canBlur)
+        {
+            M_RenderScript.EnableBlur();
+        }
+    }
+
     // Handle key inputs
     public void Update()
     {
