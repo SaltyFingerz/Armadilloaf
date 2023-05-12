@@ -3830,7 +3830,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5c1f2f753ad9f234193990ae7968f52a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a64908851550e22459701ad5546c3d2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3849,7 +3849,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 148904404}
   m_LocalRotation: {x: 0, y: 0.99240834, z: -0.12298658, w: 0}
-  m_LocalPosition: {x: 22.21, y: 59.1, z: 59.79}
+  m_LocalPosition: {x: 22.21, y: 58.77, z: 60.3}
   m_LocalScale: {x: 1.0453169, y: 1.0453169, z: 1.0453169}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -35201,7 +35201,7 @@ GameObject:
   - component: {fileID: 825257680}
   - component: {fileID: 825257683}
   m_Layer: 18
-  m_Name: Bread
+  m_Name: Melon2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35264,7 +35264,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5c1f2f753ad9f234193990ae7968f52a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a64908851550e22459701ad5546c3d2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -47759,7 +47759,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260168631}
   m_LocalRotation: {x: 0.61477244, y: 2.0242753e-10, z: -2.5969857e-10, w: 0.78870463}
-  m_LocalPosition: {x: 0.22, y: -0.43, z: -2.97}
+  m_LocalPosition: {x: 0.18, y: -0.2, z: -2.01}
   m_LocalScale: {x: 0.9566478, y: 0.95664763, z: 0.95664763}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51270,45 +51270,9 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 831386775}
     m_Modifications:
-    - target: {fileID: 2970079714319619920, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.6244095
-      objectReference: {fileID: 0}
-    - target: {fileID: 2970079714319619920, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.6244095
-      objectReference: {fileID: 0}
-    - target: {fileID: 2970079714319619920, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.6244095
-      objectReference: {fileID: 0}
-    - target: {fileID: 2970079714319619920, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 193.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2970079714319619923, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
-      propertyPath: m_text
-      value: Checkpoint set
-      objectReference: {fileID: 0}
-    - target: {fileID: 2970079714319619923, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: ad56bcccdff4345439fc853aa5cb2bdd, type: 2}
-    - target: {fileID: 2970079714319619923, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -5508114815423373145, guid: ad56bcccdff4345439fc853aa5cb2bdd, type: 2}
     - target: {fileID: 2970079715412982656, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
       propertyPath: m_Name
       value: MessageScreen
-      objectReference: {fileID: 0}
-    - target: {fileID: 2970079715412982656, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2970079715412982658, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2970079715412982660, guid: 403e07cd1b834634eaeaf4db00ae6e28, type: 3}
       propertyPath: m_Pivot.x

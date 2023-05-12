@@ -736,6 +736,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_Jellied = false;
         M_Fluffed = false;
         TutorialManager.M_ShownBoost = false;
+        M_UnderWater = false;
     }
 
     public void ResetBiscuitBites()
