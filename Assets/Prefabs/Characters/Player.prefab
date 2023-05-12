@@ -21475,6 +21475,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   M_FinishUI: {fileID: 0}
+  M_playerLaunchScript: {fileID: 0}
+  M_renderScript: {fileID: 2130601687}
+  M_RenderSets: {fileID: 2130601687}
 --- !u!82 &1869161219
 AudioSource:
   m_ObjectHideFlags: 0
@@ -32642,6 +32645,7 @@ MonoBehaviour:
   M_armadilloaf: {fileID: 2182539908194616359}
   M_transitionSprite: {fileID: 834698630}
   M_lifeText: {fileID: 8136899250046816700}
+  M_RenderSets: {fileID: 2130601687}
   currentCheckpoint: {x: 0, y: 57.3, z: -80}
   M_lives: 5
   M_respawns: 0
@@ -32688,6 +32692,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   M_FinishUI: {fileID: 0}
+  M_playerLaunchScript: {fileID: 8854288522490146423}
+  M_renderScript: {fileID: 2130601687}
+  M_RenderSets: {fileID: 0}
 --- !u!82 &905613299
 AudioSource:
   m_ObjectHideFlags: 0
@@ -39127,6 +39134,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   M_FinishUI: {fileID: 0}
+  M_playerLaunchScript: {fileID: 0}
+  M_renderScript: {fileID: 0}
+  M_RenderSets: {fileID: 2130601687}
 --- !u!95 &305606498
 Animator:
   serializedVersion: 4

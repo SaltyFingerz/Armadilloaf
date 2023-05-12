@@ -49,6 +49,7 @@ public partial class PlayerManagerScript : MonoBehaviour
     public Image M_armadilloaf;
     public Image M_transitionSprite;
     public TextMeshProUGUI M_lifeText;
+    public RenderingScript M_RenderSets;
 
     //Player values
     public Vector3 currentCheckpoint;
@@ -737,6 +738,7 @@ public partial class PlayerManagerScript : MonoBehaviour
         M_Fluffed = false;
         TutorialManager.M_ShownBoost = false;
         M_UnderWater = false;
+        M_RenderSets.DisableBlur();
     }
 
     public void ResetBiscuitBites()

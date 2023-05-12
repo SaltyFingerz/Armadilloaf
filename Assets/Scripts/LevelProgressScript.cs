@@ -7,6 +7,7 @@ public class LevelProgressScript : MonoBehaviour
     public GameObject M_FinishUI;
     public PlayerLaunchScript M_playerLaunchScript;
     public RenderingScript M_renderScript;
+    public RenderingScript M_RenderSets;
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class LevelProgressScript : MonoBehaviour
             Time.timeScale = 0.0f;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+            M_RenderSets.BlurBackground();
         }
     }
 }

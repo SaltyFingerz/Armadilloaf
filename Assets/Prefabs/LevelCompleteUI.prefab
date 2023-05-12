@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1919792877520406710}
   - component: {fileID: 5914298826851985584}
   - component: {fileID: 2869696632668021206}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
@@ -305,7 +305,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
@@ -330,9 +330,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3108924692442320430, guid: f7197d9e076a0e3448ec46078d82f6f1, type: 3}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UIManagerScript, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: Level01
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1418925163532100328}
   - component: {fileID: 6165526947831228397}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LevelCompleteUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -366,14 +366,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418925163532100329}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 523.0356, y: -217.13977, z: -192.9874}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1418925164648375522}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6165526947831228397
 MonoBehaviour:
@@ -390,8 +390,8 @@ MonoBehaviour:
   M_playerManager: {fileID: 0}
   M_pauseManager: {fileID: 0}
   M_musicPlayer: {fileID: 0}
-  M_levelEndTheme: {fileID: 0}
-  M_attachedObject: {fileID: 0}
+  M_levelEndTheme: {fileID: 8300000, guid: 21566d19ecfb1334c8ab4beee7a8a48c, type: 3}
+  M_attachedObject: {fileID: 1418925163532100329}
   M_timeTaken: {fileID: 4054305978803506241}
   M_fruitcollected: {fileID: 8114879742204619924}
   M_shotsTaken: {fileID: 2342854940790081743}
@@ -416,6 +416,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d4f83883e9e3e624daa32b26747db2f0, type: 3}
   - {fileID: 21300000, guid: 88eebbf59e5b5384bb594fea6ca48674, type: 3}
   score: 0
+  M_RenderSets: {fileID: 0}
 --- !u!1 &1418925163815040443
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,7 +476,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418925163815040443}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -510,7 +511,7 @@ GameObject:
   - component: {fileID: 1418925164648375535}
   - component: {fileID: 1418925164648375532}
   - component: {fileID: 1418925164648375533}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,7 +563,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &1418925164648375532
 MonoBehaviour:
@@ -615,7 +616,7 @@ GameObject:
   - component: {fileID: 1195087472823961029}
   - component: {fileID: 589391918769691214}
   - component: {fileID: 8144265193045889730}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star1 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,7 +692,7 @@ GameObject:
   - component: {fileID: 3916159762881834192}
   - component: {fileID: 7966760598679954615}
   - component: {fileID: 8590764086392831280}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star2 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -767,7 +768,7 @@ GameObject:
   - component: {fileID: 1348255519032964566}
   - component: {fileID: 1412236882539489828}
   - component: {fileID: 7478888936691615030}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star2 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -843,7 +844,7 @@ GameObject:
   - component: {fileID: 4366858758813401465}
   - component: {fileID: 7111310324086582953}
   - component: {fileID: 1684264980976326152}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star3 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +920,7 @@ GameObject:
   - component: {fileID: 2389118433139062796}
   - component: {fileID: 7116308839028989091}
   - component: {fileID: 8153705891053869438}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: TimeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1115,8 +1116,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 500
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8075a6b1c45aabe4385c51b7248254c7, type: 2}
-  m_sharedMaterial: {fileID: 7667275642348247878, guid: 8075a6b1c45aabe4385c51b7248254c7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1193,7 +1194,7 @@ GameObject:
   - component: {fileID: 140197952984564662}
   - component: {fileID: 2509711519823689014}
   - component: {fileID: 1910354488696335836}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star3 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1269,7 +1270,7 @@ GameObject:
   - component: {fileID: 9015795116998800047}
   - component: {fileID: 4245089521095037427}
   - component: {fileID: 1856252352097951088}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star3 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1400,10 +1401,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 11:59
+  m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8075a6b1c45aabe4385c51b7248254c7, type: 2}
-  m_sharedMaterial: {fileID: 7667275642348247878, guid: 8075a6b1c45aabe4385c51b7248254c7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1480,7 +1481,7 @@ GameObject:
   - component: {fileID: 5289572830274829132}
   - component: {fileID: 8878506905157015192}
   - component: {fileID: 7092226304555072997}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FruitText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1674,10 +1675,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3 of 11
+  m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8075a6b1c45aabe4385c51b7248254c7, type: 2}
-  m_sharedMaterial: {fileID: 7667275642348247878, guid: 8075a6b1c45aabe4385c51b7248254c7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1754,7 +1755,7 @@ GameObject:
   - component: {fileID: 5188984059595880095}
   - component: {fileID: 2247194116593379193}
   - component: {fileID: 5473090220383666657}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1830,7 +1831,7 @@ GameObject:
   - component: {fileID: 4299412639454783159}
   - component: {fileID: 487329445080735395}
   - component: {fileID: 3552674655236282630}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1906,7 +1907,7 @@ GameObject:
   - component: {fileID: 5943365214876431552}
   - component: {fileID: 407481097823141471}
   - component: {fileID: 4793982906524918761}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ShotsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2047,7 +2048,7 @@ GameObject:
   - component: {fileID: 8047946566036283358}
   - component: {fileID: 1514696959926005679}
   - component: {fileID: 8176617863871994750}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star1 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2123,7 +2124,7 @@ GameObject:
   - component: {fileID: 5316456370255268420}
   - component: {fileID: 4908895611689314451}
   - component: {fileID: 1243235782051224477}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star2 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2199,7 +2200,7 @@ GameObject:
   - component: {fileID: 3043891461963833025}
   - component: {fileID: 1486724590982690147}
   - component: {fileID: 3360124662640973904}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star3 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2275,7 +2276,7 @@ GameObject:
   - component: {fileID: 4279157812111224312}
   - component: {fileID: 4902594947143982825}
   - component: {fileID: 3536313282881629190}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star1 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2351,7 +2352,7 @@ GameObject:
   - component: {fileID: 7435734954819447221}
   - component: {fileID: 5260317873192068972}
   - component: {fileID: 5931887353026493856}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2427,7 +2428,7 @@ GameObject:
   - component: {fileID: 3861564874278205999}
   - component: {fileID: 980001461135322025}
   - component: {fileID: 8613474552183358116}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Star1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2636,8 +2637,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8075a6b1c45aabe4385c51b7248254c7, type: 2}
-  m_sharedMaterial: {fileID: 7667275642348247878, guid: 8075a6b1c45aabe4385c51b7248254c7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2714,7 +2715,7 @@ GameObject:
   - component: {fileID: 4628159914100509735}
   - component: {fileID: 8015875842084765527}
   - component: {fileID: 6305378134925247010}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RespawnsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
