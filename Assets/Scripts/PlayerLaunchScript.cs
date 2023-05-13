@@ -628,7 +628,7 @@ public class PlayerLaunchScript : MonoBehaviour
             M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.aim);
         }
 
-        if (a_hit.gameObject.name.Contains("FirstLaunchZone") && M_arrow.activeSelf && Input.GetMouseButtonDown(0))
+        if (a_hit.gameObject.name.Contains("FirstLaunchZone") && M_arrow.activeSelf && Input.GetMouseButton(0))
         {
             PrototypePlayerMovement.M_InLaunchZone = true;
             M_TuteMan.M_FirstLaunchTute.ChangeState(FirstLaunchTuteController.TutorialState.release);

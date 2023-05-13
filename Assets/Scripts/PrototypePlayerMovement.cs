@@ -33,7 +33,7 @@ public class PrototypePlayerMovement : MonoBehaviour
     private float m_pushForce = 4.0f;
     public Vector3 M_TargetBlobSize;
     private bool m_gradualSize = true;
-    public GameObject M_FinishUI;
+   
     [SerializeField] AudioClip[] m_painClip;
     public AudioSource M_PainAudio;
     public GameObject M_FreshBiscuit;
@@ -207,13 +207,7 @@ public class PrototypePlayerMovement : MonoBehaviour
             M_WaterDrop.PlayOneShot(clip);
         }
 
-        if (a_hit.gameObject.name.Contains("Finish"))
-        {Time.timeScale = 0f;
-            M_FinishUI.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            
-        }
+       
 
     }
 
