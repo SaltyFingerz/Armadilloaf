@@ -24,13 +24,13 @@ public class LevelProgressScript : MonoBehaviour
     {
         if(other.CompareTag("Finish"))
         {
-            M_FinishUI.SetActive(true);
-            M_FinishUI.GetComponent<LevelFinishScript>().UpdateScores();
-            M_FinishUI.GetComponent<LevelFinishScript>().UpdateStars();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             M_RenderSets.BlurBackground();
             Time.timeScale = 0.0f;
+            M_FinishUI.SetActive(true);
+            M_FinishUI.GetComponent<LevelFinishScript>().UpdateScores();
+            M_FinishUI.GetComponent<LevelFinishScript>().UpdateStars();
         }
     }
 }
