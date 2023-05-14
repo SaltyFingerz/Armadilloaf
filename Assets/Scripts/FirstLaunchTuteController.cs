@@ -45,7 +45,7 @@ public class FirstLaunchTuteController : MonoBehaviour
                     //    Debug.LogError($"{nameof(FirstLaunchTuteController)}: Unable to advance to uncul to state from {m_currentState}");
                     //    break;
                     //}
-                    m_uncurlPrompt.SetActive(false);
+                   // m_uncurlPrompt.SetActive(false);
                     m_aimPrompt.SetActive(false);
                     m_powerPrompt.SetActive(false);
                     m_releasePrompt.SetActive(false);
