@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bd5ee0c4a9bf97849abeaac15237e660
+guid: 99cfa31ff25acb84484ace26e76e4491
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
-  nPOTScale: 1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -117,18 +117,128 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: jam ejection fx_0
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 324
+        width: 122
+        height: 195
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e45791f5dd17f041a06ef9772df8c6c
+      internalID: 1524427786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jam ejection fx_1
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 232
+        width: 106
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a43f6919a1246454c9e720b8e1209bc8
+      internalID: 1959190538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jam ejection fx_2
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 18
+        width: 313
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0259a7960816744b95a2965c87568d6
+      internalID: 449215417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jam ejection fx_3
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 12
+        width: 326
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2215b941e3aacb479bec6d4aecd1605
+      internalID: 536214151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jam ejection fx_4
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 16
+        width: 363
+        height: 162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0455c276a27ba3c4c909aa65549898ab
+      internalID: 208675235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 0f1263dc8d8000145acd27e25fcdc698
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      jam ejection fx_2: 449215417
+      jam ejection fx_0: 1524427786
+      jam ejection fx_1: 1959190538
+      jam ejection fx_3: 536214151
+      jam ejection fx_4: 208675235
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 
