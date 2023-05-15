@@ -12,14 +12,11 @@ public class CutSceneScript : MonoBehaviour
     {
         m_timer = 0.0f;
         Time.timeScale = 1.0f;
-        Debug.Log(m_timer);
     }
 
     private void Update()
     {
         m_timer += Time.deltaTime;
-
-        Debug.Log(m_timer);
 
         if(m_timer > m_videoTime )
         {
