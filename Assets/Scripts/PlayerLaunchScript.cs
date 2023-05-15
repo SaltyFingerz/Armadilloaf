@@ -510,9 +510,12 @@ public class PlayerLaunchScript : MonoBehaviour
             PrototypePlayerMovement.M_InLaunchZone = true;
         }
 
+        if (a_hit.gameObject.name.Contains("Water"))
+
         {
             AudioClip clip = m_waterDrops[UnityEngine.Random.Range(0, m_waterDrops.Length)];
             M_WaterDrop.PlayOneShot(clip);
+         
         }
 
         if (a_hit.gameObject.name.Contains("Finish"))
