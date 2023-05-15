@@ -5,25 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class CutSceneScript : MonoBehaviour
 {
+    float m_timer;
+    float m_videoTime = 3.0f;
+
     void Start()
     {
-        StopAllCoroutines();
-        if (SceneManager.GetSceneByName("Level_01").isLoaded)
-        {
-            SceneManager.LoadScene("Level_01");
-           
-        }
-        else
-        {
-            StartCoroutine(LoadLevel1());
-        }
+        m_timer = 0.0f;
+        Time.timeScale = 1.0f;
+        Debug.Log(m_timer);
     }
 
-    IEnumerator LoadLevel1()
+    private void Update()
     {
-      
-        yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(2);
-       
+        m_timer += Time.deltaTime;
+
+        Debug.Log(m_timer);
+
+        if(m_timer > m_videoTime )
+        {
+            SceneManager.LoadScene("Level_01");
+        }
+
     }
 }
