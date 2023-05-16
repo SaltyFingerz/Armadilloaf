@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class CutSceneScript : MonoBehaviour
 {
     float m_timer;
-    float m_videoTime = 3.0f;
+    float m_videoTime = 31.0f;
 
     void Start()
     {
