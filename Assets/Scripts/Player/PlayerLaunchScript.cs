@@ -116,17 +116,10 @@ public class PlayerLaunchScript : PlayerBase
             }
         }
 
-        else
-        {
-        }
-
         if(!isGrounded()) //activate trail particle system when ball is in the air
         {
-            
             M_TrailScript.ActivateTrail(); 
         }
-
-       
 
         // Manage launching stage
         switch (m_launchingStage)

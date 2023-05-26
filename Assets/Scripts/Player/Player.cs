@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerBase : MonoBehaviour
 {
     public GameObject M_camera;
-    protected float m_mouseSensitivity = 400.0f;
+    protected float m_mouseSensitivity = 300.0f;
     protected float m_cameraRotationY = 0.0f;
     protected Vector3 m_cameraOffset = new Vector2(14.0f, 8.0f);
     float m_mouseRotationX = 0.0f , m_mouseRotationY = 0.0f;
