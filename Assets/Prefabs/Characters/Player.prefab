@@ -5242,6 +5242,8 @@ MonoBehaviour:
   M_WalkCam: {fileID: 1583474524231391997}
   M_HUD: {fileID: 7107031088146949285}
   M_cutsceneSkip: {fileID: 0}
+  M_text1: {fileID: 0}
+  M_text2: {fileID: 0}
 --- !u!95 &625729512
 Animator:
   serializedVersion: 4
@@ -39125,8 +39127,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d96ef7d3374630f4985cbd25e4c90a4b, type: 3}
   - {fileID: 8300000, guid: 27ea4a33a6aee2c4294a76c017cc4ab3, type: 3}
   M_PainAudio: {fileID: 305606518}
-  m_mouseSensitivityX: 8
-  m_mouseSensitivityY: 500
+  m_mouseSensitivityX: 400
+  m_mouseSensitivityY: 400
   M_FinishUI: {fileID: 0}
   M_maxPower: 50
   m_powerSizeStep: 1

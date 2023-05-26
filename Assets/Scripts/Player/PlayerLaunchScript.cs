@@ -355,7 +355,11 @@ public class PlayerLaunchScript : MonoBehaviour
         {
             m_sizeSupport = 1;
         }
-        m_rigidbody.AddForce(new Vector3(-m_direction.x * m_launchingPower * 100 * m_sizeSupport, 0  , -m_direction.z * m_launchingPower * 100 * m_sizeSupport));
+        Vector3 l_direction = -this.transform.forward;
+        l_direction.y = 0;
+        l_direction.Normalize();
+
+        m_rigidbody.AddForce(new Vector3(-l_direction.x * m_launchingPower * 100 * m_sizeSupport, 0  , -l_direction.z * m_launchingPower * 100 * m_sizeSupport));
 
         AudioClip ac = m_launchSmacks[UnityEngine.Random.Range(0, m_launchSmacks.Length)];
         M_LaunchSmack.PlayOneShot(ac);
@@ -415,18 +419,16 @@ public class PlayerLaunchScript : MonoBehaviour
     Vector3 GetDesiredRotationFromMouseInput()
     {
         // Mouse is moved, calculate camera rotation from the mouse position difference between frames
-        float l_mouseX = -Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
-        m_rotationMouseX += l_mouseX;
-        m_rotationMouseY += Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY;
-        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 85.0f, 170.0f);
+        m_rotationMouseX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
+        m_rotationMouseY -= Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY * 0.3f;
+        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 0.0f, 35.0f);
+
+        // rotate the player (left-right)
+        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationMouseX, Vector3.up), Time.fixedDeltaTime * 10.0f);
+
 
         // Rotation using 2D vector rotation by angle formula
-        Vector3 l_rotation;
-        l_rotation.x = m_direction.x * Mathf.Cos(l_mouseX) - m_direction.z * Mathf.Sin(l_mouseX);
-        l_rotation.y = m_cameraRotationY;
-        l_rotation.z = m_direction.x * Mathf.Sin(l_mouseX) + m_direction.z * Mathf.Cos(l_mouseX);
-
-        return l_rotation;
+        return this.transform.forward;
     }
 
     void HandleCameraInput(Vector3 a_rotation)
@@ -434,7 +436,7 @@ public class PlayerLaunchScript : MonoBehaviour
         Vector3 l_axis = Vector3.Cross(a_rotation, Vector3.up);
         if (l_axis == Vector3.zero) l_axis = Vector3.right;
         Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_rotation;
-        Vector3 l_directionRotation = Quaternion.AngleAxis(-m_rotationMouseY - 24.0f, l_axis) * a_rotation;
+        Vector3 l_directionRotation = Quaternion.AngleAxis(-m_rotationMouseY + 24.0f, l_axis) * a_rotation;
 
         m_cameraRotationY = Mathf.Lerp(m_cameraRotationY, l_direction.y, Time.fixedDeltaTime * 5.0f);
 
@@ -782,15 +784,14 @@ public class PlayerLaunchScript : MonoBehaviour
     public void SetMouseRotation(Vector2 a_rotation)
     {
         // set mouse input data for smooth camera calculations
-        a_rotation.y += 85.0f;
-        m_rotationMouseY = Mathf.Abs(a_rotation.y - 120.0f) + 85;
-        m_rotationMouseX = -a_rotation.x * m_mouseSensitivityX;
+        m_rotationMouseY = a_rotation.y;
+        m_rotationMouseX = a_rotation.x;
     }
 
     public Vector2 GetMouseRotation()
     {
         // get mouse input data for smooth camera calculations
-        return new Vector2(m_rotationMouseX/m_mouseSensitivityX, m_rotationMouseY);
+        return new Vector2(m_rotationMouseX, m_rotationMouseY);
     }
 }
     

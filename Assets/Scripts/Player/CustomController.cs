@@ -219,15 +219,12 @@ public class CustomController : MonoBehaviour
 
     public Vector2 GetMouseRotation()
     {
-        return new Vector2(m_rotationX / m_mouseSensitivity, m_rotationMouseY);
+        return new Vector2(m_rotationX, m_rotationMouseY);
     }
 
     public void SetMouseRotation(Vector2 a_mouseRotation)
     {
-        a_mouseRotation.y = a_mouseRotation.y - 85.0f;
-        a_mouseRotation.y = Mathf.Clamp(a_mouseRotation.y, 0.0f, 35.0f);
-        m_rotationMouseY = Mathf.Abs(a_mouseRotation.y - 35.0f);
-
-        m_rotationX = -a_mouseRotation.x * m_mouseSensitivity;
+        m_rotationMouseY = a_mouseRotation.y;
+        m_rotationX = a_mouseRotation.x;
     }
 }
