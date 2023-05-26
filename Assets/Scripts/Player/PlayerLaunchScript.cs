@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using System.Collections;
 using EZCameraShake;
 
-public class PlayerLaunchScript : MonoBehaviour
+public class PlayerLaunchScript : PlayerBase
 {
     private Rigidbody m_rigidbody;
     private GameObject M_arrow;
@@ -33,8 +33,6 @@ public class PlayerLaunchScript : MonoBehaviour
     private bool m_canPain = true;
     
     float m_rotationMouseY = 0.0f, m_rotationMouseX = 0.0f;
-    public float m_mouseSensitivityX;
-    public float m_mouseSensitivityY;
     public GameObject M_FinishUI;
     Vector3 m_direction;
     int m_launchingStage = 0;
@@ -52,14 +50,12 @@ public class PlayerLaunchScript : MonoBehaviour
     public float M_maxPower;
     float m_launchingPower;
     float m_sizeSupport = 1;
-    float m_cameraRotationY;
 
     [SerializeField] float m_powerSizeStep = 1.0f;          // Determines how big is the scale difference in the arrow when choosing launching power.
     [SerializeField] float m_baseLength = 10.0f;            // Minimum lenght of the arrow.
     [SerializeField] private float m_minimumSpeed = 1.9f;   // Speed minimum limit before the player changes to walking player.
     [SerializeField] private AudioSource m_launchSound;
     [SerializeField] AudioClip[] m_sLaunchSounds;
-    Vector2 m_cameraOffset = new Vector2(14.0f, 8.0f);
 
     [SerializeField] private float m_powerUpSpeed;
     [SerializeField] private float m_powerDownSpeed;
@@ -256,11 +252,10 @@ public class PlayerLaunchScript : MonoBehaviour
 
 
         // Calculate camera rotation
-        Vector3 l_desiredRotation = GetDesiredRotationFromMouseInput();
-        m_direction = l_desiredRotation;
+        PlayerAndCameraRotation();
 
         //camera transform change
-        HandleCameraInput(l_desiredRotation);
+        HandleCameraInput(this.transform.forward);
 
     }
 
@@ -405,49 +400,14 @@ public class PlayerLaunchScript : MonoBehaviour
 
     private void DirectionInput()
     {
-        Vector3 l_desiredRotation = GetDesiredRotationFromMouseInput();
-        m_direction = l_desiredRotation;
+        PlayerAndCameraRotation();
 
         //rotate the player after getting the updated direction, interpolate
-        Quaternion l_rotation = Quaternion.LookRotation(new Vector3(-l_desiredRotation.x, 0.0f, -l_desiredRotation.z));
+        Quaternion l_rotation = Quaternion.LookRotation(new Vector3(-this.transform.forward.x, 0.0f, -this.transform.forward.z));
         m_rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, l_rotation, Time.fixedDeltaTime * 10.0f));
 
         //camera transform change
-        HandleCameraInput(l_desiredRotation);
-    }
-
-    Vector3 GetDesiredRotationFromMouseInput()
-    {
-        // Mouse is moved, calculate camera rotation from the mouse position difference between frames
-        m_rotationMouseX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivityX;
-        m_rotationMouseY -= Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivityY * 0.3f;
-        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 0.0f, 35.0f);
-
-        // rotate the player (left-right)
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationMouseX, Vector3.up), Time.fixedDeltaTime * 10.0f);
-
-
-        // Rotation using 2D vector rotation by angle formula
-        return this.transform.forward;
-    }
-
-    void HandleCameraInput(Vector3 a_rotation)
-    {
-        Vector3 l_axis = Vector3.Cross(a_rotation, Vector3.up);
-        if (l_axis == Vector3.zero) l_axis = Vector3.right;
-        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_rotation;
-        Vector3 l_directionRotation = Quaternion.AngleAxis(-m_rotationMouseY + 24.0f, l_axis) * a_rotation;
-
-        m_cameraRotationY = Mathf.Lerp(m_cameraRotationY, l_direction.y, Time.fixedDeltaTime * 5.0f);
-
-        l_direction.Normalize();
-
-        Quaternion l_rotationFinal = Quaternion.LookRotation(l_directionRotation);
-
-        //camera transform change
-        M_launchCamera.transform.rotation = Quaternion.Lerp(M_launchCamera.transform.rotation, l_rotationFinal, Time.fixedDeltaTime * 10.0f);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * m_cameraOffset.x, m_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * m_cameraOffset.x);
-
+        HandleCameraInput(this.transform.forward);
     }
 
     public void SetValues(float a_size, float a_mass)
@@ -757,41 +717,6 @@ public class PlayerLaunchScript : MonoBehaviour
         m_canBlur = true;
         yield return new WaitForSeconds(3f);
         m_canBlur = false;
-    }
-
-    
-    public void SetCameraOffset(Vector2 a_offset)
-    {
-       m_cameraOffset = a_offset;
-    }
-
-    public void SetDirection(Vector3 a_direction)
-    {
-        // calculate new camera Rotation Y
-        Vector3 l_axis = Vector3.Cross(a_direction, Vector3.up);
-        if (l_axis == Vector3.zero) l_axis = Vector3.right;
-        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_direction;
-        m_cameraRotationY = l_direction.y;
-
-        // set new position and rotations for camera and player
-        m_rigidbody.isKinematic = true;
-        M_launchCamera.transform.rotation = Quaternion.LookRotation(a_direction);
-        M_launchCamera.transform.position = this.transform.position + new Vector3(-M_launchCamera.transform.forward.x * m_cameraOffset.x, m_cameraOffset.y * (-m_cameraRotationY), -M_launchCamera.transform.forward.z * m_cameraOffset.x);
-        m_direction = -a_direction;
-        this.transform.rotation = Quaternion.LookRotation(a_direction);
-        m_rigidbody.isKinematic = false;
-    }
-    public void SetMouseRotation(Vector2 a_rotation)
-    {
-        // set mouse input data for smooth camera calculations
-        m_rotationMouseY = a_rotation.y;
-        m_rotationMouseX = a_rotation.x;
-    }
-
-    public Vector2 GetMouseRotation()
-    {
-        // get mouse input data for smooth camera calculations
-        return new Vector2(m_rotationMouseX, m_rotationMouseY);
     }
 }
     

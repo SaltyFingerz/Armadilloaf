@@ -4,7 +4,7 @@ using UnityEngine;
 using static PlayerManagerScript;
 using UnityEngine.InputSystem.XR;
 
-public class CustomController : MonoBehaviour
+public class CustomController : PlayerBase
 {
     public Rigidbody rb;
     public bool isGrounded;
@@ -20,11 +20,6 @@ public class CustomController : MonoBehaviour
     public Transform M_groundPoint;
     private bool m_justLaunched = false;
 
-    float m_mouseSensitivity = 400.0f;
-    float m_rotationMouseY, m_rotationX;
-    float m_cameraRotationY;
-    Vector2 M_cameraOffset = new Vector2(14.0f, 8.0f);
-
     private bool m_walking = false;
     [SerializeField] private AudioSource m_walkSound;
 
@@ -33,11 +28,8 @@ public class CustomController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_rotationMouseY = 0.0f;
-        m_cameraRotationY = this.transform.forward.y;
-        m_rotationX = 0.0f;
         m_playerMovement = gameObject.GetComponent<PrototypePlayerMovement>();
-       
+
     }
 
     // Update is called once per frame
@@ -129,17 +121,6 @@ public class CustomController : MonoBehaviour
         }
     }
 
-    void PlayerAndCameraRotation()
-    {
-        // Mouse is dragged, calculate player rotation from the mouse position difference between frames
-        m_rotationX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
-        m_rotationMouseY -= Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivity * 0.3f;
-        m_rotationMouseY = Mathf.Clamp(m_rotationMouseY, 0.0f, 35.0f);
-
-        // rotate the player (left-right)
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up), Time.fixedDeltaTime * 10.0f);
-    }
-
     void MovePlayerRelativeToCamera()
     {
         if(m_justLaunched)
@@ -170,61 +151,9 @@ public class CustomController : MonoBehaviour
 
         HandleCameraInput(this.transform.forward);
     }
-
-    void MovePlayerIndependentFromCamera()
-    {
-        m_moveInput.x = Input.GetAxis("Horizontal");
-        m_moveInput.y = Input.GetAxis("Vertical");
-        m_moveInput.Normalize();
-
-        rb.velocity = new Vector3(m_moveInput.x * m_playerMovement.m_playerSpeed, rb.velocity.y + m_gravityValue * Time.deltaTime, m_moveInput.y * m_playerMovement.m_playerSpeed);
-    }
-
   
     public void PlayerLaunched()
     {
         m_justLaunched = true;
-    }
-
-    public void SetRotation(Vector3 a_direction)
-    {
-        Vector3 l_axis = Vector3.Cross(a_direction, Vector3.up);
-        if (l_axis == Vector3.zero) l_axis = Vector3.right;
-        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_direction;
-        m_cameraRotationY = l_direction.y;
-
-        this.transform.rotation = Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up);
-        this.transform.rotation = Quaternion.AngleAxis(m_rotationMouseY, this.transform.right) * Quaternion.AngleAxis(m_rotationX, Vector3.up);
-        HandleCameraInput(a_direction);
-    }
-
-    void HandleCameraInput(Vector3 a_rotation)
-    {
-        Vector3 l_axis = Vector3.Cross(a_rotation, Vector3.up);
-        if (l_axis == Vector3.zero) l_axis = Vector3.right;
-        Vector3 l_direction = Quaternion.AngleAxis(-m_rotationMouseY, l_axis) * a_rotation;
-        Vector3 l_directionRotation = Quaternion.AngleAxis(-m_rotationMouseY + 24.0f, l_axis) * a_rotation;
-
-        m_cameraRotationY = Mathf.Lerp(m_cameraRotationY, l_direction.y, Time.fixedDeltaTime * 5.0f);
-
-        l_direction.Normalize();
-
-        Quaternion l_rotationFinal = Quaternion.LookRotation(l_directionRotation);
-
-        //camera transform change
-        M_walkCamera.transform.rotation = Quaternion.Lerp(M_walkCamera.transform.rotation, l_rotationFinal, Time.fixedDeltaTime * 10.0f);
-        M_walkCamera.transform.position = this.transform.position + new Vector3(-M_walkCamera.transform.forward.x * M_cameraOffset.x, M_cameraOffset.y * (-m_cameraRotationY * 1.6f), -M_walkCamera.transform.forward.z * M_cameraOffset.x);
-
-    }
-
-    public Vector2 GetMouseRotation()
-    {
-        return new Vector2(m_rotationX, m_rotationMouseY);
-    }
-
-    public void SetMouseRotation(Vector2 a_mouseRotation)
-    {
-        m_rotationMouseY = a_mouseRotation.y;
-        m_rotationX = a_mouseRotation.x;
     }
 }

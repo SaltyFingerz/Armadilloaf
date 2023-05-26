@@ -21506,6 +21506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6819ad701fc1bca44ad6e06b498cfdfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  M_camera: {fileID: 1583474524231391997}
   rb: {fileID: 707024119}
   isGrounded: 0
   M_walkCamera: {fileID: 3230808216360575777}
@@ -39100,6 +39101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1655060b86e7d49800c291f5549bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  M_camera: {fileID: 8431252127155698087}
   M_TuteMan: {fileID: 0}
   M_Tutorial: {fileID: 0}
   M_BoostTip: {fileID: 681038579540453658}
@@ -39127,8 +39129,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d96ef7d3374630f4985cbd25e4c90a4b, type: 3}
   - {fileID: 8300000, guid: 27ea4a33a6aee2c4294a76c017cc4ab3, type: 3}
   M_PainAudio: {fileID: 305606518}
-  m_mouseSensitivityX: 400
-  m_mouseSensitivityY: 400
   M_FinishUI: {fileID: 0}
   M_maxPower: 50
   m_powerSizeStep: 1
