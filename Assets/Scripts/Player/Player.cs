@@ -33,6 +33,40 @@ public class PlayerBase : MonoBehaviour
         //Debug.Log(m_mouseSensitivity);
     }
 
+    // rotates the camera independent of player rotation
+    protected void CameraOnlyRotation()
+    {
+        // Mouse is dragged, calculate player rotation from the mouse position difference between frames
+        m_mouseRotationX += Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * m_mouseSensitivity;
+        m_mouseRotationY -= Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * m_mouseSensitivity * 0.3f;
+        m_mouseRotationY = Mathf.Clamp(m_mouseRotationY, 0.0f, 35.0f);
+
+        //Get Forward face
+        Vector3 l_dir = transform.forward;
+        //Convert to local Space
+        l_dir = transform.InverseTransformDirection(l_dir);
+        //Reset/Ignore y axis
+        l_dir.y = 0;
+        l_dir.Normalize();
+
+        Vector3 l_axis = Vector3.Cross(l_dir, Vector3.up);
+        if (l_axis == Vector3.zero) l_axis = Vector3.right;
+
+        Vector3 l_direction = Quaternion.AngleAxis(-m_mouseRotationY, l_axis) * l_dir;
+        Vector3 l_directionRotation = Quaternion.AngleAxis(m_mouseRotationX, Vector3.up) * Quaternion.AngleAxis(-m_mouseRotationY + 24.0f, l_axis) * l_dir;
+
+        m_cameraRotationY = Mathf.Lerp(m_cameraRotationY, l_direction.y, Time.fixedDeltaTime * 5.0f);
+
+        l_direction.Normalize();
+
+        Quaternion l_rotationFinal = Quaternion.LookRotation(l_directionRotation);
+
+        //camera transform change
+        M_camera.transform.rotation = Quaternion.Lerp(M_camera.transform.rotation, l_rotationFinal, Time.fixedDeltaTime * 10.0f);
+        M_camera.transform.position = this.transform.position + new Vector3(-M_camera.transform.forward.x * m_cameraOffset.x, m_cameraOffset.y * (-m_cameraRotationY * 1.6f), -M_camera.transform.forward.z * m_cameraOffset.x);
+
+    }
+
 
     public void SetRotation(Vector3 a_direction)
     {
