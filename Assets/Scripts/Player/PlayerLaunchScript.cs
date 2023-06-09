@@ -246,16 +246,6 @@ public class PlayerLaunchScript : PlayerBase
 
         // Calculate camera rotation
         CameraOnlyRotation();
-        //Get Forward face
-        Vector3 dir = transform.forward;
-        //Convert to local Space
-        dir = transform.InverseTransformDirection(dir);
-        //Reset/Ignore y axis
-        dir.y = 0;
-        dir.Normalize();
-        //camera transform change
-        HandleCameraInput(dir);
-
     }
 
     void HandleLaunchInput()
